@@ -1,19 +1,30 @@
 import React from "react";
 
-interface SealLogoProps {
+export interface SealLogoProps {
   className?: string;
   size?: number;
-  color?: "cyan" | "emerald" | "current";
+  color?: "cyan" | "emerald" | "amber" | "danger" | "current";
+  animating?: boolean;
+  label?: string;
 }
 
 /**
  * The Seal logo: a precision circular ring with an inner check mark.
  * Serves as Countersign's primary brand mark, favicon, and verification stamp.
+ * Draws itself once (SVG stroke ~500ms) when animating=true.
  */
-export function SealLogo({ className = "", size = 28, color = "cyan" }: SealLogoProps) {
-  const colorMap = {
+export function SealLogo({
+  className = "",
+  size = 28,
+  color = "cyan",
+  animating = false,
+  label,
+}: SealLogoProps) {
+  const colorMap: Record<NonNullable<SealLogoProps["color"]>, string> = {
     cyan: "var(--accent-cyan)",
     emerald: "var(--accent-emerald)",
+    amber: "var(--accent-amber)",
+    danger: "var(--accent-danger)",
     current: "currentColor",
   };
 
@@ -26,8 +37,10 @@ export function SealLogo({ className = "", size = 28, color = "cyan" }: SealLogo
       viewBox="0 0 32 32"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={className}
-      aria-hidden="true"
+      className={`${animating ? "seal-animating" : ""} ${className}`}
+      aria-hidden={!label}
+      role={label ? "img" : undefined}
+      aria-label={label}
     >
       {/* Outer Precision Ring */}
       <circle

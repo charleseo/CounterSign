@@ -77,7 +77,19 @@ body {
   background-color: var(--bg-elevated);
 }
 
-/* Data-Saver / Lite Tier (Mobile Data / Slow Connection) */
+/* Spotlight edge for Full tier fine pointers */
+@media (pointer: fine) {
+  [data-tier="full"] .spotlight-card {
+    position: relative;
+    background-image: radial-gradient(
+      320px circle at var(--mouse-x, -999px) var(--mouse-y, -999px),
+      rgba(61, 235, 255, 0.08),
+      transparent 80%
+    );
+  }
+}
+
+/* Data-Saver / Lite Tier (Mobile Data / Slow Connection, <48KB payload) */
 [data-tier="lite"] * {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
@@ -93,6 +105,150 @@ body {
 [data-tier="lite"] .card-interactive:hover {
   background-color: var(--bg-elevated);
   transform: none !important;
+}
+
+/* Basic Tier (Minimal/Text-First, 2G / Opera Mini / Ultra-Low Overhead) */
+[data-tier="basic"] * {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+[data-tier="basic"] body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+}
+
+[data-tier="basic"] .glass-header {
+  background-color: var(--bg-surface) !important;
+  border-bottom: 2px solid var(--border-subtle) !important;
+}
+
+[data-tier="basic"] .card-interactive:hover {
+  background-color: var(--bg-elevated);
+  transform: none !important;
+}
+
+/* ==========================================================================
+   TACTILE PRESS & MICRO-INTERACTIONS (Section 10.2a & 10.9)
+   ========================================================================== */
+
+.btn-tactile {
+  transition: transform 0.08s ease;
+}
+
+.btn-tactile:active {
+  transform: translateY(1px);
+}
+
+.card-press {
+  transition: transform 0.12s ease;
+}
+
+.card-press:active {
+  transform: scale(0.98);
+}
+
+[data-tier="lite"] .card-press:active,
+[data-tier="basic"] .card-press:active,
+[data-tier="lite"] .btn-tactile:active,
+[data-tier="basic"] .btn-tactile:active {
+  transform: none !important;
+}
+
+/* ==========================================================================
+   FUTURISTIC SVG ANIMATIONS (CSS/SVG ONLY, Section 10.2a & 10.9)
+   ========================================================================== */
+
+/* Seal stroke draw animation (~500ms) */
+@keyframes sealDraw {
+  0% {
+    stroke-dashoffset: 120;
+    opacity: 0.3;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+.seal-animating circle,
+.seal-animating path {
+  stroke-dasharray: 120;
+  stroke-dashoffset: 120;
+  animation: sealDraw 500ms ease-out forwards;
+}
+
+[data-tier="lite"] .seal-animating circle,
+[data-tier="lite"] .seal-animating path,
+[data-tier="basic"] .seal-animating circle,
+[data-tier="basic"] .seal-animating path {
+  animation: none !important;
+  stroke-dashoffset: 0 !important;
+}
+
+/* Signal tracing animation for Evaluation Graph & Steppers (~1.2s) */
+@keyframes signalTrace {
+  0% {
+    stroke-dashoffset: 400;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.signal-line-animating {
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  animation: signalTrace 1.2s ease-out forwards;
+}
+
+[data-tier="lite"] .signal-line-animating,
+[data-tier="basic"] .signal-line-animating {
+  animation: none !important;
+  stroke-dashoffset: 0 !important;
+}
+
+/* Telemetry slow pulse (opacity only, no layout shifts) */
+@keyframes slowPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.animate-telemetry-pulse {
+  animation: slowPulse 2.4s ease-in-out infinite;
+}
+
+[data-tier="lite"] .animate-telemetry-pulse,
+[data-tier="basic"] .animate-telemetry-pulse {
+  animation: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  .seal-animating circle,
+  .seal-animating path,
+  .signal-line-animating,
+  .animate-telemetry-pulse,
+  .btn-tactile,
+  .card-press {
+    animation: none !important;
+    transition: none !important;
+    stroke-dashoffset: 0 !important;
+    transform: none !important;
+  }
+}
+
+/* Accessible focus ring */
+:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
 }
 
 /* Utility Token Helper Classes */

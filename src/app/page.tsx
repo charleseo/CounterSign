@@ -21,8 +21,9 @@ export default function Home() {
         {/* Foundation Hero */}
         <section className="text-center space-y-5 pt-4 pb-8">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-subtle bg-surface text-xs font-mono text-secondary">
-            <SealLogo size={16} color="cyan" />
-            <span>Milestone 1: Foundation Active</span>
+            <SealLogo size={16} color="emerald" animating={true} />
+            <span className="text-[#45F5C5] font-semibold">Milestone 2 Complete:</span>
+            <span>Design System & Component Gallery</span>
           </div>
 
           <h1 className="text-3xl sm:text-5xl font-semibold tracking-tight text-primary">
@@ -39,15 +40,21 @@ export default function Home() {
 
           <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
             <Link
-              href="/jobs"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded text-xs font-mono font-medium border border-focus text-primary bg-surface hover:bg-elevated transition-colors"
+              href="/gallery"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-mono font-semibold border border-focus text-void bg-accent-cyan hover:opacity-90 transition-opacity btn-tactile"
             >
-              <span>Explore Verified Jobs</span>
+              <span>Explore Component Gallery</span>
               <span aria-hidden="true">&rarr;</span>
             </Link>
             <Link
+              href="/jobs"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-mono font-medium border border-subtle text-primary bg-surface hover:bg-elevated transition-colors btn-tactile"
+            >
+              <span>Verified Jobs</span>
+            </Link>
+            <Link
               href="/studio"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded text-xs font-mono font-medium border border-subtle text-secondary hover:text-primary bg-surface hover:bg-elevated transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-mono font-medium border border-subtle text-secondary hover:text-primary bg-surface hover:bg-elevated transition-colors btn-tactile"
             >
               <span>Evaluation Studio</span>
             </Link>
@@ -122,21 +129,29 @@ export default function Home() {
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="p-5 rounded-lg border border-subtle bg-surface card-interactive space-y-2">
+            <Link
+              href="/gallery"
+              className="p-5 rounded-lg border border-[#45F5C5]/40 bg-surface card-interactive space-y-2 block group"
+            >
               <div className="flex items-center justify-between">
                 <span className="text-xs font-mono uppercase text-secondary">Milestone 2</span>
-                <span className="text-xs font-mono text-[#3DEBFF]">Next</span>
+                <span className="text-xs font-mono text-[#45F5C5] font-semibold flex items-center gap-1">
+                  <SealLogo size={12} color="emerald" />
+                  <span>Completed</span>
+                </span>
               </div>
-              <h3 className="text-sm font-semibold text-primary">Design System & Component Gallery</h3>
+              <h3 className="text-sm font-semibold text-primary group-hover:text-accent-cyan transition-colors">
+                Design System & Component Gallery &rarr;
+              </h3>
               <p className="text-xs text-readable leading-relaxed">
                 Living style guide, Seal SVG states, Freshness Stamp, Truth Strip, Job Card, and filter sheets.
               </p>
-            </div>
+            </Link>
 
             <div className="p-5 rounded-lg border border-subtle bg-surface card-interactive space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-mono uppercase text-secondary">Milestone 3</span>
-                <span className="text-xs font-mono text-secondary">Scheduled</span>
+                <span className="text-xs font-mono text-[#3DEBFF] font-semibold">Next</span>
               </div>
               <h3 className="text-sm font-semibold text-primary">Database & Secure Admin Console</h3>
               <p className="text-xs text-readable leading-relaxed">

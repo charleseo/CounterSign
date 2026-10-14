@@ -3,7 +3,7 @@
  * Capability Tier and Theme detection according to Section 10.10 & Section 16 of the Master Plan.
  */
 
-export type CapabilityTier = "full" | "lite";
+export type CapabilityTier = "full" | "lite" | "basic";
 export type ThemeMode = "dark" | "light";
 
 export const TIER_STORAGE_KEY = "countersign_tier";
@@ -17,7 +17,7 @@ export function chooseTier(): CapabilityTier {
   if (typeof window === "undefined") return "full";
 
   const stored = localStorage.getItem(TIER_STORAGE_KEY);
-  if (stored === "lite" || stored === "full") {
+  if (stored === "lite" || stored === "full" || stored === "basic") {
     return stored;
   }
 
@@ -32,6 +32,10 @@ export function chooseTier(): CapabilityTier {
 
   // @ts-expect-error Device Memory API
   const isLowMemory = navigator.deviceMemory && navigator.deviceMemory <= 2;
+
+  if (isSlowNetwork && connection.effectiveType === "slow-2g") {
+    return "basic";
+  }
 
   if (prefersReducedMotion || prefersReducedData || hasSaveData || isSlowNetwork || isLowMemory) {
     return "lite";

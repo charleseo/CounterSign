@@ -6,6 +6,9 @@ import { SealLogo } from "@/components/ui/SealLogo";
 import { TierToggle } from "@/components/layout/TierToggle";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
 
+import { CountrySelector } from "@/components/ui/CountrySelector";
+import { CommandPalette } from "@/components/ui/CommandPalette";
+
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -15,25 +18,29 @@ export function Header() {
     { label: "Nigeria Hub", href: "/countries/nigeria" },
     { label: "Scam Check", href: "/scam-check" },
     { label: "Studio", href: "/studio" },
+    { label: "Gallery", href: "/gallery" },
   ];
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-subtle glass-header transition-colors">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-        {/* Brand Logo & Name */}
-        <Link
-          href="/"
-          className="flex items-center gap-2.5 text-primary hover:opacity-90 transition-opacity"
-          aria-label="Countersign Homepage"
-        >
-          <SealLogo size={28} color="cyan" />
-          <span className="font-semibold text-lg tracking-tight text-primary">
-            Countersign
-          </span>
-        </Link>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-2 sm:gap-4">
+        {/* Brand Logo & Name + Country Selector */}
+        <div className="flex items-center gap-3">
+          <Link
+            href="/"
+            className="flex items-center gap-2.5 text-primary hover:opacity-90 transition-opacity"
+            aria-label="Countersign Homepage"
+          >
+            <SealLogo size={28} color="cyan" />
+            <span className="font-semibold text-lg tracking-tight text-primary">
+              Countersign
+            </span>
+          </Link>
+          <CountrySelector />
+        </div>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden md:flex items-center gap-6" aria-label="Main Navigation">
+        <nav className="hidden lg:flex items-center gap-5" aria-label="Main Navigation">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -45,8 +52,9 @@ export function Header() {
           ))}
         </nav>
 
-        {/* Right Side: Data-Saver Toggle + Theme Toggle + Mobile Menu Button */}
-        <div className="flex items-center gap-2.5 sm:gap-3">
+        {/* Right Side: Command Palette + Data-Saver Toggle + Theme Toggle + Mobile Menu Button */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          <CommandPalette />
           <TierToggle />
           <ThemeToggle />
 
