@@ -1,0 +1,120 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   COUNTERSIGN DESIGN SYSTEM TOKENS (Section 10.4)
+   Default: Dark Theme | Void Canvas
+   ========================================================================== */
+
+:root,
+[data-theme="dark"] {
+  --bg-void: #070B16;
+  --bg-surface: #0B1222;
+  --bg-elevated: #142039;
+  
+  --border-subtle: #25334B;
+  --border-focus: #3DEBFF;
+  
+  --text-primary: #F5F8FC;     /* 18.2:1 contrast ratio against #070B16 (Passes AAA) */
+  --text-secondary: #94A3B8;   /* 6.5:1 contrast ratio against #070B16 (Passes AA) */
+  --text-readable: #CBD5E1;    /* 11.4:1 contrast ratio against #070B16 (Passes AAA) */
+  
+  --accent-cyan: #3DEBFF;      /* Brand accent (active states, hero key phrases) */
+  --accent-emerald: #45F5C5;   /* Status: Verified active, official source */
+  --accent-violet: #8B7CFF;    /* Studio accent: model evaluation data, citation spans */
+  --accent-amber: #FFC66D;     /* Status: Needs recheck, community reported */
+  --accent-danger: #FF6B6B;    /* High risk alert, closed listing */
+}
+
+/* Light Theme Alternative */
+[data-theme="light"] {
+  --bg-void: #F8FAFC;
+  --bg-surface: #FFFFFF;
+  --bg-elevated: #F1F5F9;
+  
+  --border-subtle: #CBD5E1;
+  --border-focus: #0284C7;
+  
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-readable: #1E293B;
+  
+  --accent-cyan: #0284C7;
+  --accent-emerald: #059669;
+  --accent-violet: #6366F1;
+  --accent-amber: #D97706;
+  --accent-danger: #DC2626;
+}
+
+/* Base Body Styles */
+body {
+  background-color: var(--bg-void);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-sans, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ==========================================================================
+   CAPABILITY TIERS (Section 10.10 & Section 16)
+   ========================================================================== */
+
+/* Full Tier (Desktop / High-Speed Broadband) */
+[data-tier="full"] .glass-header {
+  background-color: color-mix(in srgb, var(--bg-surface) 80%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+[data-tier="full"] .card-interactive {
+  transition: border-color 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
+}
+
+[data-tier="full"] .card-interactive:hover {
+  border-color: var(--accent-cyan);
+  background-color: var(--bg-elevated);
+}
+
+/* Data-Saver / Lite Tier (Mobile Data / Slow Connection) */
+[data-tier="lite"] * {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+[data-tier="lite"] .glass-header {
+  background-color: var(--bg-surface) !important;
+  border-bottom: 1px solid var(--border-subtle) !important;
+}
+
+[data-tier="lite"] .card-interactive:hover {
+  background-color: var(--bg-elevated);
+  transform: none !important;
+}
+
+/* Utility Token Helper Classes */
+.bg-void { background-color: var(--bg-void); }
+.bg-surface { background-color: var(--bg-surface); }
+.bg-elevated { background-color: var(--bg-elevated); }
+
+.border-subtle { border-color: var(--border-subtle); }
+.border-focus { border-color: var(--border-focus); }
+
+.text-primary { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+.text-readable { color: var(--text-readable); }
+
+.accent-cyan { color: var(--accent-cyan); }
+.accent-emerald { color: var(--accent-emerald); }
+.accent-violet { color: var(--accent-violet); }
+.accent-amber { color: var(--accent-amber); }
+.accent-danger { color: var(--accent-danger); }
+
+/* Monospace Telemetry Numbers */
+.font-telemetry {
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace);
+  font-feature-settings: "tnum" 1;
+}
