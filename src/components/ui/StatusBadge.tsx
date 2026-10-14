@@ -15,9 +15,11 @@ import {
 export type StatusType =
   | "verified"
   | "needs-recheck"
+  | "needs_recheck"
   | "closed"
   | "accepted"
   | "not-accepted"
+  | "not_accepted"
   | "unconfirmed"
   | "official"
   | "reported";
@@ -41,7 +43,7 @@ interface StatusConfig {
   meaning: string;
 }
 
-const statusConfigs: Record<StatusType, StatusConfig> = {
+const baseStatusConfigs: Record<string, StatusConfig> = {
   verified: {
     word: "Verified",
     icon: CheckCircle2,
@@ -108,6 +110,12 @@ const statusConfigs: Record<StatusType, StatusConfig> = {
   },
 };
 
+const statusConfigs: Record<StatusType, StatusConfig> = {
+  ...baseStatusConfigs,
+  needs_recheck: baseStatusConfigs["needs-recheck"],
+  not_accepted: baseStatusConfigs["not-accepted"],
+} as Record<StatusType, StatusConfig>;
+
 /**
  * StatusBadge (Section 10.7)
  * Never communicates status by color alone: always pairs icon + word + accessible tooltip/popover.
@@ -122,7 +130,8 @@ export function StatusBadge({
   showExplanationOnClick = true,
 }: StatusBadgeProps) {
   const [open, setOpen] = useState(false);
-  const config = statusConfigs[status];
+  const normalizedKey = status.replace('_', '-') as StatusType;
+  const config = statusConfigs[status] || statusConfigs[normalizedKey] || statusConfigs.unconfirmed;
   const IconComponent = config.icon;
 
   const sizeClasses =

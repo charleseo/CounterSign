@@ -11,7 +11,8 @@ export interface CheckLogEntry {
 }
 
 export interface FreshnessStampProps {
-  daysAgo: number;
+  daysAgo?: number;
+  prefix?: string;
   className?: string;
   sourceName?: string;
   sourceUrl?: string;
@@ -25,7 +26,8 @@ export interface FreshnessStampProps {
  * Tap reveals the verification audit trail and official employer source.
  */
 export function FreshnessStamp({
-  daysAgo,
+  daysAgo = 0,
+  prefix,
   className = "",
   sourceName = "Official job feed",
   sourceUrl,
@@ -49,12 +51,13 @@ export function FreshnessStamp({
     stateLabel = "Aging check (7 to 14 days)";
   }
 
-  const ageText =
-    daysAgo === 0
-      ? "Checked today"
-      : daysAgo === 1
-      ? "Checked yesterday"
-      : `Checked ${daysAgo} days ago`;
+  const ageText = prefix
+    ? `${prefix} ${daysAgo === 0 ? "today" : daysAgo === 1 ? "yesterday" : `${daysAgo}d ago`}`
+    : daysAgo === 0
+    ? "Checked today"
+    : daysAgo === 1
+    ? "Checked yesterday"
+    : `Checked ${daysAgo} days ago`;
 
   return (
     <div className={`relative inline-block ${className}`}>

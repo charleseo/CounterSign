@@ -6,6 +6,7 @@ export interface SealLogoProps {
   color?: "cyan" | "emerald" | "amber" | "danger" | "current";
   animating?: boolean;
   label?: string;
+  priority?: boolean;
 }
 
 /**
