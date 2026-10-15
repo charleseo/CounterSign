@@ -6,6 +6,9 @@ import { Mail, CheckCircle2, AlertCircle, ArrowRight } from "lucide-react";
 export interface EmailCaptureProps {
   headline?: string;
   subtext?: string;
+  title?: string;
+  description?: string;
+  source?: string;
   buttonText?: string;
   className?: string;
   onSubscribe?: (email: string) => Promise<boolean>;
@@ -17,12 +20,16 @@ export interface EmailCaptureProps {
  * and seamless in-place state transitions (idle, sending, success, error).
  */
 export function EmailCapture({
-  headline = "Get verified AI roles in your inbox",
-  subtext = "Weekly digest of human-checked opportunities open to your country. Zero spam.",
+  headline,
+  subtext,
+  title,
+  description,
   buttonText = "Subscribe",
   className = "",
   onSubscribe,
 }: EmailCaptureProps) {
+  const displayHeadline = headline || title || "Get verified AI roles in your inbox";
+  const displaySubtext = subtext || description || "Weekly digest of human-checked opportunities open to your country. Zero spam.";
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
@@ -70,10 +77,10 @@ export function EmailCapture({
     >
       <div className="space-y-1">
         <h3 className="text-lg sm:text-xl font-bold text-primary tracking-tight">
-          {headline}
+          {displayHeadline}
         </h3>
         <p className="text-xs sm:text-sm text-readable leading-relaxed">
-          {subtext}
+          {displaySubtext}
         </p>
       </div>
 

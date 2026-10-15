@@ -12,7 +12,7 @@ export interface TimelineStep {
 }
 
 export interface ExpectationTimelineProps {
-  steps?: TimelineStep[];
+  steps?: TimelineStep[] | undefined;
   platformName: string;
   className?: string;
 }

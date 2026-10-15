@@ -8,7 +8,7 @@ export interface BentoTileProps {
   title: string;
   tagline: string;
   href: string;
-  icon: React.ComponentType<{ className?: string; size?: number }>;
+  icon: React.ReactNode | React.ComponentType<{ className?: string; size?: number }>;
   badge?: string;
   variant?: "cyan" | "emerald" | "violet" | "amber";
   className?: string;
@@ -24,7 +24,7 @@ export function BentoTile({
   title,
   tagline,
   href,
-  icon: Icon,
+  icon,
   badge,
   variant = "cyan",
   className = "",
@@ -56,7 +56,14 @@ export function BentoTile({
       <div>
         <div className="flex items-center justify-between mb-4">
           <div className={`p-2.5 rounded-xl border ${variantColors}`}>
-            <Icon size={20} aria-hidden="true" />
+            {React.isValidElement(icon)
+              ? icon
+              : icon
+              ? React.createElement(icon as React.ComponentType<{ size?: number; className?: string }>, {
+                  size: 20,
+                  className: "stroke-[2]",
+                })
+              : null}
           </div>
 
           <div className="flex items-center gap-2">

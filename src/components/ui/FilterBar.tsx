@@ -21,6 +21,12 @@ export const DEFAULT_FILTER_STATE: FilterState = {
   includeUnconfirmed: false,
 };
 
+export interface FilterOption {
+  id: string;
+  label: string;
+  count: number;
+}
+
 export interface FilterBarProps {
   totalCount: number;
   filteredCount: number;
@@ -28,6 +34,9 @@ export interface FilterBarProps {
   onFilterChange: (filters: FilterState) => void;
   className?: string;
   isDesktopSidebar?: boolean;
+  workTypeOptions?: FilterOption[];
+  domainOptions?: FilterOption[];
+  freshnessOptions?: FilterOption[];
 }
 
 /**
@@ -43,10 +52,13 @@ export function FilterBar({
   onFilterChange,
   className = "",
   isDesktopSidebar = false,
+  workTypeOptions: customWorkTypes,
+  domainOptions: customDomains,
+  freshnessOptions: customFreshness,
 }: FilterBarProps) {
   const [sheetOpen, setSheetOpen] = useState(false);
 
-  const workTypeOptions = [
+  const defaultWorkTypeOptions = [
     { id: "evaluation", label: "Model Evaluation", count: 8 },
     { id: "annotation", label: "RLHF & Annotation", count: 6 },
     { id: "coding", label: "Code Reasoning", count: 5 },
@@ -55,7 +67,7 @@ export function FilterBar({
     { id: "search_rating", label: "Search & Multimodal Rating", count: 0 },
   ];
 
-  const domainOptions = [
+  const defaultDomainOptions = [
     { id: "general", label: "General Knowledge", count: 12 },
     { id: "coding", label: "Software & Python", count: 7 },
     { id: "stem", label: "Mathematics & Physics", count: 5 },
@@ -63,11 +75,15 @@ export function FilterBar({
     { id: "law", label: "Legal & Compliance", count: 0 },
   ];
 
-  const freshnessOptions = [
+  const defaultFreshnessOptions = [
     { id: "7", label: "Within 7 days (Fresh)", count: 9 },
     { id: "14", label: "Within 14 days", count: 14 },
     { id: "any", label: "Any checked date", count: 17 },
   ];
+
+  const workTypeOptions = customWorkTypes || defaultWorkTypeOptions;
+  const domainOptions = customDomains || defaultDomainOptions;
+  const freshnessOptions = customFreshness || defaultFreshnessOptions;
 
   const toggleWorkType = (id: string) => {
     const exists = filters.workTypes.includes(id);
