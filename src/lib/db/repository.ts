@@ -24,6 +24,16 @@ import {
   ConsentLog,
   AnalyticsEvent,
   DigestDraft,
+  User,
+  SavedJob,
+  CommunityExperienceReport,
+  AggregatedPlatformExperience,
+  EvaluatorLead,
+  MagicLinkToken,
+  UserSession,
+  TaskAvailability,
+  ReportStatus,
+  PlatformCountryEligibilityResult,
 } from './types';
 
 // Initial ISO Countries (Master Plan Section 6 & 12)
@@ -539,6 +549,128 @@ const INITIAL_PRIVACY_REQUESTS: PrivacyRequest[] = [
   },
 ];
 
+const INITIAL_COMMUNITY_REPORTS: CommunityExperienceReport[] = [
+  {
+    id: 'cr-sample-1',
+    platform_id: '00000000-0000-0000-0000-000000000001', // Outlier
+    period_month_year: 'Sep 2026',
+    onboarding_paid: false,
+    tasks_available: 'intermittent',
+    removed_without_explanation: false,
+    optional_note: 'SAMPLE review: Assessment was unpaid but tasks appeared on queue after 48 hours.',
+    contact_email: 'sample-user-1@example.com',
+    status: 'approved',
+    moderation_notes: 'SAMPLE vetted report',
+    created_at: new Date(Date.now() - 15 * 86400000).toISOString(),
+  },
+  {
+    id: 'cr-sample-2',
+    platform_id: '00000000-0000-0000-0000-000000000001', // Outlier
+    period_month_year: 'Sep 2026',
+    onboarding_paid: false,
+    tasks_available: 'regular',
+    removed_without_explanation: false,
+    optional_note: 'SAMPLE review: Consistent coding verification tasks across August and September.',
+    contact_email: 'sample-user-2@example.com',
+    status: 'approved',
+    moderation_notes: 'SAMPLE vetted report',
+    created_at: new Date(Date.now() - 12 * 86400000).toISOString(),
+  },
+  {
+    id: 'cr-sample-3',
+    platform_id: '00000000-0000-0000-0000-000000000001', // Outlier
+    period_month_year: 'Aug 2026',
+    onboarding_paid: false,
+    tasks_available: 'empty_queue',
+    removed_without_explanation: true,
+    optional_note: 'SAMPLE review: Queue ran dry after two weeks with no project re-assignment email.',
+    contact_email: 'sample-user-3@example.com',
+    status: 'approved',
+    moderation_notes: 'SAMPLE vetted report',
+    created_at: new Date(Date.now() - 25 * 86400000).toISOString(),
+  },
+  {
+    id: 'cr-sample-4',
+    platform_id: '00000000-0000-0000-0000-000000000002', // Alignerr
+    period_month_year: 'Aug 2026',
+    onboarding_paid: false,
+    tasks_available: 'intermittent',
+    removed_without_explanation: false,
+    optional_note: 'SAMPLE review: TestGorilla tests were rigorous. Payout via Deel arrived on schedule.',
+    contact_email: 'sample-user-4@example.com',
+    status: 'approved',
+    moderation_notes: 'SAMPLE vetted report',
+    created_at: new Date(Date.now() - 20 * 86400000).toISOString(),
+  },
+  {
+    id: 'cr-sample-5',
+    platform_id: '00000000-0000-0000-0000-000000000002', // Alignerr
+    period_month_year: 'Sep 2026',
+    onboarding_paid: false,
+    tasks_available: 'regular',
+    removed_without_explanation: false,
+    optional_note: 'SAMPLE review: Domain reasoning batch had clear Slack channel support and active team leads.',
+    contact_email: 'sample-user-5@example.com',
+    status: 'approved',
+    moderation_notes: 'SAMPLE vetted report',
+    created_at: new Date(Date.now() - 8 * 86400000).toISOString(),
+  },
+  {
+    id: 'cr-sample-6',
+    platform_id: '00000000-0000-0000-0000-000000000002', // Alignerr
+    period_month_year: 'Sep 2026',
+    onboarding_paid: false,
+    tasks_available: 'regular',
+    removed_without_explanation: false,
+    optional_note: 'SAMPLE review: Medical terminology review project was consistent throughout September.',
+    contact_email: 'sample-user-6@example.com',
+    status: 'approved',
+    moderation_notes: 'SAMPLE vetted report',
+    created_at: new Date(Date.now() - 5 * 86400000).toISOString(),
+  },
+];
+
+const INITIAL_USERS: User[] = [
+  {
+    id: 'usr-00000000-0000-0000-0000-000000000001',
+    email: 'contributor@countersign.ai',
+    country_code: 'NG',
+    interests: ['RLHF & Alignment', 'Code Verification'],
+    consent_marketing: true,
+    consent_at: new Date(Date.now() - 30 * 86400000).toISOString(),
+    created_at: new Date(Date.now() - 30 * 86400000).toISOString(),
+  },
+];
+
+const INITIAL_SAVED_JOBS: SavedJob[] = [
+  {
+    user_id: 'usr-00000000-0000-0000-0000-000000000001',
+    job_id: '10000000-0000-0000-0000-000000000001',
+    created_at: new Date(Date.now() - 5 * 86400000).toISOString(),
+  },
+  {
+    user_id: 'usr-00000000-0000-0000-0000-000000000001',
+    job_id: '10000000-0000-0000-0000-000000000003',
+    created_at: new Date(Date.now() - 2 * 86400000).toISOString(),
+  },
+];
+
+const INITIAL_EVALUATOR_LEADS: EvaluatorLead[] = [
+  {
+    id: 'eval-lead-1',
+    name: 'Dr. Chinedu Eze',
+    email: 'chinedu.eze@example.com',
+    country_code: 'NG',
+    domain: 'Medicine & Pharmacology',
+    credentials: 'MBBS (UNN), FWACP Cardiology Resident',
+    years_experience: '6 years clinical practice',
+    portfolio_url: 'https://linkedin.com/in/chinedu-eze-sample',
+    weekly_hours: '10-15 hrs/week',
+    status: 'new',
+    created_at: new Date(Date.now() - 3 * 86400000).toISOString(),
+  },
+];
+
 // Singleton storage state in memory
 class RepositoryStore {
   countries: Country[] = [...INITIAL_COUNTRIES];
@@ -556,6 +688,13 @@ class RepositoryStore {
   subscriptions: AlertSubscription[] = [];
   consentLogs: ConsentLog[] = [];
   analyticsEvents: AnalyticsEvent[] = [];
+  // Milestone 11 additions
+  users: User[] = [...INITIAL_USERS];
+  savedJobs: SavedJob[] = [...INITIAL_SAVED_JOBS];
+  magicLinks: MagicLinkToken[] = [];
+  sessions: UserSession[] = [];
+  communityReports: CommunityExperienceReport[] = [...INITIAL_COMMUNITY_REPORTS];
+  evaluatorLeads: EvaluatorLead[] = [...INITIAL_EVALUATOR_LEADS];
 }
 
 const globalStore = new RepositoryStore();
@@ -582,6 +721,10 @@ export const dbRepository = {
   // Countries
   getCountries(): Country[] {
     return [...globalStore.countries];
+  },
+
+  getCountryByCode(code: string): Country | undefined {
+    return globalStore.countries.find((c) => c.code.toUpperCase() === code.toUpperCase());
   },
 
   // Platforms
@@ -1223,6 +1366,8 @@ export const dbRepository = {
       openPrivacyRequests: globalStore.privacyRequests.filter((p) => !p.closed_at).length,
       newLeads: globalStore.evalLeads.filter((l) => l.status === 'new').length,
       totalLeads: globalStore.evalLeads.length,
+      pendingCommunityReports: globalStore.communityReports.filter((r) => r.status === 'pending').length,
+      evaluatorApplications: globalStore.evaluatorLeads.length,
     };
   },
 
@@ -1651,5 +1796,491 @@ ${draft.rolesByCountry.map(c => `<h4>[${c.flag}] ${c.country}</h4><ul>${c.roles.
 </body></html>`;
 
     return draft;
+  },
+
+  // =========================================================================
+  // Milestone 11: Phase 1 Feature Methods
+  // =========================================================================
+
+  // User Accounts & Magic Link Auth (Section 7.13 & 12)
+  requestMagicLink(email: string): { token: string; email: string } {
+    const cleanEmail = email.toLowerCase().trim();
+    // Invalidate any existing unused tokens for this email
+    globalStore.magicLinks = globalStore.magicLinks.filter(
+      (m) => m.email !== cleanEmail
+    );
+    const token = `magic_${createHash('sha256').update(`${cleanEmail}-${Date.now()}-${Math.random()}`).digest('hex').substring(0, 32)}`;
+    const link: MagicLinkToken = {
+      token,
+      email: cleanEmail,
+      expires_at: new Date(Date.now() + 15 * 60000).toISOString(), // 15 mins validity
+      created_at: new Date().toISOString(),
+    };
+    globalStore.magicLinks.push(link);
+    return { token, email: cleanEmail };
+  },
+
+  verifyMagicLink(token: string): { user: User; sessionToken: string } | null {
+    const entry = globalStore.magicLinks.find((m) => m.token === token);
+    if (!entry) return null;
+    if (new Date(entry.expires_at).getTime() < Date.now()) {
+      globalStore.magicLinks = globalStore.magicLinks.filter((m) => m.token !== token);
+      return null;
+    }
+
+    // Burn token
+    globalStore.magicLinks = globalStore.magicLinks.filter((m) => m.token !== token);
+
+    // Find or create user
+    let user = globalStore.users.find((u) => u.email.toLowerCase() === entry.email);
+    if (!user) {
+      user = {
+        id: `usr-${createHash('sha256').update(entry.email).digest('hex').substring(0, 16)}`,
+        email: entry.email,
+        country_code: 'NG', // default suggestion
+        interests: [],
+        consent_marketing: false,
+        consent_at: null,
+        created_at: new Date().toISOString(),
+      };
+      globalStore.users.push(user);
+      this.logAudit({
+        actor: user.id,
+        action: 'user.signup_magic_link',
+        entity: 'users',
+        entity_id: user.id,
+        diff: { email: user.email },
+      });
+    }
+
+    const sessionToken = `sess_${createHash('sha256').update(`${user.id}-${Date.now()}-${Math.random()}`).digest('hex')}`;
+    globalStore.sessions.push({
+      token: sessionToken,
+      userId: user.id,
+      email: user.email,
+      expiresAt: new Date(Date.now() + 30 * 86400000).toISOString(),
+    });
+
+    return { user, sessionToken };
+  },
+
+  getSessionUser(sessionToken: string): User | null {
+    if (!sessionToken) return null;
+    const session = globalStore.sessions.find(
+      (s) =>
+        s.token === sessionToken ||
+        s.userId === sessionToken ||
+        s.email === sessionToken
+    );
+    if (!session) {
+      // Also allow direct user ID lookup if simulated
+      const userDirect = globalStore.users.find((u) => u.id === sessionToken);
+      if (userDirect) return userDirect;
+      return null;
+    }
+    return globalStore.users.find((u) => u.id === session.userId) || null;
+  },
+
+  getUser(userId: string): User | null {
+    return globalStore.users.find((u) => u.id === userId) || null;
+  },
+
+  getUserByEmail(email: string): User | null {
+    return globalStore.users.find((u) => u.email.toLowerCase() === email.toLowerCase().trim()) || null;
+  },
+
+  updateUser(
+    userId: string,
+    data: Partial<Pick<User, 'country_code' | 'interests' | 'consent_marketing'>>
+  ): User | null {
+    const idx = globalStore.users.findIndex((u) => u.id === userId);
+    if (idx === -1) return null;
+    const prev = globalStore.users[idx];
+    const updated: User = {
+      ...prev,
+      ...data,
+      consent_at:
+        data.consent_marketing !== undefined && data.consent_marketing !== prev.consent_marketing
+          ? new Date().toISOString()
+          : prev.consent_at,
+    };
+    globalStore.users[idx] = updated;
+
+    this.logAudit({
+      actor: userId,
+      action: 'user.update_profile',
+      entity: 'users',
+      entity_id: userId,
+      diff: data,
+    });
+
+    return updated;
+  },
+
+  // One-click Account & Personal Data Deletion under NDPA 2023 (Section 7.13 & 17)
+  deleteUserAndData(userId: string): { success: boolean; deletedCount: number } {
+    const userIdx = globalStore.users.findIndex((u) => u.id === userId);
+    if (userIdx === -1) return { success: false, deletedCount: 0 };
+    const user = globalStore.users[userIdx];
+    const userEmail = user.email.toLowerCase();
+
+    // 1. Delete user
+    globalStore.users.splice(userIdx, 1);
+
+    // 2. Delete saved jobs
+    const savedBefore = globalStore.savedJobs.length;
+    globalStore.savedJobs = globalStore.savedJobs.filter((s) => s.user_id !== userId);
+    const savedDeleted = savedBefore - globalStore.savedJobs.length;
+
+    // 3. Delete active alert subscriptions and newsletter subscriptions for this email
+    const subsBefore = globalStore.subscriptions.length;
+    globalStore.subscriptions = globalStore.subscriptions.filter(
+      (s) => s.user_id !== userId && s.email.toLowerCase() !== userEmail
+    );
+    const subsDeleted = subsBefore - globalStore.subscriptions.length;
+
+    // 4. Terminate active sessions and magic links
+    globalStore.sessions = globalStore.sessions.filter((s) => s.userId !== userId);
+    globalStore.magicLinks = globalStore.magicLinks.filter((m) => m.email !== userEmail);
+
+    // 5. Append NDPA consent withdrawal log
+    const emailHash = createHash('sha256').update(userEmail).digest('hex');
+    globalStore.consentLogs.push({
+      id: globalStore.consentLogs.length + 1,
+      email_hash: emailHash,
+      purpose: 'account',
+      policy_version: '2026-v1',
+      given: false,
+      at: new Date().toISOString(),
+    });
+
+    // 6. Log audit entry
+    this.logAudit({
+      actor: userId,
+      action: 'user.delete_account_and_data',
+      entity: 'users',
+      entity_id: userId,
+      diff: {
+        email_hash: emailHash,
+        purged_saved_jobs: savedDeleted,
+        purged_subscriptions: subsDeleted,
+      },
+    });
+
+    return { success: true, deletedCount: 1 + savedDeleted + subsDeleted };
+  },
+
+  // Saved Jobs
+  getSavedJobs(userId: string): JobWithPlatform[] {
+    const userSaved = globalStore.savedJobs.filter((s) => s.user_id === userId);
+    const jobIds = new Set(userSaved.map((s) => s.job_id));
+    return this.getJobs().filter((j) => jobIds.has(j.id));
+  },
+
+  isJobSaved(userId: string, jobId: string): boolean {
+    return globalStore.savedJobs.some((s) => s.user_id === userId && s.job_id === jobId);
+  },
+
+  toggleSavedJob(userId: string, jobId: string): { saved: boolean } {
+    const idx = globalStore.savedJobs.findIndex(
+      (s) => s.user_id === userId && s.job_id === jobId
+    );
+    if (idx !== -1) {
+      globalStore.savedJobs.splice(idx, 1);
+      return { saved: false };
+    } else {
+      globalStore.savedJobs.push({
+        user_id: userId,
+        job_id: jobId,
+        created_at: new Date().toISOString(),
+      });
+      return { saved: true };
+    }
+  },
+
+  // User Alert Preferences (Section 7.13)
+  getUserAlertPreferences(userId: string): AlertSubscription | null {
+    const user = this.getUser(userId);
+    if (!user) return null;
+    return (
+      globalStore.subscriptions.find(
+        (s) => s.user_id === userId || s.email.toLowerCase() === user.email.toLowerCase()
+      ) || null
+    );
+  },
+
+  saveUserAlertPreferences(
+    userId: string,
+    email: string,
+    country_code: string | null,
+    work_types: string[],
+    frequency: string
+  ): AlertSubscription {
+    const cleanEmail = email.toLowerCase().trim();
+    let sub = globalStore.subscriptions.find(
+      (s) => s.user_id === userId || s.email.toLowerCase() === cleanEmail
+    );
+
+    if (sub) {
+      sub.user_id = userId;
+      sub.country_code = country_code;
+      sub.work_types = work_types;
+      sub.frequency = frequency;
+      sub.status = 'active';
+    } else {
+      sub = {
+        id: `sub-${Date.now()}`,
+        email: cleanEmail,
+        user_id: userId,
+        country_code: country_code,
+        work_types: work_types,
+        frequency: frequency,
+        status: 'active',
+        confirmed_at: new Date().toISOString(),
+        created_at: new Date().toISOString(),
+      };
+      globalStore.subscriptions.push(sub);
+    }
+
+    return sub;
+  },
+
+  // Community Experience Reports (Section 13.5)
+  submitCommunityReport(data: {
+    platform_id: string;
+    period_month_year: string;
+    onboarding_paid: boolean;
+    tasks_available: TaskAvailability;
+    removed_without_explanation: boolean;
+    optional_note?: string | null;
+    contact_email?: string | null;
+  }): CommunityExperienceReport {
+    const report: CommunityExperienceReport = {
+      id: `cr-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+      platform_id: data.platform_id,
+      period_month_year: data.period_month_year.trim(),
+      onboarding_paid: Boolean(data.onboarding_paid),
+      tasks_available: data.tasks_available,
+      removed_without_explanation: Boolean(data.removed_without_explanation),
+      optional_note: data.optional_note ? data.optional_note.trim() : null,
+      contact_email: data.contact_email ? data.contact_email.trim() : null,
+      status: 'pending',
+      moderation_notes: null,
+      created_at: new Date().toISOString(),
+    };
+
+    globalStore.communityReports.unshift(report);
+
+    this.logAudit({
+      actor: null,
+      action: 'report.community_experience_submit',
+      entity: 'community_reports',
+      entity_id: report.id,
+      diff: { platform_id: report.platform_id, status: 'pending' },
+    });
+
+    return report;
+  },
+
+  getCommunityReports(platformId?: string, status?: ReportStatus): CommunityExperienceReport[] {
+    let result = globalStore.communityReports;
+    if (platformId) {
+      result = result.filter((r) => r.platform_id === platformId);
+    }
+    if (status) {
+      result = result.filter((r) => r.status === status);
+    }
+    return [...result];
+  },
+
+  getPendingCommunityReports(): CommunityExperienceReport[] {
+    return this.getCommunityReports(undefined, 'pending');
+  },
+
+  moderateCommunityReport(id: string, status: ReportStatus, moderation_notes?: string): boolean {
+    const report = globalStore.communityReports.find((r) => r.id === id);
+    if (!report) return false;
+    report.status = status;
+    report.moderation_notes = moderation_notes || null;
+
+    this.logAudit({
+      actor: 'jo@countersign.ai',
+      action: `report.community_experience_${status}`,
+      entity: 'community_reports',
+      entity_id: id,
+      diff: { status, moderation_notes },
+    });
+
+    return true;
+  },
+
+  getAggregatedPlatformExperience(platformId: string): AggregatedPlatformExperience {
+    const approved = globalStore.communityReports.filter(
+      (r) => r.platform_id === platformId && r.status === 'approved'
+    );
+
+    const sampleSize = approved.length;
+    // Section 13.5 Rule: Minimum 3 reports required to display aggregated metrics
+    const hasSufficientReports = sampleSize >= 3;
+
+    if (!hasSufficientReports) {
+      return {
+        platform_id: platformId,
+        sample_size: sampleSize,
+        has_sufficient_reports: false,
+        onboarding_paid_percent: 0,
+        tasks_regular_percent: 0,
+        tasks_intermittent_percent: 0,
+        tasks_empty_queue_percent: 0,
+        removed_without_explanation_percent: 0,
+        earliest_period: approved[approved.length - 1]?.period_month_year || null,
+        latest_period: approved[0]?.period_month_year || null,
+      };
+    }
+
+    const onboardingPaidCount = approved.filter((r) => r.onboarding_paid).length;
+    const tasksRegularCount = approved.filter((r) => r.tasks_available === 'regular').length;
+    const tasksIntermittentCount = approved.filter((r) => r.tasks_available === 'intermittent').length;
+    const tasksEmptyQueueCount = approved.filter((r) => r.tasks_available === 'empty_queue').length;
+    const removedCount = approved.filter((r) => r.removed_without_explanation).length;
+
+    return {
+      platform_id: platformId,
+      sample_size: sampleSize,
+      has_sufficient_reports: true,
+      onboarding_paid_percent: Math.round((onboardingPaidCount / sampleSize) * 100),
+      tasks_regular_percent: Math.round((tasksRegularCount / sampleSize) * 100),
+      tasks_intermittent_percent: Math.round((tasksIntermittentCount / sampleSize) * 100),
+      tasks_empty_queue_percent: Math.round((tasksEmptyQueueCount / sampleSize) * 100),
+      removed_without_explanation_percent: Math.round((removedCount / sampleSize) * 100),
+      earliest_period: approved[approved.length - 1]?.period_month_year || null,
+      latest_period: approved[0]?.period_month_year || null,
+    };
+  },
+
+  // Evaluator Talent Network Form (Milestone 11 & Section 7.9)
+  submitEvaluatorLead(data: {
+    name: string;
+    email: string;
+    country_code: string;
+    domain: string;
+    credentials: string;
+    years_experience: string;
+    portfolio_url?: string | null;
+    weekly_hours: string;
+  }): EvaluatorLead {
+    const lead: EvaluatorLead = {
+      id: `ev-talent-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+      name: data.name.trim(),
+      email: data.email.toLowerCase().trim(),
+      country_code: data.country_code.toUpperCase().trim(),
+      domain: data.domain.trim(),
+      credentials: data.credentials.trim(),
+      years_experience: data.years_experience.trim(),
+      portfolio_url: data.portfolio_url ? data.portfolio_url.trim() : null,
+      weekly_hours: data.weekly_hours.trim(),
+      status: 'new',
+      created_at: new Date().toISOString(),
+    };
+
+    globalStore.evaluatorLeads.unshift(lead);
+
+    this.logAudit({
+      actor: null,
+      action: 'evaluator.application_submit',
+      entity: 'evaluator_leads',
+      entity_id: lead.id,
+      diff: { domain: lead.domain, country: lead.country_code },
+    });
+
+    return lead;
+  },
+
+  getEvaluatorLeads(): EvaluatorLead[] {
+    return [...globalStore.evaluatorLeads];
+  },
+
+  // Platform x Country Detailed Eligibility (Section 7.5a)
+  getPlatformCountryEligibility(
+    platformSlug: string,
+    countryCode: string
+  ): PlatformCountryEligibilityResult | null {
+    const platform = this.getPlatformBySlug(platformSlug);
+    const country = this.getCountryByCode(countryCode);
+
+    if (!platform || !country) {
+      return null;
+    }
+
+    const platformJobs = this.getJobs({ status: 'all' }).filter(
+      (j) => j.platform_id === platform.id
+    );
+
+    let eligStatus: EligStatus = 'unconfirmed';
+    let checkedAt = platform.last_reviewed_at || new Date().toISOString();
+    let sourceUrl: string | null = platform.official_url;
+
+    for (const job of platformJobs) {
+      const match = job.eligibility.find((e) => e.country_code === country.code);
+      if (match) {
+        eligStatus = match.status;
+        checkedAt = match.checked_at;
+        sourceUrl = match.source_url || sourceUrl;
+        if (eligStatus === 'accepted') break;
+      }
+    }
+
+    // Explicit official platform statuses for Nigeria
+    if (country.code === 'NG') {
+      if (platform.slug === 'outlier') {
+        eligStatus = 'accepted';
+        sourceUrl = 'https://outlier.ai/faq';
+      } else if (platform.slug === 'alignerr') {
+        eligStatus = 'accepted';
+        sourceUrl = 'https://alignerr.com/faq';
+      } else if (platform.slug === 'invisible-tech') {
+        eligStatus = 'accepted';
+        sourceUrl = 'https://invisible.co/careers';
+      } else if (platform.slug === 'mercor') {
+        eligStatus = 'accepted';
+        sourceUrl = 'https://mercor.com/faq';
+      } else if (platform.slug === 'dataannotation') {
+        eligStatus = 'not_accepted';
+        sourceUrl = 'https://dataannotation.tech';
+      }
+    }
+
+    // Open verified roles for this platform and country
+    const openRoles = this.getJobs({ status: 'verified', country: country.code }).filter(
+      (j) => j.platform_id === platform.id
+    );
+
+    // Alternative platforms that DO accept this country (to avoid dead-end pages!)
+    const allPlatforms = this.getPlatforms();
+    const alternativePlatforms = allPlatforms
+      .filter((p) => p.id !== platform.id)
+      .map((p) => {
+        const roles = this.getJobs({ status: 'verified', country: country.code }).filter(
+          (j) => j.platform_id === p.id
+        );
+        return {
+          platform: p,
+          openRolesCount: roles.length,
+        };
+      })
+      .filter((item) => item.openRolesCount > 0);
+
+    const steps = this.getPlatformSteps(platform.id);
+
+    return {
+      platform,
+      country,
+      eligibilityStatus: eligStatus,
+      checkedAt,
+      sourceUrl,
+      openRoles,
+      alternativePlatforms,
+      steps,
+    };
   },
 };

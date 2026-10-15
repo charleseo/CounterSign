@@ -63,6 +63,8 @@ export default async function PlatformDetailPage({ params }: PlatformDetailPageP
     notFound();
   }
 
+  const cleanName = platform.name.replace(/\[SAMPLE\]/g, '').trim();
+
   // Fetch platform expectation timeline steps
   const platformSteps = dbRepository.getPlatformSteps(platform.id);
   const expectationSteps: TimelineStep[] | undefined =
@@ -188,11 +190,109 @@ export default async function PlatformDetailPage({ params }: PlatformDetailPageP
         />
       </section>
 
-      {/* 4. Open Verified Roles on this Platform */}
+      {/* 4. Aggregated Community Experience Block (Section 13.5) */}
+      <section className="p-5 rounded-xl border border-subtle bg-surface space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-subtle pb-3">
+          <div>
+            <h2 className="text-sm font-semibold font-mono text-primary uppercase tracking-wider">
+              Community Experience Reality
+            </h2>
+            <p className="text-xs text-secondary mt-0.5">
+              Moderated self-reports from active contributors. Unverified claims are filtered.
+            </p>
+          </div>
+          <Link
+            href={`/platforms/${platform.slug}/report`}
+            className="px-3 py-1.5 rounded-lg border border-subtle hover:border-focus bg-void text-xs font-medium text-accent-cyan transition-colors"
+          >
+            Submit Experience Report &rarr;
+          </Link>
+        </div>
+
+        {(() => {
+          const experience = dbRepository.getAggregatedPlatformExperience(platform.id);
+          if (experience.has_sufficient_reports) {
+            return (
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div className="p-3.5 rounded-lg border border-subtle bg-void space-y-1">
+                    <span className="text-[11px] font-mono text-secondary uppercase">
+                      Task Availability
+                    </span>
+                    <div className="text-base font-bold text-primary font-mono">
+                      {experience.tasks_regular_percent}% Regular
+                    </div>
+                    <span className="text-[10px] text-secondary block">
+                      {experience.tasks_intermittent_percent}% intermittent, {experience.tasks_empty_queue_percent}% empty queue
+                    </span>
+                  </div>
+
+                  <div className="p-3.5 rounded-lg border border-subtle bg-void space-y-1">
+                    <span className="text-[11px] font-mono text-secondary uppercase">
+                      Onboarding Pay
+                    </span>
+                    <div className="text-base font-bold text-primary font-mono">
+                      {experience.onboarding_paid_percent}% Paid
+                    </div>
+                    <span className="text-[10px] text-secondary block">
+                      {100 - experience.onboarding_paid_percent}% report unpaid testing
+                    </span>
+                  </div>
+
+                  <div className="p-3.5 rounded-lg border border-subtle bg-void space-y-1">
+                    <span className="text-[11px] font-mono text-secondary uppercase">
+                      Sudden Deactivations
+                    </span>
+                    <div className="text-base font-bold text-accent-warning font-mono">
+                      {experience.removed_without_explanation_percent}% Removed
+                    </div>
+                    <span className="text-[10px] text-secondary block">
+                      Without specific reviewer feedback
+                    </span>
+                  </div>
+                </div>
+
+                <p className="text-[11px] text-secondary font-mono">
+                  Sample: {experience.sample_size} moderated self-reports ({experience.earliest_period} &ndash; {experience.latest_period}).
+                </p>
+              </div>
+            );
+          } else {
+            return (
+              <div className="p-4 rounded-lg border border-subtle bg-void text-xs text-secondary space-y-1">
+                <p className="font-medium text-primary">Awaiting Sufficient Community Reports</p>
+                <p>
+                  Countersign requires a minimum of 3 moderated contributor reports before calculating aggregated queue availability and removal metrics.
+                </p>
+              </div>
+            );
+          }
+        })()}
+      </section>
+
+      {/* 5. Country Eligibility Breakdown */}
+      <section className="p-4 rounded-xl border border-subtle bg-surface flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+        <div>
+          <span className="font-semibold text-primary block">
+            Applying from Nigeria or West Africa?
+          </span>
+          <span className="text-secondary">
+            Check payout methods, degree recognition, and verified regional status for {cleanName}.
+          </span>
+        </div>
+        <Link
+          href={`/platforms/${platform.slug}/ng`}
+          className="px-3 py-1.5 rounded-lg bg-accent-cyan/15 hover:bg-accent-cyan/25 text-accent-cyan font-medium transition-colors shrink-0"
+        >
+          {cleanName} in Nigeria &rarr;
+        </Link>
+      </section>
+
+      {/* 6. Open Verified Roles on this Platform */}
       <section className="space-y-4 pt-4 border-t border-subtle">
         <div className="flex items-center justify-between">
           <h2 className="text-sm font-semibold font-mono text-primary uppercase tracking-wider">
-            Open Verified Roles at {platform.name}
+            Open Verified Roles at {cleanName}
           </h2>
           <span className="text-xs font-mono text-secondary">
             {openJobs.length} active
@@ -211,7 +311,7 @@ export default async function PlatformDetailPage({ params }: PlatformDetailPageP
                 id={job.id}
                 slug={job.slug}
                 title={job.title}
-                platform={platform.name}
+                platform={cleanName}
                 workType={job.work_type}
                 countryEligibility="accepted"
                 verifiedPay={job.pay_verified ? job.pay_text || undefined : undefined}

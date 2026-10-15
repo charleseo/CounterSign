@@ -15,11 +15,12 @@ export function Header() {
   const navLinks = [
     { label: "Jobs", href: "/jobs" },
     { label: "Platforms", href: "/platforms" },
+    { label: "Compare", href: "/compare" },
+    { label: "Hub (NG)", href: "/countries/nigeria" },
     { label: "Guides", href: "/guides" },
     { label: "Scam Check", href: "/scam-check" },
-    { label: "About", href: "/about" },
     { label: "Studio", href: "/evaluation" },
-    { label: "Gallery", href: "/gallery" },
+    { label: "Account", href: "/account" },
   ];
 
   return (

@@ -122,6 +122,36 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.6,
     },
+    {
+      url: `${baseUrl}/countries`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/countries/nigeria`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/compare`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/evaluation/evaluators`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/account/login`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    },
   ];
 
   // Verified Job detail routes
@@ -144,6 +174,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
+  // Platform x Country routes (Section 7.5a)
+  const platformCountryRoutes: MetadataRoute.Sitemap = [];
+  const primaryCountries = ['ng', 'us', 'gb', 'ke', 'ca', 'gh'];
+  for (const platform of platforms) {
+    for (const code of primaryCountries) {
+      const eligibility = dbRepository.getPlatformCountryEligibility(platform.slug, code.toUpperCase());
+      if (eligibility) {
+        platformCountryRoutes.push({
+          url: `${baseUrl}/platforms/${platform.slug}/${code}`,
+          lastModified: eligibility.checkedAt ? new Date(eligibility.checkedAt) : now,
+          changeFrequency: 'weekly',
+          priority: 0.7,
+        });
+      }
+    }
+  }
+
   // Guide routes
   const guides = getAllGuides();
   const guideRoutes: MetadataRoute.Sitemap = guides.map((guide) => ({
@@ -153,5 +200,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  return [...staticRoutes, ...jobRoutes, ...platformRoutes, ...guideRoutes];
+  return [
+    ...staticRoutes,
+    ...jobRoutes,
+    ...platformRoutes,
+    ...platformCountryRoutes,
+    ...guideRoutes,
+  ];
 }

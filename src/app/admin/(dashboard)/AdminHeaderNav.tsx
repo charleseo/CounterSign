@@ -45,6 +45,22 @@ export function AdminHeaderNav({ stats }: { stats: AdminStats }) {
       label: 'Incidents',
       badge: stats.activeIncidents > 0 ? stats.activeIncidents : undefined,
     },
+    {
+      href: '/admin/reports',
+      label: 'Reports',
+      badge:
+        stats.pendingCommunityReports && stats.pendingCommunityReports > 0
+          ? stats.pendingCommunityReports
+          : undefined,
+    },
+    {
+      href: '/admin/evaluators',
+      label: 'Evaluators',
+      badge:
+        stats.evaluatorApplications && stats.evaluatorApplications > 0
+          ? stats.evaluatorApplications
+          : undefined,
+    },
     { href: '/admin/audit', label: 'Audit Log' },
   ];
 

@@ -292,4 +292,79 @@ export interface AdminStats {
   openPrivacyRequests: number;
   newLeads?: number;
   totalLeads?: number;
+  pendingCommunityReports?: number;
+  evaluatorApplications?: number;
+}
+
+// Milestone 11: Phase 1 Feature Types
+
+export interface MagicLinkToken {
+  token: string;
+  email: string;
+  expires_at: string;
+  created_at: string;
+}
+
+export interface UserSession {
+  token: string;
+  userId: string;
+  email: string;
+  expiresAt: string;
+}
+
+export type TaskAvailability = 'regular' | 'intermittent' | 'empty_queue';
+
+export interface CommunityExperienceReport {
+  id: string;
+  platform_id: string;
+  period_month_year: string;
+  onboarding_paid: boolean;
+  tasks_available: TaskAvailability;
+  removed_without_explanation: boolean;
+  optional_note: string | null;
+  contact_email: string | null;
+  status: ReportStatus;
+  moderation_notes: string | null;
+  created_at: string;
+}
+
+export interface AggregatedPlatformExperience {
+  platform_id: string;
+  sample_size: number;
+  has_sufficient_reports: boolean;
+  onboarding_paid_percent: number;
+  tasks_regular_percent: number;
+  tasks_intermittent_percent: number;
+  tasks_empty_queue_percent: number;
+  removed_without_explanation_percent: number;
+  earliest_period: string | null;
+  latest_period: string | null;
+}
+
+export interface EvaluatorLead {
+  id: string;
+  name: string;
+  email: string;
+  country_code: string;
+  domain: string;
+  credentials: string;
+  years_experience: string;
+  portfolio_url: string | null;
+  weekly_hours: string;
+  status: 'new' | 'reviewed' | 'contacted' | 'archived';
+  created_at: string;
+}
+
+export interface PlatformCountryEligibilityResult {
+  platform: Platform;
+  country: Country;
+  eligibilityStatus: EligStatus;
+  checkedAt: string;
+  sourceUrl: string | null;
+  openRoles: JobWithPlatform[];
+  alternativePlatforms: Array<{
+    platform: Platform;
+    openRolesCount: number;
+  }>;
+  steps: PlatformStep[];
 }

@@ -41,6 +41,16 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/compare" className="text-secondary hover:text-primary transition-colors">
+                  Compare Platforms
+                </Link>
+              </li>
+              <li>
+                <Link href="/countries/nigeria" className="text-secondary hover:text-primary transition-colors">
+                  Nigeria Country Hub
+                </Link>
+              </li>
+              <li>
                 <Link href="/guides" className="text-secondary hover:text-primary transition-colors">
                   Practical Guides
                 </Link>
@@ -48,6 +58,16 @@ export function Footer() {
               <li>
                 <Link href="/scam-check" className="text-secondary hover:text-primary transition-colors">
                   10-Point Scam Check
+                </Link>
+              </li>
+              <li>
+                <Link href="/account" className="text-secondary hover:text-primary transition-colors">
+                  Contributor Account
+                </Link>
+              </li>
+              <li>
+                <Link href="/evaluation/evaluators" className="text-secondary hover:text-primary transition-colors">
+                  Evaluator Network
                 </Link>
               </li>
             </ul>

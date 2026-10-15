@@ -32,6 +32,7 @@ export const metadata: Metadata = {
   },
 };
 
+import React, { Suspense } from "react";
 import { AnalyticsTracker } from "@/components/analytics/AnalyticsTracker";
 import { OfflineBanner } from "@/components/layout/OfflineBanner";
 
@@ -48,7 +49,9 @@ export default function RootLayout({
       </head>
       <body className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}>
         <OfflineBanner />
-        <AnalyticsTracker />
+        <Suspense fallback={null}>
+          <AnalyticsTracker />
+        </Suspense>
         <Header />
         <main className="flex-1 flex flex-col">{children}</main>
         <Footer />
