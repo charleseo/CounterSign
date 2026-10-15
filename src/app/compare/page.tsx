@@ -52,9 +52,9 @@ export default function ComparePlatformsPage() {
         </div>
 
         <div className="flex items-center gap-2.5">
-          <Scale className="text-accent-cyan" size={26} />
-          <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-primary">
-            Compare AI Training Platforms
+          <Scale className="text-accent-cyan" size={28} />
+          <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-primary">
+            <span className="text-gradient-cyan">Compare AI Training Platforms</span>
           </h1>
         </div>
 

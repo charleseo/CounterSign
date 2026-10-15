@@ -52,8 +52,9 @@ export default function NigeriaCountryHubPage() {
           </div>
         </div>
 
-        <div className="p-4 rounded-xl border border-accent-cyan/30 bg-accent-cyan/5 text-sm text-readable leading-relaxed">
-          <p className="font-medium text-accent-cyan mb-1 flex items-center gap-1.5">
+        <div className="p-5 rounded-2xl glass-panel border border-cyan-500/30 text-sm text-readable leading-relaxed shadow-[0_8px_32px_rgba(0,0,0,0.37)]">
+          <p className="font-semibold text-accent-cyan mb-1.5 flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-cyan-400 radar-dot" />
             <ShieldCheck size={16} />
             Honest Nigeria Ground Reality
           </p>
@@ -65,9 +66,9 @@ export default function NigeriaCountryHubPage() {
 
       {/* 2. USD Payout & Banking Playbook */}
       <section className="space-y-6">
-        <div className="flex items-center gap-2">
-          <Landmark className="text-accent-cyan" size={22} />
-          <h2 className="text-xl font-semibold text-primary">
+        <div className="flex items-center gap-2.5">
+          <Landmark className="text-accent-cyan" size={24} />
+          <h2 className="text-xl sm:text-2xl font-bold text-primary">
             USD Payout & Banking Playbook
           </h2>
         </div>
@@ -78,12 +79,12 @@ export default function NigeriaCountryHubPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Virtual USD Accounts */}
-          <div className="p-5 rounded-xl border border-subtle bg-surface space-y-3">
+          <div className="p-6 rounded-2xl glass-card space-y-3.5">
             <div className="flex items-center justify-between">
               <h3 className="font-semibold text-primary text-base">
                 Virtual USD Accounts (Geegpay & Grey)
               </h3>
-              <span className="text-xs font-mono font-medium px-2 py-0.5 rounded bg-accent-cyan/10 text-accent-cyan border border-accent-cyan/30">
+              <span className="text-xs font-mono font-medium px-2 py-0.5 rounded-lg bg-accent-cyan/10 text-accent-cyan border border-accent-cyan/30">
                 Recommended
               </span>
             </div>
@@ -104,7 +105,7 @@ export default function NigeriaCountryHubPage() {
           </div>
 
           {/* Domiciliary Accounts */}
-          <div className="p-5 rounded-xl border border-subtle bg-surface space-y-3">
+          <div className="p-6 rounded-2xl glass-card space-y-3.5">
             <div className="flex items-center justify-between">
               <h3 className="font-semibold text-primary text-base">
                 Nigerian Bank Domiciliary Accounts

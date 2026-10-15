@@ -48,6 +48,12 @@ export default function RootLayout({
         <OrganizationAndWebsiteJsonLd />
       </head>
       <body className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}>
+        {/* Ambient CSS Aurora Glow (Disabled automatically in Lite/Basic tier) */}
+        <div className="ambient-aurora" aria-hidden="true">
+          <div className="aurora-orb-cyan" />
+          <div className="aurora-orb-violet" />
+          <div className="aurora-orb-emerald" />
+        </div>
         <OfflineBanner />
         <Suspense fallback={null}>
           <AnalyticsTracker />

@@ -38,6 +38,9 @@ export function SealLogo({
       viewBox="0 0 32 32"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      style={{
+        filter: `drop-shadow(0px 0px ${animating ? "6px" : "3px"} ${strokeColor})`,
+      }}
       className={`${animating ? "seal-animating" : ""} ${className}`}
       aria-hidden={!label}
       role={label ? "img" : undefined}

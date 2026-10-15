@@ -5,7 +5,7 @@ import { TierToggle } from "@/components/layout/TierToggle";
 
 export function Footer() {
   return (
-    <footer className="mt-auto w-full border-t border-subtle bg-surface transition-colors py-10 px-4 sm:px-6">
+    <footer className="mt-auto w-full glass-header py-12 px-4 sm:px-6 relative before:absolute before:top-0 before:left-0 before:right-0 before:h-[1px] before:bg-gradient-to-r before:from-transparent before:via-cyan-400/25 before:to-transparent">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
           {/* Brand & Purpose */}

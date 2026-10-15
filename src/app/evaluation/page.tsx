@@ -127,7 +127,7 @@ export default function EvaluationStudioPage() {
           <div className="flex flex-wrap items-center gap-3 pt-2">
             <Link
               href="/evaluation/scope"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-accent-cyan text-black font-semibold text-xs tracking-wider uppercase hover:shadow-[0_0_25px_rgba(61,235,255,0.4)] transition-all"
+              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-cyan-400 via-teal-300 to-cyan-300 text-void font-bold text-xs tracking-wider uppercase hover:opacity-95 shadow-[0_0_25px_rgba(61,235,255,0.4)] shimmer-sweep transition-all"
             >
               <span>Scope an Audit</span>
               <ArrowRight size={15} />
@@ -135,7 +135,7 @@ export default function EvaluationStudioPage() {
 
             <Link
               href="/evaluation/sample-audit"
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-xl border border-subtle bg-surface hover:bg-elevated text-primary text-xs font-mono font-medium transition-colors"
+              className="inline-flex items-center gap-2 px-5 py-3.5 rounded-2xl glass-card text-primary text-xs font-mono font-medium hover:border-cyan-400/40 transition-colors"
             >
               <span>See Sample Audit Report</span>
               <FileCheck2 size={15} className="text-accent-cyan" />
@@ -156,7 +156,7 @@ export default function EvaluationStudioPage() {
             <Link
               key={pillar.title}
               href={pillar.link}
-              className="group p-5 rounded-xl border border-subtle bg-surface hover:border-accent-cyan/50 hover:bg-elevated transition-all flex flex-col justify-between"
+              className="group p-6 rounded-2xl glass-card transition-all flex flex-col justify-between hover:border-cyan-400/50 hover:shadow-[0_12px_35px_rgba(61,235,255,0.15)]"
             >
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
@@ -198,7 +198,7 @@ export default function EvaluationStudioPage() {
           {BUYER_PROBLEMS.map((prob, idx) => (
             <div
               key={prob.title}
-              className="p-5 rounded-xl border border-subtle bg-surface space-y-3.5 flex flex-col justify-between"
+              className="p-6 rounded-2xl glass-card space-y-4 flex flex-col justify-between hover:border-rose-400/40 hover:shadow-[0_12px_35px_rgba(255,107,107,0.15)] transition-all"
             >
               <div className="space-y-2">
                 <div className="flex items-center gap-2">

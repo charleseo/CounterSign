@@ -7,22 +7,27 @@
 
 :root,
 [data-theme="dark"] {
-  --bg-void: #070B16;
+  --bg-void: #060913;
   --bg-surface: #0B1222;
-  --bg-elevated: #142039;
+  --bg-elevated: #131E35;
   
-  --border-subtle: #25334B;
+  --border-subtle: #1E2D47;
   --border-focus: #3DEBFF;
   
-  --text-primary: #F5F8FC;     /* 18.2:1 contrast ratio against #070B16 (Passes AAA) */
-  --text-secondary: #94A3B8;   /* 6.5:1 contrast ratio against #070B16 (Passes AA) */
-  --text-readable: #CBD5E1;    /* 11.4:1 contrast ratio against #070B16 (Passes AAA) */
+  --text-primary: #F8FAFD;     /* 18.2:1 contrast ratio against #060913 (Passes AAA) */
+  --text-secondary: #94A3B8;   /* 6.5:1 contrast ratio against #060913 (Passes AA) */
+  --text-readable: #CBD5E1;    /* 11.4:1 contrast ratio against #060913 (Passes AAA) */
   
   --accent-cyan: #3DEBFF;      /* Brand accent (active states, hero key phrases) */
   --accent-emerald: #45F5C5;   /* Status: Verified active, official source */
   --accent-violet: #8B7CFF;    /* Studio accent: model evaluation data, citation spans */
   --accent-amber: #FFC66D;     /* Status: Needs recheck, community reported */
   --accent-danger: #FF6B6B;    /* High risk alert, closed listing */
+
+  /* Glassmorphism parameters */
+  --glass-bg: rgba(11, 18, 34, 0.72);
+  --glass-border: rgba(61, 235, 255, 0.12);
+  --glass-specular: rgba(255, 255, 255, 0.08);
 }
 
 /* Light Theme Alternative */
@@ -43,6 +48,10 @@
   --accent-violet: #6366F1;
   --accent-amber: #D97706;
   --accent-danger: #DC2626;
+
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(2, 132, 199, 0.15);
+  --glass-specular: rgba(255, 255, 255, 0.6);
 }
 
 /* Base Body Styles */
@@ -55,41 +64,250 @@ body {
   font-family: var(--font-sans, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ==========================================================================
+   AMBIENT AURORA MESH BACKGROUND (CSS ONLY, ZERO JS/CANVAS)
+   ========================================================================== */
+
+.ambient-aurora {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.aurora-orb-cyan {
+  position: absolute;
+  top: -10%;
+  left: 15%;
+  width: 55vw;
+  height: 55vw;
+  max-width: 650px;
+  max-height: 650px;
+  background: radial-gradient(circle, rgba(61, 235, 255, 0.08) 0%, rgba(61, 235, 255, 0.01) 50%, transparent 70%);
+  filter: blur(80px);
+  border-radius: 50%;
+  animation: auroraDrift1 22s ease-in-out infinite alternate;
+}
+
+.aurora-orb-violet {
+  position: absolute;
+  top: 35%;
+  right: -5%;
+  width: 50vw;
+  height: 50vw;
+  max-width: 600px;
+  max-height: 600px;
+  background: radial-gradient(circle, rgba(139, 124, 255, 0.06) 0%, rgba(139, 124, 255, 0.01) 50%, transparent 70%);
+  filter: blur(90px);
+  border-radius: 50%;
+  animation: auroraDrift2 26s ease-in-out infinite alternate;
+}
+
+.aurora-orb-emerald {
+  position: absolute;
+  bottom: 5%;
+  left: 20%;
+  width: 45vw;
+  height: 45vw;
+  max-width: 550px;
+  max-height: 550px;
+  background: radial-gradient(circle, rgba(69, 245, 197, 0.05) 0%, rgba(69, 245, 197, 0.01) 50%, transparent 70%);
+  filter: blur(85px);
+  border-radius: 50%;
+  animation: auroraDrift3 24s ease-in-out infinite alternate;
+}
+
+@keyframes auroraDrift1 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(50px, 30px) scale(1.08); }
+  100% { transform: translate(-30px, 60px) scale(0.95); }
+}
+
+@keyframes auroraDrift2 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-40px, -30px) scale(1.1); }
+  100% { transform: translate(25px, -50px) scale(0.92); }
+}
+
+@keyframes auroraDrift3 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(40px, -40px) scale(1.05); }
+  100% { transform: translate(-20px, 20px) scale(0.97); }
+}
+
+/* ==========================================================================
+   GLASSMORPHISM & SPECULAR SURFACES
+   ========================================================================== */
+
+/* Glass Header */
+.glass-header {
+  background-color: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-subtle);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.25);
+}
+
+/* Glass Card */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-subtle);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.35), inset 0 1px 0 0 var(--glass-specular);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+  border-color: rgba(61, 235, 255, 0.35);
+  box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.5), 0 0 25px rgba(61, 235, 255, 0.12), inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Glass Panel (Non-interactive) */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-subtle);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.35), inset 0 1px 0 0 var(--glass-specular);
+}
+
+/* Glass Pill Badge */
+.glass-pill {
+  background: rgba(11, 18, 34, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+}
+
+/* ==========================================================================
+   GLOWS, RADAR & SHIMMER EFFECTS
+   ========================================================================== */
+
+/* Shimmer Sweep Animation for Buttons and Cards */
+@keyframes shimmerSweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+.shimmer-sweep {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-sweep::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+  transform: translateX(-100%);
+  animation: shimmerSweep 3.5s infinite;
+  pointer-events: none;
+}
+
+/* Radar Pulse Wave (for live indicators) */
+@keyframes radarWave {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(69, 245, 197, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 8px rgba(69, 245, 197, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(69, 245, 197, 0);
+  }
+}
+
+.radar-dot {
+  position: relative;
+}
+
+.radar-dot::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  animation: radarWave 2s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+}
+
+/* Subtle Floating Animation */
+@keyframes floatSubtle {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-4px); }
+}
+
+.animate-float {
+  animation: floatSubtle 4s ease-in-out infinite;
+}
+
+/* Radiant Glow Utilities */
+.glow-cyan-sm {
+  box-shadow: 0 0 15px rgba(61, 235, 255, 0.25);
+}
+
+.glow-cyan-md {
+  box-shadow: 0 0 30px rgba(61, 235, 255, 0.35);
+}
+
+.glow-emerald-sm {
+  box-shadow: 0 0 15px rgba(69, 245, 197, 0.25);
+}
+
+.glow-violet-sm {
+  box-shadow: 0 0 15px rgba(139, 124, 255, 0.25);
+}
+
+/* Futuristic Gradient Text */
+.text-gradient-cyan {
+  background: linear-gradient(135deg, #FFFFFF 20%, #B4F4FF 60%, #3DEBFF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-emerald {
+  background: linear-gradient(135deg, #FFFFFF 20%, #A7FBE7 60%, #45F5C5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-violet {
+  background: linear-gradient(135deg, #FFFFFF 20%, #D4CFFF 60%, #8B7CFF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* ==========================================================================
    CAPABILITY TIERS (Section 10.10 & Section 16)
    ========================================================================== */
 
-/* Full Tier (Desktop / High-Speed Broadband) */
-[data-tier="full"] .glass-header {
-  background-color: color-mix(in srgb, var(--bg-surface) 80%, transparent);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-[data-tier="full"] .card-interactive {
-  transition: border-color 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
-}
-
-[data-tier="full"] .card-interactive:hover {
-  border-color: var(--accent-cyan);
-  background-color: var(--bg-elevated);
-}
-
-/* Spotlight edge for Full tier fine pointers */
-@media (pointer: fine) {
-  [data-tier="full"] .spotlight-card {
-    position: relative;
-    background-image: radial-gradient(
-      320px circle at var(--mouse-x, -999px) var(--mouse-y, -999px),
-      rgba(61, 235, 255, 0.08),
-      transparent 80%
-    );
-  }
+/* Full Tier (Default: Complete Experience) */
+[data-tier="full"] .spotlight-card {
+  position: relative;
+  background-image: radial-gradient(
+    320px circle at var(--mouse-x, -999px) var(--mouse-y, -999px),
+    rgba(61, 235, 255, 0.08),
+    transparent 80%
+  );
 }
 
 /* Data-Saver / Lite Tier (Mobile Data / Slow Connection, <48KB payload) */
+[data-tier="lite"] .ambient-aurora {
+  display: none !important;
+}
+
 [data-tier="lite"] * {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
@@ -97,17 +315,25 @@ body {
   text-shadow: none !important;
 }
 
-[data-tier="lite"] .glass-header {
+[data-tier="lite"] .glass-header,
+[data-tier="lite"] .glass-card,
+[data-tier="lite"] .glass-panel,
+[data-tier="lite"] .glass-pill {
   background-color: var(--bg-surface) !important;
-  border-bottom: 1px solid var(--border-subtle) !important;
-}
-
-[data-tier="lite"] .card-interactive:hover {
-  background-color: var(--bg-elevated);
+  border-color: var(--border-subtle) !important;
   transform: none !important;
 }
 
+[data-tier="lite"] .shimmer-sweep::after,
+[data-tier="lite"] .radar-dot::after {
+  display: none !important;
+}
+
 /* Basic Tier (Minimal/Text-First, 2G / Opera Mini / Ultra-Low Overhead) */
+[data-tier="basic"] .ambient-aurora {
+  display: none !important;
+}
+
 [data-tier="basic"] * {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
@@ -121,13 +347,12 @@ body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
 }
 
-[data-tier="basic"] .glass-header {
+[data-tier="basic"] .glass-header,
+[data-tier="basic"] .glass-card,
+[data-tier="basic"] .glass-panel,
+[data-tier="basic"] .glass-pill {
   background-color: var(--bg-surface) !important;
-  border-bottom: 2px solid var(--border-subtle) !important;
-}
-
-[data-tier="basic"] .card-interactive:hover {
-  background-color: var(--bg-elevated);
+  border-color: var(--border-subtle) !important;
   transform: none !important;
 }
 
@@ -136,7 +361,7 @@ body {
    ========================================================================== */
 
 .btn-tactile {
-  transition: transform 0.08s ease;
+  transition: transform 0.08s ease, box-shadow 0.15s ease, opacity 0.15s ease;
 }
 
 .btn-tactile:active {
@@ -144,11 +369,11 @@ body {
 }
 
 .card-press {
-  transition: transform 0.12s ease;
+  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.15s ease;
 }
 
 .card-press:active {
-  transform: scale(0.98);
+  transform: scale(0.99);
 }
 
 [data-tier="lite"] .card-press:active,
@@ -217,7 +442,7 @@ body {
     opacity: 1;
   }
   50% {
-    opacity: 0.3;
+    opacity: 0.35;
   }
 }
 
@@ -237,7 +462,13 @@ body {
   .signal-line-animating,
   .animate-telemetry-pulse,
   .btn-tactile,
-  .card-press {
+  .card-press,
+  .aurora-orb-cyan,
+  .aurora-orb-violet,
+  .aurora-orb-emerald,
+  .shimmer-sweep::after,
+  .radar-dot::after,
+  .animate-float {
     animation: none !important;
     transition: none !important;
     stroke-dashoffset: 0 !important;

@@ -56,22 +56,22 @@ export function EvaluationGraph() {
   const [activeStep, setActiveStep] = useState<number>(3); // Default on human verdict
 
   return (
-    <div className="w-full rounded-2xl border border-subtle bg-surface/90 p-5 sm:p-6 backdrop-blur-sm relative overflow-hidden shadow-2xl">
+    <div className="w-full rounded-3xl glass-panel p-6 sm:p-7 relative overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.6),_inset_0_1px_0_rgba(61,235,255,0.18)] border border-cyan-500/25">
       {/* Background Decorative Ambient Glow */}
       <div
-        className="absolute top-0 right-0 w-64 h-64 bg-accent-cyan/5 rounded-full blur-3xl pointer-events-none"
+        className="absolute top-0 right-0 w-72 h-72 bg-accent-cyan/10 rounded-full blur-3xl pointer-events-none"
         aria-hidden="true"
       />
       <div
-        className="absolute bottom-0 left-0 w-64 h-64 bg-accent-violet/5 rounded-full blur-3xl pointer-events-none"
+        className="absolute bottom-0 left-0 w-72 h-72 bg-accent-violet/10 rounded-full blur-3xl pointer-events-none"
         aria-hidden="true"
       />
 
       {/* Header Badge */}
-      <div className="flex items-center justify-between pb-4 mb-4 border-b border-subtle/80">
-        <div className="flex items-center gap-2">
-          <div className="w-2.5 h-2.5 rounded-full bg-accent-cyan animate-pulse" />
-          <span className="text-xs font-mono font-semibold tracking-wider uppercase text-accent-cyan">
+      <div className="flex items-center justify-between pb-4 mb-4 border-b border-white/[0.08]">
+        <div className="flex items-center gap-2.5">
+          <div className="w-2.5 h-2.5 rounded-full bg-accent-cyan radar-dot" />
+          <span className="text-xs font-mono font-semibold tracking-wider uppercase text-accent-cyan flex items-center gap-1.5">
             Evaluation Nexus Pipeline
           </span>
         </div>

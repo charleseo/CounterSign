@@ -46,16 +46,30 @@ export function BentoTile({
     amber: "text-[#FFC66D] border-[#FFC66D]/30 bg-[#FFC66D]/10",
   }[variant];
 
+  const glowColors = {
+    cyan: "#3DEBFF",
+    emerald: "#45F5C5",
+    violet: "#8B7CFF",
+    amber: "#FFC66D",
+  }[variant];
+
   return (
     <Link
       ref={tileRef}
       href={href}
       onMouseMove={handleMouseMove}
-      className={`group relative rounded-2xl border border-subtle bg-surface spotlight-card card-interactive card-press p-5 sm:p-6 flex flex-col justify-between overflow-hidden transition-all hover:border-focus ${className}`}
+      className={`group relative rounded-3xl glass-card spotlight-card card-press p-6 sm:p-7 flex flex-col justify-between overflow-hidden transition-all ${className}`}
     >
-      <div>
+      {/* Ambient variant corner glow */}
+      <div
+        className="absolute -top-10 -right-10 w-36 h-36 rounded-full blur-3xl pointer-events-none opacity-20 group-hover:opacity-45 transition-opacity"
+        style={{ backgroundColor: glowColors }}
+        aria-hidden="true"
+      />
+
+      <div className="relative z-10">
         <div className="flex items-center justify-between mb-4">
-          <div className={`p-2.5 rounded-xl border ${variantColors}`}>
+          <div className={`p-3 rounded-2xl border ${variantColors} group-hover:scale-105 transition-transform shadow-sm`}>
             {React.isValidElement(icon)
               ? icon
               : icon

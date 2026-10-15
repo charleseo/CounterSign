@@ -24,17 +24,20 @@ export function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-subtle glass-header transition-colors">
+    <header className="sticky top-0 z-50 w-full glass-header transition-colors relative after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1px] after:bg-gradient-to-r after:from-transparent after:via-cyan-400/30 after:to-transparent">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-2 sm:gap-4">
         {/* Brand Logo & Name + Country Selector */}
         <div className="flex items-center gap-3">
           <Link
             href="/"
-            className="flex items-center gap-2.5 text-primary hover:opacity-90 transition-opacity"
+            className="flex items-center gap-2.5 text-primary group"
             aria-label="Countersign Homepage"
           >
-            <SealLogo size={28} color="cyan" />
-            <span className="font-semibold text-lg tracking-tight text-primary">
+            <div className="relative flex items-center justify-center transition-transform group-hover:scale-105">
+              <SealLogo size={28} color="cyan" />
+              <div className="absolute inset-0 rounded-full bg-cyan-400/25 blur-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+            </div>
+            <span className="font-semibold text-lg tracking-tight text-primary group-hover:text-cyan-300 transition-colors">
               Countersign
             </span>
           </Link>
@@ -42,12 +45,12 @@ export function Header() {
         </div>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-5" aria-label="Main Navigation">
+        <nav className="hidden lg:flex items-center gap-1.5" aria-label="Main Navigation">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-secondary hover:text-primary transition-colors"
+              className="px-2.5 py-1.5 rounded-lg text-xs font-medium text-secondary hover:text-primary hover:bg-white/[0.06] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] transition-all"
             >
               {link.label}
             </Link>

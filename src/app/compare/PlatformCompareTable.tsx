@@ -46,12 +46,12 @@ export function PlatformCompareTable({
   return (
     <div className="space-y-6">
       {/* Platform Selector Chips */}
-      <div className="p-4 rounded-xl border border-subtle bg-surface space-y-3">
+      <div className="p-5 rounded-2xl glass-panel space-y-3.5 shadow-lg">
         <div className="flex items-center justify-between">
           <span className="text-xs font-semibold uppercase tracking-wider text-secondary">
             Select Platforms to Compare (2 to 4)
           </span>
-          <span className="text-xs font-mono text-accent-cyan">
+          <span className="text-xs font-mono text-accent-cyan font-bold">
             {selectedSlugs.length} of 4 selected
           </span>
         </div>
@@ -64,13 +64,13 @@ export function PlatformCompareTable({
                 key={p.slug}
                 type="button"
                 onClick={() => togglePlatform(p.slug)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors flex items-center gap-1.5 ${
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all flex items-center gap-1.5 ${
                   isSelected
-                    ? "bg-accent-cyan/15 border-accent-cyan text-accent-cyan"
-                    : "bg-void border-subtle text-secondary hover:text-primary hover:border-focus"
+                    ? "bg-gradient-to-r from-cyan-400 to-teal-300 text-void font-bold shadow-[0_0_15px_rgba(61,235,255,0.35)]"
+                    : "glass-card text-secondary hover:text-primary hover:border-cyan-400/40"
                 }`}
               >
-                {isSelected ? <Check size={13} /> : <Plus size={13} />}
+                {isSelected ? <Check size={13} className="text-void" /> : <Plus size={13} />}
                 <span>{cleanName}</span>
               </button>
             );

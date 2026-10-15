@@ -414,17 +414,17 @@ export function JobsExplorer({ initialJobs, countries }: JobsExplorerProps) {
       <div className="space-y-2">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-primary">
-              Verified AI Work Hub
+            <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-primary">
+              <span className="text-gradient-cyan">Verified AI Work Hub</span>
             </h1>
-            <p className="text-sm text-secondary mt-1">
+            <p className="text-sm text-readable mt-1">
               Every role human-checked against official employer feeds within 14 days. Zero scraping.
             </p>
           </div>
 
           {/* Active Country Indicator & Change Prompt */}
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-subtle bg-surface text-xs font-mono text-secondary">
-            <Globe size={13} className="text-accent-cyan" aria-hidden="true" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-pill border border-subtle text-xs font-mono text-secondary shadow-sm">
+            <Globe size={14} className="text-accent-cyan" aria-hidden="true" />
             <span className="text-readable">
               Showing roles for <strong className="text-primary font-semibold">{currentCountryName}</strong>
             </span>
@@ -435,8 +435,8 @@ export function JobsExplorer({ initialJobs, countries }: JobsExplorerProps) {
       {/* Main Layout: 280px Desktop Sidebar + Results Area */}
       <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6 items-start">
         {/* Desktop Filter Sidebar */}
-        <aside className="hidden lg:block sticky top-20 rounded-xl border border-subtle bg-surface p-5 space-y-6">
-          <div className="flex items-center justify-between pb-3 border-b border-subtle">
+        <aside className="hidden lg:block sticky top-20 rounded-2xl glass-panel p-5 sm:p-6 space-y-6 shadow-xl">
+          <div className="flex items-center justify-between pb-3 border-b border-white/[0.08]">
             <div className="flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-wider text-primary">
               <SlidersHorizontal size={14} className="text-accent-cyan" />
               <span>Filter Roles</span>
@@ -481,7 +481,7 @@ export function JobsExplorer({ initialJobs, countries }: JobsExplorerProps) {
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="Search by role, platform, skill (e.g. Python, STEM, RLHF)..."
                   aria-label="Search verified roles"
-                  className="w-full pl-9 pr-4 py-2 text-xs sm:text-sm rounded-lg border border-subtle bg-surface text-primary placeholder:text-secondary/60 focus:outline-none focus:border-focus"
+                  className="w-full pl-9 pr-4 py-2.5 text-xs sm:text-sm rounded-xl glass-panel text-primary placeholder:text-secondary/60 focus:outline-none focus:border-cyan-400 focus:shadow-[0_0_20px_rgba(61,235,255,0.2)] transition-all"
                 />
                 {query && (
                   <button
@@ -514,7 +514,7 @@ export function JobsExplorer({ initialJobs, countries }: JobsExplorerProps) {
                 <label htmlFor="job-sort-select" className="sr-only">
                   Sort verified roles
                 </label>
-                <div className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-subtle bg-surface text-xs font-mono text-secondary hover:border-focus transition-colors">
+                <div className="flex items-center gap-1.5 px-3 py-2.5 rounded-xl glass-panel text-xs font-mono text-secondary hover:border-cyan-400/50 transition-colors shadow-sm">
                   <ArrowUpDown size={13} className="text-secondary" aria-hidden="true" />
                   <select
                     id="job-sort-select"

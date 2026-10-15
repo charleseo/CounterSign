@@ -62,56 +62,60 @@ export default function Home() {
   return (
     <div className="w-full flex-1 flex flex-col py-4 sm:py-10 px-3.5 sm:px-6 space-y-10 sm:space-y-16 max-w-6xl mx-auto">
       {/* 1. Hero Block (Section 7.1 & 8.1) */}
-      <section className="text-center space-y-4 sm:space-y-6 pt-1 sm:pt-4 max-w-3xl mx-auto">
-        {/* Verification Pill */}
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-subtle bg-surface text-[11px] font-mono text-secondary">
-          <SealLogo size={14} color="emerald" animating={true} />
-          <span className="text-accent-emerald font-semibold">14-Day Human Verification:</span>
-          <span>Zero Scrapers. Zero Fake Figures.</span>
+      <section className="text-center space-y-5 sm:space-y-7 pt-2 sm:pt-6 max-w-4xl mx-auto relative">
+        {/* Verification Pill with Float & Radar */}
+        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full glass-pill border border-emerald-500/30 text-[11px] font-mono text-secondary shadow-[0_0_25px_rgba(69,245,197,0.15)] animate-float">
+          <SealLogo size={15} color="emerald" animating={true} />
+          <span className="text-accent-emerald font-semibold flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 radar-dot" />
+            14-Day Human Verification:
+          </span>
+          <span className="text-readable">Zero Scrapers. Zero Fake Figures.</span>
         </div>
 
-        {/* Promise Line (Option A per Section 8.1) */}
-        <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-primary leading-tight">
-          AI work, checked by a human. Model answers, checked against the source.
+        {/* Promise Line (Option A per Section 8.1) with Radiant Gradient */}
+        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-primary leading-[1.12]">
+          AI work, <span className="text-gradient-cyan">checked by a human.</span><br className="hidden sm:inline" />{" "}
+          Model answers, checked against the source.
         </h1>
 
         {/* Supporting Line */}
-        <p className="text-xs sm:text-base text-readable leading-relaxed max-w-2xl mx-auto">
+        <p className="text-sm sm:text-lg text-readable leading-relaxed max-w-2xl mx-auto font-normal">
           Every role has an official source, a verification date, and an honest note on who can apply. No fake counts, no scraper spam, no unconfirmed claims.
         </p>
 
         {/* Hero Search Field (Section 7.1) */}
-        <div className="pt-1">
+        <div className="pt-2">
           <HeroSearch />
         </div>
 
         {/* Country-Aware Action CTA (Section 7.1 item 2 & 8.1) */}
-        <div className="pt-1 flex flex-col sm:flex-row items-center justify-center gap-2.5">
+        <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
           <Link
             href="/jobs"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-mono text-xs font-semibold bg-accent-cyan text-void hover:opacity-90 transition-opacity btn-tactile shadow-md"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl font-mono text-xs font-bold bg-gradient-to-r from-cyan-400 via-teal-300 to-cyan-300 text-void hover:opacity-95 transition-all btn-tactile shadow-[0_0_30px_rgba(61,235,255,0.4)] shimmer-sweep"
           >
-            <Globe size={14} />
+            <Globe size={15} />
             <span>
               {nigeriaVerifiedCount > 0
                 ? `See ${nigeriaVerifiedCount} Roles Open for Nigeria`
                 : `Browse ${totalVerifiedCount} Verified Roles`}
             </span>
-            <ArrowRight size={13} />
+            <ArrowRight size={14} />
           </Link>
 
           <Link
             href="/scam-check"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-3 rounded-xl font-mono text-xs font-medium border border-subtle bg-surface hover:bg-elevated text-primary transition-colors btn-tactile"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl font-mono text-xs font-semibold glass-card text-primary hover:border-rose-400/50 hover:shadow-[0_0_25px_rgba(255,107,107,0.2)] transition-all btn-tactile"
           >
-            <ShieldAlert size={14} className="text-accent-rose" />
+            <ShieldAlert size={15} className="text-[#FF6B6B]" />
             <span>10-Point Scam Check</span>
           </Link>
         </div>
 
         {/* Live Check Console (Hides completely if empty, never fakes events) */}
         {consoleEvents.length > 0 && (
-          <div className="pt-2 text-left max-w-2xl mx-auto">
+          <div className="pt-4 text-left max-w-2xl mx-auto">
             <LiveCheckConsole events={consoleEvents} state="live" />
           </div>
         )}
@@ -222,32 +226,32 @@ export default function Home() {
       </section>
 
       {/* 4. How We Verify (Section 7.1 item 5) */}
-      <section className="p-5 sm:p-8 rounded-2xl border border-subtle bg-surface space-y-5">
+      <section className="p-6 sm:p-10 rounded-3xl glass-panel space-y-6 relative overflow-hidden">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
           <div className="space-y-1">
             <span className="text-xs font-mono uppercase tracking-wider text-accent-cyan font-semibold">
               Editorial Discipline
             </span>
-            <h2 className="text-lg sm:text-2xl font-bold text-primary">
+            <h2 className="text-xl sm:text-3xl font-bold text-primary">
               How We Verify Every Listing
             </h2>
-            <p className="text-xs sm:text-sm text-secondary">
+            <p className="text-xs sm:text-sm text-readable">
               Three strict rules separate Countersign from scrapers and automated aggregators.
             </p>
           </div>
 
           <Link
             href="/methodology"
-            className="inline-flex items-center gap-1 text-xs font-mono text-accent-cyan hover:underline font-semibold"
+            className="inline-flex items-center gap-1.5 text-xs font-mono text-accent-cyan hover:underline font-semibold"
           >
             <span>Read 10-point methodology</span>
-            <ArrowRight size={12} />
+            <ArrowRight size={13} />
           </Link>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
-          <div className="space-y-2 p-4 rounded-xl border border-subtle bg-void">
-            <div className="w-7 h-7 rounded-lg bg-accent-cyan/15 border border-accent-cyan/40 text-accent-cyan flex items-center justify-center font-mono font-bold text-xs">
+          <div className="space-y-3 p-5 rounded-2xl glass-card">
+            <div className="w-8 h-8 rounded-xl bg-accent-cyan/15 border border-accent-cyan/40 text-accent-cyan flex items-center justify-center font-mono font-bold text-xs shadow-[0_0_15px_rgba(61,235,255,0.2)]">
               1
             </div>
             <h3 className="text-sm font-semibold text-primary">Official Sources Only</h3>
@@ -256,8 +260,8 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="space-y-2 p-4 rounded-xl border border-subtle bg-void">
-            <div className="w-7 h-7 rounded-full bg-accent-emerald/15 border border-accent-emerald/40 text-accent-emerald flex items-center justify-center font-mono font-bold text-xs">
+          <div className="space-y-3 p-5 rounded-2xl glass-card">
+            <div className="w-8 h-8 rounded-xl bg-accent-emerald/15 border border-accent-emerald/40 text-accent-emerald flex items-center justify-center font-mono font-bold text-xs shadow-[0_0_15px_rgba(69,245,197,0.2)]">
               2
             </div>
             <h3 className="text-sm font-semibold text-primary">Honest Country Eligibility</h3>
@@ -266,8 +270,8 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="space-y-2 p-4 rounded-xl border border-subtle bg-void">
-            <div className="w-7 h-7 rounded-full bg-accent-violet/15 border border-accent-violet/40 text-accent-violet flex items-center justify-center font-mono font-bold text-xs">
+          <div className="space-y-3 p-5 rounded-2xl glass-card">
+            <div className="w-8 h-8 rounded-xl bg-accent-violet/15 border border-accent-violet/40 text-accent-violet flex items-center justify-center font-mono font-bold text-xs shadow-[0_0_15px_rgba(139,124,255,0.2)]">
               3
             </div>
             <h3 className="text-sm font-semibold text-primary">14-Day Mandatory Recheck</h3>

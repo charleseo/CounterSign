@@ -141,18 +141,24 @@ export function StatusBadge({
 
   const iconSize = size === "sm" ? 13 : 15;
 
+  const isVerifiedActive = status === "verified" || status === "accepted";
+
   return (
     <div className="relative inline-block">
       <button
         type="button"
         onClick={() => showExplanationOnClick && setOpen(!open)}
-        className={`inline-flex items-center font-medium rounded-full border transition-all ${config.bgClass} ${config.borderClass} ${config.colorClass} ${sizeClasses} ${
-          showExplanationOnClick ? "cursor-pointer hover:opacity-90" : "cursor-default"
+        className={`inline-flex items-center font-medium rounded-full border glass-pill transition-all ${config.bgClass} ${config.borderClass} ${config.colorClass} ${sizeClasses} ${
+          isVerifiedActive ? "shadow-[0_0_12px_rgba(69,245,197,0.18)]" : ""
+        } ${
+          showExplanationOnClick ? "cursor-pointer hover:opacity-90 hover:scale-[1.02]" : "cursor-default"
         } ${className}`}
         aria-expanded={showExplanationOnClick ? open : undefined}
         title={`${config.word}: ${config.meaning}`}
       >
-        <IconComponent size={iconSize} className="flex-shrink-0" />
+        <span className={`relative flex items-center justify-center ${isVerifiedActive ? "radar-dot" : ""}`}>
+          <IconComponent size={iconSize} className="flex-shrink-0" />
+        </span>
         <span className="font-mono tracking-tight">{config.word}</span>
       </button>
 

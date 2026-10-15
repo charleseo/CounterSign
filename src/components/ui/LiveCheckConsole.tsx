@@ -52,23 +52,28 @@ export function LiveCheckConsole({
 
   return (
     <div
-      className={`rounded-xl border border-subtle bg-void overflow-hidden text-xs font-mono shadow-inner ${className}`}
+      className={`rounded-2xl glass-panel overflow-hidden text-xs font-mono shadow-[0_12px_40px_rgba(0,0,0,0.5),_inset_0_1px_0_rgba(61,235,255,0.12)] border border-cyan-500/20 ${className}`}
       aria-label="Live verification log console"
     >
       {/* Console Title Bar */}
-      <div className="px-3.5 py-2 border-b border-subtle bg-surface flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Terminal size={13} className="text-accent-cyan" aria-hidden="true" />
-          <span className="font-semibold text-primary tracking-wider uppercase text-[11px]">
+      <div className="px-4 py-2.5 border-b border-white/[0.08] bg-white/[0.03] flex items-center justify-between">
+        <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-1.5" aria-hidden="true">
+            <span className="w-2 h-2 rounded-full bg-rose-500/60" />
+            <span className="w-2 h-2 rounded-full bg-amber-500/60" />
+            <span className="w-2 h-2 rounded-full bg-cyan-400/80 shadow-[0_0_8px_rgba(61,235,255,0.6)]" />
+          </div>
+          <span className="font-semibold text-primary tracking-wider uppercase text-[11px] flex items-center gap-1.5">
+            <Terminal size={13} className="text-accent-cyan" aria-hidden="true" />
             Live Check Telemetry
           </span>
         </div>
-        <div className="flex items-center gap-1.5 text-[11px] text-secondary">
+        <div className="flex items-center gap-2 text-[11px] text-secondary">
           <span
-            className="w-2 h-2 rounded-full bg-[#45F5C5] animate-telemetry-pulse"
+            className="w-2 h-2 rounded-full bg-[#45F5C5] radar-dot"
             aria-hidden="true"
           />
-          <span>Continuous feed</span>
+          <span className="text-accent-emerald font-medium">Continuous feed</span>
         </div>
       </div>
 

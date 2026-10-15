@@ -77,8 +77,8 @@ export function JobCard({
     <div
       ref={cardRef}
       onMouseMove={handleMouseMove}
-      className={`group relative rounded-xl border border-subtle bg-surface spotlight-card card-interactive card-press transition-all ${
-        isClosed ? "opacity-60 bg-void border-dashed" : "hover:border-focus"
+      className={`group relative rounded-2xl glass-card spotlight-card card-press transition-all ${
+        isClosed ? "opacity-60 bg-void/50 border-dashed" : "hover:border-cyan-400/40"
       } ${className}`}
     >
       <div className="p-4 sm:p-5 flex flex-col justify-between gap-3 min-h-[170px]">
@@ -126,7 +126,7 @@ export function JobCard({
               <span className="line-clamp-2 leading-snug">{title}</span>
               <ArrowUpRight
                 size={18}
-                className="text-secondary opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 mt-0.5"
+                className="text-accent-cyan opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all flex-shrink-0 mt-0.5"
                 aria-hidden="true"
               />
             </h3>

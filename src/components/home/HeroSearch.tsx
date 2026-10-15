@@ -25,7 +25,7 @@ export function HeroSearch() {
   return (
     <form
       onSubmit={handleSearch}
-      className="w-full max-w-xl mx-auto flex items-center rounded-xl border border-subtle bg-surface shadow-lg hover:border-focus focus-within:border-focus focus-within:ring-1 focus-within:ring-accent-cyan p-1.5 transition-all"
+      className="w-full max-w-xl mx-auto flex items-center rounded-2xl glass-panel shadow-[0_12px_40px_rgba(0,0,0,0.45)] hover:border-cyan-400/50 focus-within:border-cyan-400 focus-within:shadow-[0_0_30px_rgba(61,235,255,0.25)] p-2 transition-all"
     >
       <button
         type="button"
@@ -33,7 +33,7 @@ export function HeroSearch() {
         className="p-2 text-secondary hover:text-accent-cyan transition-colors"
         aria-label="Open full command palette search"
       >
-        <Search size={16} />
+        <Search size={18} className="text-cyan-400" />
       </button>
 
       <input
@@ -41,14 +41,14 @@ export function HeroSearch() {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search roles, platforms, guides (e.g. Outlier, STEM)..."
-        className="w-full bg-transparent px-2 py-1 text-xs sm:text-sm text-primary placeholder:text-secondary focus:outline-none font-sans"
+        className="w-full bg-transparent px-3 py-1 text-xs sm:text-sm text-primary placeholder:text-secondary/70 focus:outline-none font-sans"
       />
 
-      <div className="flex items-center gap-1.5 shrink-0">
+      <div className="flex items-center gap-2 shrink-0">
         <button
           type="button"
           onClick={handleOpenPalette}
-          className="hidden sm:inline-flex items-center px-1.5 py-0.5 rounded border border-subtle bg-void text-[10px] font-mono text-secondary hover:text-primary transition-colors"
+          className="hidden sm:inline-flex items-center px-2 py-1 rounded-lg border border-subtle bg-void/60 text-[10px] font-mono text-secondary hover:text-primary transition-colors"
           title="Press Cmd+K to search"
         >
           ⌘K
@@ -56,10 +56,10 @@ export function HeroSearch() {
 
         <button
           type="submit"
-          className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-accent-cyan text-void font-mono font-bold text-xs uppercase tracking-wider hover:opacity-90 transition-opacity btn-tactile"
+          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-400 to-teal-300 text-void font-mono font-bold text-xs uppercase tracking-wider hover:opacity-95 transition-opacity btn-tactile shadow-[0_0_20px_rgba(61,235,255,0.35)] shimmer-sweep"
         >
           <span>Find</span>
-          <ArrowRight size={12} />
+          <ArrowRight size={13} />
         </button>
       </div>
     </form>
