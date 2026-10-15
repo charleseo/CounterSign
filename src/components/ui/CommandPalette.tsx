@@ -1,191 +1,339 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect, useRef } from "react";
-import Link from "next/link";
-import { Search, Briefcase, Building2, BookOpen, ShieldAlert, Cpu, X, CornerDownLeft } from "lucide-react";
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
+import {
+  Search,
+  Briefcase,
+  Building2,
+  BookOpen,
+  ShieldAlert,
+  Cpu,
+  X,
+  CornerDownLeft,
+  ArrowRight,
+} from 'lucide-react';
 
 export interface SearchItem {
   id: string;
   title: string;
-  category: "Jobs" | "Platforms" | "Guides" | "Studio" | "Tools";
+  category: 'Jobs' | 'Platforms' | 'Guides' | 'Studio' | 'Tools';
   href: string;
   meta?: string;
 }
 
-const SAMPLE_SEARCH_INDEX: SearchItem[] = [
-  { id: "1", title: "AI Model Reasoning & Fact-Checking Evaluator", category: "Jobs", href: "/jobs/sample-outlier-rlhf-generalist", meta: "Outlier • $15-$22/hr" },
-  { id: "2", title: "Multimodal Image & Visual Reasoning Specialist", category: "Jobs", href: "/jobs/sample-alignerr-multimodal-evaluator", meta: "Alignerr • $24-$32/hr" },
-  { id: "3", title: "Outlier AI Reality Profile", category: "Platforms", href: "/platforms/outlier", meta: "PayPal, AirTM • Onboarding steps" },
-  { id: "4", title: "Alignerr Reality Profile", category: "Platforms", href: "/platforms/alignerr", meta: "Deel payouts • TestGorilla assessment" },
-  { id: "5", title: "Invisible Technologies Reality Profile", category: "Platforms", href: "/platforms/invisible-tech", meta: "Deel, Direct Wire • Technical interview" },
-  { id: "6", title: "How to Tell if an AI Work Listing is Real", category: "Guides", href: "/guides/how-to-tell-if-an-ai-work-listing-is-real", meta: "Forensic guide • ATS & domain check" },
-  { id: "7", title: "Getting Paid in USD from Nigeria", category: "Guides", href: "/guides/getting-paid-in-usd-from-nigeria", meta: "Geegpay, Grey, Dom accounts" },
-  { id: "8", title: "Checking Claims Against Sources", category: "Guides", href: "/guides/checking-claims-against-sources-simple-method", meta: "Citation audit • Practice exercise" },
-  { id: "9", title: "10-Point AI Work Scam Checklist", category: "Tools", href: "/scam-check", meta: "Test recruiter offers & red flags" },
-  { id: "10", title: "About Countersign & Jo (Ebube Okeke)", category: "Studio", href: "/about", meta: "Independence pledge & FAQs" },
-  { id: "11", title: "10-Point Verification Methodology", category: "Studio", href: "/methodology", meta: "14-day recheck standard" },
+const STATIC_SEARCH_ITEMS: SearchItem[] = [
+  // Platforms
+  { id: 'p-outlier', title: 'Outlier AI Reality Profile', category: 'Platforms', href: '/platforms/outlier', meta: 'PayPal, AirTM • Onboarding steps' },
+  { id: 'p-alignerr', title: 'Alignerr Reality Profile', category: 'Platforms', href: '/platforms/alignerr', meta: 'Deel payouts • TestGorilla tests' },
+  { id: 'p-dataannotation', title: 'DataAnnotation Tech Reality Profile', category: 'Platforms', href: '/platforms/dataannotation', meta: 'PayPal • 45m starter test' },
+  { id: 'p-mercor', title: 'Mercor Reality Profile', category: 'Platforms', href: '/platforms/mercor', meta: 'Stripe, Wise • AI video interview' },
+  { id: 'p-invisible', title: 'Invisible Technologies Reality Profile', category: 'Platforms', href: '/platforms/invisible-tech', meta: 'Deel, Direct Wire • Technical review' },
+  // Guides
+  { id: 'g-1', title: 'How to Tell if an AI Work Listing is Real', category: 'Guides', href: '/guides/how-to-tell-if-an-ai-work-listing-is-real', meta: 'Forensic guide • ATS & domain check' },
+  { id: 'g-2', title: 'Getting Paid in USD from Nigeria', category: 'Guides', href: '/guides/getting-paid-in-usd-from-nigeria', meta: 'Geegpay, Grey, Dom accounts' },
+  { id: 'g-3', title: 'Checking Claims Against Sources', category: 'Guides', href: '/guides/checking-claims-against-sources-simple-method', meta: 'Citation audit • Practice exercise' },
+  // Tools & Hubs
+  { id: 't-scam', title: '10-Point AI Work Scam Checklist', category: 'Tools', href: '/scam-check', meta: 'Check recruiter offers & red flags' },
+  { id: 't-jobs', title: 'Browse All Verified Jobs', category: 'Jobs', href: '/jobs', meta: 'Filter by country, pay, and status' },
+  { id: 't-platforms', title: 'Platform Reality Directory', category: 'Platforms', href: '/platforms', meta: '5 verified platform profiles' },
+  // Studio & Trust
+  { id: 's-about', title: 'About Countersign & Jo (Ebube Okeke)', category: 'Studio', href: '/about', meta: 'Independence pledge & 10 FAQs' },
+  { id: 's-methodology', title: '10-Point Verification Methodology', category: 'Studio', href: '/methodology', meta: '14-day recheck standard' },
+  { id: 's-studio', title: 'Evaluation Studio: RAG & Citation Audits', category: 'Studio', href: '/studio', meta: 'Technical docs verification for AI teams' },
 ];
 
 export interface CommandPaletteProps {
   className?: string;
+  triggerLabel?: string;
 }
 
-/**
- * CommandPalette (Section 10.3 & 10.11)
- * Fast keyboard-driven command palette (Ctrl+K / Cmd+K).
- * Full-screen search sheet on mobile devices.
- * Key states: closed, open, results, empty.
- */
-export function CommandPalette({ className = "" }: CommandPaletteProps) {
+export function CommandPalette({ className = '', triggerLabel }: CommandPaletteProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [apiJobs, setApiJobs] = useState<SearchItem[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+
+  // Listen for custom search open event (e.g. from hero search bar)
+  useEffect(() => {
+    const handleOpenEvent = () => {
+      setSelectedIndex(0);
+      setIsOpen(true);
+    };
+    window.addEventListener('countersign:open-search', handleOpenEvent);
+    return () => window.removeEventListener('countersign:open-search', handleOpenEvent);
+  }, []);
 
   // Keyboard shortcut listener (Cmd+K / Ctrl+K / Escape)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
+        setSelectedIndex(0);
         setIsOpen((prev) => !prev);
       }
-      if (e.key === "Escape" && isOpen) {
+      if (e.key === 'Escape' && isOpen) {
         setIsOpen(false);
       }
     };
 
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen]);
 
-  const handleClose = () => {
-    setIsOpen(false);
-    setQuery("");
-  };
-
+  // Focus input when opened
   useEffect(() => {
     if (isOpen) {
       const timer = setTimeout(() => inputRef.current?.focus(), 50);
+
+      // Fetch dynamic jobs list from /api/jobs.json if not already fetched
+      if (apiJobs.length === 0) {
+        fetch('/api/jobs.json')
+          .then((res) => res.json())
+          .then((data: Array<{ id: string; slug: string; title: string; platform: string; work_type: string; verifiedPay?: string | null }>) => {
+            if (Array.isArray(data)) {
+              const formatted: SearchItem[] = data.map((j) => ({
+                id: `job-${j.id}`,
+                title: j.title.replace(/\[SAMPLE\]/g, '').trim(),
+                category: 'Jobs',
+                href: `/jobs/${j.slug}`,
+                meta: `${j.platform} • ${j.work_type}${j.verifiedPay ? ` • ${j.verifiedPay}` : ''}`,
+              }));
+              setApiJobs(formatted);
+            }
+          })
+          .catch(() => {
+            // Silently fall back to static items
+          });
+      }
+
       return () => clearTimeout(timer);
     }
-  }, [isOpen]);
+  }, [isOpen, apiJobs.length]);
 
-  const filteredItems = query.trim()
-    ? SAMPLE_SEARCH_INDEX.filter(
-        (item) =>
-          item.title.toLowerCase().includes(query.toLowerCase()) ||
-          (item.meta && item.meta.toLowerCase().includes(query.toLowerCase())) ||
-          item.category.toLowerCase().includes(query.toLowerCase())
-      )
-    : SAMPLE_SEARCH_INDEX.slice(0, 5);
+  // Combine items and filter
+  const allItems = useMemo(() => {
+    return [...apiJobs, ...STATIC_SEARCH_ITEMS];
+  }, [apiJobs]);
 
-  const getCategoryIcon = (category: SearchItem["category"]) => {
+  const filteredItems = useMemo(() => {
+    const trimmed = query.trim().toLowerCase();
+    if (!trimmed) {
+      return allItems.slice(0, 8);
+    }
+    return allItems.filter(
+      (item) =>
+        item.title.toLowerCase().includes(trimmed) ||
+        (item.meta && item.meta.toLowerCase().includes(trimmed)) ||
+        item.category.toLowerCase().includes(trimmed)
+    ).slice(0, 10);
+  }, [allItems, query]);
+
+  const handleQueryChange = (val: string) => {
+    setQuery(val);
+    setSelectedIndex(0);
+  };
+
+  // Navigate to selected item
+  const handleSelect = useCallback((item: SearchItem) => {
+    setIsOpen(false);
+    setQuery('');
+    setSelectedIndex(0);
+    router.push(item.href);
+  }, [router]);
+
+  // Keyboard navigation within the list (ArrowUp, ArrowDown, Enter)
+  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (filteredItems.length === 0) return;
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setSelectedIndex((prev) => (prev + 1) % filteredItems.length);
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setSelectedIndex((prev) => (prev - 1 + filteredItems.length) % filteredItems.length);
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      const current = filteredItems[selectedIndex];
+      if (current) {
+        handleSelect(current);
+      }
+    }
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+    setQuery('');
+  };
+
+  const getCategoryIcon = (category: SearchItem['category']) => {
     switch (category) {
-      case "Jobs":
-        return <Briefcase size={14} className="text-[#3DEBFF]" />;
-      case "Platforms":
-        return <Building2 size={14} className="text-[#8B7CFF]" />;
-      case "Guides":
-        return <BookOpen size={14} className="text-[#45F5C5]" />;
-      case "Tools":
-        return <ShieldAlert size={14} className="text-[#FFC66D]" />;
-      case "Studio":
-        return <Cpu size={14} className="text-[#8B7CFF]" />;
+      case 'Jobs':
+        return <Briefcase size={14} className="text-accent-cyan" />;
+      case 'Platforms':
+        return <Building2 size={14} className="text-accent-violet" />;
+      case 'Guides':
+        return <BookOpen size={14} className="text-accent-emerald" />;
+      case 'Tools':
+        return <ShieldAlert size={14} className="text-accent-rose" />;
+      case 'Studio':
+        return <Cpu size={14} className="text-accent-cyan" />;
     }
   };
 
   return (
     <>
-      {/* Quick Search Button in Header */}
+      {/* Trigger Button in Header or elsewhere */}
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-subtle bg-surface hover:border-focus text-secondary hover:text-primary transition-colors text-xs font-mono ${className}`}
-        aria-label="Open command palette"
+        className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-subtle bg-surface hover:border-focus text-secondary hover:text-primary transition-colors text-xs font-mono select-none ${className}`}
+        aria-label="Open command palette search"
       >
         <Search size={14} className="text-secondary" />
-        <span className="hidden sm:inline">Search roles, platforms, guides...</span>
-        <span className="sm:hidden">Search...</span>
-        <kbd className="hidden sm:inline-block ml-2 px-1.5 py-0.5 rounded border border-subtle bg-void text-[10px] text-secondary">
+        <span className="hidden sm:inline">
+          {triggerLabel || 'Search roles, platforms, guides...'}
+        </span>
+        <span className="sm:hidden">{triggerLabel || 'Search...'}</span>
+        <kbd className="hidden sm:inline-block ml-1.5 px-1.5 py-0.5 rounded border border-subtle bg-void text-[10px] text-secondary font-mono">
           ⌘K
         </kbd>
       </button>
 
-      {/* Modal Overlay & Command Palette */}
+      {/* Modal Overlay / Full-Screen Search Sheet on Mobile */}
       {isOpen && (
         <div
           role="dialog"
           aria-modal="true"
           aria-label="Command search palette"
-          className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-3 sm:p-6 bg-black/70 backdrop-blur-sm animate-in fade-in duration-150"
+          className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-0 sm:p-6 bg-black/75 backdrop-blur-sm animate-in fade-in duration-150"
         >
-          <div className="relative w-full max-w-xl rounded-2xl border border-subtle bg-surface shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
+          {/* Backdrop click dismiss */}
+          <div
+            className="absolute inset-0 -z-10"
+            onClick={handleClose}
+            aria-hidden="true"
+          />
+
+          {/* Dialog Container: Full-screen on mobile, centered card on desktop */}
+          <div className="relative w-full h-full sm:h-auto sm:max-h-[85vh] sm:max-w-xl sm:rounded-2xl border-0 sm:border border-subtle bg-surface shadow-2xl overflow-hidden flex flex-col">
             {/* Search Input Bar */}
             <div className="p-3.5 sm:p-4 border-b border-subtle flex items-center gap-3 bg-void">
-              <Search size={18} className="text-accent-cyan flex-shrink-0" />
+              <Search size={18} className="text-accent-cyan shrink-0" />
               <input
                 ref={inputRef}
                 type="text"
                 value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Type to search verified jobs, platform guides, tools..."
-                className="w-full bg-transparent text-sm text-primary placeholder:text-secondary focus:outline-none"
+                onChange={(e) => handleQueryChange(e.target.value)}
+                onKeyDown={handleInputKeyDown}
+                placeholder="Type to search roles, platforms, guides..."
+                className="w-full bg-transparent text-sm text-primary placeholder:text-secondary focus:outline-none font-sans"
               />
               <button
                 type="button"
                 onClick={handleClose}
-                className="p-1 rounded text-secondary hover:text-primary"
-                aria-label="Close command palette"
+                className="p-1.5 rounded-lg border border-subtle text-secondary hover:text-primary hover:bg-elevated transition-colors"
+                aria-label="Close search"
               >
                 <X size={16} />
               </button>
             </div>
 
             {/* Results List */}
-            <div className="p-2 overflow-y-auto divide-y divide-subtle/30">
+            <div
+              ref={listRef}
+              className="p-2 overflow-y-auto flex-1 divide-y divide-subtle/30"
+              role="listbox"
+            >
               {filteredItems.length > 0 ? (
-                filteredItems.map((item) => (
-                  <Link
-                    key={item.id}
-                    href={item.href}
-                    onClick={() => setIsOpen(false)}
-                    className="flex items-center justify-between p-3 rounded-lg hover:bg-elevated transition-colors group"
-                  >
-                    <div className="flex items-center gap-3 min-w-0">
-                      <div className="p-2 rounded bg-void border border-subtle flex-shrink-0">
-                        {getCategoryIcon(item.category)}
-                      </div>
-                      <div className="min-w-0">
-                        <div className="text-xs sm:text-sm font-medium text-primary group-hover:text-accent-cyan truncate">
-                          {item.title}
-                        </div>
-                        {item.meta && (
-                          <div className="text-[11px] font-mono text-secondary truncate">
-                            {item.meta}
-                          </div>
-                        )}
-                      </div>
-                    </div>
+                filteredItems.map((item, idx) => {
+                  const isSelected = idx === selectedIndex;
 
-                    <div className="flex items-center gap-2 flex-shrink-0 font-mono text-[11px] text-secondary">
-                      <span className="hidden sm:inline">{item.category}</span>
-                      <CornerDownLeft size={12} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+                  return (
+                    <div
+                      key={item.id}
+                      role="option"
+                      aria-selected={isSelected}
+                      onClick={() => handleSelect(item)}
+                      onMouseEnter={() => setSelectedIndex(idx)}
+                      className={`flex items-center justify-between p-3 rounded-lg cursor-pointer transition-colors ${
+                        isSelected
+                          ? 'bg-elevated border border-accent-cyan/30 text-primary'
+                          : 'hover:bg-elevated/50 text-readable'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3 min-w-0">
+                        <div className="p-2 rounded-lg bg-void border border-subtle shrink-0">
+                          {getCategoryIcon(item.category)}
+                        </div>
+                        <div className="min-w-0">
+                          <div className={`text-xs sm:text-sm font-semibold truncate ${isSelected ? 'text-accent-cyan' : 'text-primary'}`}>
+                            {item.title}
+                          </div>
+                          {item.meta && (
+                            <div className="text-[11px] font-mono text-secondary truncate mt-0.5">
+                              {item.meta}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2 shrink-0 font-mono text-[11px] text-secondary">
+                        <span className="hidden sm:inline px-1.5 py-0.5 rounded bg-void border border-subtle text-[10px]">
+                          {item.category}
+                        </span>
+                        <CornerDownLeft
+                          size={13}
+                          className={`transition-opacity ${
+                            isSelected ? 'opacity-100 text-accent-cyan' : 'opacity-0'
+                          }`}
+                        />
+                      </div>
                     </div>
-                  </Link>
-                ))
+                  );
+                })
               ) : (
-                <div className="p-6 text-center text-xs font-mono text-secondary">
-                  No verified items found matching &ldquo;{query}&rdquo;.
+                <div className="p-8 text-center space-y-2">
+                  <p className="text-xs font-mono text-secondary">
+                    No verified items found matching &ldquo;{query}&rdquo;.
+                  </p>
+                  <p className="text-[11px] text-secondary">
+                    Try searching for &quot;Outlier&quot;, &quot;Nigeria&quot;, &quot;RLHF&quot;, or &quot;Scam Check&quot;.
+                  </p>
                 </div>
               )}
             </div>
 
             {/* Footer Navigation Hints */}
-            <div className="p-2.5 bg-void border-t border-subtle flex items-center justify-between text-[11px] font-mono text-secondary">
+            <div className="p-2.5 sm:p-3 bg-void border-t border-subtle flex items-center justify-between text-[11px] font-mono text-secondary">
               <div className="flex items-center gap-2">
-                <span>Navigate: <kbd className="px-1 py-0.5 rounded border border-subtle bg-surface">↑</kbd> <kbd className="px-1 py-0.5 rounded border border-subtle bg-surface">↓</kbd></span>
-                <span>Select: <kbd className="px-1 py-0.5 rounded border border-subtle bg-surface">↵</kbd></span>
+                <span>
+                  Navigate:{' '}
+                  <kbd className="px-1 py-0.5 rounded border border-subtle bg-surface">↑</kbd>{' '}
+                  <kbd className="px-1 py-0.5 rounded border border-subtle bg-surface">↓</kbd>
+                </span>
+                <span className="hidden sm:inline">
+                  Select:{' '}
+                  <kbd className="px-1 py-0.5 rounded border border-subtle bg-surface">↵</kbd>
+                </span>
               </div>
-              <div>Esc to close</div>
+              <div className="flex items-center gap-3">
+                <span className="hidden sm:inline">Esc to close</span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    handleClose();
+                    router.push(`/jobs?q=${encodeURIComponent(query)}`);
+                  }}
+                  className="text-accent-cyan hover:underline flex items-center gap-1"
+                >
+                  <span>Search in jobs</span>
+                  <ArrowRight size={11} />
+                </button>
+              </div>
             </div>
           </div>
         </div>

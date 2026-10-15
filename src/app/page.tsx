@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import {
   ShieldAlert,
   Building2,
+  BookOpen,
   History,
   Sparkles,
   ArrowRight,
@@ -15,7 +16,7 @@ import { JobCard } from '@/components/ui/JobCard';
 import { LiveCheckConsole, CheckEvent } from '@/components/ui/LiveCheckConsole';
 import { BentoTile } from '@/components/ui/BentoTile';
 import { EmailCapture } from '@/components/ui/EmailCapture';
-import { TierToggle } from '@/components/layout/TierToggle';
+import { HeroSearch } from '@/components/home/HeroSearch';
 
 export const metadata: Metadata = {
   title: 'Countersign | Human-Verified AI Work Hub & Model Evaluation Studio',
@@ -35,6 +36,7 @@ export const metadata: Metadata = {
 export default function Home() {
   const verifiedJobs = dbRepository.getJobs({ status: 'verified' }).slice(0, 5);
   const totalVerifiedCount = dbRepository.getJobs({ status: 'verified' }).length;
+  const nigeriaVerifiedCount = dbRepository.getJobs({ country: 'NG', status: 'verified' }).length;
   const checkLogs = dbRepository.getCheckLogs(undefined, 5);
 
   // Map real check logs to LiveCheckConsole events
@@ -49,8 +51,8 @@ export default function Home() {
         hour: '2-digit',
         minute: '2-digit',
       }),
-      platform: 'Official Career Feed',
-      roleTitle: log.note.replace(/SAMPLE.*?:/g, '').trim().slice(0, 60),
+      platform: 'Official Feed',
+      roleTitle: log.note.replace(/SAMPLE.*?:/g, '').trim().slice(0, 55),
       result: resultType,
       countryCode: 'NG',
       note: log.note,
@@ -58,72 +60,86 @@ export default function Home() {
   });
 
   return (
-    <div className="w-full flex-1 flex flex-col py-8 sm:py-12 px-4 sm:px-6 space-y-16 max-w-6xl mx-auto">
-      {/* 1. Hero Block (Section 7.1) */}
-      <section className="text-center space-y-6 pt-4 pb-4 max-w-3xl mx-auto">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-subtle bg-surface text-xs font-mono text-secondary">
-          <SealLogo size={16} color="emerald" animating={true} />
+    <div className="w-full flex-1 flex flex-col py-4 sm:py-10 px-3.5 sm:px-6 space-y-10 sm:space-y-16 max-w-6xl mx-auto">
+      {/* 1. Hero Block (Section 7.1 & 8.1) */}
+      <section className="text-center space-y-4 sm:space-y-6 pt-1 sm:pt-4 max-w-3xl mx-auto">
+        {/* Verification Pill */}
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-subtle bg-surface text-[11px] font-mono text-secondary">
+          <SealLogo size={14} color="emerald" animating={true} />
           <span className="text-accent-emerald font-semibold">14-Day Human Verification:</span>
           <span>Zero Scrapers. Zero Fake Figures.</span>
         </div>
 
-        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-primary leading-tight">
+        {/* Promise Line (Option A per Section 8.1) */}
+        <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-primary leading-tight">
           AI work, checked by a human. Model answers, checked against the source.
         </h1>
 
-        <p className="text-base sm:text-lg text-readable leading-relaxed max-w-2xl mx-auto">
-          The independent verification hub connecting remote AI training specialists with confirmed opportunities, and engineering teams with rigorous technical documentation audits.
+        {/* Supporting Line */}
+        <p className="text-xs sm:text-base text-readable leading-relaxed max-w-2xl mx-auto">
+          Every role has an official source, a verification date, and an honest note on who can apply. No fake counts, no scraper spam, no unconfirmed claims.
         </p>
 
-        {/* Quick Search & Country-Aware Action CTA */}
-        <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+        {/* Hero Search Field (Section 7.1) */}
+        <div className="pt-1">
+          <HeroSearch />
+        </div>
+
+        {/* Country-Aware Action CTA (Section 7.1 item 2 & 8.1) */}
+        <div className="pt-1 flex flex-col sm:flex-row items-center justify-center gap-2.5">
           <Link
             href="/jobs"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-mono text-xs font-semibold bg-accent-cyan text-void hover:opacity-90 transition-opacity btn-tactile shadow-lg"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-mono text-xs font-semibold bg-accent-cyan text-void hover:opacity-90 transition-opacity btn-tactile shadow-md"
           >
-            <Globe size={15} />
-            <span>See {totalVerifiedCount} Verified Roles</span>
-            <ArrowRight size={14} />
+            <Globe size={14} />
+            <span>
+              {nigeriaVerifiedCount > 0
+                ? `See ${nigeriaVerifiedCount} Roles Open for Nigeria`
+                : `Browse ${totalVerifiedCount} Verified Roles`}
+            </span>
+            <ArrowRight size={13} />
           </Link>
 
           <Link
-            href="/platforms"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl font-mono text-xs font-medium border border-subtle bg-surface hover:bg-elevated text-primary transition-colors btn-tactile"
+            href="/scam-check"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-3 rounded-xl font-mono text-xs font-medium border border-subtle bg-surface hover:bg-elevated text-primary transition-colors btn-tactile"
           >
-            <Building2 size={15} className="text-secondary" />
-            <span>Platform Reality Checks</span>
+            <ShieldAlert size={14} className="text-accent-rose" />
+            <span>10-Point Scam Check</span>
           </Link>
         </div>
 
-        {/* Live Check Console (shows real recent verification events) */}
-        <div className="pt-6 text-left max-w-2xl mx-auto">
-          <LiveCheckConsole events={consoleEvents} state="live" />
-        </div>
+        {/* Live Check Console (Hides completely if empty, never fakes events) */}
+        {consoleEvents.length > 0 && (
+          <div className="pt-2 text-left max-w-2xl mx-auto">
+            <LiveCheckConsole events={consoleEvents} state="live" />
+          </div>
+        )}
       </section>
 
       {/* 2. Latest Verified Roles (Section 7.1 item 3) */}
-      <section className="space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 pb-3 border-b border-subtle">
+      <section className="space-y-4 sm:space-y-6 pt-2">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 pb-2.5 border-b border-subtle">
           <div>
-            <div className="flex items-center gap-2 text-xs font-mono text-accent-cyan uppercase tracking-wider font-semibold">
+            <div className="flex items-center gap-1.5 text-xs font-mono text-accent-cyan uppercase tracking-wider font-semibold">
               <ShieldCheck size={14} />
               <span>Verified Opportunity Feed</span>
             </div>
-            <h2 className="text-xl sm:text-2xl font-bold text-primary mt-1">
+            <h2 className="text-lg sm:text-2xl font-bold text-primary mt-0.5">
               Latest Human-Checked Roles
             </h2>
           </div>
 
           <Link
             href="/jobs"
-            className="inline-flex items-center gap-1.5 text-xs font-mono text-accent-cyan hover:underline font-semibold"
+            className="inline-flex items-center gap-1 text-xs font-mono text-accent-cyan hover:underline font-semibold"
           >
             <span>View all {totalVerifiedCount} verified roles</span>
-            <ArrowRight size={13} />
+            <ArrowRight size={12} />
           </Link>
         </div>
 
-        <div className="space-y-3.5">
+        <div className="space-y-3">
           {verifiedJobs.map((job) => (
             <JobCard
               key={job.id}
@@ -143,87 +159,100 @@ export default function Home() {
       </section>
 
       {/* 3. Bento Grid (Section 7.1 item 4) */}
-      <section className="space-y-6">
+      <section className="space-y-4 sm:space-y-6">
         <div>
-          <h2 className="text-xl sm:text-2xl font-bold text-primary">
-            Verification Infrastructure & Resources
+          <div className="text-xs font-mono uppercase tracking-wider text-secondary font-semibold">
+            Verification Instruments
+          </div>
+          <h2 className="text-lg sm:text-2xl font-bold text-primary mt-0.5">
+            Everything You Need Before You Apply
           </h2>
-          <p className="text-xs sm:text-sm text-secondary mt-1">
-            Practical playbooks, employer payout reality checks, and model audit services.
+          <p className="text-xs sm:text-sm text-secondary mt-0.5">
+            Practical playbooks, platform payout realities, and model audit services.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-4">
           <BentoTile
-            title="Scam Checklist"
-            tagline="10-point red flag verification checklist. Detect fake recruiters, upfront fees, and unlisted CAC entities."
+            title="10-Point Scam Check"
+            tagline="Interactive red flag audit. Check recruiter messages, crypto payout demands, and unlisted CAC entities."
             href="/scam-check"
             icon={<ShieldAlert size={20} />}
             variant="amber"
-            badge="Security"
+            badge="Security Utility"
           />
 
           <BentoTile
             title="Platform Reality Profiles"
-            tagline="Verified payout rails (Geegpay, Grey, Domiciliary), test styles, and realistic month one timelines."
+            tagline="Independent reviews of Outlier, Alignerr, DataAnnotation, Mercor, and Invisible Tech with 5-step timelines."
             href="/platforms"
             icon={<Building2 size={20} />}
             variant="cyan"
-            badge="Directory"
+            badge="5 Platforms"
           />
 
           <BentoTile
-            title="Nigeria Hub"
-            tagline="Practical USD banking guides, degree equivalency mappings (B.Sc., HND), and mobile data conservation tips."
-            href="/countries/nigeria"
-            icon={<Globe size={20} />}
+            title="Practical Guides"
+            tagline="Forensic verification guides, USD banking playbooks for Nigeria (Geegpay, Grey), and citation audit methods."
+            href="/guides"
+            icon={<BookOpen size={20} />}
             variant="emerald"
-            badge="Regional Guide"
+            badge="3 Guides"
           />
 
           <BentoTile
-            title="Audit Trail & Check Log"
-            tagline="Every verification change is logged immutably. Automated 14-day sweepers degrade stale listings."
-            href="/admin"
+            title="Verification Methodology"
+            tagline="The 10-point verification checklist, 14-day human recheck mandate, and daily automated compliance sweepers."
+            href="/methodology"
             icon={<History size={20} />}
             variant="violet"
-            badge="Compliance"
+            badge="Standards"
           />
 
           <BentoTile
             title="Evaluation Studio"
-            tagline="Independent technical-docs RAG and citation audits for AI startups. Every answer checked against ground truth."
+            tagline="Independent technical-docs RAG and citation audits for AI startups. Every model assertion checked against ground truth."
             href="/studio"
             icon={<Sparkles size={20} />}
             variant="cyan"
-            badge="Studio B2B"
+            badge="Enterprise B2B"
             className="md:col-span-2"
           />
         </div>
       </section>
 
       {/* 4. How We Verify (Section 7.1 item 5) */}
-      <section className="p-6 sm:p-8 rounded-2xl border border-subtle bg-surface space-y-6">
-        <div className="space-y-1">
-          <span className="text-xs font-mono uppercase tracking-wider text-accent-cyan font-semibold">
-            Honesty Standard
-          </span>
-          <h2 className="text-xl sm:text-2xl font-bold text-primary">
-            How We Verify Every Listing
-          </h2>
-          <p className="text-xs sm:text-sm text-secondary">
-            Three strict criteria separate Countersign from scrapers and aggregators.
-          </p>
+      <section className="p-5 sm:p-8 rounded-2xl border border-subtle bg-surface space-y-5">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+          <div className="space-y-1">
+            <span className="text-xs font-mono uppercase tracking-wider text-accent-cyan font-semibold">
+              Editorial Discipline
+            </span>
+            <h2 className="text-lg sm:text-2xl font-bold text-primary">
+              How We Verify Every Listing
+            </h2>
+            <p className="text-xs sm:text-sm text-secondary">
+              Three strict rules separate Countersign from scrapers and automated aggregators.
+            </p>
+          </div>
+
+          <Link
+            href="/methodology"
+            className="inline-flex items-center gap-1 text-xs font-mono text-accent-cyan hover:underline font-semibold"
+          >
+            <span>Read 10-point methodology</span>
+            <ArrowRight size={12} />
+          </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
           <div className="space-y-2 p-4 rounded-xl border border-subtle bg-void">
-            <div className="w-7 h-7 rounded-full bg-accent-cyan/15 border border-accent-cyan/40 text-accent-cyan flex items-center justify-center font-mono font-bold text-xs">
+            <div className="w-7 h-7 rounded-lg bg-accent-cyan/15 border border-accent-cyan/40 text-accent-cyan flex items-center justify-center font-mono font-bold text-xs">
               1
             </div>
             <h3 className="text-sm font-semibold text-primary">Official Sources Only</h3>
             <p className="text-xs text-readable leading-relaxed">
-              Every job record is sourced directly from official corporate ATS feeds (Ashby, Greenhouse, Lever, Workable). Zero third-party scraping.
+              Every job record is sourced directly from official corporate ATS feeds (Ashby, Greenhouse, Lever, Workday). Zero third-party scraping.
             </p>
           </div>
 
@@ -231,7 +260,7 @@ export default function Home() {
             <div className="w-7 h-7 rounded-full bg-accent-emerald/15 border border-accent-emerald/40 text-accent-emerald flex items-center justify-center font-mono font-bold text-xs">
               2
             </div>
-            <h3 className="text-sm font-semibold text-primary">Eligibility & Pay Reality</h3>
+            <h3 className="text-sm font-semibold text-primary">Honest Country Eligibility</h3>
             <p className="text-xs text-readable leading-relaxed">
               Never infer worldwide eligibility from &quot;remote&quot;. If countries are not officially stated, we label them Unconfirmed. Pay is listed only when proven.
             </p>
@@ -243,32 +272,19 @@ export default function Home() {
             </div>
             <h3 className="text-sm font-semibold text-primary">14-Day Mandatory Recheck</h3>
             <p className="text-xs text-readable leading-relaxed">
-              If an editor does not re-check a listing within 14 days, our automated sweeper degrades it to Needs Recheck. Listings past 30 days are closed.
+              If an editor does not re-check a listing within 14 days, our automated sweeper degrades it to Needs Recheck. Listings past 30 days are hidden.
             </p>
           </div>
         </div>
       </section>
 
       {/* 5. Newsletter Capture (Section 7.1 item 6) */}
-      <section className="max-w-xl mx-auto w-full">
+      <section className="max-w-xl mx-auto w-full pt-2">
         <EmailCapture
           title="Weekly Human-Verified AI Work Digest"
-          description="A curated weekly drop of newly verified AI roles open to your country, plus evaluation tips. Zero spam."
+          description="A curated weekly drop of newly verified AI roles open to your country, plus tactical evaluation guides. Unsubscribe any time."
           source="homepage_footer"
         />
-      </section>
-
-      {/* 6. Capability Tier Toggle Section */}
-      <section className="p-4 sm:p-5 rounded-xl border border-subtle bg-surface flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h2 className="text-xs font-mono font-semibold text-primary uppercase tracking-wider">
-            Data-Saver Architecture
-          </h2>
-          <p className="text-xs text-secondary mt-0.5">
-            Switch between Full tier (subtle glass &amp; spotlights) and Lite data-saver mode (&lt;48KB payload).
-          </p>
-        </div>
-        <TierToggle showExplanation={false} />
       </section>
     </div>
   );
