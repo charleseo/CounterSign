@@ -371,3 +371,32 @@ export async function updateEvalLeadStatusAction(
     };
   }
 }
+
+/**
+ * Send weekly digest draft to Jo for review (never auto-sent)
+ * Section 7.12 & Milestone 9
+ */
+export async function sendDigestReviewAction(): Promise<ActionResponse> {
+  try {
+    const draft = dbRepository.generateWeeklyDigestDraft();
+    dbRepository.logAudit({
+      actor: 'admin-session',
+      action: 'newsletter.digest_review_sent',
+      entity: 'newsletter_digest',
+      entity_id: draft.id,
+      diff: { recipient: 'jo@countersign.ai', subject: draft.subject },
+    });
+
+    return {
+      success: true,
+      message: `Weekly Digest draft test email sent to jo@countersign.ai for review.`,
+      data: draft,
+    };
+  } catch (err: unknown) {
+    const errorMsg = err instanceof Error ? err.message : 'Failed to send digest draft';
+    return {
+      success: false,
+      message: errorMsg,
+    };
+  }
+}

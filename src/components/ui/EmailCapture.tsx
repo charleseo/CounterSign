@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import { Mail, CheckCircle2, AlertCircle, ArrowRight } from "lucide-react";
 
+import { subscribeNewsletterAction } from "@/app/newsletter/actions";
+
 export interface EmailCaptureProps {
   headline?: string;
   subtext?: string;
@@ -15,9 +17,9 @@ export interface EmailCaptureProps {
 }
 
 /**
- * EmailCapture (Section 7.1 & 10.11)
+ * EmailCapture (Section 7.1, 7.12 & 10.11)
  * Single email field with inline validation, NDPA 2023 explicit consent line,
- * and seamless in-place state transitions (idle, sending, success, error).
+ * double opt-in email dispatch, and in-place state transitions.
  */
 export function EmailCapture({
   headline,
@@ -31,8 +33,10 @@ export function EmailCapture({
   const displayHeadline = headline || title || "Get verified AI roles in your inbox";
   const displaySubtext = subtext || description || "Weekly digest of human-checked opportunities open to your country. Zero spam.";
   const [email, setEmail] = useState("");
+  const [honeypot, setHoneypot] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const [confirmationUrl, setConfirmationUrl] = useState<string | null>(null);
 
   const validateEmail = (val: string) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
@@ -61,13 +65,25 @@ export function EmailCapture({
         const ok = await onSubscribe(email);
         if (!ok) throw new Error("Subscription failed");
       } else {
-        // Simulated network delay
-        await new Promise((resolve) => setTimeout(resolve, 600));
+        const res = await subscribeNewsletterAction({
+          email,
+          honeypot,
+        });
+
+        if (!res.success) {
+          throw new Error(res.message);
+        }
+
+        if (res.confirmationUrl) {
+          setConfirmationUrl(res.confirmationUrl);
+        }
       }
       setStatus("success");
-    } catch {
+    } catch (err: unknown) {
       setStatus("error");
-      setErrorMessage("Could not complete subscription. Please retry.");
+      setErrorMessage(
+        err instanceof Error ? err.message : "Could not complete subscription. Please retry."
+      );
     }
   };
 
@@ -85,17 +101,39 @@ export function EmailCapture({
       </div>
 
       {status === "success" ? (
-        <div className="p-4 rounded-xl border border-[#45F5C5]/30 bg-[#45F5C5]/10 flex items-start gap-3 text-xs animate-in fade-in duration-200">
-          <CheckCircle2 size={18} className="text-[#45F5C5] flex-shrink-0 mt-0.5" />
-          <div className="space-y-1">
-            <div className="font-semibold text-primary">You are on the verified list</div>
+        <div className="p-4 rounded-xl border border-emerald-500/30 bg-emerald-500/10 flex items-start gap-3 text-xs animate-in fade-in duration-200">
+          <CheckCircle2 size={18} className="text-emerald-400 flex-shrink-0 mt-0.5" />
+          <div className="space-y-2">
+            <div className="font-semibold text-primary">Check your inbox to confirm.</div>
             <p className="text-readable">
-              A confirmation link has been sent to <span className="font-mono text-accent-cyan">{email}</span>. Click it to activate your weekly digest.
+              A double opt-in confirmation link has been sent to <span className="font-mono text-accent-cyan">{email}</span>. Click it to activate your weekly verified digest.
             </p>
+            {confirmationUrl && (
+              <div className="pt-1">
+                <a
+                  href={confirmationUrl}
+                  className="inline-flex items-center gap-1 font-mono text-[11px] text-accent-cyan hover:underline"
+                >
+                  <span>Instant Verification: Click to confirm &rarr;</span>
+                </a>
+              </div>
+            )}
           </div>
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-3" noValidate>
+          {/* Honeypot field for bot protection */}
+          <input
+            type="text"
+            name="website_profile_hp"
+            value={honeypot}
+            onChange={(e) => setHoneypot(e.target.value)}
+            style={{ display: "none" }}
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+          />
+
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
             <div className="relative flex-1">
               <Mail

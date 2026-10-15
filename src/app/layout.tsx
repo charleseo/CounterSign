@@ -32,6 +32,8 @@ export const metadata: Metadata = {
   },
 };
 
+import { AnalyticsTracker } from "@/components/analytics/AnalyticsTracker";
+
 export default function RootLayout({
   children,
 }: {
@@ -44,6 +46,7 @@ export default function RootLayout({
         <OrganizationAndWebsiteJsonLd />
       </head>
       <body className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}>
+        <AnalyticsTracker />
         <Header />
         <main className="flex-1 flex flex-col">{children}</main>
         <Footer />

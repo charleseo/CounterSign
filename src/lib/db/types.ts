@@ -122,7 +122,77 @@ export interface AlertSubscription {
   country_code: string | null;
   work_types: string[];
   frequency: string;
+  token?: string;
+  status?: 'pending' | 'active' | 'unsubscribed';
   confirmed_at: string | null;
+  created_at: string;
+}
+
+export type AnalyticsEventType =
+  | 'home_view'
+  | 'country_selected'
+  | 'search_used'
+  | 'hero_cta_click'
+  | 'filter_used'
+  | 'sort_changed'
+  | 'job_card_click'
+  | 'load_more'
+  | 'job_view'
+  | 'truth_strip_source_click'
+  | 'apply_click'
+  | 'report_problem_open'
+  | 'report_problem_submit'
+  | 'platform_view'
+  | 'platform_official_click'
+  | 'timeline_expand'
+  | 'guide_read'
+  | 'newsletter_signup'
+  | 'alert_signup'
+  | 'scam_check_view'
+  | 'scam_report_submit'
+  | 'studio_view'
+  | 'sample_audit_open'
+  | 'eval_form_submit'
+  | 'lite_mode_toggle'
+  | 'outbound_redirect'
+  | 'scope_step_completed'
+  | 'scope_submit'
+  | 'service_page_view'
+  | 'comparison_tab_change'
+  | 'practice_exercise_submit';
+
+export interface AnalyticsEvent {
+  id: string;
+  event: AnalyticsEventType | string;
+  path?: string;
+  properties?: Record<string, unknown>;
+  timestamp: string;
+}
+
+export interface DigestDraft {
+  id: string;
+  issueNumber: number;
+  weekStarting: string;
+  subject: string;
+  previewText: string;
+  featuredGuide: {
+    title: string;
+    slug: string;
+    summary: string;
+  };
+  rolesByCountry: Array<{
+    country: string;
+    flag: string;
+    roles: Array<{
+      title: string;
+      platform: string;
+      payText: string;
+      slug: string;
+    }>;
+  }>;
+  scamRadarNote?: string;
+  markdownContent: string;
+  htmlContent: string;
   created_at: string;
 }
 

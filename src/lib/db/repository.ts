@@ -1,3 +1,4 @@
+import { createHash } from 'crypto';
 import {
   Job,
   Platform,
@@ -17,6 +18,10 @@ import {
   EligStatus,
   OutboundClick,
   LinkType,
+  AlertSubscription,
+  ConsentLog,
+  AnalyticsEvent,
+  DigestDraft,
 } from './types';
 
 // Initial ISO Countries (Master Plan Section 6 & 12)
@@ -546,6 +551,9 @@ class RepositoryStore {
   reports: Report[] = [];
   evalLeads: EvalLead[] = [];
   outboundClicks: OutboundClick[] = [];
+  subscriptions: AlertSubscription[] = [];
+  consentLogs: ConsentLog[] = [];
+  analyticsEvents: AnalyticsEvent[] = [];
 }
 
 const globalStore = new RepositoryStore();
@@ -1311,5 +1319,261 @@ export const dbRepository = {
     });
 
     return updated;
+  },
+
+  // Newsletter & Double Opt-in (Milestone 9)
+  subscribeNewsletter({
+    email,
+    country_code = null,
+    work_types = [],
+  }: {
+    email: string;
+    country_code?: string | null;
+    work_types?: string[];
+  }): { subscription: AlertSubscription; token: string; isNew: boolean } {
+    const normalizedEmail = email.trim().toLowerCase();
+    const existing = globalStore.subscriptions.find(
+      (s) => s.email.toLowerCase() === normalizedEmail
+    );
+
+    const token = `optin_${Math.random().toString(36).slice(2)}${Date.now()}`;
+    const emailHash = createHash('sha256').update(normalizedEmail).digest('hex');
+
+    if (existing) {
+      if (existing.status === 'active') {
+        return { subscription: existing, token: existing.token || token, isNew: false };
+      }
+      existing.token = token;
+      existing.status = 'pending';
+      if (country_code) existing.country_code = country_code;
+      if (work_types.length > 0) existing.work_types = work_types;
+
+      globalStore.consentLogs.push({
+        id: globalStore.consentLogs.length + 1,
+        email_hash: emailHash,
+        purpose: 'newsletter',
+        policy_version: 'v1.0.0',
+        given: true,
+        at: new Date().toISOString(),
+      });
+
+      return { subscription: existing, token, isNew: false };
+    }
+
+    const newSub: AlertSubscription = {
+      id: `sub_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+      email: normalizedEmail,
+      user_id: null,
+      country_code,
+      work_types,
+      frequency: 'weekly',
+      token,
+      status: 'pending',
+      confirmed_at: null,
+      created_at: new Date().toISOString(),
+    };
+
+    globalStore.subscriptions.push(newSub);
+
+    globalStore.consentLogs.push({
+      id: globalStore.consentLogs.length + 1,
+      email_hash: emailHash,
+      purpose: 'newsletter',
+      policy_version: 'v1.0.0',
+      given: true,
+      at: new Date().toISOString(),
+    });
+
+    return { subscription: newSub, token, isNew: true };
+  },
+
+  confirmSubscription(token: string): AlertSubscription | null {
+    const sub = globalStore.subscriptions.find((s) => s.token === token);
+    if (!sub) return null;
+
+    sub.confirmed_at = new Date().toISOString();
+    sub.status = 'active';
+
+    this.logAudit({
+      actor: null,
+      action: 'newsletter.confirm',
+      entity: 'alert_subscriptions',
+      entity_id: sub.id,
+      diff: { status: 'active', confirmed_at: sub.confirmed_at },
+    });
+
+    return sub;
+  },
+
+  unsubscribeSubscription(tokenOrEmail: string): boolean {
+    const term = tokenOrEmail.trim().toLowerCase();
+    const sub = globalStore.subscriptions.find(
+      (s) => s.token === term || s.email.toLowerCase() === term
+    );
+    if (!sub) return false;
+
+    sub.status = 'unsubscribed';
+    const emailHash = createHash('sha256').update(sub.email.toLowerCase()).digest('hex');
+
+    globalStore.consentLogs.push({
+      id: globalStore.consentLogs.length + 1,
+      email_hash: emailHash,
+      purpose: 'newsletter',
+      policy_version: 'v1.0.0',
+      given: false,
+      at: new Date().toISOString(),
+    });
+
+    this.logAudit({
+      actor: null,
+      action: 'newsletter.unsubscribe',
+      entity: 'alert_subscriptions',
+      entity_id: sub.id,
+      diff: { status: 'unsubscribed' },
+    });
+
+    return true;
+  },
+
+  getSubscribers(status?: 'active' | 'pending' | 'unsubscribed'): AlertSubscription[] {
+    if (status) {
+      return globalStore.subscriptions.filter((s) => s.status === status);
+    }
+    return [...globalStore.subscriptions];
+  },
+
+  // Privacy-Friendly Analytics (Section 18.1)
+  recordAnalyticsEvent(event: Omit<AnalyticsEvent, 'id' | 'timestamp'>): AnalyticsEvent {
+    const entry: AnalyticsEvent = {
+      id: `evt_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+      event: event.event,
+      path: event.path,
+      properties: event.properties,
+      timestamp: new Date().toISOString(),
+    };
+
+    globalStore.analyticsEvents.unshift(entry);
+    if (globalStore.analyticsEvents.length > 5000) {
+      globalStore.analyticsEvents.pop();
+    }
+
+    return entry;
+  },
+
+  getAnalyticsStats() {
+    const events = globalStore.analyticsEvents;
+    const directClicks = globalStore.outboundClicks.filter((c) => c.link === 'direct').length;
+    const referralClicks = globalStore.outboundClicks.filter((c) => c.link === 'referral').length;
+
+    const eventCounts: Record<string, number> = {};
+    const countryCounts: Record<string, number> = {};
+    let fullTierCount = 0;
+    let liteTierCount = 0;
+
+    events.forEach((e) => {
+      eventCounts[e.event] = (eventCounts[e.event] || 0) + 1;
+      if (e.properties?.country_code && typeof e.properties.country_code === 'string') {
+        const c = e.properties.country_code.toUpperCase();
+        countryCounts[c] = (countryCounts[c] || 0) + 1;
+      }
+      if (e.properties?.tier === 'lite') liteTierCount++;
+      if (e.properties?.tier === 'full') fullTierCount++;
+    });
+
+    const activeSubs = globalStore.subscriptions.filter((s) => s.status === 'active').length;
+    const pendingSubs = globalStore.subscriptions.filter((s) => s.status === 'pending').length;
+
+    return {
+      totalEvents: events.length,
+      eventCounts,
+      activeSubscribers: activeSubs,
+      pendingSubscribers: pendingSubs,
+      totalOutboundClicks: globalStore.outboundClicks.length,
+      directClicks,
+      referralClicks,
+      tierBreakdown: {
+        full: fullTierCount,
+        lite: liteTierCount,
+      },
+      topCountries: Object.entries(countryCounts)
+        .map(([code, count]) => ({ code, count }))
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 5),
+      recentEvents: events.slice(0, 25),
+    };
+  },
+
+  // Weekly Digest Draft Generator (Section 7.12)
+  generateWeeklyDigestDraft(): DigestDraft {
+    const jobs = this.getJobs({ status: 'verified' });
+    const freshJobs = jobs.filter((j) => (j.daysAgo ?? 0) <= 14);
+
+    const ngRoles = freshJobs
+      .filter((j) => j.eligibility.some((e) => e.country_code === 'NG' && e.status === 'accepted'))
+      .map((j) => ({
+        title: j.title,
+        platform: j.platform.name,
+        payText: j.pay_text || 'Pay not confirmed',
+        slug: j.slug,
+      }));
+
+    const globalRoles = freshJobs
+      .filter((j) => j.eligibility.some((e) => e.country_code === 'US' || e.country_code === 'GB'))
+      .map((j) => ({
+        title: j.title,
+        platform: j.platform.name,
+        payText: j.pay_text || 'Pay not confirmed',
+        slug: j.slug,
+      }));
+
+    const draft: DigestDraft = {
+      id: `digest-${Date.now()}`,
+      issueNumber: 1,
+      weekStarting: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+      subject: `Countersign Weekly AI Work Digest: ${freshJobs.length} Verified Roles Fresh`,
+      previewText: `New human-checked evaluation roles across Outlier, Alignerr, Mercor, and Invisible. Zero em dashes, zero fake pay.`,
+      featuredGuide: {
+        title: 'How to Tell If an AI Work Listing Is Real',
+        slug: 'how-to-tell-if-an-ai-work-listing-is-real',
+        summary: 'A 5-step forensic test to evaluate whether remote AI training listings are legitimate before handing over personal credentials.',
+      },
+      rolesByCountry: [
+        {
+          country: 'Nigeria (NG)',
+          flag: 'NG',
+          roles: ngRoles.slice(0, 4),
+        },
+        {
+          country: 'Global & North America',
+          flag: 'GL',
+          roles: globalRoles.slice(0, 4),
+        },
+      ],
+      scamRadarNote: 'Scam warning: Telegram and WhatsApp recruiters requesting upfront training fees or BVN credentials are fraudulent. Real platforms hire through corporate domains.',
+      markdownContent: '',
+      htmlContent: '',
+      created_at: new Date().toISOString(),
+    };
+
+    draft.markdownContent = `# Countersign Weekly Digest (Issue #${draft.issueNumber})\n\nWeek of ${draft.weekStarting}\n\n## 1. Verified Roles Fresh This Week\n` +
+      draft.rolesByCountry.map(c => `### [${c.flag}] ${c.country}\n` + c.roles.map(r => `- **${r.title}** (${r.platform}) : ${r.payText}\n  https://countersign.ai/jobs/${r.slug}`).join('\n')).join('\n\n') +
+      `\n\n## 2. Practical Guide of the Week\n**${draft.featuredGuide.title}**\n${draft.featuredGuide.summary}\nhttps://countersign.ai/guides/${draft.featuredGuide.slug}\n\n## 3. Scam Radar\n${draft.scamRadarNote}\n\n---\nCountersign : Human-Checked AI Work Hub : Unsubscribe anytime`;
+
+    draft.htmlContent = `<!DOCTYPE html><html><body style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: #111;">
+<h2>Countersign Weekly Digest #${draft.issueNumber}</h2>
+<p style="color: #666; font-size: 14px;">Week of ${draft.weekStarting}</p>
+<hr style="border: 0; border-top: 1px solid #eee;" />
+<h3>1. Verified Roles Fresh This Week</h3>
+${draft.rolesByCountry.map(c => `<h4>[${c.flag}] ${c.country}</h4><ul>${c.roles.map(r => `<li><strong><a href="https://countersign.ai/jobs/${r.slug}">${r.title}</a></strong> (${r.platform}) &bull; ${r.payText}</li>`).join('')}</ul>`).join('')}
+<hr style="border: 0; border-top: 1px solid #eee;" />
+<h3>2. Guide of the Week</h3>
+<p><strong><a href="https://countersign.ai/guides/${draft.featuredGuide.slug}">${draft.featuredGuide.title}</a></strong><br/>${draft.featuredGuide.summary}</p>
+<hr style="border: 0; border-top: 1px solid #eee;" />
+<h3>3. Scam Radar Advisory</h3>
+<p style="font-size: 13px; color: #b45309; background: #fffbeb; padding: 12px; border-radius: 8px;">${draft.scamRadarNote}</p>
+<p style="font-size: 11px; color: #888; text-align: center; margin-top: 30px;">Countersign &bull; Human-Checked AI Work Hub<br/><a href="https://countersign.ai/newsletter/unsubscribe">Unsubscribe</a> anytime in one click. Protected under NDPA 2023.</p>
+</body></html>`;
+
+    return draft;
   },
 };

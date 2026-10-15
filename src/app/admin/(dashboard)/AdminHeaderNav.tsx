@@ -33,6 +33,8 @@ export function AdminHeaderNav({ stats }: { stats: AdminStats }) {
       label: 'Leads',
       badge: stats.newLeads && stats.newLeads > 0 ? stats.newLeads : undefined,
     },
+    { href: '/admin/digest', label: 'Digest' },
+    { href: '/admin/metrics', label: 'Metrics' },
     { href: '/admin/audit', label: 'Audit Log' },
   ];
 
