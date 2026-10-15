@@ -35,6 +35,16 @@ export function AdminHeaderNav({ stats }: { stats: AdminStats }) {
     },
     { href: '/admin/digest', label: 'Digest' },
     { href: '/admin/metrics', label: 'Metrics' },
+    {
+      href: '/admin/privacy',
+      label: 'Privacy',
+      badge: stats.openPrivacyRequests > 0 ? stats.openPrivacyRequests : undefined,
+    },
+    {
+      href: '/admin/incidents',
+      label: 'Incidents',
+      badge: stats.activeIncidents > 0 ? stats.activeIncidents : undefined,
+    },
     { href: '/admin/audit', label: 'Audit Log' },
   ];
 

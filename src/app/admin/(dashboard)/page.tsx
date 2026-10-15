@@ -99,22 +99,25 @@ export default async function AdminDashboardPage() {
         </div>
 
         {/* Card 3: 72h Incident Clock (NDPA Requirement) */}
-        <div className="p-4 sm:p-5 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] shadow-sm">
+        <Link
+          href="/admin/incidents"
+          className="p-4 sm:p-5 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] hover:border-amber-500/40 shadow-sm transition-colors group block"
+        >
           <div className="flex items-center justify-between text-xs text-[var(--color-muted)] mb-2">
-            <span>Incident SLA (72h)</span>
-            <AlertTriangle className="w-4 h-4 text-[var(--color-muted)]" />
+            <span className="group-hover:text-[var(--color-text)] transition-colors">Incident SLA (72h)</span>
+            <AlertTriangle className={`w-4 h-4 ${activeIncident ? 'text-amber-400' : 'text-[var(--color-muted)]'}`} />
           </div>
           <div className="text-2xl sm:text-3xl font-bold font-mono tracking-tight text-[var(--color-text)]">
             {activeIncident ? `${incidentHoursLeft}h` : 'Clean'}
           </div>
           <div className="mt-2 text-[11px] text-[var(--color-muted)]">
             {activeIncident ? (
-              <span className="text-amber-400 font-mono">Report due in {incidentHoursLeft} hours</span>
+              <span className="text-amber-400 font-mono">Report due in {incidentHoursLeft} hours &rarr;</span>
             ) : (
               <span className="text-emerald-400">Zero open security incidents</span>
             )}
           </div>
-        </div>
+        </Link>
 
         {/* Card 4: Total Managed Roles */}
         <div className="p-4 sm:p-5 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] shadow-sm">
@@ -152,6 +155,32 @@ export default async function AdminDashboardPage() {
             className="px-3 py-1.5 rounded-lg bg-[var(--color-accent)] text-[var(--color-accent-fg)] text-xs font-semibold hover:opacity-90 transition-opacity flex items-center gap-1.5 self-start sm:self-auto shrink-0"
           >
             <span>Review Inbound Leads</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+      )}
+
+      {/* Open Privacy Requests Alert */}
+      {stats.openPrivacyRequests > 0 && (
+        <div className="p-4 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center font-mono font-bold text-sm shrink-0">
+              {stats.openPrivacyRequests}
+            </div>
+            <div>
+              <h3 className="text-xs font-semibold text-[var(--color-text)]">
+                {stats.openPrivacyRequests === 1 ? '1 Pending Privacy Rights Request' : `${stats.openPrivacyRequests} Pending Privacy Rights Requests`}
+              </h3>
+              <p className="text-[11px] text-[var(--color-muted)]">
+                Data subject access or erasure request pending resolution within 30 days.
+              </p>
+            </div>
+          </div>
+          <Link
+            href="/admin/privacy"
+            className="px-3 py-1.5 rounded-lg bg-blue-500 text-white text-xs font-semibold hover:opacity-90 transition-opacity flex items-center gap-1.5 self-start sm:self-auto shrink-0"
+          >
+            <span>Manage Privacy Queue</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>

@@ -12,6 +12,8 @@ import {
   AuditLog,
   PrivacyRequest,
   IncidentLog,
+  IncidentStatus,
+  PrivacyRequestKind,
   JobWithPlatform,
   AdminStats,
   JobStatus,
@@ -1122,9 +1124,83 @@ export const dbRepository = {
     return inc;
   },
 
-  // Privacy requests
+  updateIncidentStatus(id: string, status: IncidentStatus, actorId?: string | null): IncidentLog {
+    const inc = globalStore.incidents.find((i) => i.id === id);
+    if (!inc) throw new Error(`Incident ${id} not found`);
+    const prevStatus = inc.status;
+    inc.status = status;
+    if (status === 'reported' && !inc.reported_at) {
+      inc.reported_at = new Date().toISOString();
+    }
+
+    this.logAudit({
+      actor: actorId || null,
+      action: 'incident.update_status',
+      entity: 'incident_log',
+      entity_id: id,
+      diff: { from: prevStatus, to: status, reported_at: inc.reported_at },
+    });
+
+    return inc;
+  },
+
+  getCurrentTimestamp(): number {
+    return Date.now();
+  },
+
+  // Privacy requests (Section 17.2a)
   getPrivacyRequests(): PrivacyRequest[] {
     return [...globalStore.privacyRequests];
+  },
+
+  createPrivacyRequest(data: {
+    kind: PrivacyRequestKind;
+    contact_email: string;
+    note?: string | null;
+  }): PrivacyRequest {
+    const nowIso = new Date().toISOString();
+    // 30 days statutory response window per NDPA 2023
+    const dueIso = new Date(Date.now() + 30 * 86400000).toISOString();
+    const req: PrivacyRequest = {
+      id: `pr-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+      kind: data.kind,
+      contact_email: data.contact_email.trim().toLowerCase(),
+      received_at: nowIso,
+      due_at: dueIso,
+      closed_at: null,
+      note: data.note ? data.note.trim() : null,
+    };
+
+    globalStore.privacyRequests.unshift(req);
+
+    this.logAudit({
+      actor: null,
+      action: 'privacy_request.create',
+      entity: 'privacy_requests',
+      entity_id: req.id,
+      diff: { kind: req.kind, email: req.contact_email, due_at: req.due_at },
+    });
+
+    return req;
+  },
+
+  closePrivacyRequest(id: string, note?: string | null, actorId?: string | null): PrivacyRequest {
+    const req = globalStore.privacyRequests.find((r) => r.id === id);
+    if (!req) throw new Error(`Privacy request ${id} not found`);
+    req.closed_at = new Date().toISOString();
+    if (note) {
+      req.note = req.note ? `${req.note} | Resolution: ${note}` : `Resolution: ${note}`;
+    }
+
+    this.logAudit({
+      actor: actorId || null,
+      action: 'privacy_request.close',
+      entity: 'privacy_requests',
+      entity_id: id,
+      diff: { closed_at: req.closed_at, note: req.note },
+    });
+
+    return req;
   },
 
   // Admin Stats

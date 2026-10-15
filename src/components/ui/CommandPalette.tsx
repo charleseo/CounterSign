@@ -9,6 +9,7 @@ import {
   BookOpen,
   ShieldAlert,
   Cpu,
+  Scale,
   X,
   CornerDownLeft,
   ArrowRight,
@@ -17,7 +18,7 @@ import {
 export interface SearchItem {
   id: string;
   title: string;
-  category: 'Jobs' | 'Platforms' | 'Guides' | 'Studio' | 'Tools';
+  category: 'Jobs' | 'Platforms' | 'Guides' | 'Studio' | 'Tools' | 'Legal';
   href: string;
   meta?: string;
 }
@@ -43,6 +44,13 @@ const STATIC_SEARCH_ITEMS: SearchItem[] = [
   { id: 's-studio', title: 'Evaluation Studio: RAG & Citation Audits', category: 'Studio', href: '/evaluation', meta: 'Technical docs verification for AI teams' },
   { id: 's-sample-audit', title: 'Sample Audit Report: 5 Empirical Cases', category: 'Studio', href: '/evaluation/sample-audit', meta: 'Postgres, Stripe, Next.js, Bedrock, Tailwind' },
   { id: 's-scope', title: 'Scope an Evaluation Audit (3 Steps)', category: 'Studio', href: '/evaluation/scope', meta: 'Propose an audit for your docs bot' },
+  // Legal & Contact
+  { id: 'l-privacy', title: 'Privacy Policy & NDPA 2023 Compliance', category: 'Legal', href: '/privacy', meta: '30-day purge & minimal collection' },
+  { id: 'l-sar', title: 'Data Subject Rights Request (SAR Portal)', category: 'Legal', href: '/privacy/request', meta: 'Access, rectify, or delete your data' },
+  { id: 'l-disclosure', title: 'Referral Disclosure & Neutrality Pledge', category: 'Legal', href: '/disclosure', meta: 'Direct vs referral links declared' },
+  { id: 'l-corrections', title: 'Platform Corrections & Takedowns', category: 'Legal', href: '/corrections', meta: '3-day editorial turnaround SLA' },
+  { id: 'l-terms', title: 'Terms of Service & Disclaimers', category: 'Legal', href: '/terms', meta: 'Independent service & acceptable use' },
+  { id: 'l-contact', title: 'Contact Desk & Inboxes', category: 'Legal', href: '/contact', meta: 'Editorial, pilots, corrections, privacy' },
 ];
 
 export interface CommandPaletteProps {
@@ -183,6 +191,8 @@ export function CommandPalette({ className = '', triggerLabel }: CommandPaletteP
         return <ShieldAlert size={14} className="text-accent-rose" />;
       case 'Studio':
         return <Cpu size={14} className="text-accent-cyan" />;
+      case 'Legal':
+        return <Scale size={14} className="text-amber-400" />;
     }
   };
 

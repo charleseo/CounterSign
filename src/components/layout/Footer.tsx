@@ -70,8 +70,13 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/evaluation" className="text-secondary hover:text-primary transition-colors">
-                  Evaluation Studio
+                <Link href="/disclosure" className="text-secondary hover:text-primary transition-colors">
+                  Referral Disclosure
+                </Link>
+              </li>
+              <li>
+                <Link href="/corrections" className="text-secondary hover:text-primary transition-colors">
+                  Corrections & Takedowns
                 </Link>
               </li>
               <li>
@@ -80,8 +85,18 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/privacy/request" className="text-secondary hover:text-primary transition-colors">
+                  Data Rights (SAR)
+                </Link>
+              </li>
+              <li>
                 <Link href="/terms" className="text-secondary hover:text-primary transition-colors">
                   Terms of Service
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="text-secondary hover:text-primary transition-colors">
+                  Contact Desk
                 </Link>
               </li>
             </ul>
