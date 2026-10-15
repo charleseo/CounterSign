@@ -13,14 +13,17 @@ export interface SearchItem {
 }
 
 const SAMPLE_SEARCH_INDEX: SearchItem[] = [
-  { id: "1", title: "Python RLHF Code Reasoning Evaluator", category: "Jobs", href: "/jobs/python-rlhf-evaluator", meta: "Outlier • Nigeria Accepted" },
-  { id: "2", title: "Multimodal Factuality Rater", category: "Jobs", href: "/jobs/multimodal-factuality-rater", meta: "Alignerr • $22/hr" },
-  { id: "3", title: "Outlier Platform Reality Profile", category: "Platforms", href: "/platforms/outlier", meta: "Onboarding timeline & pay" },
-  { id: "4", title: "Alignerr Platform Reality Profile", category: "Platforms", href: "/platforms/alignerr", meta: "Assessment expectations" },
-  { id: "5", title: "Nigeria Talent USD Banking & Payout Playbook", category: "Guides", href: "/countries/nigeria", meta: "Geegpay, Grey, Dom accounts" },
-  { id: "6", title: "10-Point AI Work Scam Checklist", category: "Tools", href: "/scam-check", meta: "Test recruiter offers" },
-  { id: "7", title: "RAG Citation Audit Service", category: "Studio", href: "/studio", meta: "Enterprise LLM accuracy test" },
-  { id: "8", title: "Sample Evaluation Audit Report", category: "Studio", href: "/studio/sample", meta: "Pass/Fail verdict cases" },
+  { id: "1", title: "AI Model Reasoning & Fact-Checking Evaluator", category: "Jobs", href: "/jobs/sample-outlier-rlhf-generalist", meta: "Outlier • $15-$22/hr" },
+  { id: "2", title: "Multimodal Image & Visual Reasoning Specialist", category: "Jobs", href: "/jobs/sample-alignerr-multimodal-evaluator", meta: "Alignerr • $24-$32/hr" },
+  { id: "3", title: "Outlier AI Reality Profile", category: "Platforms", href: "/platforms/outlier", meta: "PayPal, AirTM • Onboarding steps" },
+  { id: "4", title: "Alignerr Reality Profile", category: "Platforms", href: "/platforms/alignerr", meta: "Deel payouts • TestGorilla assessment" },
+  { id: "5", title: "Invisible Technologies Reality Profile", category: "Platforms", href: "/platforms/invisible-tech", meta: "Deel, Direct Wire • Technical interview" },
+  { id: "6", title: "How to Tell if an AI Work Listing is Real", category: "Guides", href: "/guides/how-to-tell-if-an-ai-work-listing-is-real", meta: "Forensic guide • ATS & domain check" },
+  { id: "7", title: "Getting Paid in USD from Nigeria", category: "Guides", href: "/guides/getting-paid-in-usd-from-nigeria", meta: "Geegpay, Grey, Dom accounts" },
+  { id: "8", title: "Checking Claims Against Sources", category: "Guides", href: "/guides/checking-claims-against-sources-simple-method", meta: "Citation audit • Practice exercise" },
+  { id: "9", title: "10-Point AI Work Scam Checklist", category: "Tools", href: "/scam-check", meta: "Test recruiter offers & red flags" },
+  { id: "10", title: "About Countersign & Jo (Ebube Okeke)", category: "Studio", href: "/about", meta: "Independence pledge & FAQs" },
+  { id: "11", title: "10-Point Verification Methodology", category: "Studio", href: "/methodology", meta: "14-day recheck standard" },
 ];
 
 export interface CommandPaletteProps {

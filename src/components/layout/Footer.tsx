@@ -41,8 +41,8 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/countries/nigeria" className="text-secondary hover:text-primary transition-colors">
-                  Nigeria Talent Hub
+                <Link href="/guides" className="text-secondary hover:text-primary transition-colors">
+                  Practical Guides
                 </Link>
               </li>
               <li>
@@ -60,13 +60,18 @@ export function Footer() {
             </h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/studio" className="text-secondary hover:text-primary transition-colors">
-                  Evaluation Studio
+                <Link href="/about" className="text-secondary hover:text-primary transition-colors">
+                  About Countersign
                 </Link>
               </li>
               <li>
                 <Link href="/methodology" className="text-secondary hover:text-primary transition-colors">
                   Verification Methodology
+                </Link>
+              </li>
+              <li>
+                <Link href="/studio" className="text-secondary hover:text-primary transition-colors">
+                  Evaluation Studio
                 </Link>
               </li>
               <li>

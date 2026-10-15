@@ -15,8 +15,9 @@ export function Header() {
   const navLinks = [
     { label: "Jobs", href: "/jobs" },
     { label: "Platforms", href: "/platforms" },
-    { label: "Nigeria Hub", href: "/countries/nigeria" },
+    { label: "Guides", href: "/guides" },
     { label: "Scam Check", href: "/scam-check" },
+    { label: "About", href: "/about" },
     { label: "Studio", href: "/studio" },
     { label: "Gallery", href: "/gallery" },
   ];

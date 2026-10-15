@@ -90,6 +90,20 @@ const INITIAL_PLATFORMS: Platform[] = [
     last_reviewed_at: new Date(Date.now() - 12 * 86400000).toISOString(),
     created_at: new Date(Date.now() - 40 * 86400000).toISOString(),
   },
+  {
+    id: '00000000-0000-0000-0000-000000000005',
+    slug: 'invisible-tech',
+    name: 'Invisible Technologies [SAMPLE]',
+    official_url: 'https://invisible.co',
+    description: 'Advanced operations and AI training partner running custom human-in-the-loop workflows, RLHF, and frontier reasoning evaluation.',
+    who_it_suits: 'Advanced researchers, subject-matter experts in STEM/law/finance, and operations specialists comfortable with rigorous multi-step rubrics.',
+    payout_methods: 'Deel, Direct Bank Wire',
+    assessment_style: 'Comprehensive technical assessment, writing test, and workflow orientation with human operations managers.',
+    referral: 'public',
+    referral_terms_url: 'https://invisible.co/careers',
+    last_reviewed_at: new Date(Date.now() - 3 * 86400000).toISOString(),
+    created_at: new Date(Date.now() - 45 * 86400000).toISOString(),
+  },
 ];
 
 const INITIAL_PLATFORM_STEPS: PlatformStep[] = [
@@ -117,6 +131,12 @@ const INITIAL_PLATFORM_STEPS: PlatformStep[] = [
   { id: 'step-4-3', platform_id: '00000000-0000-0000-0000-000000000004', position: 3, title: 'Algorithmic Profiling & Scoring', detail: 'Mercor ranking engine indexes technical strengths and generates verified talent card.', label: 'official', source_url: 'https://mercor.com' },
   { id: 'step-4-4', platform_id: '00000000-0000-0000-0000-000000000004', position: 4, title: 'Client Shortlist Interview', detail: 'Direct 30-minute technical conversation with hiring team at foundation model customer.', label: 'reported', source_url: 'https://news.ycombinator.com' },
   { id: 'step-4-5', platform_id: '00000000-0000-0000-0000-000000000004', position: 5, title: 'Contract Signature & Payment Setup', detail: 'Execute master services agreement and begin direct hourly engineering or evaluation sprint.', label: 'official', source_url: 'https://mercor.com' },
+  // Invisible Technologies
+  { id: 'step-5-1', platform_id: '00000000-0000-0000-0000-000000000005', position: 1, title: 'Application & Technical Screening', detail: 'Submit CV and complete initial asynchronous qualification form covering reasoning logic.', label: 'official', source_url: 'https://invisible.co/careers' },
+  { id: 'step-5-2', platform_id: '00000000-0000-0000-0000-000000000005', position: 2, title: 'Domain Competency Exam', detail: 'Timed domain assessment testing rubric adherence, citation accuracy, and edge-case handling.', label: 'official', source_url: 'https://invisible.co/careers' },
+  { id: 'step-5-3', platform_id: '00000000-0000-0000-0000-000000000005', position: 3, title: 'Operations Interview & Onboarding', detail: 'Short technical interview with operations lead and review of client workflow standards.', label: 'reported', source_url: 'https://glassdoor.com/Reviews/Invisible-Technologies' },
+  { id: 'step-5-4', platform_id: '00000000-0000-0000-0000-000000000005', position: 4, title: 'Tooling Setup & Sandbox Practice', detail: 'Configure secure workspace tools and complete graded calibration tasks with live mentor feedback.', label: 'reported', source_url: 'https://reddit.com' },
+  { id: 'step-5-5', platform_id: '00000000-0000-0000-0000-000000000005', position: 5, title: 'Active Client Project Sprints', detail: 'Assigned to ongoing enterprise AI alignment projects with weekly milestone billing via Deel.', label: 'official', source_url: 'https://invisible.co/careers' },
 ];
 
 const INITIAL_JOBS: Job[] = [
@@ -370,6 +390,31 @@ const INITIAL_JOBS: Job[] = [
     created_at: new Date(Date.now() - 18 * 86400000).toISOString(),
     daysAgo: 9,
   },
+  {
+    id: '10000000-0000-0000-0000-000000000011',
+    slug: 'sample-invisible-advanced-reasoning',
+    platform_id: '00000000-0000-0000-0000-000000000005',
+    title: 'Advanced Scientific Reasoning & SFT Evaluator [SAMPLE]',
+    work_type: 'Domain Specialist',
+    domains: ['STEM', 'Scientific Reasoning', 'Physics & Chemistry'],
+    languages: ['English'],
+    degree_levels: ["Master's", 'PhD', 'Postdoc'],
+    summary: 'Construct complex multi-turn scientific prompts, verify mathematical derivations, and grade chain-of-thought proofs for frontier reasoning models.',
+    requirements: 'Advanced postgraduate degree in Physics, Chemistry, or Computational Biology. Experience with formal research papers and LaTeX notation.',
+    pay_text: '$40 - $70 / hr',
+    pay_verified: true,
+    pay_source_url: 'https://invisible.co/careers/science-sample',
+    official_url: 'https://invisible.co',
+    apply_url: 'https://invisible.co/apply/scientific-reasoning-sample',
+    link: 'direct',
+    status: 'verified',
+    last_checked_at: new Date(Date.now() - 3 * 86400000).toISOString(),
+    next_check_at: new Date(Date.now() + 11 * 86400000).toISOString(),
+    closed_at: null,
+    created_by: null,
+    created_at: new Date(Date.now() - 22 * 86400000).toISOString(),
+    daysAgo: 3,
+  },
 ];
 
 const INITIAL_ELIGIBILITY: JobEligibility[] = [
@@ -438,6 +483,16 @@ const INITIAL_ELIGIBILITY: JobEligibility[] = [
   { job_id: '10000000-0000-0000-0000-000000000010', country_code: 'GB', status: 'accepted', source_url: 'https://outlier.ai/faq', checked_at: new Date(Date.now() - 9 * 86400000).toISOString() },
   { job_id: '10000000-0000-0000-0000-000000000010', country_code: 'CA', status: 'accepted', source_url: 'https://outlier.ai/faq', checked_at: new Date(Date.now() - 9 * 86400000).toISOString() },
   { job_id: '10000000-0000-0000-0000-000000000010', country_code: 'NG', status: 'accepted', source_url: 'https://outlier.ai/faq', checked_at: new Date(Date.now() - 9 * 86400000).toISOString() },
+  // Job 11 (Invisible Scientific Reasoning)
+  { job_id: '10000000-0000-0000-0000-000000000011', country_code: 'US', status: 'accepted', source_url: 'https://invisible.co/faq', checked_at: new Date(Date.now() - 3 * 86400000).toISOString() },
+  { job_id: '10000000-0000-0000-0000-000000000011', country_code: 'GB', status: 'accepted', source_url: 'https://invisible.co/faq', checked_at: new Date(Date.now() - 3 * 86400000).toISOString() },
+  { job_id: '10000000-0000-0000-0000-000000000011', country_code: 'CA', status: 'accepted', source_url: 'https://invisible.co/faq', checked_at: new Date(Date.now() - 3 * 86400000).toISOString() },
+  { job_id: '10000000-0000-0000-0000-000000000011', country_code: 'NG', status: 'accepted', source_url: 'https://invisible.co/faq', checked_at: new Date(Date.now() - 3 * 86400000).toISOString() },
+  { job_id: '10000000-0000-0000-0000-000000000011', country_code: 'GH', status: 'accepted', source_url: 'https://invisible.co/faq', checked_at: new Date(Date.now() - 3 * 86400000).toISOString() },
+  { job_id: '10000000-0000-0000-0000-000000000011', country_code: 'KE', status: 'accepted', source_url: 'https://invisible.co/faq', checked_at: new Date(Date.now() - 3 * 86400000).toISOString() },
+  { job_id: '10000000-0000-0000-0000-000000000011', country_code: 'ZA', status: 'accepted', source_url: 'https://invisible.co/faq', checked_at: new Date(Date.now() - 3 * 86400000).toISOString() },
+  { job_id: '10000000-0000-0000-0000-000000000011', country_code: 'IN', status: 'accepted', source_url: 'https://invisible.co/faq', checked_at: new Date(Date.now() - 3 * 86400000).toISOString() },
+  { job_id: '10000000-0000-0000-0000-000000000011', country_code: 'DE', status: 'accepted', source_url: 'https://invisible.co/faq', checked_at: new Date(Date.now() - 3 * 86400000).toISOString() },
 ];
 
 const INITIAL_CHECK_LOGS: CheckLog[] = [
