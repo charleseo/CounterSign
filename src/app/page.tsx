@@ -212,7 +212,7 @@ export default function Home() {
           <BentoTile
             title="Evaluation Studio"
             tagline="Independent technical-docs RAG and citation audits for AI startups. Every model assertion checked against ground truth."
-            href="/studio"
+            href="/evaluation"
             icon={<Sparkles size={20} />}
             variant="cyan"
             badge="Enterprise B2B"

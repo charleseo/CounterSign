@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 import { dbRepository } from '../db/repository';
 import { runJobSweeper } from '../db/sweeper';
+import type { LeadStatus } from '../db/types';
 import {
   jobFormSchema,
   quickCheckSchema,
@@ -342,5 +343,31 @@ export async function adminLogoutAction(): Promise<void> {
 
   if (redirectTarget) {
     redirect(redirectTarget);
+  }
+}
+
+/**
+ * Update evaluation lead status (new, replied, call_booked, pilot, won, lost)
+ */
+export async function updateEvalLeadStatusAction(
+  leadId: string,
+  status: LeadStatus
+): Promise<ActionResponse> {
+  try {
+    const updated = dbRepository.updateEvalLeadStatus(leadId, status, 'admin-session');
+    revalidatePath('/admin');
+    revalidatePath('/admin/leads');
+
+    return {
+      success: true,
+      message: `Lead ${updated.reference_id} marked as "${status}".`,
+      data: updated,
+    };
+  } catch (err: unknown) {
+    const errorMsg = err instanceof Error ? err.message : 'Failed to update lead status';
+    return {
+      success: false,
+      message: errorMsg,
+    };
   }
 }

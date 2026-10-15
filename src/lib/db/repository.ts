@@ -1137,6 +1137,8 @@ export const dbRepository = {
       activeIncidents: globalStore.incidents.filter((i) => i.status === 'open').length,
       pendingReports: globalStore.reports.filter((r) => r.status === 'pending').length,
       openPrivacyRequests: globalStore.privacyRequests.filter((p) => !p.closed_at).length,
+      newLeads: globalStore.evalLeads.filter((l) => l.status === 'new').length,
+      totalLeads: globalStore.evalLeads.length,
     };
   },
 
@@ -1206,5 +1208,108 @@ export const dbRepository = {
 
   getReports(): Report[] {
     return [...globalStore.reports];
+  },
+
+  // Evaluation Studio Leads (Master Plan Section 7.9c & 13)
+  createEvalLead(data: {
+    name: string;
+    work_email: string;
+    company?: string | null;
+    product_url?: string | null;
+    service?: string | null;
+    volume?: string | null;
+    source_type?: string | null;
+    timeline?: string | null;
+    has_rubric?: boolean;
+    sensitivity?: string | null;
+    message?: string | null;
+    idempotency_key?: string | null;
+  }): EvalLead {
+    // Idempotency check: prevent duplicate leads from double taps or retries
+    if (data.idempotency_key) {
+      const existing = globalStore.evalLeads.find(
+        (l) => l.idempotency_key === data.idempotency_key
+      );
+      if (existing) {
+        return existing;
+      }
+    }
+
+    const year = new Date().getFullYear();
+    const count = globalStore.evalLeads.length + 1;
+    const referenceId = `EV-${year}-${String(count).padStart(4, '0')}`;
+
+    const lead: EvalLead = {
+      id: `lead-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+      reference_id: referenceId,
+      name: data.name.trim(),
+      work_email: data.work_email.trim().toLowerCase(),
+      company: data.company ? data.company.trim() : null,
+      product_url: data.product_url ? data.product_url.trim() : null,
+      service: data.service || 'rag_and_citation_audit',
+      volume: data.volume || null,
+      source_type: data.source_type || 'public_docs',
+      timeline: data.timeline || 'standard_2_weeks',
+      has_rubric: !!data.has_rubric,
+      sensitivity: data.sensitivity || 'standard',
+      message: data.message ? data.message.trim() : null,
+      status: 'new',
+      idempotency_key: data.idempotency_key || null,
+      created_at: new Date().toISOString(),
+    };
+
+    globalStore.evalLeads.unshift(lead);
+
+    this.logAudit({
+      actor: null,
+      action: 'lead.create',
+      entity: 'eval_leads',
+      entity_id: lead.id,
+      diff: {
+        reference_id: lead.reference_id,
+        service: lead.service,
+        company: lead.company,
+      },
+    });
+
+    return lead;
+  },
+
+  getEvalLeads(): EvalLead[] {
+    return [...globalStore.evalLeads];
+  },
+
+  getEvalLeadByRef(refId: string): EvalLead | undefined {
+    return globalStore.evalLeads.find(
+      (l) => l.reference_id.toUpperCase() === refId.trim().toUpperCase()
+    );
+  },
+
+  updateEvalLeadStatus(
+    id: string,
+    status: EvalLead['status'],
+    actorId?: string | null
+  ): EvalLead {
+    const idx = globalStore.evalLeads.findIndex((l) => l.id === id);
+    if (idx === -1) {
+      throw new Error(`Lead ${id} not found`);
+    }
+
+    const prev = globalStore.evalLeads[idx];
+    const updated: EvalLead = {
+      ...prev,
+      status,
+    };
+    globalStore.evalLeads[idx] = updated;
+
+    this.logAudit({
+      actor: actorId || null,
+      action: 'lead.status_update',
+      entity: 'eval_leads',
+      entity_id: id,
+      diff: { from: prev.status, to: status },
+    });
+
+    return updated;
   },
 };

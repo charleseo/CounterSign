@@ -40,7 +40,9 @@ const STATIC_SEARCH_ITEMS: SearchItem[] = [
   // Studio & Trust
   { id: 's-about', title: 'About Countersign & Jo (Ebube Okeke)', category: 'Studio', href: '/about', meta: 'Independence pledge & 10 FAQs' },
   { id: 's-methodology', title: '10-Point Verification Methodology', category: 'Studio', href: '/methodology', meta: '14-day recheck standard' },
-  { id: 's-studio', title: 'Evaluation Studio: RAG & Citation Audits', category: 'Studio', href: '/studio', meta: 'Technical docs verification for AI teams' },
+  { id: 's-studio', title: 'Evaluation Studio: RAG & Citation Audits', category: 'Studio', href: '/evaluation', meta: 'Technical docs verification for AI teams' },
+  { id: 's-sample-audit', title: 'Sample Audit Report: 5 Empirical Cases', category: 'Studio', href: '/evaluation/sample-audit', meta: 'Postgres, Stripe, Next.js, Bedrock, Tailwind' },
+  { id: 's-scope', title: 'Scope an Evaluation Audit (3 Steps)', category: 'Studio', href: '/evaluation/scope', meta: 'Propose an audit for your docs bot' },
 ];
 
 export interface CommandPaletteProps {

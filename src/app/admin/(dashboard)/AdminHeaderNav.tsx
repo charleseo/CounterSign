@@ -28,6 +28,11 @@ export function AdminHeaderNav({ stats }: { stats: AdminStats }) {
       badge: stats.needsRecheckJobs > 0 ? stats.needsRecheckJobs : undefined,
     },
     { href: '/admin/platforms', label: 'Platforms' },
+    {
+      href: '/admin/leads',
+      label: 'Leads',
+      badge: stats.newLeads && stats.newLeads > 0 ? stats.newLeads : undefined,
+    },
     { href: '/admin/audit', label: 'Audit Log' },
   ];
 

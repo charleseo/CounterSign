@@ -702,7 +702,7 @@ export default function ComponentGalleryPage() {
             <BentoTile
               title="Evaluation Studio"
               tagline="Independent RAG citation audits and negative constraint testing for AI startups."
-              href="/studio"
+              href="/evaluation"
               icon={Cpu}
               badge="B2B Evals"
               variant="violet"

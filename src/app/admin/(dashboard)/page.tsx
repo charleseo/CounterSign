@@ -131,6 +131,32 @@ export default async function AdminDashboardPage() {
         </div>
       </div>
 
+      {/* Inbound Evaluation Leads Alert */}
+      {stats.newLeads !== undefined && stats.newLeads > 0 && (
+        <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-mono font-bold text-sm shrink-0">
+              {stats.newLeads}
+            </div>
+            <div>
+              <h3 className="text-xs font-semibold text-[var(--color-text)]">
+                {stats.newLeads === 1 ? '1 Inbound Evaluation Scope' : `${stats.newLeads} Inbound Evaluation Scopes`}
+              </h3>
+              <p className="text-[11px] text-[var(--color-muted)]">
+                Client evaluation inquiry awaiting review and initial reply.
+              </p>
+            </div>
+          </div>
+          <Link
+            href="/admin/leads"
+            className="px-3 py-1.5 rounded-lg bg-[var(--color-accent)] text-[var(--color-accent-fg)] text-xs font-semibold hover:opacity-90 transition-opacity flex items-center gap-1.5 self-start sm:self-auto shrink-0"
+          >
+            <span>Review Inbound Leads</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+      )}
+
       {/* Immediate Recheck Queue (Target <15s per check) */}
       <section className="space-y-4">
         <div className="flex items-center justify-between">

@@ -70,7 +70,7 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/studio" className="text-secondary hover:text-primary transition-colors">
+                <Link href="/evaluation" className="text-secondary hover:text-primary transition-colors">
                   Evaluation Studio
                 </Link>
               </li>

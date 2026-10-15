@@ -7,7 +7,7 @@ import { SealLogo } from '@/components/ui/SealLogo';
 import { dbRepository } from '@/lib/db/repository';
 import { adminLogoutAction } from '@/lib/actions/admin';
 import { AdminHeaderNav } from './AdminHeaderNav';
-import { LayoutDashboard, Briefcase, Layers, History, LogOut } from 'lucide-react';
+import { LayoutDashboard, Briefcase, Inbox, History, LogOut } from 'lucide-react';
 
 export const instant = false;
 
@@ -116,11 +116,11 @@ export default async function AdminDashboardLayout({
           <span className="text-xl font-bold leading-none">+</span>
         </Link>
         <Link
-          href="/admin/platforms"
+          href="/admin/leads"
           className="flex flex-col items-center gap-0.5 p-1 text-[var(--color-muted)] hover:text-[var(--color-accent)]"
         >
-          <Layers className="w-4 h-4" />
-          <span className="text-[10px] font-medium">Platforms</span>
+          <Inbox className="w-4 h-4" />
+          <span className="text-[10px] font-medium">Leads</span>
         </Link>
         <Link
           href="/admin/audit"

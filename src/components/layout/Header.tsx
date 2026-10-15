@@ -18,7 +18,7 @@ export function Header() {
     { label: "Guides", href: "/guides" },
     { label: "Scam Check", href: "/scam-check" },
     { label: "About", href: "/about" },
-    { label: "Studio", href: "/studio" },
+    { label: "Studio", href: "/evaluation" },
     { label: "Gallery", href: "/gallery" },
   ];
 

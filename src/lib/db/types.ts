@@ -220,4 +220,6 @@ export interface AdminStats {
   activeIncidents: number;
   pendingReports: number;
   openPrivacyRequests: number;
+  newLeads?: number;
+  totalLeads?: number;
 }
