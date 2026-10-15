@@ -6,6 +6,7 @@ import {
   Mail,
   ArrowRight,
 } from 'lucide-react';
+import { FAQPageJsonLd } from '@/components/seo/JsonLd';
 
 export const metadata: Metadata = {
   title: 'About Countersign & Jo (Ebube Okeke) | Independent AI Work Hub',
@@ -228,6 +229,9 @@ export default function AboutPage() {
           Standard turnaround: We respond within three working days and publish a correction or explain our editorial position.
         </p>
       </section>
+
+      {/* Structured Data: FAQPage */}
+      <FAQPageJsonLd faqs={FAQS} />
     </div>
   );
 }

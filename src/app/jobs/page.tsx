@@ -3,21 +3,42 @@ import type { Metadata } from 'next';
 import { dbRepository } from '@/lib/db/repository';
 import { JobsExplorer } from './JobsExplorer';
 
-export const metadata: Metadata = {
-  title: 'Verified Remote AI Work | Human-Checked Roles | Countersign',
-  description:
-    'Discover legitimate remote AI training, model evaluation, and RLHF roles. Every opportunity is human-verified against official feeds with transparent country eligibility and pay.',
-  alternates: {
-    canonical: '/jobs',
-  },
-  openGraph: {
-    title: 'Verified Remote AI Work | Countersign',
+interface JobsPageProps {
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+}
+
+export async function generateMetadata(props: JobsPageProps): Promise<Metadata> {
+  const searchParams = props.searchParams ? await props.searchParams : {};
+  const hasFilterParams = Object.keys(searchParams).some((key) => {
+    const val = searchParams[key];
+    return val !== undefined && val !== '';
+  });
+
+  return {
+    title: 'Verified Remote AI Work | Human-Checked Roles | Countersign',
     description:
-      'Human-verified remote AI training, RLHF, and model evaluation opportunities. Transparent country eligibility and pay.',
-    url: '/jobs',
-    type: 'website',
-  },
-};
+      'Discover legitimate remote AI training, model evaluation, and RLHF roles. Every opportunity is human-verified against official feeds with transparent country eligibility and pay.',
+    alternates: {
+      canonical: '/jobs',
+    },
+    openGraph: {
+      title: 'Verified Remote AI Work | Countersign',
+      description:
+        'Human-verified remote AI training, RLHF, and model evaluation opportunities. Transparent country eligibility and pay.',
+      url: '/jobs',
+      type: 'website',
+    },
+    robots: hasFilterParams
+      ? {
+          index: false,
+          follow: true,
+        }
+      : {
+          index: true,
+          follow: true,
+        },
+  };
+}
 
 export default function JobsPage() {
   const jobs = dbRepository.getJobs({ status: 'all' });

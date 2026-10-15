@@ -18,6 +18,7 @@ import { dbRepository } from '@/lib/db/repository';
 import { ConstraintCheckerExercise } from '@/components/guides/ConstraintCheckerExercise';
 import { EmailCapture } from '@/components/ui/EmailCapture';
 import { JobCard } from '@/components/ui/JobCard';
+import { BreadcrumbListJsonLd, ArticleJsonLd } from '@/components/seo/JsonLd';
 
 export const instant = false;
 
@@ -346,6 +347,24 @@ export default async function GuideDetailPage({ params }: GuidePageProps) {
             description="One email every Tuesday with fresh human-checked AI roles, platform reality updates, and tactical evaluation guides. No spam, unsubscribe any time."
           />
         </div>
+
+        {/* Structured Data: Breadcrumbs */}
+        <BreadcrumbListJsonLd
+          items={[
+            { name: 'Home', item: '/' },
+            { name: 'Practical Guides', item: '/guides' },
+            { name: guide.title, item: `/guides/${guide.slug}` },
+          ]}
+        />
+
+        {/* Structured Data: Article */}
+        <ArticleJsonLd
+          headline={guide.title}
+          description={guide.subtitle}
+          datePublished={guide.lastUpdated}
+          authorName={guide.author.name}
+          url={`/guides/${guide.slug}`}
+        />
       </div>
     </div>
   );

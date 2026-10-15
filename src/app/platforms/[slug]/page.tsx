@@ -14,6 +14,7 @@ import {
 import { dbRepository } from '@/lib/db/repository';
 import { ExpectationTimeline, TimelineStep } from '@/components/ui/ExpectationTimeline';
 import { JobCard } from '@/components/ui/JobCard';
+import { BreadcrumbListJsonLd } from '@/components/seo/JsonLd';
 
 export const instant = false;
 
@@ -239,6 +240,15 @@ export default async function PlatformDetailPage({ params }: PlatformDetailPageP
           <ArrowUpRight size={13} />
         </Link>
       </section>
+
+      {/* Structured Data: Breadcrumbs */}
+      <BreadcrumbListJsonLd
+        items={[
+          { name: 'Home', item: '/' },
+          { name: 'Platforms', item: '/platforms' },
+          { name: platform.name.replace(/\[SAMPLE\]/g, '').trim(), item: `/platforms/${platform.slug}` },
+        ]}
+      />
     </div>
   );
 }

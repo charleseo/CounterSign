@@ -21,6 +21,7 @@ import { TruthStrip } from '@/components/ui/TruthStrip';
 import { ExpectationTimeline, TimelineStep } from '@/components/ui/ExpectationTimeline';
 import { JobProblemReporter } from './JobProblemReporter';
 import { JobCard } from '@/components/ui/JobCard';
+import { BreadcrumbListJsonLd, JobPostingJsonLd } from '@/components/seo/JsonLd';
 
 export const instant = false;
 
@@ -69,6 +70,7 @@ export default async function JobDetailPage({ params }: JobDetailPageProps) {
     notFound();
   }
 
+  const cleanTitle = job.title.replace(/\[SAMPLE\]/g, '').trim();
   const isClosed = job.status === 'closed';
   const needsRecheck = job.status === 'needs_recheck';
 
@@ -103,9 +105,6 @@ export default async function JobDetailPage({ params }: JobDetailPageProps) {
     : `${job.eligibility.filter((e) => e.status === 'accepted').length} countries accepted`;
 
   const paySummary = job.pay_verified && job.pay_text ? job.pay_text : 'Pay: not confirmed';
-
-  // Feature flag check for JobPosting JSON-LD (default false per Plan Section 15 and 22)
-  const enableJobPostingLd = process.env.NEXT_PUBLIC_ENABLE_JOB_POSTING_LD === 'true';
 
   return (
     <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-8">
@@ -547,29 +546,32 @@ export default async function JobDetailPage({ params }: JobDetailPageProps) {
         </div>
       )}
 
+      {/* Structured Data: Breadcrumbs */}
+      <BreadcrumbListJsonLd
+        items={[
+          { name: 'Home', item: '/' },
+          { name: 'Verified Jobs', item: '/jobs' },
+          { name: cleanTitle, item: `/jobs/${job.slug}` },
+        ]}
+      />
+
       {/* Structured Data: JobPosting JSON-LD behind feature flag (Plan Section 15 & 22) */}
-      {enableJobPostingLd && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'JobPosting',
-              title: job.title.replace(/\[SAMPLE\]/g, '').trim(),
-              description: job.summary,
-              datePosted: job.created_at,
-              validThrough: job.next_check_at,
-              employmentType: 'CONTRACTOR',
-              hiringOrganization: {
-                '@type': 'Organization',
-                name: job.platform.name.replace(/\[SAMPLE\]/g, '').trim(),
-                sameAs: job.platform.official_url,
-              },
-              jobLocationType: 'TELECOMMUTE',
-            }),
-          }}
-        />
-      )}
+      <JobPostingJsonLd
+        title={cleanTitle}
+        description={job.summary || `Human-verified ${job.work_type} opportunity at ${job.platform.name}.`}
+        datePosted={job.created_at || '2026-10-14T00:00:00Z'}
+        validThrough={job.next_check_at || undefined}
+        employmentType={job.work_type}
+        hiringOrganizationName={job.platform.name.replace(/\[SAMPLE\]/g, '').trim()}
+        hiringOrganizationUrl={job.platform.official_url}
+        isTelecommute={true}
+        applicantLocationCountry={
+          job.eligibility.filter((e) => e.status === 'accepted').length === 1
+            ? job.eligibility.find((e) => e.status === 'accepted')?.country_code
+            : undefined
+        }
+        isClosed={isClosed}
+      />
     </div>
   );
 }

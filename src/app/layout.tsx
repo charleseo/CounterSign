@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeAndTierScript } from "@/components/ThemeAndTierScript";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { OrganizationAndWebsiteJsonLd } from "@/components/seo/JsonLd";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -40,6 +41,7 @@ export default function RootLayout({
     <html lang="en" data-theme="dark" data-tier="full" suppressHydrationWarning>
       <head>
         <ThemeAndTierScript />
+        <OrganizationAndWebsiteJsonLd />
       </head>
       <body className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}>
         <Header />
