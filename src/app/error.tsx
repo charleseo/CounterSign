@@ -22,16 +22,16 @@ export default function GlobalError({
       <div className="max-w-md w-full space-y-6 text-center">
         {/* Seal Icon & Code */}
         <div className="space-y-3">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[var(--color-surface)] border border-red-500/30 shadow-sm">
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl glass-panel animate-float" style={{ borderColor: 'rgba(255, 107, 107, 0.2)' }}>
             <SealLogo size={28} color="danger" />
           </div>
-          <div className="text-xs font-mono font-bold uppercase tracking-wider text-red-400">
+          <div className="text-xs font-mono font-bold uppercase tracking-wider text-[var(--accent-danger)]">
             System Notice : Recoverable View Error
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[var(--color-text)]">
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-gradient-cyan">
             That did not send. Your text is still here. Try again.
           </h1>
-          <p className="text-xs sm:text-sm text-[var(--color-muted)] leading-relaxed">
+          <p className="text-xs sm:text-sm text-secondary leading-relaxed">
             We encountered a temporary processing interruption while rendering this view. Your input has been preserved in memory. Tap below to re-verify and retry.
           </p>
         </div>
@@ -40,14 +40,14 @@ export default function GlobalError({
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
           <button
             onClick={() => reset()}
-            className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-[var(--color-accent)] text-[var(--color-accent-fg)] text-xs font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-2 cursor-pointer shadow-sm"
+            className="shimmer-sweep w-full sm:w-auto px-5 py-2.5 rounded-xl bg-[var(--accent-cyan)] text-[var(--bg-void)] text-xs font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-2 cursor-pointer glow-cyan-sm"
           >
             <RefreshCw className="w-3.5 h-3.5" />
             <span>Retry Operation</span>
           </button>
           <Link
             href="/"
-            className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] hover:border-[var(--color-accent)] text-xs text-[var(--color-text)] font-semibold transition-colors flex items-center justify-center gap-2"
+            className="glass-card w-full sm:w-auto px-5 py-2.5 rounded-xl text-xs text-primary font-semibold flex items-center justify-center gap-2"
           >
             <Home className="w-3.5 h-3.5" />
             <span>Return to Home</span>
@@ -56,7 +56,7 @@ export default function GlobalError({
 
         {/* Error Digest (if available, without stack trace) */}
         {error.digest && (
-          <div className="pt-4 border-t border-[var(--color-border)] text-[11px] font-mono text-[var(--color-muted)]">
+          <div className="pt-4 border-t border-[var(--border-subtle)] text-[11px] font-mono text-secondary">
             Diagnostic reference: {error.digest}
           </div>
         )}

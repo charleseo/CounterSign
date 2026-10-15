@@ -83,12 +83,12 @@ export default function MethodologyPage() {
   return (
     <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-12">
       {/* 1. Header */}
-      <div className="space-y-4 pb-6 border-b border-subtle">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-subtle bg-surface text-xs font-mono text-secondary">
-          <ShieldCheck size={14} className="text-accent-cyan" />
+      <div className="space-y-4 pb-6 border-b border-[var(--border-subtle)]">
+        <div className="glass-pill inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono text-secondary">
+          <ShieldCheck size={14} className="text-[var(--accent-cyan)]" />
           <span>Section 9.4 &amp; 13.1 Verification Protocol</span>
         </div>
-        <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-primary">
+        <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-gradient-cyan">
           Verification Methodology
         </h1>
         <p className="text-sm sm:text-base text-secondary max-w-2xl leading-relaxed">
@@ -107,35 +107,37 @@ export default function MethodologyPage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
           {/* Verified */}
-          <div className="p-5 rounded-xl border border-accent-emerald/30 bg-surface space-y-2">
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-accent-emerald"></span>
-              <span className="text-xs font-mono font-bold text-accent-emerald uppercase tracking-wider">
+          <div className="glass-card rounded-xl p-5 space-y-2 relative overflow-hidden" style={{ borderColor: 'rgba(69, 245, 197, 0.2)' }}>
+            <div className="absolute -top-6 -right-6 w-20 h-20 bg-[radial-gradient(circle,rgba(69,245,197,0.08)_0%,transparent_70%)] pointer-events-none" />
+            <div className="flex items-center gap-2 relative">
+              <span className="w-2.5 h-2.5 rounded-full bg-[var(--accent-emerald)] radar-dot"></span>
+              <span className="text-xs font-mono font-bold text-[var(--accent-emerald)] uppercase tracking-wider">
                 Verified (Fresh)
               </span>
             </div>
-            <p className="text-xs text-readable leading-relaxed">
+            <p className="text-xs text-readable leading-relaxed relative">
               Checked by a human evaluator within the last 14 days. Application endpoint confirmed open, country rules validated, and no red flags detected.
             </p>
           </div>
 
           {/* Needs Recheck */}
-          <div className="p-5 rounded-xl border border-accent-amber/30 bg-surface space-y-2">
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-accent-amber"></span>
-              <span className="text-xs font-mono font-bold text-accent-amber uppercase tracking-wider">
+          <div className="glass-card rounded-xl p-5 space-y-2 relative overflow-hidden" style={{ borderColor: 'rgba(255, 198, 109, 0.2)' }}>
+            <div className="absolute -top-6 -right-6 w-20 h-20 bg-[radial-gradient(circle,rgba(255,198,109,0.06)_0%,transparent_70%)] pointer-events-none" />
+            <div className="flex items-center gap-2 relative">
+              <span className="w-2.5 h-2.5 rounded-full bg-[var(--accent-amber)]"></span>
+              <span className="text-xs font-mono font-bold text-[var(--accent-amber)] uppercase tracking-wider">
                 Needs Recheck (Aging)
               </span>
             </div>
-            <p className="text-xs text-readable leading-relaxed">
+            <p className="text-xs text-readable leading-relaxed relative">
               Between 14 and 30 days since the last human verification pass. The page displays an amber warning banner advising candidates to check official requisitions before applying.
             </p>
           </div>
 
           {/* Closed */}
-          <div className="p-5 rounded-xl border border-subtle bg-surface space-y-2">
+          <div className="glass-card rounded-xl p-5 space-y-2">
             <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-secondary"></span>
+              <span className="w-2.5 h-2.5 rounded-full bg-[var(--text-secondary)]"></span>
               <span className="text-xs font-mono font-bold text-secondary uppercase tracking-wider">
                 Closed (Historical)
               </span>
@@ -146,14 +148,15 @@ export default function MethodologyPage() {
           </div>
 
           {/* Unconfirmed / Hidden */}
-          <div className="p-5 rounded-xl border border-accent-rose/30 bg-surface space-y-2">
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-accent-rose"></span>
-              <span className="text-xs font-mono font-bold text-accent-rose uppercase tracking-wider">
+          <div className="glass-card rounded-xl p-5 space-y-2 relative overflow-hidden" style={{ borderColor: 'rgba(255, 107, 107, 0.2)' }}>
+            <div className="absolute -bottom-6 -right-6 w-20 h-20 bg-[radial-gradient(circle,rgba(255,107,107,0.06)_0%,transparent_70%)] pointer-events-none" />
+            <div className="flex items-center gap-2 relative">
+              <span className="w-2.5 h-2.5 rounded-full bg-[var(--accent-danger)]"></span>
+              <span className="text-xs font-mono font-bold text-[var(--accent-danger)] uppercase tracking-wider">
                 Hidden at 30 Days
               </span>
             </div>
-            <p className="text-xs text-readable leading-relaxed">
+            <p className="text-xs text-readable leading-relaxed relative">
               If an active listing reaches 30 days without human re-verification, the daily status sweeper automatically hides it from public search until re-checked.
             </p>
           </div>
@@ -175,9 +178,10 @@ export default function MethodologyPage() {
           {VERIFICATION_STEPS.map((step) => (
             <div
               key={step.num}
-              className="p-4 rounded-xl border border-subtle bg-surface flex items-start gap-3.5"
+              className="glass-card rounded-xl p-4 flex items-start gap-3.5 relative overflow-hidden group"
             >
-              <div className="w-7 h-7 rounded-lg border border-subtle bg-void flex items-center justify-center font-mono font-bold text-accent-cyan text-xs shrink-0 mt-0.5">
+              {/* Step number with glow */}
+              <div className="w-7 h-7 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-void)] flex items-center justify-center font-mono font-bold text-[var(--accent-cyan)] text-xs shrink-0 mt-0.5 group-hover:glow-cyan-sm transition-all">
                 {step.num}
               </div>
 
@@ -195,33 +199,35 @@ export default function MethodologyPage() {
       </section>
 
       {/* 4. Country Eligibility Standard */}
-      <section className="rounded-xl border border-subtle bg-surface p-5 sm:p-6 space-y-4">
-        <div className="flex items-center gap-2 text-xs font-mono font-bold text-accent-cyan uppercase tracking-wider">
+      <section className="glass-panel rounded-xl p-5 sm:p-6 space-y-4 relative overflow-hidden">
+        <div className="absolute -top-10 -right-10 w-28 h-28 bg-[radial-gradient(circle,rgba(61,235,255,0.06)_0%,transparent_70%)] pointer-events-none" />
+
+        <div className="flex items-center gap-2 text-xs font-mono font-bold text-[var(--accent-cyan)] uppercase tracking-wider relative">
           <Search size={16} />
           <span>Country Eligibility Standard</span>
         </div>
-        <h3 className="text-base sm:text-lg font-bold text-primary">
+        <h3 className="text-base sm:text-lg font-bold text-primary relative">
           How We Determine Who Can Apply
         </h3>
-        <p className="text-xs sm:text-sm text-readable leading-relaxed">
+        <p className="text-xs sm:text-sm text-readable leading-relaxed relative">
           The remote work ecosystem suffers from misleading &quot;worldwide&quot; claims that waste candidates time. At Countersign, country status follows strict rules:
         </p>
 
-        <ul className="space-y-2 text-xs text-readable leading-relaxed pt-2">
+        <ul className="space-y-2 text-xs text-readable leading-relaxed pt-2 relative">
           <li className="flex items-start gap-2">
-            <CheckCircle2 size={14} className="text-accent-emerald shrink-0 mt-0.5" />
+            <CheckCircle2 size={14} className="text-[var(--accent-emerald)] shrink-0 mt-0.5" />
             <span>
               <strong>Accepted:</strong> The official application dropdown or employer documentation explicitly lists the country as eligible for payout and identity verification.
             </span>
           </li>
           <li className="flex items-start gap-2">
-            <AlertTriangle size={14} className="text-accent-amber shrink-0 mt-0.5" />
+            <AlertTriangle size={14} className="text-[var(--accent-amber)] shrink-0 mt-0.5" />
             <span>
               <strong>Unconfirmed:</strong> The employer listing is silent regarding the specific country. We display an honest note explaining that eligibility could not be confirmed.
             </span>
           </li>
           <li className="flex items-start gap-2">
-            <XCircle size={14} className="text-accent-rose shrink-0 mt-0.5" />
+            <XCircle size={14} className="text-[var(--accent-danger)] shrink-0 mt-0.5" />
             <span>
               <strong>Not Accepted:</strong> The employer explicitly excludes the territory due to compliance, tax, or payroll corridor constraints.
             </span>
@@ -230,18 +236,20 @@ export default function MethodologyPage() {
       </section>
 
       {/* 5. Audit Log & Public Traceability */}
-      <section className="rounded-xl border border-subtle bg-void p-5 sm:p-6 space-y-3">
-        <div className="flex items-center gap-2 text-xs font-mono font-bold text-primary uppercase tracking-wider">
-          <FileText size={15} className="text-accent-cyan" />
+      <section className="glass-panel rounded-xl p-5 sm:p-6 space-y-3 relative overflow-hidden">
+        <div className="absolute -bottom-8 -left-8 w-24 h-24 bg-[radial-gradient(circle,rgba(139,124,255,0.05)_0%,transparent_70%)] pointer-events-none" />
+
+        <div className="flex items-center gap-2 text-xs font-mono font-bold text-primary uppercase tracking-wider relative">
+          <FileText size={15} className="text-[var(--accent-cyan)]" />
           <span>Immutable Verification Trail</span>
         </div>
-        <p className="text-xs sm:text-sm text-readable leading-relaxed">
+        <p className="text-xs sm:text-sm text-readable leading-relaxed relative">
           Every check conducted by our staff creates a permanent record in our check log with the exact date, check result, and observation note. You can view the verification check history on every individual job detail page.
         </p>
-        <div className="pt-2">
+        <div className="pt-2 relative">
           <Link
             href="/jobs"
-            className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-accent-cyan hover:underline"
+            className="shimmer-sweep inline-flex items-center gap-1.5 text-xs font-mono font-bold text-[var(--accent-cyan)] hover:underline px-2 py-1 rounded-lg"
           >
             <span>Browse currently verified roles</span>
             <ArrowRight size={13} />

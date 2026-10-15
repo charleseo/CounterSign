@@ -22,12 +22,12 @@ export default function ScamCheckPage() {
   return (
     <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-8">
       {/* Page Header */}
-      <div className="space-y-3 pb-6 border-b border-subtle">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-subtle bg-surface text-xs font-mono text-secondary">
-          <ShieldAlert size={14} className="text-accent-rose" />
+      <div className="space-y-3 pb-6 border-b border-[var(--border-subtle)]">
+        <div className="glass-pill inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono text-secondary">
+          <ShieldAlert size={14} className="text-[var(--accent-danger)]" />
           <span>Section 7.8 &amp; 9.6 Verification Engine</span>
         </div>
-        <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-primary">
+        <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-gradient-cyan">
           AI Work Scam Check &amp; Red Flag Audit
         </h1>
         <p className="text-sm sm:text-base text-secondary max-w-2xl leading-relaxed">

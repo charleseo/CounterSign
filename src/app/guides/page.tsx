@@ -26,11 +26,11 @@ export default function GuidesIndexPage() {
     <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-8">
       {/* Header */}
       <div className="space-y-3">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-subtle bg-surface text-xs font-mono text-secondary">
-          <BookOpen size={14} className="text-accent-cyan" />
+        <div className="glass-pill inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono text-secondary">
+          <BookOpen size={14} className="text-[var(--accent-cyan)]" />
           <span>Section 7.7 Practical Playbooks</span>
         </div>
-        <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-primary">
+        <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-gradient-cyan">
           Practical Guides for Remote AI Work
         </h1>
         <p className="text-sm sm:text-base text-secondary max-w-2xl leading-relaxed">
@@ -43,13 +43,16 @@ export default function GuidesIndexPage() {
         {guides.map((guide) => (
           <article
             key={guide.slug}
-            className="rounded-xl border border-subtle bg-surface p-5 sm:p-6 flex flex-col justify-between gap-5 card-interactive hover:border-focus transition-all group"
+            className="glass-card rounded-xl p-5 sm:p-6 flex flex-col justify-between gap-5 group relative overflow-hidden"
           >
-            <div className="space-y-3">
+            {/* Ambient corner glow */}
+            <div className="absolute -top-8 -right-8 w-24 h-24 bg-[radial-gradient(circle,rgba(139,124,255,0.08)_0%,transparent_70%)] pointer-events-none group-hover:opacity-100 opacity-60 transition-opacity" />
+
+            <div className="space-y-3 relative">
               {/* Meta & Reading Time */}
               <div className="flex items-center justify-between text-[11px] font-mono text-secondary">
                 <div className="flex items-center gap-1.5">
-                  <Clock size={12} className="text-accent-cyan" />
+                  <Clock size={12} className="text-[var(--accent-cyan)]" />
                   <span>{guide.readingTime}</span>
                 </div>
                 <span>
@@ -63,7 +66,7 @@ export default function GuidesIndexPage() {
 
               {/* Title & Subtitle */}
               <div className="space-y-1.5">
-                <h2 className="text-base sm:text-lg font-bold text-primary group-hover:text-accent-cyan transition-colors leading-snug">
+                <h2 className="text-base sm:text-lg font-bold text-primary group-hover:text-[var(--accent-cyan)] transition-colors leading-snug">
                   <Link href={`/guides/${guide.slug}`} className="focus:outline-none">
                     {guide.title}
                   </Link>
@@ -74,11 +77,11 @@ export default function GuidesIndexPage() {
               </div>
 
               {/* Topic Tags */}
-              <div className="flex flex-wrap gap-1.5 pt-2 border-t border-subtle">
+              <div className="flex flex-wrap gap-1.5 pt-2 border-t border-[var(--border-subtle)]">
                 {guide.topicTags.map((tag) => (
                   <span
                     key={tag}
-                    className="inline-flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded bg-void border border-subtle text-secondary"
+                    className="glass-pill inline-flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded text-secondary"
                   >
                     <Tag size={10} />
                     <span>{tag}</span>
@@ -88,13 +91,13 @@ export default function GuidesIndexPage() {
             </div>
 
             {/* Read Guide Link */}
-            <div className="pt-3 border-t border-subtle flex items-center justify-between">
+            <div className="pt-3 border-t border-[var(--border-subtle)] flex items-center justify-between relative">
               <span className="text-[11px] font-mono text-secondary">
                 By {guide.author.name}
               </span>
               <Link
                 href={`/guides/${guide.slug}`}
-                className="inline-flex items-center gap-1 text-xs font-mono font-semibold text-accent-cyan hover:underline"
+                className="shimmer-sweep inline-flex items-center gap-1 text-xs font-mono font-semibold text-[var(--accent-cyan)] hover:underline px-2 py-1 rounded-lg"
               >
                 <span>Read guide</span>
                 <ArrowRight size={13} />
@@ -105,8 +108,8 @@ export default function GuidesIndexPage() {
       </div>
 
       {/* Trust Notice */}
-      <div className="rounded-xl border border-subtle bg-void p-5 text-xs text-secondary leading-relaxed flex items-start gap-3">
-        <ShieldCheck size={18} className="text-accent-cyan shrink-0 mt-0.5" />
+      <div className="glass-panel rounded-xl p-5 text-xs text-secondary leading-relaxed flex items-start gap-3">
+        <ShieldCheck size={18} className="text-[var(--accent-cyan)] shrink-0 mt-0.5" />
         <div>
           <strong className="text-primary font-mono uppercase tracking-wider block mb-1">
             Editorial Standard

@@ -177,7 +177,7 @@ export function ScamCheckClient() {
   return (
     <div className="space-y-10">
       {/* 1. Quick Inquiry Input */}
-      <div className="rounded-xl border border-subtle bg-surface p-5 sm:p-6 space-y-4">
+      <div className="glass-panel rounded-xl p-5 sm:p-6 space-y-4">
         <div className="space-y-1">
           <label
             htmlFor="inquiry-input"
@@ -234,7 +234,7 @@ export function ScamCheckClient() {
                 className={`rounded-xl border p-4 flex items-start gap-3.5 cursor-pointer transition-all select-none ${
                   isChecked
                     ? 'border-accent-rose/50 bg-elevated ring-1 ring-accent-rose/40'
-                    : 'border-subtle bg-surface hover:border-focus'
+                    : 'glass-card hover:border-focus'
                 }`}
               >
                 <input
@@ -283,8 +283,10 @@ export function ScamCheckClient() {
       <section
         role="region"
         aria-label="Risk analysis score"
-        className="rounded-xl border border-subtle bg-surface p-5 sm:p-6 space-y-4"
+        className="glass-panel rounded-xl p-5 sm:p-6 space-y-4 relative overflow-hidden"
       >
+        {/* Ambient risk glow */}
+        <div className="absolute -top-10 -right-10 w-28 h-28 bg-[radial-gradient(circle,rgba(61,235,255,0.05)_0%,transparent_70%)] pointer-events-none" />
         <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-subtle">
           <div className="space-y-0.5">
             <span className="text-[11px] font-mono uppercase tracking-wider text-secondary">
@@ -327,7 +329,7 @@ export function ScamCheckClient() {
       </section>
 
       {/* 4. Scam Reporting Form (Section 7.8 & 9.6) */}
-      <section className="rounded-xl border border-subtle bg-surface p-5 sm:p-6 space-y-5">
+      <section className="glass-panel rounded-xl p-5 sm:p-6 space-y-5 relative overflow-hidden">
         <div className="space-y-1">
           <div className="flex items-center gap-2 text-xs font-mono font-bold text-accent-rose uppercase tracking-wider">
             <ShieldAlert size={15} />
@@ -459,7 +461,7 @@ export function ScamCheckClient() {
               <button
                 type="submit"
                 disabled={isPending}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg border border-accent-rose/30 bg-accent-rose/20 text-accent-rose font-mono font-bold text-xs uppercase tracking-wider hover:bg-accent-rose/30 transition-all disabled:opacity-50"
+                className="shimmer-sweep w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg border border-accent-rose/30 bg-accent-rose/20 text-accent-rose font-mono font-bold text-xs uppercase tracking-wider hover:bg-accent-rose/30 transition-all disabled:opacity-50"
               >
                 {isPending ? (
                   <span>Submitting report...</span>

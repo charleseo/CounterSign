@@ -40,29 +40,35 @@ export default function ComparePlatformsPage() {
   }));
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-8">
+    <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-14 space-y-10">
+      {/* Ambient background glow accents */}
+      <div className="absolute top-10 -left-20 w-80 h-80 bg-[radial-gradient(circle,rgba(61,235,255,0.06)_0%,transparent_70%)] pointer-events-none -z-10" />
+      <div className="absolute top-1/2 -right-20 w-96 h-96 bg-[radial-gradient(circle,rgba(0,229,153,0.05)_0%,transparent_70%)] pointer-events-none -z-10" />
+
       {/* Header */}
-      <div className="space-y-3">
+      <div className="space-y-4">
         <div className="flex items-center gap-2 text-xs font-mono text-secondary">
-          <Link href="/platforms" className="hover:text-primary transition-colors">
+          <Link href="/platforms" className="hover:text-accent-cyan transition-colors">
             Platforms
           </Link>
           <span>/</span>
           <span className="text-primary font-medium">Compare</span>
         </div>
 
-        <div className="flex items-center gap-2.5">
-          <Scale className="text-accent-cyan" size={28} />
-          <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-primary">
+        <div className="space-y-2">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-medium glass-pill text-accent-cyan border border-cyan-500/30">
+            <Scale className="w-3.5 h-3.5" />
+            <span>Multi-Platform Feature Matrix & Pay Rail Audit</span>
+          </div>
+          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-primary">
             <span className="text-gradient-cyan">Compare AI Training Platforms</span>
           </h1>
+          <p className="text-sm sm:text-base text-readable max-w-3xl leading-relaxed">
+            Side-by-side breakdown of up to four contributor platforms. Compare onboarding complexity, payout mechanisms, Nigerian contributor acceptance, and active job counts without marketing bias.
+          </p>
         </div>
 
-        <p className="text-sm text-readable max-w-3xl leading-relaxed">
-          Side-by-side breakdown of up to four contributor platforms. Compare onboarding complexity, payout mechanisms, Nigerian contributor acceptance, and active job counts without marketing bias.
-        </p>
-
-        <div className="p-3.5 rounded-xl border border-subtle bg-surface text-xs text-secondary flex items-center gap-2">
+        <div className="p-4 rounded-2xl glass-panel border border-cyan-500/20 text-xs text-secondary flex items-center gap-2.5 shadow-lg">
           <ShieldCheck size={16} className="text-accent-cyan shrink-0" />
           <span>
             Every data point is human-checked against official documentation within 14 days. Unconfirmed data points state &quot;Not confirmed&quot; rather than guessing.
