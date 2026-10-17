@@ -18,14 +18,22 @@ import { connection } from 'next/server';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Weekly Analytics & Metrics Dashboard | Countersign Admin',
+  title: 'Weekly Analytics & Metrics Dashboard | TraceBase Admin',
   description: 'Section 18.2 operations KPIs, privacy-friendly event aggregates, and performance stats.',
 };
 
-export default async function AdminMetricsPage() {
+interface AdminMetricsPageProps {
+  searchParams?: Promise<{ range?: string }>;
+}
+
+export default async function AdminMetricsPage({ searchParams }: AdminMetricsPageProps) {
   await connection();
+  const params = searchParams ? await searchParams : {};
+  const range = params.range === '30' ? '30' : '7';
+  const rangeDays = range === '30' ? 30 : 7;
+
   const stats = dbRepository.getAdminStats();
-  const analytics = dbRepository.getAnalyticsStats();
+  const analytics = dbRepository.getAnalyticsStats(rangeDays);
   const leads = dbRepository.getEvalLeads();
   const reports = dbRepository.getReports();
 
@@ -40,21 +48,79 @@ export default async function AdminMetricsPage() {
         <div>
           <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--color-text)] flex items-center gap-2">
             <BarChart3 className="w-5 h-5 text-[var(--color-accent)]" />
-            <span>Weekly Operations Dashboard</span>
+            <span>Operations Dashboard</span>
           </h1>
           <p className="text-xs sm:text-sm text-[var(--color-muted)] mt-0.5">
-            Master Plan Section 18.2 KPIs: supply, trust discipline, audience retention, and commercial pipeline. Zero cookies or PII.
+            Privacy-preserving event aggregates and Section 18.2 benchmarks ({rangeDays}-day window). Zero cookies or PII.
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          {/* 7 & 30 Day View Toggle */}
+          <div className="flex items-center bg-[var(--color-surface)] p-1 rounded-xl border border-[var(--color-border)] text-xs font-semibold">
+            <Link
+              href="/admin/metrics?range=7"
+              className={`px-3 py-1.5 rounded-lg transition-colors min-h-[32px] flex items-center ${
+                range === '7'
+                  ? 'bg-[#5A35C8] text-white shadow-xs'
+                  : 'text-[var(--color-muted)] hover:text-[var(--color-text)]'
+              }`}
+            >
+              7 days
+            </Link>
+            <Link
+              href="/admin/metrics?range=30"
+              className={`px-3 py-1.5 rounded-lg transition-colors min-h-[32px] flex items-center ${
+                range === '30'
+                  ? 'bg-[#5A35C8] text-white shadow-xs'
+                  : 'text-[var(--color-muted)] hover:text-[var(--color-text)]'
+              }`}
+            >
+              30 days
+            </Link>
+          </div>
+
           <Link
             href="/admin/digest"
-            className="px-3.5 py-2 rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] hover:border-[var(--color-accent)] text-xs text-[var(--color-text)] font-medium flex items-center gap-1.5 transition-colors"
+            className="px-3.5 py-2 rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] hover:border-[var(--color-accent)] text-xs text-[var(--color-text)] font-medium flex items-center gap-1.5 transition-colors min-h-[44px]"
           >
             <Mail className="w-4 h-4 text-[var(--color-accent)]" />
             <span>Weekly Digest Generator</span>
           </Link>
+        </div>
+      </div>
+
+      {/* Key Activity Metrics Grid (Cookieless tracked events) */}
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+        <div className="p-4 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] text-center space-y-1">
+          <div className="text-2xl font-bold font-mono text-[var(--color-text)] tabular-nums">
+            {analytics.eventCounts['apply_click'] || 0}
+          </div>
+          <div className="text-[11px] text-[var(--color-muted)]">Apply clicks</div>
+        </div>
+        <div className="p-4 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] text-center space-y-1">
+          <div className="text-2xl font-bold font-mono text-[var(--color-text)] tabular-nums">
+            {analytics.eventCounts['scam_check_complete'] || 0}
+          </div>
+          <div className="text-[11px] text-[var(--color-muted)]">Scam checks</div>
+        </div>
+        <div className="p-4 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] text-center space-y-1">
+          <div className="text-2xl font-bold font-mono text-[var(--color-text)] tabular-nums">
+            {analytics.eventCounts['alert_signup'] || 0}
+          </div>
+          <div className="text-[11px] text-[var(--color-muted)]">Alert signups</div>
+        </div>
+        <div className="p-4 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] text-center space-y-1">
+          <div className="text-2xl font-bold font-mono text-[var(--color-text)] tabular-nums">
+            {analytics.eventCounts['share_click'] || 0}
+          </div>
+          <div className="text-[11px] text-[var(--color-muted)]">Role shares</div>
+        </div>
+        <div className="p-4 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] text-center space-y-1">
+          <div className="text-2xl font-bold font-mono text-[var(--color-text)] tabular-nums">
+            {analytics.eventCounts['scope_submit'] || 0}
+          </div>
+          <div className="text-[11px] text-[var(--color-muted)]">Scope inquiries</div>
         </div>
       </div>
 
@@ -66,7 +132,7 @@ export default async function AdminMetricsPage() {
               Master Plan Section 18.2 Metrics Matrix
             </h2>
             <p className="text-xs text-[var(--color-muted)]">
-              Eleven disciplined benchmarks designed to validate real utility without vanity figures.
+              Eleven disciplined benchmarks designed to validate real effectiveness without vanity figures.
             </p>
           </div>
           <span className="text-xs font-mono px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
@@ -138,7 +204,7 @@ export default async function AdminMetricsPage() {
                   <span>Total Privacy-Preserved Events</span>
                 </td>
                 <td className="p-3.5 font-mono font-bold text-[var(--color-text)]">
-                  {analytics.totalEvents} telemetry events
+                  {analytics.totalEvents} analytics events
                 </td>
                 <td className="p-3.5 text-[var(--color-muted)]">
                   Audience: Zero cookies, zero fingerprints, respects DNT
@@ -321,7 +387,7 @@ export default async function AdminMetricsPage() {
         <div className="flex items-center justify-between">
           <div className="space-y-0.5">
             <h3 className="text-sm font-bold text-[var(--color-text)]">
-              Real-Time Telemetry Feed (Section 18.1 Events)
+              Real-Time Activity Feed (Event Log)
             </h3>
             <p className="text-xs text-[var(--color-muted)]">
               Latest privacy-preserving client interactions across the web application.
@@ -334,7 +400,7 @@ export default async function AdminMetricsPage() {
 
         {analytics.recentEvents.length === 0 ? (
           <div className="p-8 text-center text-xs text-[var(--color-muted)] font-mono">
-            No telemetry events recorded yet. Navigate the site to generate events.
+            No activity events recorded yet. Navigate the site to generate events.
           </div>
         ) : (
           <div className="space-y-1.5 font-mono text-xs max-h-80 overflow-y-auto">

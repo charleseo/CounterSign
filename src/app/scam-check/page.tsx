@@ -3,14 +3,14 @@ import { ShieldAlert } from 'lucide-react';
 import { ScamCheckClient } from './ScamCheckClient';
 
 export const metadata: Metadata = {
-  title: 'Scam Check: 10-Point AI Job Verification Checklist | Countersign',
+  title: 'Scam Check: 10-Point AI Job Verification Checklist | TraceBase',
   description:
     'Evaluate whether an AI job offer or recruiter contact is legitimate before sharing personal details. Interactive 10-point red flag checklist and moderation report form.',
   alternates: {
     canonical: '/scam-check',
   },
   openGraph: {
-    title: 'Scam Check: 10-Point AI Job Verification Checklist | Countersign',
+    title: 'Scam Check: 10-Point AI Job Verification Checklist | TraceBase',
     description:
       'Spot fake AI jobs, crypto payment traps, and advance-fee schemes with our interactive 10-point checklist.',
     url: '/scam-check',
@@ -22,12 +22,12 @@ export default function ScamCheckPage() {
   return (
     <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-8">
       {/* Page Header */}
-      <div className="space-y-3 pb-6 border-b border-[var(--border-subtle)]">
-        <div className="glass-pill inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono text-secondary">
-          <ShieldAlert size={14} className="text-[var(--accent-danger)]" />
-          <span>Section 7.8 &amp; 9.6 Verification Engine</span>
+      <div className="space-y-3 pb-6 border-b border-rule">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-rule bg-sheet text-xs text-secondary">
+          <ShieldAlert size={14} className="text-[#A8322A]" />
+          <span>Verification &amp; Scam Prevention</span>
         </div>
-        <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-gradient-cyan">
+        <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-ink">
           AI Work Scam Check &amp; Red Flag Audit
         </h1>
         <p className="text-sm sm:text-base text-secondary max-w-2xl leading-relaxed">

@@ -17,13 +17,13 @@ export default async function AdminAuditPage() {
             <span>Administrative Audit Log</span>
           </h1>
           <p className="text-xs sm:text-sm text-[var(--color-muted)] mt-0.5">
-            Tamper-evident, immutable event stream tracking every verification, edit, and automated sweeper action.
+            Tamper-evident event stream tracking every verification, edit, and automated sweeper action.
           </p>
         </div>
 
         <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] text-xs text-[var(--color-muted)]">
           <ShieldCheck className="w-4 h-4 text-emerald-400" />
-          <span>Section 12 Compliant</span>
+          <span>Audit trail active</span>
         </div>
       </div>
 

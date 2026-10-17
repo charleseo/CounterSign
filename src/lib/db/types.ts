@@ -1,4 +1,4 @@
-// TypeScript definitions for Countersign Master Schema (Milestone 3)
+// TypeScript definitions for TraceBase Master Schema (Milestone 3)
 // Corresponds directly to PostgreSQL DDL in supabase/migrations/20261014000000_m3_schema.sql
 
 export type JobStatus = 'verified' | 'needs_recheck' | 'closed' | 'unconfirmed';
@@ -61,6 +61,8 @@ export interface Job {
   created_by: string | null;
   created_at: string;
   daysAgo?: number;
+  is_sample?: boolean;
+  is_managed?: boolean;
 }
 
 export interface Country {
@@ -207,6 +209,19 @@ export interface Report {
   created_at: string;
 }
 
+export interface WeeklyScamPost {
+  id: string;
+  slug: string;
+  title: string;
+  reported_date: string;
+  message_paraphrased: string;
+  warning_signs: string[];
+  what_to_do: string[];
+  published: boolean;
+  source_report_id?: string | null;
+  created_at: string;
+}
+
 export interface EvalLead {
   id: string;
   reference_id: string;
@@ -258,6 +273,7 @@ export interface PrivacyRequest {
   id: string;
   kind: PrivacyRequestKind;
   contact_email: string;
+  country_code?: string | null;
   received_at: string;
   due_at: string;
   closed_at: string | null;
@@ -294,6 +310,9 @@ export interface AdminStats {
   totalLeads?: number;
   pendingCommunityReports?: number;
   evaluatorApplications?: number;
+  maxLiveRoles?: number;
+  activeJobs?: number;
+  recheckCapacityWarning?: boolean;
 }
 
 // Milestone 11: Phase 1 Feature Types
@@ -337,6 +356,11 @@ export interface AggregatedPlatformExperience {
   tasks_intermittent_percent: number;
   tasks_empty_queue_percent: number;
   removed_without_explanation_percent: number;
+  onboarding_paid_count: number;
+  tasks_regular_count: number;
+  tasks_intermittent_count: number;
+  tasks_empty_queue_count: number;
+  removed_without_explanation_count: number;
   earliest_period: string | null;
   latest_period: string | null;
 }

@@ -70,7 +70,7 @@ export function TierToggle({
         onClick={handleToggle}
         aria-pressed={isDataSaver}
         title={`Current mode: ${tier.toUpperCase()}. Click to cycle (Full, Lite, Basic).`}
-        className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono font-medium rounded border transition-colors border-subtle bg-surface text-secondary hover:text-primary hover:border-focus"
+        className="inline-flex items-center gap-2 px-3 py-2 min-h-[44px] text-xs font-mono font-medium rounded-lg border transition-colors border-subtle bg-surface text-secondary hover:text-primary hover:border-focus"
       >
         <span
           className={`w-2 h-2 rounded-full transition-colors ${
@@ -82,16 +82,16 @@ export function TierToggle({
           }`}
           aria-hidden="true"
         />
-        <span>Tier: <span className="uppercase text-primary font-semibold">{tier}</span></span>
+        <span>Display: <span className="text-primary font-semibold capitalize">{tier === "full" ? "standard" : tier === "lite" ? "data saver" : "text only"}</span></span>
       </button>
 
       {showExplanation && (
         <span className="mt-1 text-[11px] text-secondary">
           {tier === "full"
-            ? "Full mode: glass headers and card spotlight edges."
+            ? "Standard view: full details and interactive elements."
             : tier === "lite"
-            ? "Lite mode: minimal mobile data (<48KB), flat surfaces."
-            : "Basic mode: ultra-lean text-first, zero animations, maximum battery conservation."}
+            ? "Data saver view: minimal mobile data usage."
+            : "Text only view: ultra-lean text, zero animations."}
         </span>
       )}
     </div>

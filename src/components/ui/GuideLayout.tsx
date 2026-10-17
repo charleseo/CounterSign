@@ -73,7 +73,7 @@ export function GuideLayout({
         {tableOfContents.length > 0 && (
           <aside className="hidden lg:block lg:col-span-3">
             <div className="sticky top-24 p-4 rounded-xl border border-subtle bg-surface text-xs font-mono space-y-3">
-              <div className="text-secondary uppercase tracking-wider font-semibold text-[11px] flex items-center gap-1.5">
+              <div className="text-secondary font-semibold text-[11px] flex items-center gap-1.5">
                 <BookOpen size={13} />
                 <span>Contents</span>
               </div>
@@ -104,9 +104,9 @@ export function GuideLayout({
           {/* Sources Bibliography Block */}
           {sources.length > 0 && (
             <div className="mt-12 pt-6 border-t border-subtle not-prose space-y-3">
-              <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-secondary flex items-center gap-1.5">
+              <h3 className="text-xs font-mono font-semibold text-secondary flex items-center gap-1.5">
                 <ShieldCheck size={14} className="text-accent-cyan" />
-                <span>Verified Sources & Reference Documents</span>
+                <span>Verified sources and references</span>
               </h3>
               <ul className="space-y-2 font-mono text-xs">
                 {sources.map((src, idx) => (

@@ -7,7 +7,7 @@ import { adminLoginAction } from '@/lib/actions/admin';
 import { KeyRound, Mail, ArrowRight, ShieldCheck, CheckCircle2, AlertTriangle } from 'lucide-react';
 
 export default function AdminLoginPage() {
-  const [email, setEmail] = useState('admin@countersign.ai');
+  const [email, setEmail] = useState(process.env.NODE_ENV === 'development' ? 'admin@tracebase.ai' : '');
   const [code, setCode] = useState('');
   const [step, setStep] = useState<'email' | '2fa'>('email');
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
@@ -24,7 +24,9 @@ export default function AdminLoginPage() {
       if (res.success) {
         setStep('2fa');
         setStatusMessage(res.message);
-        setCode('123456'); // Pre-fill sample 2FA code for easy demo testing
+        if (process.env.NODE_ENV === 'development') {
+          setCode('123456'); // Pre-fill sample 2FA code in development only
+        }
       } else {
         setErrorMessage(res.message);
       }
@@ -46,7 +48,7 @@ export default function AdminLoginPage() {
 
   const handleQuickDemoAccess = () => {
     startTransition(async () => {
-      await adminLoginAction('admin@countersign.ai', '123456');
+      await adminLoginAction('admin@tracebase.ai', '123456');
     });
   };
 
@@ -61,7 +63,7 @@ export default function AdminLoginPage() {
             Restricted System
           </div>
           <h1 className="text-2xl font-bold tracking-tight text-[var(--color-text)]">
-            Countersign Admin
+            TraceBase Admin
           </h1>
           <p className="text-sm text-[var(--color-muted)] mt-1">
             Human verification and 14-day compliance console
@@ -96,7 +98,7 @@ export default function AdminLoginPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@countersign.ai"
+                  placeholder="admin@tracebase.ai"
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[var(--color-surface-hover)] border border-[var(--color-border)] text-sm text-[var(--color-text)] focus:outline-none focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)]"
                 />
               </div>
@@ -140,7 +142,7 @@ export default function AdminLoginPage() {
                 />
               </div>
               <p className="text-[11px] text-[var(--color-muted)] mt-1.5">
-                Sent to {email}. Demo code: <span className="font-mono text-emerald-400">123456</span>
+                Sent to {email}.{process.env.NODE_ENV === 'development' ? <> Demo code: <span className="font-mono text-emerald-400">123456</span></> : ''}
               </p>
             </div>
 
@@ -156,14 +158,16 @@ export default function AdminLoginPage() {
         )}
 
         <div className="mt-8 pt-6 border-t border-[var(--color-border)] text-center">
-          <button
-            type="button"
-            onClick={handleQuickDemoAccess}
-            disabled={isPending}
-            className="w-full py-2 px-3 rounded-lg border border-dashed border-[var(--color-border)] hover:border-[var(--color-accent)] text-xs text-[var(--color-muted)] hover:text-[var(--color-text)] transition-colors mb-3 cursor-pointer"
-          >
-            ⚡ Quick 1-Click Demo Admin Sign-In
-          </button>
+          {process.env.NODE_ENV === 'development' && (
+            <button
+              type="button"
+              onClick={handleQuickDemoAccess}
+              disabled={isPending}
+              className="w-full py-2 px-3 rounded-lg border border-dashed border-[var(--color-border)] hover:border-[var(--color-accent)] text-xs text-[var(--color-muted)] hover:text-[var(--color-text)] transition-colors mb-3 cursor-pointer"
+            >
+              ⚡ Quick 1-Click Demo Admin Sign-In
+            </button>
+          )}
           <Link
             href="/"
             className="text-xs text-[var(--color-muted)] hover:text-[var(--color-text)] transition-colors inline-block"

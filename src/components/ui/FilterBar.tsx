@@ -113,25 +113,25 @@ export function FilterBar({
 
   // Sidebar content (shared between desktop sidebar and mobile bottom sheet)
   const filterControlsContent = (
-    <div className="space-y-6 text-xs">
+    <div className="space-y-6 text-xs text-readable">
       {/* Work Type Section */}
       <div className="space-y-2.5">
-        <div className="font-mono text-secondary font-semibold uppercase tracking-wider text-[11px]">
-          Work Type
+        <div className="text-secondary font-medium text-xs">
+          Work type
         </div>
-        <div className="space-y-1.5">
+        <div className="space-y-1">
           {workTypeOptions.map((opt) => {
             const isChecked = filters.workTypes.includes(opt.id);
             const isDisabled = opt.count === 0 && !isChecked;
             return (
               <label
                 key={opt.id}
-                className={`flex items-center justify-between p-2 rounded cursor-pointer border transition-colors ${
+                className={`flex items-center justify-between p-2 rounded-lg cursor-pointer border transition-colors ${
                   isChecked
-                    ? "bg-accent-cyan/15 border-accent-cyan/40 text-primary"
+                    ? "bg-[#5A35C8]/10 border-[#5A35C8]/30 text-ink font-medium"
                     : isDisabled
                     ? "opacity-40 cursor-not-allowed border-transparent text-secondary"
-                    : "hover:bg-elevated border-transparent text-readable"
+                    : "hover:bg-surface border-transparent text-readable"
                 }`}
               >
                 <div className="flex items-center gap-2">
@@ -143,17 +143,17 @@ export function FilterBar({
                     className="sr-only"
                   />
                   <div
-                    className={`w-3.5 h-3.5 rounded flex items-center justify-center border ${
+                    className={`w-4 h-4 rounded flex items-center justify-center border transition-colors ${
                       isChecked
-                        ? "bg-accent-cyan border-accent-cyan text-void"
-                        : "border-subtle bg-void"
+                        ? "bg-[#5A35C8] border-[#5A35C8] text-white"
+                        : "border-rule bg-sheet"
                     }`}
                   >
-                    {isChecked && <Check size={10} className="stroke-[3]" />}
+                    {isChecked && <Check size={11} className="stroke-[3]" />}
                   </div>
                   <span>{opt.label}</span>
                 </div>
-                <span className="font-mono text-[11px] text-secondary">({opt.count})</span>
+                <span className="tabular-nums text-xs text-secondary">({opt.count})</span>
               </label>
             );
           })}
@@ -162,22 +162,22 @@ export function FilterBar({
 
       {/* Domain Section */}
       <div className="space-y-2.5">
-        <div className="font-mono text-secondary font-semibold uppercase tracking-wider text-[11px]">
-          Specialist Domain
+        <div className="text-secondary font-medium text-xs">
+          Specialist domain
         </div>
-        <div className="space-y-1.5">
+        <div className="space-y-1">
           {domainOptions.map((opt) => {
             const isChecked = filters.domains.includes(opt.id);
             const isDisabled = opt.count === 0 && !isChecked;
             return (
               <label
                 key={opt.id}
-                className={`flex items-center justify-between p-2 rounded cursor-pointer border transition-colors ${
+                className={`flex items-center justify-between p-2 rounded-lg cursor-pointer border transition-colors ${
                   isChecked
-                    ? "bg-accent-cyan/15 border-accent-cyan/40 text-primary"
+                    ? "bg-[#5A35C8]/10 border-[#5A35C8]/30 text-ink font-medium"
                     : isDisabled
                     ? "opacity-40 cursor-not-allowed border-transparent text-secondary"
-                    : "hover:bg-elevated border-transparent text-readable"
+                    : "hover:bg-surface border-transparent text-readable"
                 }`}
               >
                 <div className="flex items-center gap-2">
@@ -189,17 +189,17 @@ export function FilterBar({
                     className="sr-only"
                   />
                   <div
-                    className={`w-3.5 h-3.5 rounded flex items-center justify-center border ${
+                    className={`w-4 h-4 rounded flex items-center justify-center border transition-colors ${
                       isChecked
-                        ? "bg-accent-cyan border-accent-cyan text-void"
-                        : "border-subtle bg-void"
+                        ? "bg-[#5A35C8] border-[#5A35C8] text-white"
+                        : "border-rule bg-sheet"
                     }`}
                   >
-                    {isChecked && <Check size={10} className="stroke-[3]" />}
+                    {isChecked && <Check size={11} className="stroke-[3]" />}
                   </div>
                   <span>{opt.label}</span>
                 </div>
-                <span className="font-mono text-[11px] text-secondary">({opt.count})</span>
+                <span className="tabular-nums text-xs text-secondary">({opt.count})</span>
               </label>
             );
           })}
@@ -208,19 +208,19 @@ export function FilterBar({
 
       {/* Freshness Section */}
       <div className="space-y-2.5">
-        <div className="font-mono text-secondary font-semibold uppercase tracking-wider text-[11px]">
-          Verification Freshness
+        <div className="text-secondary font-medium text-xs">
+          Verification freshness
         </div>
-        <div className="space-y-1.5">
+        <div className="space-y-1">
           {freshnessOptions.map((opt) => {
             const isSelected = filters.freshness === opt.id;
             return (
               <label
                 key={opt.id}
-                className={`flex items-center justify-between p-2 rounded cursor-pointer border transition-colors ${
+                className={`flex items-center justify-between p-2 rounded-lg cursor-pointer border transition-colors ${
                   isSelected
-                    ? "bg-accent-cyan/15 border-accent-cyan/40 text-primary font-medium"
-                    : "hover:bg-elevated border-transparent text-readable"
+                    ? "bg-[#5A35C8]/10 border-[#5A35C8]/30 text-ink font-medium"
+                    : "hover:bg-surface border-transparent text-readable"
                 }`}
               >
                 <div className="flex items-center gap-2">
@@ -232,17 +232,17 @@ export function FilterBar({
                     className="sr-only"
                   />
                   <div
-                    className={`w-3.5 h-3.5 rounded-full flex items-center justify-center border ${
+                    className={`w-4 h-4 rounded-full flex items-center justify-center border transition-colors ${
                       isSelected
-                        ? "border-accent-cyan bg-accent-cyan text-void"
-                        : "border-subtle bg-void"
+                        ? "border-[#5A35C8] bg-[#5A35C8] text-white"
+                        : "border-rule bg-sheet"
                     }`}
                   >
-                    {isSelected && <span className="w-1.5 h-1.5 rounded-full bg-void" />}
+                    {isSelected && <span className="w-1.5 h-1.5 rounded-full bg-white" />}
                   </div>
                   <span>{opt.label}</span>
                 </div>
-                <span className="font-mono text-[11px] text-secondary">({opt.count})</span>
+                <span className="tabular-nums text-xs text-secondary">({opt.count})</span>
               </label>
             );
           })}
@@ -250,8 +250,8 @@ export function FilterBar({
       </div>
 
       {/* Unconfirmed Toggle */}
-      <div className="pt-2 border-t border-subtle">
-        <label className="flex items-center justify-between cursor-pointer p-2 rounded hover:bg-elevated">
+      <div className="pt-3 border-t border-rule">
+        <label className="flex items-center justify-between cursor-pointer p-2 rounded-lg hover:bg-surface transition-colors">
           <span className="text-readable">Include unconfirmed country roles</span>
           <input
             type="checkbox"
@@ -259,7 +259,7 @@ export function FilterBar({
             onChange={(e) =>
               onFilterChange({ ...filters, includeUnconfirmed: e.target.checked })
             }
-            className="w-4 h-4 rounded border-subtle bg-void accent-cyan"
+            className="w-4 h-4 rounded border-rule accent-[#5A35C8]"
           />
         </label>
       </div>
@@ -269,19 +269,19 @@ export function FilterBar({
   if (isDesktopSidebar) {
     return (
       <aside
-        className={`w-full max-w-[280px] p-4 rounded-xl border border-subtle bg-surface space-y-4 ${className}`}
+        className={`w-full max-w-[280px] p-4 rounded-xl border border-rule bg-sheet space-y-4 ${className}`}
         aria-label="Filter roles"
       >
-        <div className="flex items-center justify-between pb-3 border-b border-subtle">
+        <div className="flex items-center justify-between pb-3 border-b border-rule">
           <div className="flex items-center gap-2">
-            <Filter size={15} className="text-accent-cyan" />
-            <h2 className="text-sm font-semibold text-primary font-mono">Filters</h2>
+            <Filter size={15} className="text-[#5A35C8]" />
+            <h2 className="text-sm font-semibold text-ink">Filters</h2>
           </div>
           {hasActiveFilters && (
             <button
               type="button"
               onClick={clearAll}
-              className="text-[11px] font-mono text-secondary hover:text-accent-cyan flex items-center gap-1"
+              className="text-xs text-secondary hover:text-[#5A35C8] flex items-center gap-1 transition-colors"
             >
               <RotateCcw size={11} />
               <span>Clear</span>
@@ -302,13 +302,13 @@ export function FilterBar({
           <button
             type="button"
             onClick={() => setSheetOpen(true)}
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-subtle bg-surface text-xs font-mono text-primary hover:border-focus transition-colors btn-tactile"
+            className="inline-flex items-center justify-center gap-2 px-3 py-2 min-h-[44px] rounded-xl border border-rule bg-sheet text-xs text-ink hover:border-[#5A35C8] transition-colors"
             aria-expanded={sheetOpen}
           >
-            <Filter size={14} className="text-accent-cyan" />
+            <Filter size={14} className="text-[#5A35C8]" />
             <span>Filters</span>
             {hasActiveFilters && (
-              <span className="w-2 h-2 rounded-full bg-accent-cyan" aria-hidden="true" />
+              <span className="w-2 h-2 rounded-full bg-[#5A35C8]" aria-hidden="true" />
             )}
           </button>
 
@@ -316,13 +316,13 @@ export function FilterBar({
           {filters.workTypes.map((wt) => (
             <span
               key={wt}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface border border-subtle text-xs text-readable font-mono"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface border border-rule text-xs text-readable"
             >
               <span>{wt}</span>
               <button
                 type="button"
                 onClick={() => toggleWorkType(wt)}
-                className="hover:text-primary text-secondary"
+                className="hover:text-ink text-secondary p-0.5"
                 aria-label={`Remove ${wt} filter`}
               >
                 <X size={12} />
@@ -333,13 +333,13 @@ export function FilterBar({
           {filters.domains.map((dom) => (
             <span
               key={dom}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface border border-subtle text-xs text-readable font-mono"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface border border-rule text-xs text-readable"
             >
               <span>{dom}</span>
               <button
                 type="button"
                 onClick={() => toggleDomain(dom)}
-                className="hover:text-primary text-secondary"
+                className="hover:text-ink text-secondary p-0.5"
                 aria-label={`Remove ${dom} filter`}
               >
                 <X size={12} />
@@ -351,15 +351,15 @@ export function FilterBar({
             <button
               type="button"
               onClick={clearAll}
-              className="text-xs font-mono text-secondary hover:text-primary transition-colors underline underline-offset-2 ml-1"
+              className="text-xs text-secondary hover:text-[#5A35C8] transition-colors underline underline-offset-2 ml-1"
             >
               Clear all
             </button>
           )}
         </div>
 
-        <div className="text-xs font-mono text-secondary">
-          <span className="text-primary font-semibold">{filteredCount}</span> roles available
+        <div className="text-xs text-secondary">
+          <span className="text-ink font-semibold tabular-nums">{filteredCount}</span> roles available
         </div>
       </div>
 
@@ -369,19 +369,19 @@ export function FilterBar({
           role="dialog"
           aria-modal="true"
           aria-label="Filter options"
-          className="fixed inset-0 z-50 flex flex-col justify-end bg-black/60 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex flex-col justify-end bg-black/50 backdrop-blur-sm"
         >
-          <div className="relative w-full max-h-[85vh] flex flex-col rounded-t-2xl border-t border-subtle bg-surface shadow-2xl animate-in slide-in-from-bottom duration-200">
+          <div className="relative w-full max-h-[85vh] flex flex-col rounded-t-2xl border-t border-rule bg-sheet shadow-2xl animate-in slide-in-from-bottom duration-200">
             {/* Sheet Header */}
-            <div className="p-4 border-b border-subtle flex items-center justify-between">
+            <div className="p-4 border-b border-rule flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Filter size={16} className="text-accent-cyan" />
-                <h3 className="text-base font-semibold text-primary">Filter Roles</h3>
+                <Filter size={16} className="text-[#5A35C8]" />
+                <h3 className="text-base font-semibold text-ink">Filter Roles</h3>
               </div>
               <button
                 type="button"
                 onClick={() => setSheetOpen(false)}
-                className="p-1 rounded text-secondary hover:text-primary"
+                className="p-1.5 rounded-lg text-secondary hover:text-ink min-h-[44px] min-w-[44px] flex items-center justify-center"
                 aria-label="Close filters sheet"
               >
                 <X size={18} />
@@ -394,20 +394,20 @@ export function FilterBar({
             </div>
 
             {/* Sheet Sticky Bottom Apply Button with Live Count */}
-            <div className="p-4 border-t border-subtle bg-surface flex items-center gap-3">
+            <div className="p-4 border-t border-rule bg-sheet flex items-center gap-3">
               <button
                 type="button"
                 onClick={clearAll}
-                className="px-4 py-2.5 rounded-lg border border-subtle text-secondary hover:text-primary font-mono text-xs"
+                className="px-4 py-2.5 rounded-xl border border-rule text-secondary hover:text-ink text-xs min-h-[44px] transition-colors"
               >
                 Reset
               </button>
               <button
                 type="button"
                 onClick={() => setSheetOpen(false)}
-                className="flex-1 py-2.5 px-4 rounded-lg bg-accent-cyan text-void font-semibold text-xs font-mono text-center hover:opacity-90 btn-tactile transition-opacity"
+                className="flex-1 py-2.5 px-4 rounded-xl bg-[#5A35C8] text-white font-medium text-xs text-center hover:bg-[#4927AB] transition-colors min-h-[44px]"
               >
-                Show {filteredCount} Roles
+                Show <span className="tabular-nums">{filteredCount}</span> Roles
               </button>
             </div>
           </div>

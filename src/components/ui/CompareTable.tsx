@@ -101,8 +101,8 @@ export function CompareTable({
           <thead>
             <tr className="border-b border-subtle bg-void">
               {/* Sticky first column */}
-              <th className="sticky left-0 z-20 bg-void p-3.5 sm:p-4 text-secondary uppercase tracking-wider text-[11px] font-semibold border-r border-subtle min-w-[150px] sm:min-w-[180px]">
-                Platform Feature
+              <th className="sticky left-0 z-20 bg-void p-3.5 sm:p-4 text-secondary text-[11px] font-semibold border-r border-subtle min-w-[150px] sm:min-w-[180px]">
+                Feature
               </th>
               {platforms.map((p) => (
                 <th

@@ -4,13 +4,14 @@ import { redirect } from "next/navigation";
 import { Metadata } from "next";
 import { dbRepository } from "@/lib/db/repository";
 import { AccountClient } from "./AccountClient";
+import { absoluteUrl } from "@/lib/utils/siteUrl";
 
 export const metadata: Metadata = {
-  title: "My Contributor Account | Countersign",
+  title: "My Contributor Account | TraceBase",
   description:
     "Manage your saved AI evaluation jobs, set country-specific role alerts, and exercise your NDPA 2023 personal data rights.",
   alternates: {
-    canonical: "https://countersign.ai/account",
+    canonical: absoluteUrl("/account"),
   },
 };
 

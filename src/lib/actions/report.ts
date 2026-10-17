@@ -54,3 +54,14 @@ export async function submitReportAction(data: ReportFormInput): Promise<ReportA
     };
   }
 }
+
+export async function moderateDirectReportAction(
+  id: string,
+  status: 'pending' | 'approved' | 'rejected',
+  notes?: string
+) {
+  const success = dbRepository.updateReportStatus(id, status, notes);
+  revalidatePath('/admin/reports');
+  revalidatePath('/admin');
+  return { success };
+}

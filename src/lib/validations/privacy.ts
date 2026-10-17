@@ -5,6 +5,7 @@ export const privacyRequestSchema = z.object({
     message: 'Please select a valid privacy request kind.',
   }),
   contact_email: z.string().email('Please enter a valid email address.'),
+  country_code: z.string().min(2).max(4).optional().default('WW'),
   note: z.string().max(2000, 'Note must not exceed 2,000 characters.').optional().nullable(),
   honeypot: z.string().max(0, 'Bot detected.').optional(),
 });

@@ -3,12 +3,15 @@ import { Guide } from './types';
 export const guideOne: Guide = {
   slug: 'how-to-tell-if-an-ai-work-listing-is-real',
   title: 'How to Tell if an AI Work Listing is Real',
-  subtitle: 'A forensic verification guide to confirming remote AI training roles, authenticating hiring domains, and avoiding advance-fee traps before you submit your resume.',
+  subtitle: 'A step-by-step verification guide to confirming remote AI training roles, authenticating hiring domains, and avoiding advance-fee traps before you submit your resume.',
   readingTime: '6 min read',
   lastUpdated: '2026-10-14',
+  lastCheckedDate: '12 Oct 2026',
+  checkedBy: 'Jo (Ebube Okeke)',
+  published: true,
   author: {
     name: 'Jo (Ebube Okeke)',
-    title: 'Lead Evaluator, Countersign',
+    title: 'Lead Evaluator, TraceBase',
   },
   topicTags: ['Verification', 'Scam Prevention', 'Job Hunting'],
   summaryPoints: [
@@ -67,7 +70,7 @@ When you receive recruiter outreach, inspect the sender email address:
 
 Many enterprise AI platforms restrict candidate payouts to countries where their payroll partners (such as Deel, AirTM, or Stripe Express) hold operational licenses. Third-party recruiters often hide these limits to build talent pools, leaving applicants stranded after completing unpaid assessments.
 
-At Countersign, we verify country eligibility against the platform official terms before marking any role as accepted. If a listing is silent regarding your region, we mark it plainly as Unconfirmed rather than guessing. Always verify that your country is explicitly supported for payroll before investing hours in technical screening.`,
+At TraceBase, we verify country eligibility against the platform official terms before marking any role as accepted. If a listing is silent regarding your region, we mark it plainly as Unconfirmed rather than guessing. Always verify that your country is explicitly supported for payroll before investing hours in technical screening.`,
     },
     {
       id: 'ten-point-red-flag-checklist',

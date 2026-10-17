@@ -36,8 +36,8 @@ export function EvaluationGraph({
     >
       <div className="flex items-center justify-between pb-3 border-b border-subtle">
         <div className="space-y-0.5">
-          <h3 className="text-sm font-semibold text-primary font-mono uppercase tracking-wider">
-            Evaluation Instrument Pipeline
+          <h3 className="text-sm font-semibold text-primary font-mono tracking-tight">
+            How we check an answer
           </h3>
           <p className="text-xs text-secondary font-mono">
             How model answers are countersigned against reference truth
@@ -148,10 +148,10 @@ export function EvaluationGraph({
       {/* Decision Record Telemetry Box */}
       <div className="p-4 rounded-xl border border-subtle bg-void space-y-2 text-xs font-mono">
         <div className="flex items-center justify-between text-secondary text-[11px]">
-          <span className="uppercase tracking-wider">Live Decision Record #CS-8924</span>
+          <span>Live decision record #CS-8924</span>
           <span className="text-[#45F5C5] flex items-center gap-1 font-semibold">
             <CheckCircle2 size={12} aria-hidden="true" />
-            HUMAN VERDICT: FAIL
+            Human verdict: fail
           </span>
         </div>
         <p className="text-readable text-[11px] leading-relaxed">

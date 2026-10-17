@@ -1,138 +1,218 @@
-import React from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { SealLogo } from "@/components/ui/SealLogo";
-import { TierToggle } from "@/components/layout/TierToggle";
+import { COUNTRY_STORAGE_KEY } from "@/components/ui/CountrySelector";
+
+function subscribeTier(callback: () => void) {
+  window.addEventListener("tierchange", callback);
+  window.addEventListener("storage", callback);
+  return () => {
+    window.removeEventListener("tierchange", callback);
+    window.removeEventListener("storage", callback);
+  };
+}
+
+function getTierSnapshot(): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    const currentTier = document.documentElement.dataset.tier || localStorage.getItem("countersign_tier");
+    return currentTier === "lite" || currentTier === "basic";
+  } catch {
+    return false;
+  }
+}
 
 export function Footer() {
+  const dataSaver = React.useSyncExternalStore(subscribeTier, getTierSnapshot, () => false);
+  const [countryCode, setCountryCode] = useState("WW");
+
+  useEffect(() => {
+    const readCountry = () => {
+      try {
+        const qCountry = new URLSearchParams(window.location.search).get("country");
+        if (qCountry) {
+          setCountryCode(qCountry.toUpperCase());
+          return;
+        }
+        const stored = localStorage.getItem(COUNTRY_STORAGE_KEY);
+        setCountryCode(stored ? stored.toUpperCase() : "WW");
+      } catch {
+        setCountryCode("WW");
+      }
+    };
+
+    readCountry();
+    window.addEventListener("countrychange", readCountry);
+    window.addEventListener("storage", readCountry);
+    return () => {
+      window.removeEventListener("countrychange", readCountry);
+      window.removeEventListener("storage", readCountry);
+    };
+  }, []);
+
+  const toggleDataSaver = () => {
+    const nextTier = dataSaver ? "full" : "lite";
+    try {
+      localStorage.setItem("countersign_tier", nextTier);
+      document.documentElement.dataset.tier = nextTier;
+      window.dispatchEvent(new CustomEvent("tierchange", { detail: nextTier }));
+    } catch {
+      // Ignore storage error
+    }
+  };
+
   return (
-    <footer className="mt-auto w-full glass-header py-12 px-4 sm:px-6 relative before:absolute before:top-0 before:left-0 before:right-0 before:h-[1px] before:bg-gradient-to-r before:from-transparent before:via-cyan-400/25 before:to-transparent">
-      <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
-          {/* Brand & Purpose */}
-          <div className="md:col-span-2 space-y-3">
-            <div className="flex items-center gap-2">
-              <SealLogo size={24} color="emerald" />
-              <span className="font-semibold text-base text-primary tracking-tight">
-                Countersign
-              </span>
-            </div>
-            <p className="text-sm text-readable max-w-md leading-relaxed">
-              AI work, checked by a human. Model answers, checked against the source.
-            </p>
-            <p className="text-xs text-secondary max-w-md leading-relaxed">
-              Every job listing verified within 14 days. Independent service. We never sell ranking.
-            </p>
-          </div>
+    <footer id="site-footer" className="w-full border-t border-rule bg-canvas text-secondary text-sm mt-auto">
+      <div className="max-w-[1240px] mx-auto px-4 sm:px-8 py-10 sm:py-12 space-y-8">
+        {/* One set of links only with plain names */}
+        <nav aria-label="Footer navigation">
+          <ul className="flex flex-wrap items-center gap-x-6 gap-y-3 p-0 m-0 list-none text-sm text-secondary">
+            <li>
+              <Link href="/jobs" className="min-h-[44px] inline-flex items-center hover:text-ink transition-colors">
+                Roles
+              </Link>
+            </li>
+            <li>
+              <Link href="/platforms" className="min-h-[44px] inline-flex items-center hover:text-ink transition-colors">
+                Platforms
+              </Link>
+            </li>
+            <li>
+              <Link href="/training" className="min-h-[44px] inline-flex items-center hover:text-ink transition-colors">
+                Training & certificates
+              </Link>
+            </li>
+            <li>
+              <Link href="/guides" className="min-h-[44px] inline-flex items-center hover:text-ink transition-colors">
+                Guides
+              </Link>
+            </li>
+            <li>
+              <Link href="/scam-check" className="min-h-[44px] inline-flex items-center hover:text-ink transition-colors">
+                Check an offer
+              </Link>
+            </li>
+            <li>
+              <Link href="/task-check" className="min-h-[44px] inline-flex items-center hover:text-ink transition-colors">
+                Task check
+              </Link>
+            </li>
+            <li>
+              <Link href="/cv-builder" className="min-h-[44px] inline-flex items-center hover:text-ink transition-colors">
+                CV builder
+              </Link>
+            </li>
+            <li>
+              <Link href="/payout-calculator" className="min-h-[44px] inline-flex items-center hover:text-ink transition-colors">
+                Payout calculator
+              </Link>
+            </li>
+            <li>
+              <Link href="/rates" className="min-h-[44px] inline-flex items-center hover:text-ink transition-colors">
+                Pay rates
+              </Link>
+            </li>
+            <li>
+              <Link href="/appeals" className="min-h-[44px] inline-flex items-center hover:text-ink transition-colors">
+                Appeal kit
+              </Link>
+            </li>
+            <li>
+              <Link href="/benchmark" className="min-h-[44px] inline-flex items-center hover:text-ink transition-colors">
+                Benchmark
+              </Link>
+            </li>
+            <li>
+              <Link href="/evaluation" className="min-h-[44px] inline-flex items-center hover:text-ink transition-colors">
+                For AI teams
+              </Link>
+            </li>
+            <li>
+              <Link href="/methodology" className="min-h-[44px] inline-flex items-center hover:text-ink transition-colors">
+                How we check
+              </Link>
+            </li>
+            <li>
+              <Link href="/changes" className="min-h-[44px] inline-flex items-center hover:text-ink transition-colors">
+                Change log
+              </Link>
+            </li>
+            <li>
+              <Link href="/official-channels" className="min-h-[44px] inline-flex items-center hover:text-ink transition-colors">
+                Official channels
+              </Link>
+            </li>
+            <li>
+              <Link href="/about" className="min-h-[44px] inline-flex items-center hover:text-ink transition-colors">
+                About
+              </Link>
+            </li>
+            <li>
+              <Link href="/privacy" className="min-h-[44px] inline-flex items-center hover:text-ink transition-colors">
+                Privacy
+              </Link>
+            </li>
+            <li>
+              <Link href="/terms" className="min-h-[44px] inline-flex items-center hover:text-ink transition-colors">
+                Terms
+              </Link>
+            </li>
+            <li>
+              <Link href="/corrections" className="min-h-[44px] inline-flex items-center hover:text-ink transition-colors">
+                Corrections
+              </Link>
+            </li>
+            <li>
+              <Link href="/privacy#do-not-sell" className="min-h-[44px] inline-flex items-center hover:text-ink transition-colors">
+                Do not sell or share my personal information
+              </Link>
+            </li>
+            <li>
+              <Link href="/rss.xml" className="min-h-[44px] inline-flex items-center hover:text-ink transition-colors">
+                RSS
+              </Link>
+            </li>
+            {/* The Nigeria hub link appears only when Nigeria is selected */}
+            {countryCode === "NG" && (
+              <li>
+                <Link href="/countries/nigeria" className="min-h-[44px] inline-flex items-center text-[#5A35C8] font-medium hover:underline">
+                  Nigeria hub
+                </Link>
+              </li>
+            )}
+          </ul>
+        </nav>
 
-          {/* Quick Directory Links */}
-          <div className="space-y-2.5">
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-secondary">
-              Directory
-            </h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link href="/jobs" className="text-secondary hover:text-primary transition-colors">
-                  Verified AI Jobs
-                </Link>
-              </li>
-              <li>
-                <Link href="/platforms" className="text-secondary hover:text-primary transition-colors">
-                  Platform Profiles
-                </Link>
-              </li>
-              <li>
-                <Link href="/compare" className="text-secondary hover:text-primary transition-colors">
-                  Compare Platforms
-                </Link>
-              </li>
-              <li>
-                <Link href="/countries/nigeria" className="text-secondary hover:text-primary transition-colors">
-                  Nigeria Country Hub
-                </Link>
-              </li>
-              <li>
-                <Link href="/guides" className="text-secondary hover:text-primary transition-colors">
-                  Practical Guides
-                </Link>
-              </li>
-              <li>
-                <Link href="/scam-check" className="text-secondary hover:text-primary transition-colors">
-                  10-Point Scam Check
-                </Link>
-              </li>
-              <li>
-                <Link href="/account" className="text-secondary hover:text-primary transition-colors">
-                  Contributor Account
-                </Link>
-              </li>
-              <li>
-                <Link href="/evaluation/evaluators" className="text-secondary hover:text-primary transition-colors">
-                  Evaluator Network
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Evaluation & Legal */}
-          <div className="space-y-2.5">
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-secondary">
-              Platform & Legal
-            </h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link href="/about" className="text-secondary hover:text-primary transition-colors">
-                  About Countersign
-                </Link>
-              </li>
-              <li>
-                <Link href="/methodology" className="text-secondary hover:text-primary transition-colors">
-                  Verification Methodology
-                </Link>
-              </li>
-              <li>
-                <Link href="/disclosure" className="text-secondary hover:text-primary transition-colors">
-                  Referral Disclosure
-                </Link>
-              </li>
-              <li>
-                <Link href="/corrections" className="text-secondary hover:text-primary transition-colors">
-                  Corrections & Takedowns
-                </Link>
-              </li>
-              <li>
-                <Link href="/privacy" className="text-secondary hover:text-primary transition-colors">
-                  Privacy & NDPA 2023
-                </Link>
-              </li>
-              <li>
-                <Link href="/privacy/request" className="text-secondary hover:text-primary transition-colors">
-                  Data Rights (SAR)
-                </Link>
-              </li>
-              <li>
-                <Link href="/terms" className="text-secondary hover:text-primary transition-colors">
-                  Terms of Service
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="text-secondary hover:text-primary transition-colors">
-                  Contact Desk
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        {/* Bottom Tier & Preference Bar */}
-        <div className="pt-6 border-t border-subtle flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-            <span className="text-xs text-secondary">Connection Preference:</span>
-            <TierToggle showExplanation={true} />
-          </div>
-
-          <p className="text-xs text-secondary font-mono">
-            &copy; 2026 Countersign. Human-verified AI infrastructure.
+        {/* Bottom Bar: Independence Statement + Data Saver Switch */}
+        <div className="flex flex-wrap justify-between items-center gap-6 pt-6 border-t border-subtle">
+          <p className="max-w-[44em] leading-relaxed text-xs sm:text-sm text-secondary m-0">
+            TraceBase is independent. We are not affiliated with the platforms we list, and some links may earn us a referral bonus. They are always labelled and never change a role&apos;s place.
           </p>
+
+          <div className="flex items-center gap-3">
+            {/* Data Saver Switch (role="switch") */}
+            <button
+              type="button"
+              role="switch"
+              aria-checked={dataSaver}
+              onClick={toggleDataSaver}
+              className="inline-flex items-center gap-2.5 min-h-[44px] py-1 border-0 bg-transparent font-inherit text-ink cursor-pointer select-none"
+            >
+              <span
+                className={`relative inline-block w-10 h-6 rounded-full transition-colors ${
+                  dataSaver ? "bg-[var(--brand-ink)]" : "bg-[#C9CFD9]"
+                }`}
+              >
+                <span
+                  className={`absolute top-[3px] w-[18px] height-[18px] h-[18px] rounded-full bg-white transition-all shadow-xs ${
+                    dataSaver ? "left-[19px]" : "left-[3px]"
+                  }`}
+                />
+              </span>
+              <span className="font-semibold text-xs sm:text-sm">Data saver</span>
+            </button>
+          </div>
         </div>
       </div>
     </footer>

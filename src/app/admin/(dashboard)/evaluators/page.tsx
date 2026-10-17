@@ -5,7 +5,7 @@ import { dbRepository } from "@/lib/db/repository";
 import { GraduationCap, Mail, ExternalLink } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Evaluator Talent Network Applications | Countersign Admin",
+  title: "Evaluator Talent Network Applications | TraceBase Admin",
   description: "Review incoming specialist applications for human model evaluation sprints.",
 };
 
@@ -83,7 +83,7 @@ export default function AdminEvaluatorsPage() {
                           </a>
                         )}
                         <a
-                          href={`mailto:${lead.email}?subject=Countersign Model Evaluation Sprint Inquiry`}
+                          href={`mailto:${lead.email}?subject=TraceBase Model Evaluation Sprint Inquiry`}
                           className="px-2.5 py-1 rounded bg-accent-cyan/15 hover:bg-accent-cyan/25 text-accent-cyan font-medium transition-colors flex items-center gap-1"
                         >
                           <Mail size={12} />

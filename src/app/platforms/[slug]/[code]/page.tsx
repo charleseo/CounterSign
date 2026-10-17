@@ -13,6 +13,7 @@ import {
   Bell,
 } from "lucide-react";
 import { dbRepository } from "@/lib/db/repository";
+import { absoluteUrl } from "@/lib/utils/siteUrl";
 import { ExpectationTimeline, TimelineStep } from "@/components/ui/ExpectationTimeline";
 import { JobCard } from "@/components/ui/JobCard";
 import { PlatformCountryAlertForm } from "./PlatformCountryAlertForm";
@@ -24,7 +25,7 @@ interface PlatformCountryPageProps {
 }
 
 export async function generateStaticParams() {
-  const platforms = dbRepository.getPlatforms();
+  const platforms = dbRepository.getPlatforms({ includeSample: true });
   const countries = ["ng", "us", "gb", "ke", "ca", "gh"];
   const params: Array<{ slug: string; code: string }> = [];
 
@@ -32,6 +33,10 @@ export async function generateStaticParams() {
     for (const c of countries) {
       params.push({ slug: p.slug, code: c });
     }
+  }
+
+  if (params.length === 0) {
+    return [{ slug: "outlier", code: "us" }];
   }
 
   return params;
@@ -45,7 +50,7 @@ export async function generateMetadata({
 
   if (!result) {
     return {
-      title: "Country Eligibility Not Found | Countersign",
+      title: "Country Eligibility Not Found | TraceBase",
       description: "The requested platform and country verification could not be found.",
     };
   }
@@ -59,10 +64,10 @@ export async function generateMetadata({
       : "Eligibility Check";
 
   return {
-    title: `Is ${cleanPlatform} Available in ${result.country.name}? (${statusPhrase}) | Countersign`,
+    title: `Is ${cleanPlatform} Available in ${result.country.name}? (${statusPhrase}) | TraceBase`,
     description: `Official eligibility check: Is ${cleanPlatform} open to contributors in ${result.country.name}? Payout methods, verified roles, and honest ground reality.`,
     alternates: {
-      canonical: `https://countersign.ai/platforms/${slug}/${code.toLowerCase()}`,
+      canonical: absoluteUrl(`/platforms/${slug}/${code.toLowerCase()}`),
     },
   };
 }
@@ -96,30 +101,40 @@ export default async function PlatformCountryPage({
     year: "numeric",
   });
 
-  const timelineSteps: TimelineStep[] = steps.map((s) => ({
-    number: s.position,
-    title: s.title,
-    duration:
-      s.position === 1
-        ? "10 to 15 mins"
-        : s.position === 2
-        ? "1 to 2 business days"
-        : s.position === 3
-        ? "1.5 to 3 hours (unpaid)"
-        : s.position === 4
-        ? "2 to 5 days"
-        : "Varies by project demand",
-    sourceType:
+  const timelineSteps: TimelineStep[] = steps.map((s) => {
+    const sourceType =
       s.label === "official"
         ? "official"
         : s.label === "reported"
         ? "reported"
-        : "unconfirmed",
-    description:
-      s.detail || "Standard platform operational procedure verified by contributor reports.",
-    sourceName: s.source_url ? "Official platform policy" : "Community contributor logs",
-    sourceUrl: s.source_url || undefined,
-  }));
+        : "unconfirmed";
+    const sourceName =
+      sourceType === "official"
+        ? (s.source_url ? "Official platform policy" : "Official documentation")
+        : sourceType === "reported"
+        ? "Community contributor reports"
+        : "Unconfirmed contributor reports";
+
+    return {
+      number: s.position,
+      title: s.title,
+      duration:
+        s.position === 1
+          ? "10 to 15 mins"
+          : s.position === 2
+          ? "1 to 2 business days"
+          : s.position === 3
+          ? "1.5 to 3 hours (unpaid)"
+          : s.position === 4
+          ? "2 to 5 days"
+          : "Varies by project demand",
+      sourceType,
+      description:
+        s.detail || "Standard platform operational procedure verified by contributor reports.",
+      sourceName,
+      sourceUrl: sourceType === "official" ? s.source_url || undefined : undefined,
+    };
+  });
 
   const flagEmoji =
     country.code === "NG"
@@ -137,11 +152,7 @@ export default async function PlatformCountryPage({
       : "🌍";
 
   return (
-    <div className="relative max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-14 space-y-12">
-      {/* Ambient background glow accents */}
-      <div className="absolute top-10 -left-20 w-80 h-80 bg-[radial-gradient(circle,rgba(61,235,255,0.06)_0%,transparent_70%)] pointer-events-none -z-10" />
-      <div className="absolute top-1/2 -right-20 w-96 h-96 bg-[radial-gradient(circle,rgba(0,229,153,0.05)_0%,transparent_70%)] pointer-events-none -z-10" />
-
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-14 space-y-12">
       {/* Breadcrumb Navigation */}
       <nav aria-label="Breadcrumb">
         <ol className="flex items-center gap-2 text-xs font-mono text-secondary">
@@ -174,42 +185,42 @@ export default async function PlatformCountryPage({
             <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-primary">
               Is {cleanPlatform} Available in {country.name}?
             </h1>
-            <p className="text-xs text-secondary mt-1 font-mono">
-              Independent contributor verification &bull; Checked {formattedDate}
+            <p className="text-xs text-secondary mt-1">
+              Independent contributor verification &bull; Checked <span className="tabular-nums">{formattedDate}</span>
             </p>
           </div>
         </div>
 
         {/* 1. Plain Answer First in One Line (Section 7.5a Block 1) */}
         <div
-          className={`p-6 rounded-2xl glass-panel relative overflow-hidden border ${
+          className={`p-6 rounded-xl bg-sheet border border-rule space-y-3 ${
             eligibilityStatus === "accepted"
-              ? "border-emerald-500/40 shadow-[0_0_25px_rgba(0,229,153,0.1)]"
+              ? "border-l-4 border-l-emerald-600 dark:border-l-emerald-400"
               : eligibilityStatus === "not_accepted"
-              ? "border-red-500/40 shadow-[0_0_25px_rgba(255,107,107,0.1)]"
-              : "border-amber-500/40 shadow-[0_0_25px_rgba(255,198,109,0.1)]"
-          } space-y-3`}
+              ? "border-l-4 border-l-red-600 dark:border-l-red-400"
+              : "border-l-4 border-l-amber-600 dark:border-l-amber-400"
+          }`}
         >
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-2.5 font-bold text-base sm:text-lg">
               {eligibilityStatus === "accepted" ? (
                 <>
-                  <ShieldCheck className="text-accent-emerald" size={24} />
-                  <span className="text-accent-emerald">
+                  <ShieldCheck className="text-emerald-700 dark:text-emerald-400" size={24} />
+                  <span className="text-emerald-800 dark:text-emerald-300">
                     Accepted from {country.name}
                   </span>
                 </>
               ) : eligibilityStatus === "not_accepted" ? (
                 <>
-                  <ShieldAlert className="text-accent-danger" size={24} />
-                  <span className="text-accent-danger">
+                  <ShieldAlert className="text-red-700 dark:text-red-400" size={24} />
+                  <span className="text-red-800 dark:text-red-300">
                     Not accepted from {country.name}
                   </span>
                 </>
               ) : (
                 <>
-                  <HelpCircle className="text-accent-amber" size={24} />
-                  <span className="text-accent-amber">
+                  <HelpCircle className="text-amber-700 dark:text-amber-400" size={24} />
+                  <span className="text-amber-800 dark:text-amber-300">
                     We could not confirm if {country.name} is accepted
                   </span>
                 </>
@@ -217,13 +228,13 @@ export default async function PlatformCountryPage({
             </div>
 
             <div className="flex items-center gap-3">
-              <span className="text-xs font-mono text-secondary">Checked {formattedDate}</span>
+              <span className="text-xs text-secondary">Checked <span className="tabular-nums">{formattedDate}</span></span>
               {sourceUrl && (
                 <a
                   href={sourceUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs font-mono text-accent-cyan hover:underline inline-flex items-center gap-1 font-medium"
+                  className="text-xs text-brand-ink hover:underline inline-flex items-center gap-1 font-medium"
                 >
                   <span>Official source</span>
                   <ExternalLink size={12} />
@@ -232,11 +243,11 @@ export default async function PlatformCountryPage({
             </div>
           </div>
 
-          <p className="text-xs sm:text-sm text-readable leading-relaxed">
+          <p className="text-xs sm:text-sm text-secondary leading-relaxed">
             {eligibilityStatus === "accepted"
               ? `${cleanPlatform} currently accepts applications from contributors residing in ${country.name}. Requirements and payout methods depend on your verified domain.`
               : eligibilityStatus === "not_accepted"
-              ? `${cleanPlatform} does not currently list ${country.name} as a supported contributor jurisdiction. Do not use unauthorized bypasses.`
+              ? `${cleanPlatform} does not currently list ${country.name} as a supported country. Do not use unauthorized bypasses.`
               : `The official documentation for ${cleanPlatform} does not explicitly confirm contributor eligibility for ${country.name}. We do not guess.`}
           </p>
         </div>
@@ -248,17 +259,17 @@ export default async function PlatformCountryPage({
           {/* Payout rails */}
           <section className="space-y-3">
             <h2 className="text-lg font-bold text-primary flex items-center gap-2">
-              <DollarSign size={18} className="text-accent-cyan" />
+              <DollarSign size={18} className="text-brand-ink" />
               <span>Verified Payout Methods for {country.name}</span>
             </h2>
-            <div className="p-5 rounded-2xl glass-panel border border-cyan-500/20 space-y-2 shadow-sm">
-              <p className="text-xs sm:text-sm text-readable">
-                <strong className="text-primary">Supported Rails:</strong> {platform.payout_methods || "Direct Bank Wire, Deel"}
+            <div className="p-5 rounded-xl bg-sheet border border-rule space-y-2">
+              <p className="text-xs sm:text-sm text-primary">
+                <strong>Supported Rails:</strong> {platform.payout_methods || "Direct Bank Wire, Deel"}
               </p>
               {country.code === "NG" && (
                 <p className="text-xs text-secondary leading-relaxed">
                   For Nigerian contributors: You can receive USD payouts using virtual US bank accounts with ACH routing (e.g. Geegpay or Grey) or a direct USD domiciliary account (GTBank, Zenith). See our{" "}
-                  <Link href="/countries/nigeria" className="text-accent-cyan hover:underline font-medium">
+                  <Link href="/countries/nigeria" className="text-brand-ink underline font-medium">
                     Nigeria Banking Playbook
                   </Link>{" "}
                   for fee breakdowns.
@@ -273,7 +284,7 @@ export default async function PlatformCountryPage({
               <h2 className="text-lg font-bold text-primary">
                 Open Verified Roles on {cleanPlatform}
               </h2>
-              <span className="text-xs text-accent-cyan font-mono font-bold">
+              <span className="text-xs text-secondary tabular-nums font-semibold">
                 {openRoles.length} active roles
               </span>
             </div>
@@ -298,8 +309,8 @@ export default async function PlatformCountryPage({
                 ))}
               </div>
             ) : (
-              <div className="p-8 rounded-2xl glass-panel text-center space-y-2 border border-white/[0.08]">
-                <p className="text-sm text-readable font-medium">
+              <div className="p-8 rounded-xl bg-sheet text-center space-y-2 border border-rule">
+                <p className="text-sm text-primary font-medium">
                   No active openings currently open for {country.name} on {cleanPlatform}.
                 </p>
                 <p className="text-xs text-secondary">
@@ -313,7 +324,7 @@ export default async function PlatformCountryPage({
           {timelineSteps.length > 0 && (
             <section className="space-y-3">
               <h2 className="text-lg font-bold text-primary flex items-center gap-2">
-                <Clock size={18} className="text-accent-cyan" />
+                <Clock size={18} className="text-brand-ink" />
                 <span>What to Expect Before You Apply</span>
               </h2>
               <ExpectationTimeline
@@ -341,13 +352,13 @@ export default async function PlatformCountryPage({
             {alternativePlatforms.map((alt) => (
               <div
                 key={alt.platform.id}
-                className="p-5 rounded-2xl glass-card border border-white/[0.08] hover:border-cyan-400/40 space-y-2.5 transition-all shadow-sm"
+                className="p-5 rounded-xl bg-sheet border border-rule hover:border-brand-ink space-y-2.5 transition-colors"
               >
                 <div className="flex items-center justify-between">
                   <h3 className="font-bold text-sm text-primary">
                     {alt.platform.name.replace(/\[SAMPLE\]/g, "").trim()}
                   </h3>
-                  <span className="text-xs font-mono text-accent-cyan font-bold">
+                  <span className="text-xs tabular-nums text-secondary font-medium">
                     {alt.openRolesCount} verified roles
                   </span>
                 </div>
@@ -357,7 +368,7 @@ export default async function PlatformCountryPage({
                 <div className="pt-1 flex items-center justify-between text-xs">
                   <Link
                     href={`/platforms/${alt.platform.slug}/${code.toLowerCase()}`}
-                    className="text-accent-cyan hover:underline font-medium inline-flex items-center gap-1"
+                    className="text-brand-ink underline font-medium inline-flex items-center gap-1"
                   >
                     <span>Check {country.name} guide</span>
                     <ArrowRight size={12} />
@@ -376,21 +387,20 @@ export default async function PlatformCountryPage({
       )}
 
       {/* 4. Unauthorized Workaround Warning Box (Section 7.5a Block 4) */}
-      <section className="p-6 rounded-2xl glass-panel relative overflow-hidden border border-red-500/40 space-y-3 shadow-xl">
-        <div className="absolute -top-10 -right-10 w-28 h-28 bg-[radial-gradient(circle,rgba(255,107,107,0.12)_0%,transparent_70%)] pointer-events-none" />
-        <div className="flex items-center gap-2 text-red-400 font-bold text-sm">
+      <section className="p-6 rounded-xl border border-red-500/30 bg-red-500/10 space-y-3">
+        <div className="flex items-center gap-2 text-status-danger font-bold text-sm">
           <AlertTriangle size={18} />
           <span>Warning on Proxy Accounts, VPNs & Account Rentals</span>
         </div>
-        <p className="text-xs sm:text-sm text-readable leading-relaxed">
+        <p className="text-xs sm:text-sm text-secondary leading-relaxed">
           Some online forums suggest using VPNs, borrowing US/UK identities, or renting accounts through middleman brokers. <strong>Platforms actively detect IP anomalies, datacenter VPN ranges, and biometric identity mismatches.</strong> Using proxy accounts leads to immediate suspension, forfeiture of accrued earnings, and potential legal identity fraud liability. We never recommend these workarounds.
         </p>
       </section>
 
       {/* 5. Alert Signup Box (Section 7.5a Block 5) */}
-      <section className="p-6 sm:p-7 rounded-2xl glass-panel relative overflow-hidden border border-cyan-500/20 space-y-4 shadow-xl">
+      <section className="p-6 sm:p-7 rounded-xl bg-sheet border border-rule space-y-4">
         <div className="flex items-center gap-2">
-          <Bell className="text-accent-cyan" size={18} />
+          <Bell className="text-brand-ink" size={18} />
           <h2 className="text-base font-bold text-primary">
             Eligibility Change Alert
           </h2>
@@ -407,12 +417,12 @@ export default async function PlatformCountryPage({
       </section>
 
       {/* 6. Right of Reply / Takedown & Correction Link */}
-      <section className="text-center pt-4 border-t border-subtle text-xs text-secondary space-y-1">
+      <section className="text-center pt-4 border-t border-rule text-xs text-secondary space-y-1">
         <p>
           Are you a representative of {cleanPlatform}? If your regional eligibility or payout terms have updated, submit a correction to our editorial desk.
         </p>
         <p>
-          <Link href="/corrections" className="text-accent-cyan hover:underline font-medium">
+          <Link href="/corrections" className="text-brand-ink underline font-medium">
             Platform Correction & Takedown Desk
           </Link>{" "}
           &bull; 3 working day review commitment.

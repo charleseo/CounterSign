@@ -76,8 +76,8 @@ export function AuditLogViewer({ initialLogs }: { initialLogs: AuditLog[] }) {
       {/* Audit Log Entries List */}
       <div className="p-4 sm:p-5 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] space-y-3">
         <div className="flex items-center justify-between text-xs text-[var(--color-muted)] pb-2 border-b border-[var(--color-border)]">
-          <span className="font-semibold uppercase tracking-wider">Immutable Trail (audit_log)</span>
-          <span className="font-mono">{filteredLogs.length} Records</span>
+          <span className="font-semibold">Audit trail (audit_log)</span>
+          <span className="font-mono">{filteredLogs.length} records</span>
         </div>
 
         {filteredLogs.length === 0 ? (

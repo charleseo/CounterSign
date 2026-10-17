@@ -2,10 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { SealLogo } from "@/components/ui/SealLogo";
-import { TierToggle } from "@/components/layout/TierToggle";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
-
 import { CountrySelector } from "@/components/ui/CountrySelector";
 import { CommandPalette } from "@/components/ui/CommandPalette";
 
@@ -13,61 +10,66 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
-    { label: "Jobs", href: "/jobs" },
+    { label: "Roles", href: "/jobs" },
     { label: "Platforms", href: "/platforms" },
-    { label: "Compare", href: "/compare" },
-    { label: "Hub (NG)", href: "/countries/nigeria" },
-    { label: "Guides", href: "/guides" },
-    { label: "Scam Check", href: "/scam-check" },
-    { label: "Studio", href: "/evaluation" },
-    { label: "Account", href: "/account" },
+    { label: "Pay rates", href: "/rates" },
+    { label: "Training", href: "/training" },
+    { label: "Task check", href: "/task-check" },
+    { label: "CV builder", href: "/cv-builder" },
+    { label: "Benchmark", href: "/benchmark" },
+    { label: "Check an offer", href: "/scam-check" },
+    { label: "For AI teams", href: "/evaluation" },
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full glass-header transition-colors relative after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1px] after:bg-gradient-to-r after:from-transparent after:via-cyan-400/30 after:to-transparent">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-2 sm:gap-4">
-        {/* Brand Logo & Name + Country Selector */}
-        <div className="flex items-center gap-3">
+    <div className="cs-glass-head sticky top-0 z-50 w-full transition-colors">
+      <header className="max-w-[1240px] mx-auto px-3 sm:px-8 py-2.5 sm:py-3.5 flex items-center justify-between gap-2 sm:gap-4">
+        {/* Left: Brand Logo + Seal (≥44px tap target) */}
+        <div className="flex items-center gap-2 sm:gap-3">
           <Link
             href="/"
-            className="flex items-center gap-2.5 text-primary group"
-            aria-label="Countersign Homepage"
+            className="inline-flex items-center gap-2.5 min-h-[44px] min-w-[44px] text-ink hover:text-[var(--brand-ink)] transition-colors focus-visible:outline-offset-2"
+            aria-label="TraceBase home"
           >
-            <div className="relative flex items-center justify-center transition-transform group-hover:scale-105">
-              <SealLogo size={28} color="cyan" />
-              <div className="absolute inset-0 rounded-full bg-cyan-400/25 blur-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
-            </div>
-            <span className="font-semibold text-lg tracking-tight text-primary group-hover:text-cyan-300 transition-colors">
-              Countersign
+            <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true" className="shrink-0 text-[var(--brand-ink)]">
+              <circle cx="16" cy="16" r="14" fill="none" stroke="currentColor" strokeWidth="2.4" />
+              <circle cx="16" cy="16" r="9.5" fill="none" stroke="currentColor" strokeWidth="1.2" />
+              <path d="M11.5 16.4l3.1 3.1 6-6.4" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            <span className="font-extrabold text-[19px] sm:text-[21px] tracking-[-0.025em]">
+              TraceBase
             </span>
           </Link>
-          <CountrySelector />
         </div>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-1.5" aria-label="Main Navigation">
+        <nav className="hidden lg:flex items-center gap-6 text-[16px] font-semibold" aria-label="Main Navigation">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="px-2.5 py-1.5 rounded-lg text-xs font-medium text-secondary hover:text-primary hover:bg-white/[0.06] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] transition-all"
+              className="py-2 text-secondary hover:text-ink transition-colors"
             >
               {link.label}
             </Link>
           ))}
         </nav>
 
-        {/* Right Side: Command Palette + Data-Saver Toggle + Theme Toggle + Mobile Menu Button */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        {/* Right Side: Country Chip + Search + Theme Toggle + Mobile Menu Button */}
+        <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+          <CountrySelector compact={true} />
           <CommandPalette />
-          <TierToggle />
-          <ThemeToggle />
+          
+          {/* Theme toggle visible on desktop; moved into mobile menu below 640px to eliminate header overflow */}
+          <div className="hidden sm:inline-flex">
+            <ThemeToggle />
+          </div>
 
-          {/* Mobile Menu Hamburger */}
+          {/* Mobile Menu Hamburger (≥44px tap target) */}
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-1.5 rounded border border-subtle bg-surface text-secondary hover:text-primary transition-colors"
+            className="lg:hidden p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg border border-subtle bg-sheet text-secondary hover:text-ink transition-colors"
             aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileMenuOpen}
           >
@@ -85,25 +87,30 @@ export function Header() {
             )}
           </button>
         </div>
-      </div>
+      </header>
 
-      {/* Mobile Drawer (Accessible at 360 px) */}
+      {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-b border-subtle bg-surface px-4 py-4 space-y-3">
-          <nav className="flex flex-col space-y-2.5" aria-label="Mobile Navigation">
+        <div className="lg:hidden border-b border-rule bg-sheet px-4 py-4 space-y-4 shadow-lg animate-in fade-in duration-150">
+          <nav className="flex flex-col space-y-1" aria-label="Mobile Navigation">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-sm font-medium text-secondary hover:text-primary py-1.5 transition-colors"
+                className="flex items-center px-3 min-h-[44px] rounded-lg text-base font-bold text-ink hover:bg-[var(--brand-tint)] hover:text-[var(--brand-ink)] transition-colors"
               >
                 {link.label}
               </Link>
             ))}
           </nav>
+
+          <div className="pt-3 border-t border-subtle flex items-center justify-between">
+            <span className="text-sm font-semibold text-secondary">Appearance</span>
+            <ThemeToggle />
+          </div>
         </div>
       )}
-    </header>
+    </div>
   );
 }

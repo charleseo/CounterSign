@@ -26,17 +26,17 @@ export function EvaluatorApplicationForm() {
 
   if (status === "success") {
     return (
-      <div className="p-6 rounded-xl border border-accent-emerald/40 bg-accent-emerald/5 space-y-4">
-        <div className="flex items-center gap-2 text-accent-emerald font-semibold text-base">
+      <div className="p-6 rounded-xl border border-emerald-200 bg-emerald-50/50 space-y-4">
+        <div className="flex items-center gap-2 text-emerald-700 font-semibold text-base">
           <CheckCircle2 size={20} />
           <span>Application Received</span>
         </div>
-        <p className="text-xs sm:text-sm text-readable leading-relaxed">
+        <p className="text-xs sm:text-sm text-secondary leading-relaxed">
           {result?.message} When a relevant domain audit or model evaluation sprint matches your profile, Jo will reach out directly with scope details and compensation terms.
         </p>
         {result?.referenceId && (
-          <div className="p-3 rounded-lg border border-subtle bg-void font-mono text-xs text-secondary">
-            Application Reference: <span className="text-primary font-bold">{result.referenceId}</span>
+          <div className="p-3 rounded-lg border border-rule bg-surface text-xs text-secondary">
+            Application Reference: <span className="text-ink font-semibold tabular-nums">{result.referenceId}</span>
           </div>
         )}
       </div>
@@ -60,9 +60,9 @@ export function EvaluatorApplicationForm() {
         <div className="space-y-1.5">
           <label
             htmlFor="name"
-            className="block text-xs font-mono font-medium text-secondary uppercase tracking-wider"
+            className="block text-xs font-medium text-secondary"
           >
-            Full Name <span className="text-accent-cyan">*</span>
+            Full name <span className="text-brand-violet">*</span>
           </label>
           <input
             id="name"
@@ -71,7 +71,7 @@ export function EvaluatorApplicationForm() {
             required
             placeholder="Dr. Ebube Okeke"
             disabled={status === "submitting"}
-            className="w-full px-3 py-2 rounded-lg border border-subtle bg-void text-primary placeholder:text-secondary text-xs sm:text-sm focus:outline-none focus:border-focus"
+            className="w-full px-3 py-2 rounded-lg border border-rule bg-surface text-ink placeholder:text-muted text-xs sm:text-sm focus:outline-none focus:border-[#5A35C8]"
           />
         </div>
 
@@ -79,9 +79,9 @@ export function EvaluatorApplicationForm() {
         <div className="space-y-1.5">
           <label
             htmlFor="email"
-            className="block text-xs font-mono font-medium text-secondary uppercase tracking-wider"
+            className="block text-xs font-medium text-secondary"
           >
-            Professional Email <span className="text-accent-cyan">*</span>
+            Professional email <span className="text-brand-violet">*</span>
           </label>
           <input
             id="email"
@@ -90,7 +90,7 @@ export function EvaluatorApplicationForm() {
             required
             placeholder="name@university.edu or name@work.com"
             disabled={status === "submitting"}
-            className="w-full px-3 py-2 rounded-lg border border-subtle bg-void text-primary placeholder:text-secondary text-xs sm:text-sm focus:outline-none focus:border-focus"
+            className="w-full px-3 py-2 rounded-lg border border-rule bg-surface text-ink placeholder:text-muted text-xs sm:text-sm focus:outline-none focus:border-[#5A35C8]"
           />
         </div>
       </div>
@@ -100,9 +100,9 @@ export function EvaluatorApplicationForm() {
         <div className="space-y-1.5">
           <label
             htmlFor="country_code"
-            className="block text-xs font-mono font-medium text-secondary uppercase tracking-wider"
+            className="block text-xs font-medium text-secondary"
           >
-            Country of Residence <span className="text-accent-cyan">*</span>
+            Country of residence <span className="text-brand-violet">*</span>
           </label>
           <select
             id="country_code"
@@ -110,7 +110,7 @@ export function EvaluatorApplicationForm() {
             required
             defaultValue="NG"
             disabled={status === "submitting"}
-            className="w-full px-3 py-2 rounded-lg border border-subtle bg-void text-primary text-xs sm:text-sm focus:outline-none focus:border-focus"
+            className="w-full px-3 py-2 rounded-lg border border-rule bg-surface text-ink text-xs sm:text-sm focus:outline-none focus:border-[#5A35C8]"
           >
             <option value="NG">Nigeria (NG)</option>
             <option value="US">United States (US)</option>
@@ -127,9 +127,9 @@ export function EvaluatorApplicationForm() {
         <div className="space-y-1.5">
           <label
             htmlFor="domain"
-            className="block text-xs font-mono font-medium text-secondary uppercase tracking-wider"
+            className="block text-xs font-medium text-secondary"
           >
-            Primary Evaluation Domain <span className="text-accent-cyan">*</span>
+            Primary evaluation domain <span className="text-brand-violet">*</span>
           </label>
           <select
             id="domain"
@@ -137,7 +137,7 @@ export function EvaluatorApplicationForm() {
             required
             defaultValue="Software Engineering & Systems"
             disabled={status === "submitting"}
-            className="w-full px-3 py-2 rounded-lg border border-subtle bg-void text-primary text-xs sm:text-sm focus:outline-none focus:border-focus"
+            className="w-full px-3 py-2 rounded-lg border border-rule bg-surface text-ink text-xs sm:text-sm focus:outline-none focus:border-[#5A35C8]"
           >
             <option value="Software Engineering & Systems">Software Engineering & Systems</option>
             <option value="Medicine, Healthcare & Pharmacology">Medicine, Healthcare & Pharmacology</option>
@@ -155,9 +155,9 @@ export function EvaluatorApplicationForm() {
         <div className="space-y-1.5">
           <label
             htmlFor="credentials"
-            className="block text-xs font-mono font-medium text-secondary uppercase tracking-wider"
+            className="block text-xs font-medium text-secondary"
           >
-            Highest Degree / License <span className="text-accent-cyan">*</span>
+            Highest degree or license <span className="text-brand-violet">*</span>
           </label>
           <input
             id="credentials"
@@ -166,7 +166,7 @@ export function EvaluatorApplicationForm() {
             required
             placeholder="e.g. MBBS (UNN), B.Eng. Computer Engineering, LL.B"
             disabled={status === "submitting"}
-            className="w-full px-3 py-2 rounded-lg border border-subtle bg-void text-primary placeholder:text-secondary text-xs sm:text-sm focus:outline-none focus:border-focus"
+            className="w-full px-3 py-2 rounded-lg border border-rule bg-surface text-ink placeholder:text-muted text-xs sm:text-sm focus:outline-none focus:border-[#5A35C8]"
           />
         </div>
 
@@ -174,9 +174,9 @@ export function EvaluatorApplicationForm() {
         <div className="space-y-1.5">
           <label
             htmlFor="years_experience"
-            className="block text-xs font-mono font-medium text-secondary uppercase tracking-wider"
+            className="block text-xs font-medium text-secondary"
           >
-            Years in Domain <span className="text-accent-cyan">*</span>
+            Years in domain <span className="text-brand-violet">*</span>
           </label>
           <select
             id="years_experience"
@@ -184,7 +184,7 @@ export function EvaluatorApplicationForm() {
             required
             defaultValue="3-5 years"
             disabled={status === "submitting"}
-            className="w-full px-3 py-2 rounded-lg border border-subtle bg-void text-primary text-xs sm:text-sm focus:outline-none focus:border-focus"
+            className="w-full px-3 py-2 rounded-lg border border-rule bg-surface text-ink text-xs sm:text-sm focus:outline-none focus:border-[#5A35C8]"
           >
             <option value="1-2 years">1 to 2 years</option>
             <option value="3-5 years">3 to 5 years</option>
@@ -199,9 +199,9 @@ export function EvaluatorApplicationForm() {
         <div className="space-y-1.5">
           <label
             htmlFor="portfolio_url"
-            className="block text-xs font-mono font-medium text-secondary uppercase tracking-wider"
+            className="block text-xs font-medium text-secondary"
           >
-            LinkedIn Profile or Portfolio Link
+            LinkedIn profile or portfolio link
           </label>
           <input
             id="portfolio_url"
@@ -209,7 +209,7 @@ export function EvaluatorApplicationForm() {
             type="url"
             placeholder="https://linkedin.com/in/your-profile"
             disabled={status === "submitting"}
-            className="w-full px-3 py-2 rounded-lg border border-subtle bg-void text-primary placeholder:text-secondary text-xs sm:text-sm focus:outline-none focus:border-focus"
+            className="w-full px-3 py-2 rounded-lg border border-rule bg-surface text-ink placeholder:text-muted text-xs sm:text-sm focus:outline-none focus:border-[#5A35C8]"
           />
         </div>
 
@@ -217,9 +217,9 @@ export function EvaluatorApplicationForm() {
         <div className="space-y-1.5">
           <label
             htmlFor="weekly_hours"
-            className="block text-xs font-mono font-medium text-secondary uppercase tracking-wider"
+            className="block text-xs font-medium text-secondary"
           >
-            Weekly Availability <span className="text-accent-cyan">*</span>
+            Weekly availability <span className="text-brand-violet">*</span>
           </label>
           <select
             id="weekly_hours"
@@ -227,7 +227,7 @@ export function EvaluatorApplicationForm() {
             required
             defaultValue="5-10 hours/week"
             disabled={status === "submitting"}
-            className="w-full px-3 py-2 rounded-lg border border-subtle bg-void text-primary text-xs sm:text-sm focus:outline-none focus:border-focus"
+            className="w-full px-3 py-2 rounded-lg border border-rule bg-surface text-ink text-xs sm:text-sm focus:outline-none focus:border-[#5A35C8]"
           >
             <option value="5-10 hours/week">5 to 10 hours/week (Evenings/Weekends)</option>
             <option value="10-20 hours/week">10 to 20 hours/week (Part-Time)</option>
@@ -237,7 +237,7 @@ export function EvaluatorApplicationForm() {
       </div>
 
       {status === "error" && (
-        <div className="p-3 rounded-lg border border-accent-danger/30 bg-accent-danger/5 text-xs text-accent-danger flex items-center gap-2">
+        <div className="p-3 rounded-lg border border-red-200 bg-red-50 text-xs text-red-700 flex items-center gap-2">
           <AlertCircle size={15} />
           <span>{result?.message || "That did not send. Your text is still here. Try again."}</span>
         </div>
@@ -247,7 +247,7 @@ export function EvaluatorApplicationForm() {
         <button
           type="submit"
           disabled={status === "submitting"}
-          className="w-full sm:w-auto px-6 py-2.5 rounded-lg text-xs sm:text-sm font-semibold bg-accent-cyan text-[#04080F] hover:bg-accent-cyan/90 transition-colors flex items-center justify-center gap-2"
+          className="w-full sm:w-auto px-6 py-2.5 rounded-lg text-xs sm:text-sm font-semibold bg-[#5A35C8] text-white hover:bg-[#4828AC] transition-colors flex items-center justify-center gap-2 cursor-pointer"
         >
           {status === "submitting" ? (
             <>

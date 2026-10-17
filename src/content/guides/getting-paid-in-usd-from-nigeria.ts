@@ -6,9 +6,12 @@ export const guideTwo: Guide = {
   subtitle: 'A practical, verified banking guide for Nigerian AI contractors: setting up US virtual ACH accounts, navigating Deel and Outlier payouts, and avoiding frozen PayPal traps.',
   readingTime: '8 min read',
   lastUpdated: '2026-10-14',
+  lastCheckedDate: '12 Oct 2026',
+  checkedBy: 'Jo (Ebube Okeke)',
+  published: true,
   author: {
     name: 'Jo (Ebube Okeke)',
-    title: 'Lead Evaluator, Countersign',
+    title: 'Lead Evaluator, TraceBase',
   },
   topicTags: ['Nigeria', 'Banking', 'USD Payouts', 'Geegpay', 'Grey'],
   summaryPoints: [
@@ -93,7 +96,7 @@ Invest in an affordable 12V Mini DC UPS (costing approximately 15,000 to 25,000 
 Ensure you maintain a power bank capable of 65W USB-C Power Delivery (PD) to keep your work laptop charged through extended power outages.
 
 3. Bandwidth Conservation:
-Enable Countersign Data-Saver mode (under 48 KB initial load) and utilize browser bandwidth settings to prevent heavy background updates during peak data billing hours.`,
+Enable TraceBase Data-Saver mode (under 48 KB initial load) and utilize browser bandwidth settings to prevent heavy background updates during peak data billing hours.`,
     },
   ],
   sources: [

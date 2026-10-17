@@ -5,6 +5,8 @@ import Link from "next/link";
 import { Platform, PlatformStep, AggregatedPlatformExperience } from "@/lib/db/types";
 import { FreshnessStamp } from "@/components/ui/FreshnessStamp";
 import { Check, HelpCircle, ExternalLink, ArrowRight, Plus } from "lucide-react";
+import { useSelectedCountry } from "@/components/ui/CountrySelector";
+import { countryLabel } from "@/lib/utils/country";
 
 interface CompareData {
   platform: Platform;
@@ -12,6 +14,8 @@ interface CompareData {
   openRolesCount: number;
   experience: AggregatedPlatformExperience;
   nigeriaAccepted: boolean;
+  hasCheckLogAndSource?: boolean;
+  eligibilityByCountry?: Record<string, { status: string; hasLogAndSource: boolean }>;
 }
 
 interface PlatformCompareTableProps {
@@ -23,6 +27,10 @@ export function PlatformCompareTable({
   initialPlatforms,
   allPlatforms,
 }: PlatformCompareTableProps) {
+  const selectedCountryCode = useSelectedCountry();
+  const countryName = countryLabel(selectedCountryCode, "name");
+  const countryTitle = selectedCountryCode === "WW" ? "Location eligibility" : `${countryName} eligibility`;
+
   const [selectedSlugs, setSelectedSlugs] = useState<string[]>(
     initialPlatforms.slice(0, 4).map((p) => p.platform.slug)
   );
@@ -44,14 +52,14 @@ export function PlatformCompareTable({
   );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 w-full min-w-0 max-w-full">
       {/* Platform Selector Chips */}
-      <div className="p-5 sm:p-6 rounded-2xl glass-panel relative overflow-hidden border border-cyan-500/20 space-y-4 shadow-xl">
+      <div className="p-5 sm:p-6 rounded-2xl border border-rule bg-sheet space-y-4 shadow-sm">
         <div className="flex items-center justify-between">
-          <span className="text-xs font-semibold uppercase tracking-wider text-secondary">
+          <span className="text-xs font-medium text-secondary">
             Select Platforms to Compare (2 to 4)
           </span>
-          <span className="text-xs font-mono text-accent-cyan font-bold">
+          <span className="text-xs text-[#5A35C8] font-semibold tabular-nums">
             {selectedSlugs.length} of 4 selected
           </span>
         </div>
@@ -64,13 +72,13 @@ export function PlatformCompareTable({
                 key={p.slug}
                 type="button"
                 onClick={() => togglePlatform(p.slug)}
-                className={`px-4 py-2 rounded-xl text-xs font-medium transition-all flex items-center gap-2 cursor-pointer ${
+                className={`px-4 py-2 rounded-xl text-xs font-medium transition-all flex items-center gap-2 cursor-pointer min-h-[44px] ${
                   isSelected
-                    ? "bg-gradient-to-r from-cyan-400 to-teal-400 text-void font-bold shadow-[0_0_15px_rgba(61,235,255,0.35)]"
-                    : "glass-card text-secondary hover:text-primary hover:border-cyan-400/40"
+                    ? "bg-[#5A35C8] text-white shadow-sm"
+                    : "border border-rule bg-surface text-secondary hover:text-ink hover:border-[#5A35C8]"
                 }`}
               >
-                {isSelected ? <Check size={13} className="text-void" /> : <Plus size={13} />}
+                {isSelected ? <Check size={13} className="text-white" /> : <Plus size={13} />}
                 <span>{cleanName}</span>
               </button>
             );
@@ -79,26 +87,26 @@ export function PlatformCompareTable({
       </div>
 
       {/* Side-by-Side Comparison Matrix */}
-      <div className="overflow-x-auto border border-white/[0.08] rounded-2xl glass-panel shadow-2xl">
-        <table className="w-full text-left text-xs border-collapse">
+      <div className="w-full max-w-full overflow-x-auto border border-rule rounded-2xl bg-sheet">
+        <table className="w-full min-w-[700px] text-left text-xs border-collapse">
           <thead>
-            <tr className="border-b border-subtle bg-void/70">
-              <th className="p-4 sm:p-5 font-semibold text-primary w-40 sm:w-56 sticky left-0 backdrop-blur-md bg-surface/90 z-10 border-r border-subtle">
+            <tr className="border-b border-rule bg-surface/80">
+              <th className="p-4 sm:p-5 font-semibold text-ink w-40 sm:w-56 sticky left-0 backdrop-blur-md bg-surface/90 z-10 border-r border-rule">
                 Attribute
               </th>
               {activeData.map((d) => (
                 <th
                   key={d.platform.id}
-                  className="p-4 sm:p-5 font-semibold text-primary min-w-[220px] max-w-[280px] border-r border-subtle last:border-r-0"
+                  className="p-4 sm:p-5 font-semibold text-ink min-w-[220px] max-w-[280px] border-r border-rule last:border-r-0"
                 >
                   <div className="space-y-1.5">
-                    <div className="text-base font-bold text-primary">
+                    <div className="text-base font-bold text-ink">
                       {d.platform.name.replace(/\[SAMPLE\]/g, "").trim()}
                     </div>
                     <div className="flex items-center gap-2">
                       <Link
                         href={`/platforms/${d.platform.slug}`}
-                        className="text-accent-cyan hover:underline text-[11px] font-mono flex items-center gap-1 font-medium"
+                        className="text-[#5A35C8] hover:underline text-xs flex items-center gap-1 font-medium min-h-[44px]"
                       >
                         <span>Reality Profile</span>
                         <ArrowRight size={10} />
@@ -108,7 +116,7 @@ export function PlatformCompareTable({
                         href={d.platform.official_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-secondary hover:text-primary text-[11px] flex items-center gap-1"
+                        className="text-secondary hover:text-ink text-xs flex items-center gap-1 min-h-[44px]"
                       >
                         <span>Official</span>
                         <ExternalLink size={10} />
@@ -119,16 +127,16 @@ export function PlatformCompareTable({
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-subtle">
+          <tbody className="divide-y divide-rule">
             {/* Primary Focus */}
-            <tr className="hover:bg-white/[0.02] transition-colors">
-              <td className="p-4 sm:p-5 font-medium text-secondary sticky left-0 backdrop-blur-md bg-surface/90 z-10 border-r border-subtle">
+            <tr className="hover:bg-surface/50 transition-colors">
+              <td className="p-4 sm:p-5 font-medium text-secondary sticky left-0 backdrop-blur-md bg-surface/90 z-10 border-r border-rule">
                 Target Candidates
               </td>
               {activeData.map((d) => (
                 <td
                   key={d.platform.id}
-                  className="p-4 sm:p-5 text-readable border-r border-subtle last:border-r-0 leading-relaxed"
+                  className="p-4 sm:p-5 text-readable border-r border-rule last:border-r-0 leading-relaxed"
                 >
                   {d.platform.who_it_suits || "Not confirmed"}
                 </td>
@@ -136,14 +144,14 @@ export function PlatformCompareTable({
             </tr>
 
             {/* Assessment Style */}
-            <tr className="hover:bg-white/[0.02] transition-colors">
-              <td className="p-4 sm:p-5 font-medium text-secondary sticky left-0 backdrop-blur-md bg-surface/90 z-10 border-r border-subtle">
+            <tr className="hover:bg-surface/50 transition-colors">
+              <td className="p-4 sm:p-5 font-medium text-secondary sticky left-0 backdrop-blur-md bg-surface/90 z-10 border-r border-rule">
                 Assessment Style
               </td>
               {activeData.map((d) => (
                 <td
                   key={d.platform.id}
-                  className="p-4 sm:p-5 text-readable border-r border-subtle last:border-r-0 leading-relaxed"
+                  className="p-4 sm:p-5 text-readable border-r border-rule last:border-r-0 leading-relaxed"
                 >
                   {d.platform.assessment_style || "Not confirmed"}
                 </td>
@@ -151,19 +159,19 @@ export function PlatformCompareTable({
             </tr>
 
             {/* Onboarding Steps */}
-            <tr className="hover:bg-white/[0.02] transition-colors">
-              <td className="p-4 sm:p-5 font-medium text-secondary sticky left-0 backdrop-blur-md bg-surface/90 z-10 border-r border-subtle">
+            <tr className="hover:bg-surface/50 transition-colors">
+              <td className="p-4 sm:p-5 font-medium text-secondary sticky left-0 backdrop-blur-md bg-surface/90 z-10 border-r border-rule">
                 Onboarding Pipeline
               </td>
               {activeData.map((d) => (
                 <td
                   key={d.platform.id}
-                  className="p-4 sm:p-5 text-readable border-r border-subtle last:border-r-0 space-y-2"
+                  className="p-4 sm:p-5 text-readable border-r border-rule last:border-r-0 space-y-2"
                 >
-                  <div className="font-mono text-accent-cyan font-bold text-[11px]">
+                  <div className="text-[#5A35C8] font-semibold text-xs tabular-nums">
                     {d.steps.length} sequential stages
                   </div>
-                  <ol className="list-decimal pl-4 space-y-1 text-secondary text-[11px]">
+                  <ol className="list-decimal pl-4 space-y-1 text-secondary text-xs">
                     {d.steps.map((s) => (
                       <li key={s.id}>{s.title}</li>
                     ))}
@@ -173,69 +181,88 @@ export function PlatformCompareTable({
             </tr>
 
             {/* Supported Payout Rails */}
-            <tr className="hover:bg-white/[0.02] transition-colors">
-              <td className="p-4 sm:p-5 font-medium text-secondary sticky left-0 backdrop-blur-md bg-surface/90 z-10 border-r border-subtle">
+            <tr className="hover:bg-surface/50 transition-colors">
+              <td className="p-4 sm:p-5 font-medium text-secondary sticky left-0 backdrop-blur-md bg-surface/90 z-10 border-r border-rule">
                 Payout Methods
               </td>
               {activeData.map((d) => (
                 <td
                   key={d.platform.id}
-                  className="p-4 sm:p-5 text-readable border-r border-subtle last:border-r-0 font-medium"
+                  className="p-4 sm:p-5 text-readable border-r border-rule last:border-r-0 font-medium"
                 >
                   {d.platform.payout_methods || "Not confirmed"}
                 </td>
               ))}
             </tr>
 
-            {/* Nigeria Contributor Eligibility */}
-            <tr className="hover:bg-white/[0.02] transition-colors">
-              <td className="p-4 sm:p-5 font-medium text-secondary sticky left-0 backdrop-blur-md bg-surface/90 z-10 border-r border-subtle">
-                Nigeria Eligibility
+            {/* Country Contributor Eligibility */}
+            <tr className="hover:bg-surface/50 transition-colors">
+              <td className="p-4 sm:p-5 font-medium text-secondary sticky left-0 backdrop-blur-md bg-surface/90 z-10 border-r border-rule">
+                {countryTitle}
               </td>
-              {activeData.map((d) => (
-                <td
-                  key={d.platform.id}
-                  className="p-4 sm:p-5 border-r border-subtle last:border-r-0"
-                >
-                  {d.nigeriaAccepted ? (
-                    <div className="inline-flex items-center gap-1.5 text-accent-emerald font-semibold">
-                      <Check size={14} />
-                      <span>Accepted</span>
+              {activeData.map((d) => {
+                const isSample =
+                  d.platform.name.includes("[SAMPLE]") ||
+                  Boolean((d.platform as { is_sample?: boolean }).is_sample);
+                const elData =
+                  d.eligibilityByCountry?.[selectedCountryCode] ||
+                  d.eligibilityByCountry?.[selectedCountryCode.toUpperCase()] || {
+                    status: d.nigeriaAccepted ? "accepted" : "unconfirmed",
+                    hasLogAndSource: Boolean(d.hasCheckLogAndSource),
+                  };
+                const isAccepted = elData.status === "accepted";
+                const hasVerification = Boolean(elData.hasLogAndSource);
+
+                return (
+                  <td
+                    key={d.platform.id}
+                    className="p-4 sm:p-5 border-r border-rule last:border-r-0"
+                  >
+                    {isSample ? (
+                      <div className="inline-flex items-center gap-1.5 text-secondary font-medium">
+                        <span className="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                        <span>Sample entry</span>
+                      </div>
+                    ) : isAccepted && hasVerification ? (
+                      <div className="inline-flex items-center gap-1.5 text-[#17663F] font-semibold">
+                        <Check size={14} />
+                        <span>Accepted</span>
+                      </div>
+                    ) : (
+                      <div className="inline-flex items-center gap-1.5 text-secondary">
+                        <HelpCircle size={14} />
+                        <span>Not confirmed</span>
+                      </div>
+                    )}
+                    <div className="pt-1.5">
+                      <Link
+                        href={`/platforms/${d.platform.slug}/${selectedCountryCode.toLowerCase()}`}
+                        className="text-xs text-[#5A35C8] hover:underline font-medium min-h-[44px] inline-flex items-center"
+                      >
+                        View {selectedCountryCode === "WW" ? "country" : countryName} analysis &rarr;
+                      </Link>
                     </div>
-                  ) : (
-                    <div className="inline-flex items-center gap-1.5 text-secondary">
-                      <HelpCircle size={14} />
-                      <span>Not confirmed</span>
-                    </div>
-                  )}
-                  <div className="pt-1.5">
-                    <Link
-                      href={`/platforms/${d.platform.slug}/ng`}
-                      className="text-[11px] text-accent-cyan hover:underline font-medium"
-                    >
-                      View Nigeria analysis &rarr;
-                    </Link>
-                  </div>
-                </td>
-              ))}
+                  </td>
+                );
+              })}
             </tr>
 
-            {/* Open Verified Roles */}
-            <tr className="hover:bg-white/[0.02] transition-colors">
-              <td className="p-4 sm:p-5 font-medium text-secondary sticky left-0 backdrop-blur-md bg-surface/90 z-10 border-r border-subtle">
-                Open Verified Roles
+            {/* Open Roles */}
+            <tr className="hover:bg-surface/50 transition-colors">
+              <td className="p-4 sm:p-5 font-medium text-secondary sticky left-0 backdrop-blur-md bg-surface/90 z-10 border-r border-rule">
+                Open Roles
               </td>
               {activeData.map((d) => (
                 <td
                   key={d.platform.id}
-                  className="p-4 sm:p-5 border-r border-subtle last:border-r-0"
+                  className="p-4 sm:p-5 border-r border-rule last:border-r-0"
                 >
-                  <div className="text-sm font-mono font-bold text-accent-cyan">
-                    {d.openRolesCount} verified roles
+                  <div className="text-sm font-semibold text-ink tabular-nums">
+                    {d.openRolesCount} roles
                   </div>
                   <Link
                     href={`/jobs?platform=${d.platform.slug}`}
-                    className="text-[11px] text-secondary hover:text-accent-cyan hover:underline inline-block mt-1 font-medium transition-colors"
+                    className="text-xs text-secondary hover:text-[#5A35C8] hover:underline inline-flex items-center mt-1 font-medium transition-colors min-h-[44px]"
                   >
                     Browse jobs &rarr;
                   </Link>
@@ -244,19 +271,19 @@ export function PlatformCompareTable({
             </tr>
 
             {/* Referral Policy */}
-            <tr className="hover:bg-white/[0.02] transition-colors">
-              <td className="p-4 sm:p-5 font-medium text-secondary sticky left-0 backdrop-blur-md bg-surface/90 z-10 border-r border-subtle">
+            <tr className="hover:bg-surface/50 transition-colors">
+              <td className="p-4 sm:p-5 font-medium text-secondary sticky left-0 backdrop-blur-md bg-surface/90 z-10 border-r border-rule">
                 Referral Policy
               </td>
               {activeData.map((d) => (
                 <td
                   key={d.platform.id}
-                  className="p-4 sm:p-5 text-secondary text-[11px] border-r border-subtle last:border-r-0"
+                  className="p-4 sm:p-5 text-secondary text-xs border-r border-rule last:border-r-0"
                 >
-                  <span className="capitalize font-mono text-primary font-medium">
+                  <span className="capitalize text-ink font-medium">
                     {d.platform.referral.replace(/_/g, " ")}
                   </span>
-                  <p className="mt-1 text-secondary text-[10px] leading-relaxed">
+                  <p className="mt-1 text-secondary text-[11px] leading-relaxed">
                     Independent verification. Referral bonuses never influence ranking.
                   </p>
                 </td>
@@ -264,36 +291,40 @@ export function PlatformCompareTable({
             </tr>
 
             {/* Community Reports Summary */}
-            <tr className="hover:bg-white/[0.02] transition-colors">
-              <td className="p-4 sm:p-5 font-medium text-secondary sticky left-0 backdrop-blur-md bg-surface/90 z-10 border-r border-subtle">
+            <tr className="hover:bg-surface/50 transition-colors">
+              <td className="p-4 sm:p-5 font-medium text-secondary sticky left-0 backdrop-blur-md bg-surface/90 z-10 border-r border-rule">
                 Community Reality
               </td>
               {activeData.map((d) => (
                 <td
                   key={d.platform.id}
-                  className="p-4 sm:p-5 text-xs border-r border-subtle last:border-r-0 space-y-1"
+                  className="p-4 sm:p-5 text-xs border-r border-rule last:border-r-0 space-y-1"
                 >
                   {d.experience.has_sufficient_reports ? (
                     <>
-                      <div className="text-readable font-medium">
-                        {d.experience.tasks_regular_percent}% report regular tasks
+                      <div className="text-readable font-medium tabular-nums">
+                        {d.experience.sample_size < 20
+                          ? `${d.experience.tasks_regular_count} of ${d.experience.sample_size} reports regular tasks`
+                          : `${d.experience.tasks_regular_percent}% report regular tasks`}
                       </div>
-                      <div className="text-[11px] text-secondary">
-                        {d.experience.onboarding_paid_percent}% onboarding paid
+                      <div className="text-xs text-secondary tabular-nums">
+                        {d.experience.sample_size < 20
+                          ? `${d.experience.onboarding_paid_count} of ${d.experience.sample_size} reports onboarding paid`
+                          : `${d.experience.onboarding_paid_percent}% onboarding paid`}
                       </div>
-                      <div className="text-[10px] text-secondary font-mono">
+                      <div className="text-xs text-secondary tabular-nums">
                         (Sample: {d.experience.sample_size} self-reports)
                       </div>
                     </>
                   ) : (
-                    <span className="text-[11px] text-secondary">
+                    <span className="text-xs text-secondary">
                       Awaiting minimum community reports
                     </span>
                   )}
                   <div className="pt-1.5">
                     <Link
                       href={`/platforms/${d.platform.slug}/report`}
-                      className="text-[11px] text-accent-cyan hover:underline font-medium"
+                      className="text-xs text-[#5A35C8] hover:underline font-medium min-h-[44px] inline-flex items-center"
                     >
                       Submit report &rarr;
                     </Link>
@@ -303,14 +334,14 @@ export function PlatformCompareTable({
             </tr>
 
             {/* Last Checked */}
-            <tr className="hover:bg-white/[0.02] transition-colors">
-              <td className="p-4 sm:p-5 font-medium text-secondary sticky left-0 backdrop-blur-md bg-surface/90 z-10 border-r border-subtle">
+            <tr className="hover:bg-surface/50 transition-colors">
+              <td className="p-4 sm:p-5 font-medium text-secondary sticky left-0 backdrop-blur-md bg-surface/90 z-10 border-r border-rule">
                 Last Verified
               </td>
               {activeData.map((d) => (
                 <td
                   key={d.platform.id}
-                  className="p-4 sm:p-5 text-xs border-r border-subtle last:border-r-0"
+                  className="p-4 sm:p-5 text-xs border-r border-rule last:border-r-0"
                 >
                   <FreshnessStamp daysAgo={3} />
                 </td>

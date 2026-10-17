@@ -79,8 +79,8 @@ export function SampleAuditCard({
 
       {/* 1. Prompt / User Query */}
       <div className="space-y-1">
-        <span className="text-secondary text-[11px] uppercase tracking-wider">
-          Input Query / User Prompt:
+        <span className="text-secondary text-[11px]">
+          Input query or prompt:
         </span>
         <div className="p-3 rounded-lg border border-subtle bg-void text-primary font-sans text-xs sm:text-sm">
           &ldquo;{query}&rdquo;
@@ -89,12 +89,12 @@ export function SampleAuditCard({
 
       {/* 2. Ground Truth Context & Citation Check */}
       <div className="space-y-1">
-        <div className="flex items-center justify-between text-[11px] text-secondary uppercase tracking-wider">
+        <div className="flex items-center justify-between text-[11px] text-secondary">
           <span className="flex items-center gap-1">
             <Quote size={12} aria-hidden="true" />
-            <span>Ground-Truth Source Excerpt:</span>
+            <span>Ground-truth source excerpt:</span>
           </span>
-          <span className="text-accent-cyan font-semibold">CITED REFERENCE</span>
+          <span className="text-accent-cyan font-semibold">Cited reference</span>
         </div>
         <div className="p-3 rounded-lg border border-subtle bg-void text-readable font-sans text-xs leading-relaxed">
           {groundTruthExcerpt}
@@ -108,8 +108,8 @@ export function SampleAuditCard({
 
       {/* 3. Model Completion */}
       <div className="space-y-1">
-        <span className="text-secondary text-[11px] uppercase tracking-wider">
-          AI Model Answer:
+        <span className="text-secondary text-[11px]">
+          AI model answer:
         </span>
         <div
           className={`p-3 rounded-lg border bg-void text-readable font-sans text-xs leading-relaxed ${
@@ -125,16 +125,16 @@ export function SampleAuditCard({
       {/* 4. Human Auditor Findings & Remedy */}
       <div className="pt-3 border-t border-subtle grid grid-cols-1 sm:grid-cols-2 gap-3 text-[11px]">
         <div className="p-3 rounded-lg border border-subtle bg-void space-y-1">
-          <span className="text-[#FFC66D] font-semibold block uppercase tracking-wider">
-            Root Cause Diagnosis
+          <span className="text-[#FFC66D] font-semibold block">
+            Root cause diagnosis
           </span>
           <p className="text-readable font-sans text-xs">{rootCause}</p>
         </div>
 
         <div className="p-3 rounded-lg border border-subtle bg-void space-y-1">
-          <span className="text-[#45F5C5] font-semibold flex items-center gap-1 uppercase tracking-wider">
+          <span className="text-[#45F5C5] font-semibold flex items-center gap-1">
             <Sparkles size={12} aria-hidden="true" />
-            <span>Recommended Correction</span>
+            <span>Recommended correction</span>
           </span>
           <p className="text-readable font-sans text-xs">{remedy}</p>
         </div>

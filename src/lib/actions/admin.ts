@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 import { dbRepository } from '../db/repository';
 import { runJobSweeper } from '../db/sweeper';
-import type { LeadStatus } from '../db/types';
+import type { LeadStatus, EligStatus } from '../db/types';
 import {
   jobFormSchema,
   quickCheckSchema,
@@ -384,12 +384,12 @@ export async function sendDigestReviewAction(): Promise<ActionResponse> {
       action: 'newsletter.digest_review_sent',
       entity: 'newsletter_digest',
       entity_id: draft.id,
-      diff: { recipient: 'jo@countersign.ai', subject: draft.subject },
+      diff: { recipient: 'jo@tracebase.ai', subject: draft.subject },
     });
 
     return {
       success: true,
-      message: `Weekly Digest draft test email sent to jo@countersign.ai for review.`,
+      message: `Weekly Digest draft test email sent to jo@tracebase.ai for review.`,
       data: draft,
     };
   } catch (err: unknown) {
@@ -400,3 +400,152 @@ export async function sendDigestReviewAction(): Promise<ActionResponse> {
     };
   }
 }
+
+/**
+ * Update max live roles operational capacity setting
+ */
+export async function updateMaxLiveRolesAction(maxLiveRoles: number): Promise<ActionResponse<number>> {
+  try {
+    const updated = dbRepository.setMaxLiveRoles(maxLiveRoles, 'admin-session');
+    revalidatePath('/admin');
+    return {
+      success: true,
+      message: `Operational capacity updated to ${updated} live roles.`,
+      data: updated,
+    };
+  } catch (err: unknown) {
+    const errorMsg = err instanceof Error ? err.message : 'Failed to update capacity setting';
+    return {
+      success: false,
+      message: errorMsg,
+    };
+  }
+}
+
+/**
+ * Update multi-country eligibility for a job during role rechecks
+ */
+export async function updateJobEligibilityAction(
+  jobId: string,
+  countryCode: string,
+  status: EligStatus,
+  sourceUrl?: string | null
+): Promise<ActionResponse> {
+  try {
+    dbRepository.setJobEligibility(jobId, countryCode, status, sourceUrl, 'admin-session');
+    revalidatePath('/admin');
+    revalidatePath('/admin/jobs');
+    revalidatePath(`/admin/jobs/${jobId}`);
+    revalidatePath(`/jobs/${jobId}`);
+    revalidatePath('/jobs');
+    revalidatePath('/countries');
+
+    return {
+      success: true,
+      message: `Eligibility for ${countryCode} updated to ${status}.`,
+    };
+  } catch (err: unknown) {
+    const errorMsg = err instanceof Error ? err.message : 'Failed to update eligibility';
+    return {
+      success: false,
+      message: errorMsg,
+    };
+  }
+}
+
+/**
+ * Phone-friendly fast recheck action: 'still_open' | 'changed' | 'closed'
+ */
+export async function fastRecheckJobAction(
+  jobId: string,
+  action: 'still_open' | 'changed' | 'closed',
+  payload?: { note?: string; reason?: string; pay_text?: string; initials?: string }
+): Promise<ActionResponse> {
+  try {
+    const checker = payload?.initials || 'CO';
+    if (action === 'still_open') {
+      const note = payload?.note || 'Still open: listing confirmed active and terms unchanged.';
+      const updated = dbRepository.markJobChecked(jobId, note, checker);
+      revalidatePath('/admin');
+      revalidatePath('/admin/jobs');
+      revalidatePath(`/admin/jobs/${jobId}`);
+      revalidatePath('/');
+      revalidatePath('/changes');
+      return {
+        success: true,
+        message: `Role "${updated.title}" rechecked as still open by ${checker}. Fresh for 14 days.`,
+        data: updated,
+      };
+    } else if (action === 'closed') {
+      const reason = payload?.reason || 'Listing closed by platform.';
+      const updated = dbRepository.closeJob(jobId, reason, checker);
+      revalidatePath('/admin');
+      revalidatePath('/admin/jobs');
+      revalidatePath(`/admin/jobs/${jobId}`);
+      revalidatePath('/');
+      revalidatePath('/changes');
+      return {
+        success: true,
+        message: `Role "${updated.title}" marked closed by ${checker} and removed from active index.`,
+        data: updated,
+      };
+    } else if (action === 'changed') {
+      const note = payload?.note || 'Role terms updated during recheck.';
+      if (payload?.pay_text) {
+        dbRepository.updateJob(jobId, { pay_text: payload.pay_text }, checker);
+      }
+      const updated = dbRepository.markJobChecked(jobId, note, checker);
+      revalidatePath('/admin');
+      revalidatePath('/admin/jobs');
+      revalidatePath(`/admin/jobs/${jobId}`);
+      revalidatePath('/');
+      revalidatePath('/changes');
+      return {
+        success: true,
+        message: `Role "${updated.title}" updated by ${checker} and marked verified for 14 days.`,
+        data: updated,
+      };
+    }
+    return {
+      success: false,
+      message: 'Unknown action type',
+    };
+  } catch (err: unknown) {
+    const errorMsg = err instanceof Error ? err.message : 'Failed to execute fast recheck';
+    return {
+      success: false,
+      message: errorMsg,
+    };
+  }
+}
+
+/**
+ * Update rechecks paused until setting
+ */
+export async function updateRechecksPausedAction(
+  rechecksPausedUntil: string | null
+): Promise<ActionResponse<{ rechecks_paused_until: string | null }>> {
+  try {
+    const updated = dbRepository.updateSettings(
+      { rechecks_paused_until: rechecksPausedUntil },
+      'admin-session'
+    );
+    revalidatePath('/admin');
+    revalidatePath('/jobs');
+    revalidatePath('/');
+    return {
+      success: true,
+      message: rechecksPausedUntil
+        ? `Rechecks paused until ${rechecksPausedUntil}.`
+        : 'Rechecks active and running.',
+      data: updated,
+    };
+  } catch (err: unknown) {
+    const errorMsg = err instanceof Error ? err.message : 'Failed to update recheck schedule';
+    return {
+      success: false,
+      message: errorMsg,
+    };
+  }
+}
+

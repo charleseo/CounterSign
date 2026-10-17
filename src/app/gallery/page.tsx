@@ -36,6 +36,7 @@ import { SampleAuditCard } from "@/components/ui/SampleAuditCard";
 import { EvaluationGraph } from "@/components/ui/EvaluationGraph";
 import { ComparisonPanel } from "@/components/ui/ComparisonPanel";
 import { Stepper } from "@/components/ui/Stepper";
+import { getSiteUrl } from "@/lib/utils/siteUrl";
 import { ConstraintChecker } from "@/components/ui/ConstraintChecker";
 import { Chart } from "@/components/ui/Chart";
 import { Toast, ToastMessage } from "@/components/ui/Toast";
@@ -189,7 +190,7 @@ export default function ComponentGalleryPage() {
               <span>Milestone 2 Design System</span>
             </div>
             <h1 className="text-xl sm:text-2xl font-bold text-primary tracking-tight">
-              Countersign Component Gallery & Living Style Guide
+              TraceBase Component Gallery & Living Style Guide
             </h1>
             <p className="text-xs text-readable max-w-xl">
               Live interactive verification for every component in Section 10.11 across Full, Lite, and Basic capability tiers and both themes.
@@ -199,14 +200,14 @@ export default function ComponentGalleryPage() {
           {/* Interactive Tier & Theme Simulator Switchers */}
           <div className="flex flex-wrap items-center gap-3 self-start md:self-auto">
             <div className="space-y-1">
-              <div className="text-[10px] font-mono text-secondary uppercase tracking-wider">
-                Capability Tier
+              <div className="text-[10px] font-mono text-secondary">
+                Capability tier
               </div>
               <TierToggle variant="segmented" />
             </div>
 
             <div className="space-y-1">
-              <div className="text-[10px] font-mono text-secondary uppercase tracking-wider">
+              <div className="text-[10px] font-mono text-secondary">
                 Theme
               </div>
               <ThemeToggle />
@@ -299,8 +300,8 @@ export default function ComponentGalleryPage() {
 
           {/* Typography Hierarchy Demo */}
           <div className="p-5 rounded-2xl border border-subtle bg-surface space-y-4">
-            <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-secondary">
-              Typography Scale & Measure (Section 10.5)
+            <h3 className="text-xs font-mono font-semibold text-secondary">
+              Typography scale and measure
             </h3>
             <div className="space-y-4 divide-y divide-subtle/50">
               <div className="pt-2">
@@ -335,13 +336,13 @@ export default function ComponentGalleryPage() {
                   Body Copy (17px mobile, 18px desktop, 60-70 char measure)
                 </span>
                 <p className="text-sm sm:text-base text-readable max-w-[680px] leading-relaxed">
-                  Every job listing on Countersign is verified against official employer career portals within 14 days. Country eligibility is audited honestly so talent in Nigeria, Ghana, and Kenya know before applying.
+                  Every job listing on TraceBase is verified against official employer career portals within 14 days. Country eligibility is audited honestly so talent in Nigeria, Ghana, and Kenya know before applying.
                 </p>
               </div>
 
               <div className="pt-3">
                 <span className="text-[11px] font-mono text-secondary block mb-1">
-                  Monospace Telemetry & Figures (13px to 14px, Tabular Figures Active)
+                  Monospace Data & Figures (13px to 14px, Tabular Figures Active)
                 </span>
                 <div className="font-mono text-xs sm:text-sm text-accent-cyan flex flex-wrap gap-4">
                   <span>LAST_CHECK: 2026-10-14T21:42:00Z</span>
@@ -354,13 +355,13 @@ export default function ComponentGalleryPage() {
         </section>
 
         {/* ==========================================================================
-            2. BRAND INSTRUMENT & COMPLETE STATUS SYSTEM
+            2. Brand identity and status system
             ========================================================================== */}
         <section id="seal-and-status" className="space-y-5">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-subtle">
             <div>
               <h2 className="text-base sm:text-lg font-bold text-primary tracking-tight">
-                2. Seal Brand Instrument & Complete Status System (10.2 & 10.7)
+                2. Seal brand mark and status system (10.2 & 10.7)
               </h2>
               <p className="text-xs text-secondary mt-0.5">
                 Precision SVG seal with stroke-draw kinetic states. Status never shown by color alone.
@@ -406,8 +407,8 @@ export default function ComponentGalleryPage() {
           {/* Section 10.7 Status System Badges (All 8 Statuses) */}
           <div className="p-5 rounded-2xl border border-subtle bg-surface space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-secondary">
-                Section 10.7 Status Badges (Click Any Badge For Accessible Audit Detail)
+              <h3 className="text-xs font-mono font-semibold text-secondary">
+                Status badges (click any badge for accessible audit detail)
               </h3>
               <span className="text-[11px] font-mono text-secondary">
                 Always icon + word
@@ -432,7 +433,7 @@ export default function ComponentGalleryPage() {
                   status={st}
                   date="2026-10-14"
                   sourceName="Ashby Employer Job Feed"
-                  sourceUrl="https://countersign.ai"
+                  sourceUrl={getSiteUrl()}
                 />
               ))}
             </div>
@@ -440,12 +441,12 @@ export default function ComponentGalleryPage() {
         </section>
 
         {/* ==========================================================================
-            3. VERIFICATION & TRUST INSTRUMENTS
+            3. VERIFICATION & TRUST TOOLS
             ========================================================================== */}
-        <section id="trust-instruments" className="space-y-5">
+        <section id="trust-tools" className="space-y-5">
           <div className="pb-2 border-b border-subtle">
             <h2 className="text-base sm:text-lg font-bold text-primary tracking-tight">
-              3. Verification & Trust Instruments (10.3 & 10.11)
+              3. Verification & Trust Tools (10.3 & 10.11)
             </h2>
             <p className="text-xs text-secondary mt-0.5">
               Freshness stamps with age dots, 4-point Truth Strips, and monospace live check consoles.
@@ -454,8 +455,8 @@ export default function ComponentGalleryPage() {
 
           {/* Freshness Stamp in all 3 states */}
           <div className="p-5 rounded-2xl border border-subtle bg-surface space-y-3">
-            <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-secondary">
-              Freshness Stamp (Tap for Verification Trail)
+            <h3 className="text-xs font-mono font-semibold text-secondary">
+              Freshness stamp (tap for verification trail)
             </h3>
             <div className="flex flex-wrap items-center gap-6">
               <div className="space-y-1">
@@ -463,7 +464,7 @@ export default function ComponentGalleryPage() {
                 <FreshnessStamp
                   daysAgo={2}
                   sourceName="Official Ashby Careers Portal"
-                  sourceUrl="https://countersign.ai"
+                  sourceUrl={getSiteUrl()}
                   checkLog={[
                     { date: "Oct 14, 2026", note: "Checked application form and country dropdown." },
                     { date: "Oct 01, 2026", note: "Initial posting verified via Greenhouse API." },
@@ -476,7 +477,7 @@ export default function ComponentGalleryPage() {
                 <FreshnessStamp
                   daysAgo={10}
                   sourceName="Company Careers Page"
-                  sourceUrl="https://countersign.ai"
+                  sourceUrl={getSiteUrl()}
                 />
               </div>
 
@@ -485,7 +486,7 @@ export default function ComponentGalleryPage() {
                 <FreshnessStamp
                   daysAgo={19}
                   sourceName="Public Job Listing"
-                  sourceUrl="https://countersign.ai"
+                  sourceUrl={getSiteUrl()}
                 />
               </div>
             </div>
@@ -493,8 +494,8 @@ export default function ComponentGalleryPage() {
 
           {/* Truth Strip in All States */}
           <div className="space-y-4">
-            <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-secondary">
-              Truth Strip: Decision Matrix (2x2 Mobile, 4-col Desktop)
+            <h3 className="text-xs font-mono font-semibold text-secondary">
+              Truth strip: decision matrix
             </h3>
 
             {/* State A: All Confirmed */}
@@ -505,9 +506,9 @@ export default function ComponentGalleryPage() {
                 payBasis="$22.50/hr (Verified)"
                 onboarding="Unpaid assessment (~2h)"
                 lastChecked="2 days ago"
-                eligibilitySourceUrl="https://countersign.ai"
-                paySourceUrl="https://countersign.ai"
-                onboardingSourceUrl="https://countersign.ai"
+                eligibilitySourceUrl={getSiteUrl()}
+                paySourceUrl={getSiteUrl()}
+                onboardingSourceUrl={getSiteUrl()}
               />
             </div>
 
@@ -537,8 +538,8 @@ export default function ComponentGalleryPage() {
 
           {/* Live Check Console */}
           <div className="space-y-3">
-            <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-secondary">
-              Live Check Console (Top Line Slowly Pulses)
+            <h3 className="text-xs font-mono font-semibold text-secondary">
+              Live check console (top line slowly pulses)
             </h3>
             <LiveCheckConsole events={sampleEvents} state="live" />
           </div>
@@ -576,8 +577,8 @@ export default function ComponentGalleryPage() {
 
           {/* Filter Bar with Active Chips and Mobile Bottom Sheet */}
           <div className="p-5 rounded-2xl border border-subtle bg-surface space-y-4">
-            <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-secondary">
-              Filter Bar & Sheet (Click &ldquo;Filters&rdquo; to test modal sheet with live result count)
+            <h3 className="text-xs font-mono font-semibold text-secondary">
+              Filter bar and sheet (click &ldquo;Filters&rdquo; to test modal sheet with live result count)
             </h3>
             <FilterBar
               filteredCount={14}
@@ -712,7 +713,7 @@ export default function ComponentGalleryPage() {
           {/* Platform Header */}
           <PlatformHeader
             name="Outlier AI"
-            officialUrl="https://countersign.ai"
+            officialUrl={getSiteUrl()}
             lastReviewed="Oct 14, 2026"
             referralStatus="referral_disclosed"
             openRoleCount={6}
@@ -725,16 +726,16 @@ export default function ComponentGalleryPage() {
 
           {/* Platform Compare Table */}
           <div className="space-y-2">
-            <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-secondary">
-              Platform Comparison Table (Sticky Left Column & Mobile Scroll)
+            <h3 className="text-xs font-mono font-semibold text-secondary">
+              Platform comparison table (sticky left column and mobile scroll)
             </h3>
             <CompareTable platforms={samplePlatforms} />
           </div>
 
           {/* Guide Layout Component Showcase */}
           <div className="space-y-2">
-            <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-secondary">
-              Guide Layout Structure (Section 7.7: 680px Measure, Verified Author, Bibliography)
+            <h3 className="text-xs font-mono font-semibold text-secondary">
+              Guide layout structure
             </h3>
             <div className="rounded-2xl border border-subtle bg-surface overflow-hidden">
               <GuideLayout
@@ -747,8 +748,8 @@ export default function ComponentGalleryPage() {
                   { id: "domiciliary", label: "2. Nigerian Bank Dom Accounts" },
                 ]}
                 sources={[
-                  { title: "Central Bank of Nigeria Foreign Exchange Guidelines", url: "https://countersign.ai", verifiedDate: "Oct 2026" },
-                  { title: "Geegpay Commercial Fee Schedule", url: "https://countersign.ai", verifiedDate: "Oct 2026" },
+                  { title: "Central Bank of Nigeria Foreign Exchange Guidelines", url: getSiteUrl(), verifiedDate: "Oct 2026" },
+                  { title: "Geegpay Commercial Fee Schedule", url: getSiteUrl(), verifiedDate: "Oct 2026" },
                 ]}
               >
                 <div className="space-y-4">
@@ -771,12 +772,12 @@ export default function ComponentGalleryPage() {
         </section>
 
         {/* ==========================================================================
-            6. EVALUATION STUDIO INSTRUMENTS (v4)
+            6. EVALUATION STUDIO TOOLS (v4)
             ========================================================================== */}
-        <section id="studio-instruments" className="space-y-5">
+        <section id="studio-tools" className="space-y-5">
           <div className="pb-2 border-b border-subtle">
             <h2 className="text-base sm:text-lg font-bold text-primary tracking-tight">
-              6. Evaluation Studio Instruments (7.9, 10.2a & 10.11)
+              6. Evaluation Studio Tools (7.9, 10.2a & 10.11)
             </h2>
             <p className="text-xs text-secondary mt-0.5">
               Evaluation Graph SVG with signal tracing, comparison panel, 3-step stepper, constraint checker, and accessible chart.
@@ -846,8 +847,8 @@ export default function ComponentGalleryPage() {
 
           {/* Interactive Toast Triggers */}
           <div className="p-5 rounded-2xl border border-subtle bg-surface space-y-3">
-            <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-secondary">
-              Toast Notification System (Accessible, Non-blocking)
+            <h3 className="text-xs font-mono font-semibold text-secondary">
+              Toast notification system (accessible, non-blocking)
             </h3>
             <div className="flex flex-wrap gap-2">
               <button

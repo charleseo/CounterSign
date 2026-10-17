@@ -6,7 +6,7 @@ import { Mail, ShieldCheck } from 'lucide-react';
 import { connection } from 'next/server';
 
 export const metadata: Metadata = {
-  title: 'Weekly Digest Generator | Countersign Admin',
+  title: 'Weekly Digest Generator | TraceBase Admin',
   description: 'Generate and review the weekly human-verified AI work digest draft.',
 };
 

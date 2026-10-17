@@ -6,7 +6,7 @@ export async function GET() {
     metadata: {
       ...SAMPLE_AUDIT_METADATA,
       exportedAt: new Date().toISOString(),
-      format: 'Countersign Evaluation Studio Case Audit Benchmark v1',
+      format: 'TraceBase Evaluation Studio Case Audit Benchmark v1',
     },
     cases: SAMPLE_AUDIT_CASES,
   };

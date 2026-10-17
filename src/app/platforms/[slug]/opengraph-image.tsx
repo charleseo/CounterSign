@@ -1,7 +1,8 @@
 import { ImageResponse } from 'next/og';
 import { dbRepository } from '@/lib/db/repository';
+import { getSiteHost } from '@/lib/utils/siteUrl';
 
-export const alt = 'Platform Reality Profile | Countersign';
+export const alt = 'Platform Reality Profile | TraceBase';
 export const size = {
   width: 1200,
   height: 630,
@@ -108,11 +109,10 @@ export default async function Image({ params }: PlatformOgProps) {
               fontSize: '15px',
               fontFamily: 'monospace',
               color: '#00f2fe',
-              letterSpacing: '0.12em',
-              textTransform: 'uppercase',
+              letterSpacing: '0.05em',
             }}
           >
-            <span>{`${category} • INDEPENDENT PROFILE`}</span>
+            <span>{`${category} • Independent profile`}</span>
           </div>
 
           <div
@@ -195,7 +195,7 @@ export default async function Image({ params }: PlatformOgProps) {
               fontWeight: 700,
             }}
           >
-            countersign.ai/platforms/{slug}
+            {getSiteHost()}/platforms/{slug}
           </span>
         </div>
       </div>

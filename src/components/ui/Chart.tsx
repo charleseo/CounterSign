@@ -30,7 +30,7 @@ export function Chart({
   subtitle,
   yAxisLabel = "Audit Failure Rate (%)",
   xAxisLabel = "Evaluation Test Category",
-  sourceNote = "Source: Countersign Evaluation Studio Q3 Benchmark (n=120 audit pairs).",
+  sourceNote = "Source: TraceBase Evaluation Studio Q3 Benchmark (n=120 audit pairs).",
   data = [],
   isLoading = false,
   className = "",
@@ -38,7 +38,7 @@ export function Chart({
   if (isLoading) {
     return (
       <div className={`p-6 rounded-2xl border border-subtle bg-surface font-mono text-xs text-secondary animate-pulse ${className}`}>
-        Rendering chart telemetry...
+        Rendering chart data...
       </div>
     );
   }

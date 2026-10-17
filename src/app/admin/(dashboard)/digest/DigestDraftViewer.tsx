@@ -12,6 +12,7 @@ import {
   AlertTriangle,
 } from 'lucide-react';
 import Link from 'next/link';
+import { getSiteHost } from '@/lib/utils/siteUrl';
 
 interface DigestDraftViewerProps {
   draft: DigestDraft;
@@ -135,7 +136,7 @@ export function DigestDraftViewer({ draft, subscriberCount }: DigestDraftViewerP
         <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] overflow-hidden shadow-sm">
           {/* Simulated Email Client Header */}
           <div className="p-3 bg-[var(--color-surface-hover)] border-b border-[var(--color-border)] flex items-center justify-between text-xs text-[var(--color-muted)] font-mono">
-            <span>From: Countersign Digest &lt;digest@countersign.ai&gt;</span>
+            <span>From: TraceBase Digest &lt;digest@{getSiteHost()}&gt;</span>
             <span>Subject: {draft.subject}</span>
           </div>
 
@@ -144,7 +145,7 @@ export function DigestDraftViewer({ draft, subscriberCount }: DigestDraftViewerP
             <div className="space-y-1 border-b border-zinc-200 pb-4">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-mono uppercase tracking-wider text-cyan-600 font-bold">
-                  Countersign Weekly Digest
+                  TraceBase Weekly Digest
                 </span>
                 <span className="text-xs text-zinc-500 font-mono">
                   Issue #{draft.issueNumber}
@@ -231,10 +232,10 @@ export function DigestDraftViewer({ draft, subscriberCount }: DigestDraftViewerP
             {/* Digest Footer */}
             <div className="border-t border-zinc-200 pt-6 text-center space-y-2 text-[11px] text-zinc-500">
               <p>
-                Countersign • Independent Human-Verified AI Work Hub &amp; Evaluation Studio
+                TraceBase • Independent Human-Verified AI Work Hub &amp; Evaluation Studio
               </p>
               <p>
-                You received this digest because you confirmed your double opt-in subscription on countersign.ai.
+                You received this digest because you confirmed your double opt-in subscription on {getSiteHost()}.
               </p>
               <p>
                 <Link

@@ -2,6 +2,8 @@ import React from 'react';
 import Link from 'next/link';
 import { dbRepository } from '@/lib/db/repository';
 import { QuickRecheckCard } from './QuickRecheckCard';
+import { MaxLiveRolesControl } from './MaxLiveRolesControl';
+import { RechecksPausedControl } from './RechecksPausedControl';
 import { StatusBadge } from '@/components/ui/StatusBadge';
 import { FreshnessStamp } from '@/components/ui/FreshnessStamp';
 import { connection } from 'next/server';
@@ -21,6 +23,7 @@ export default async function AdminDashboardPage() {
   const incidents = dbRepository.getIncidents();
   const recentChecks = dbRepository.getCheckLogs(undefined, 6);
   const recentAudits = dbRepository.getAuditLogs(6);
+  const settings = dbRepository.getSettings();
 
   // Queue of jobs that need attention (14-day SLA window)
   const queueJobs = dbRepository.getRecheckQueue();
@@ -38,7 +41,7 @@ export default async function AdminDashboardPage() {
             Operations & Compliance
           </h1>
           <p className="text-xs sm:text-sm text-[var(--color-muted)] mt-0.5">
-            14-day human verification SLA, real-time recheck queue, and immutable audit logs.
+            14-day human verification SLA, real-time recheck queue, and audit logs.
           </p>
         </div>
 
@@ -78,16 +81,16 @@ export default async function AdminDashboardPage() {
           </div>
         </div>
 
-        {/* Card 2: Needs Recheck Queue */}
-        <div className="p-4 sm:p-5 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] shadow-sm">
-          <div className="flex items-center justify-between text-xs text-[var(--color-muted)] mb-2">
+        {/* Card 2: Needs Recheck Queue & Paused Control */}
+        <div className="p-4 sm:p-5 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] shadow-sm space-y-1">
+          <div className="flex items-center justify-between text-xs text-[var(--color-muted)] mb-1">
             <span>Recheck Queue</span>
             <Clock className="w-4 h-4 text-amber-400" />
           </div>
           <div className="text-2xl sm:text-3xl font-bold font-mono tracking-tight text-[var(--color-text)]">
             {queueJobs.length}
           </div>
-          <div className="mt-2 text-[11px] text-[var(--color-muted)]">
+          <div className="mt-1 text-[11px] text-[var(--color-muted)]">
             {stats.needsRecheckJobs > 0 ? (
               <span className="text-amber-400 font-medium">
                 {stats.needsRecheckJobs} role{stats.needsRecheckJobs === 1 ? '' : 's'} past 14 days
@@ -95,6 +98,9 @@ export default async function AdminDashboardPage() {
             ) : (
               <span className="text-emerald-400 font-medium">All listings compliant</span>
             )}
+          </div>
+          <div className="pt-2 border-t border-[var(--color-border)]">
+            <RechecksPausedControl currentDate={settings.rechecks_paused_until} />
           </div>
         </div>
 
@@ -119,20 +125,40 @@ export default async function AdminDashboardPage() {
           </div>
         </Link>
 
-        {/* Card 4: Total Managed Roles */}
-        <div className="p-4 sm:p-5 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] shadow-sm">
-          <div className="flex items-center justify-between text-xs text-[var(--color-muted)] mb-2">
-            <span>Total Roles</span>
+        {/* Card 4: Total Managed Roles & Capacity Cap */}
+        <div className="p-4 sm:p-5 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] shadow-sm space-y-1">
+          <div className="flex items-center justify-between text-xs text-[var(--color-muted)] mb-1">
+            <span>Capacity / Active</span>
             <Briefcase className="w-4 h-4 text-[var(--color-muted)]" />
           </div>
-          <div className="text-2xl sm:text-3xl font-bold font-mono tracking-tight text-[var(--color-text)]">
-            {stats.totalJobs}
+          <div className="flex items-baseline gap-2">
+            <span className="text-2xl sm:text-3xl font-bold font-mono tracking-tight text-[var(--color-text)]">
+              {stats.activeJobs ?? stats.verifiedJobs + stats.needsRecheckJobs}
+            </span>
+            <span className="text-xs font-mono text-[var(--color-muted)]">
+              / {stats.maxLiveRoles ?? 35} cap
+            </span>
           </div>
-          <div className="mt-2 text-[11px] text-[var(--color-muted)]">
-            <span>{stats.closedJobs} closed or inactive</span>
+          <div className="mt-2 text-[11px] text-[var(--color-muted)] pt-1">
+            <MaxLiveRolesControl currentLimit={stats.maxLiveRoles ?? 35} />
           </div>
         </div>
       </div>
+
+      {/* Capacity Warning Alert */}
+      {stats.recheckCapacityWarning && (
+        <div className="p-4 rounded-2xl bg-rose-500/10 border border-rose-500/30 flex items-start gap-3">
+          <AlertTriangle className="w-5 h-5 text-rose-400 shrink-0 mt-0.5" />
+          <div className="space-y-1 text-xs">
+            <strong className="text-sm font-bold text-rose-300 block">
+              Operational Capacity Warning: Recheck Volume Exceeded
+            </strong>
+            <p className="text-[var(--color-muted)] leading-relaxed">
+              Currently maintaining <span className="text-[var(--color-text)] font-bold">{stats.activeJobs}</span> active roles against a target cap of <span className="text-[var(--color-text)] font-bold">{stats.maxLiveRoles}</span> live roles. Exceeding capacity threatens our 14-day human verification SLA and increases stale listing risk. Consider closing deprecated roles or adjusting the operational cap.
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Inbound Evaluation Leads Alert */}
       {stats.newLeads !== undefined && stats.newLeads > 0 && (
@@ -191,10 +217,10 @@ export default async function AdminDashboardPage() {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <h2 className="text-base sm:text-lg font-bold text-[var(--color-text)]">
-              Immediate Recheck Queue
+              Fast Recheck Queue
             </h2>
             <span className="px-2 py-0.5 rounded-full text-xs font-mono font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">
-              {queueJobs.length} Priority
+              Sorted by due date • {queueJobs.length} Priority
             </span>
           </div>
           <Link
@@ -255,7 +281,7 @@ export default async function AdminDashboardPage() {
           </div>
         </section>
 
-        {/* Immutable Audit Log */}
+        {/* Audit Log */}
         <section className="p-5 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-bold text-[var(--color-text)] flex items-center gap-2">

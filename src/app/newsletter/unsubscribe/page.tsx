@@ -5,7 +5,7 @@ import { UnsubscribeForm } from './UnsubscribeForm';
 import { Shield, ArrowLeft } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Unsubscribe from Newsletter | Countersign',
+  title: 'Unsubscribe from Newsletter | TraceBase',
   description: 'One-click newsletter unsubscription under NDPA 2023 compliance.',
   robots: {
     index: false,
@@ -39,7 +39,7 @@ export default function UnsubscribePage({ searchParams }: UnsubscribePageProps) 
             className="inline-flex items-center gap-1.5 text-xs font-mono text-[var(--color-muted)] hover:text-[var(--color-accent)] transition-colors"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Back to Countersign</span>
+            <span>Back to TraceBase</span>
           </Link>
         </div>
 

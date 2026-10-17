@@ -2,21 +2,24 @@
 
 import React, { useState, useMemo, useEffect, useTransition } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Search, X, RotateCcw, SlidersHorizontal, Globe, ArrowUpDown } from "lucide-react";
+import Link from "next/link";
+import { Search, X, RotateCcw, SlidersHorizontal, Globe, ArrowUpDown, Clock } from "lucide-react";
 import { JobWithPlatform, Country } from "@/lib/db/types";
 import { JobCard } from "@/components/ui/JobCard";
 import { FilterBar, FilterState, DEFAULT_FILTER_STATE, FilterOption } from "@/components/ui/FilterBar";
 import { EmailCapture } from "@/components/ui/EmailCapture";
 import { COUNTRY_STORAGE_KEY, SUPPORTED_COUNTRIES } from "@/components/ui/CountrySelector";
+import { WhatsAppAlertBanner } from "@/components/home/WhatsAppAlertBanner";
 
 interface JobsExplorerProps {
   initialJobs: JobWithPlatform[];
   countries: Country[];
+  rechecksPausedUntil?: string | null;
 }
 
 const ITEMS_PER_PAGE = 6;
 
-export function JobsExplorer({ initialJobs, countries }: JobsExplorerProps) {
+export function JobsExplorer({ initialJobs, countries, rechecksPausedUntil }: JobsExplorerProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [, startTransition] = useTransition();
@@ -48,6 +51,8 @@ export function JobsExplorer({ initialJobs, countries }: JobsExplorerProps) {
     const pageParam = parseInt(searchParams.get("page") || "1", 10);
     return Math.max(1, pageParam) * ITEMS_PER_PAGE;
   });
+
+  const [showEmailAlert, setShowEmailAlert] = useState(false);
 
   // Filter state
   const [filters, setFilters] = useState<FilterState>(() => {
@@ -346,7 +351,7 @@ export function JobsExplorer({ initialJobs, countries }: JobsExplorerProps) {
     if (selectedCountryCode && selectedCountryCode !== "ALL" && selectedCountryCode !== "GLOBAL") {
       chips.push({
         id: `country-${selectedCountryCode}`,
-        label: `${selectedCountryCode}: ${currentCountryName}`,
+        label: `Open to ${currentCountryName}`,
         onRemove: () => setSelectedCountryCode("ALL"),
       });
     }
@@ -414,19 +419,19 @@ export function JobsExplorer({ initialJobs, countries }: JobsExplorerProps) {
       <div className="space-y-2">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-primary">
-              <span className="text-gradient-cyan">Verified AI Work Hub</span>
+            <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-ink">
+              Verified AI Work Hub
             </h1>
-            <p className="text-sm text-readable mt-1">
+            <p className="text-sm text-secondary mt-1">
               Every role human-checked against official employer feeds within 14 days. Zero scraping.
             </p>
           </div>
 
           {/* Active Country Indicator & Change Prompt */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-pill border border-subtle text-xs font-mono text-secondary shadow-sm">
-            <Globe size={14} className="text-accent-cyan" aria-hidden="true" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-rule bg-sheet text-xs text-secondary shadow-sm">
+            <Globe size={14} className="text-[#5A35C8]" aria-hidden="true" />
             <span className="text-readable">
-              Showing roles for <strong className="text-primary font-semibold">{currentCountryName}</strong>
+              Open to <strong className="text-ink font-semibold">{currentCountryName}</strong>
             </span>
           </div>
         </div>
@@ -435,17 +440,17 @@ export function JobsExplorer({ initialJobs, countries }: JobsExplorerProps) {
       {/* Main Layout: 280px Desktop Sidebar + Results Area */}
       <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6 items-start">
         {/* Desktop Filter Sidebar */}
-        <aside className="hidden lg:block sticky top-20 rounded-2xl glass-panel p-5 sm:p-6 space-y-6 shadow-xl">
-          <div className="flex items-center justify-between pb-3 border-b border-white/[0.08]">
-            <div className="flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-wider text-primary">
-              <SlidersHorizontal size={14} className="text-accent-cyan" />
+        <aside className="hidden lg:block sticky top-20 rounded-2xl border border-rule bg-sheet p-5 sm:p-6 space-y-6 shadow-sm">
+          <div className="flex items-center justify-between pb-3 border-b border-rule">
+            <div className="flex items-center gap-2 text-xs font-semibold text-ink">
+              <SlidersHorizontal size={14} className="text-[#5A35C8]" />
               <span>Filter Roles</span>
             </div>
             {activeChips.length > 0 && (
               <button
                 type="button"
                 onClick={clearAllFilters}
-                className="text-[11px] font-mono text-secondary hover:text-accent-cyan transition-colors"
+                className="text-xs text-secondary hover:text-[#5A35C8] transition-colors"
               >
                 Clear all
               </button>
@@ -466,10 +471,26 @@ export function JobsExplorer({ initialJobs, countries }: JobsExplorerProps) {
 
         {/* Results Area */}
         <main className="space-y-4">
+          {/* Rechecks Paused Calm Banner */}
+          {rechecksPausedUntil && (
+            <div className="p-4 rounded-xl border border-amber-500/30 bg-amber-500/10 text-amber-200 text-xs sm:text-sm flex items-start gap-3">
+              <Clock size={16} className="text-amber-400 shrink-0 mt-0.5" />
+              <div className="space-y-0.5">
+                <div className="font-semibold text-ink">
+                  Manual checks are paused until {rechecksPausedUntil}
+                </div>
+                <p className="text-xs text-secondary leading-relaxed">
+                  We paused new checks while our review queue is caught up. Roles listed below were verified on the dates shown.
+                </p>
+              </div>
+            </div>
+          )}
+
           {/* Sticky Mobile Search Bar + Filter Trigger */}
-          <div className="sticky top-16 z-30 -mx-4 px-4 py-2.5 sm:mx-0 sm:px-0 sm:py-0 bg-void/90 sm:bg-transparent backdrop-blur sm:backdrop-blur-none border-b sm:border-b-0 border-subtle flex flex-col gap-2">
-            <div className="flex items-center gap-2">
-              <div className="relative flex-1">
+          <div className="sticky top-16 z-30 w-full py-2.5 sm:py-0 bg-surface/90 sm:bg-transparent backdrop-blur sm:backdrop-blur-none border-b sm:border-b-0 border-rule flex flex-col gap-2">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full">
+              {/* Search Input Bar */}
+              <div className="relative flex-1 min-w-0">
                 <Search
                   size={16}
                   className="absolute left-3.5 top-1/2 -translate-y-1/2 text-secondary pointer-events-none"
@@ -480,14 +501,14 @@ export function JobsExplorer({ initialJobs, countries }: JobsExplorerProps) {
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="Search by role, platform, skill (e.g. Python, STEM, RLHF)..."
-                  aria-label="Search verified roles"
-                  className="w-full pl-9 pr-4 py-2.5 text-xs sm:text-sm rounded-xl glass-panel text-primary placeholder:text-secondary/60 focus:outline-none focus:border-cyan-400 focus:shadow-[0_0_20px_rgba(61,235,255,0.2)] transition-all"
+                  aria-label="Search roles"
+                  className="w-full pl-9 pr-9 py-2.5 min-h-[44px] text-xs sm:text-sm rounded-xl border border-rule bg-sheet text-ink placeholder:text-secondary/60 focus:outline-none focus:border-[#5A35C8] focus:ring-1 focus:ring-[#5A35C8] transition-all"
                 />
                 {query && (
                   <button
                     type="button"
                     onClick={() => setQuery("")}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-secondary hover:text-primary p-1"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-secondary hover:text-ink min-h-[44px] min-w-[44px] flex items-center justify-center p-1"
                     aria-label="Clear search"
                   >
                     <X size={14} />
@@ -495,43 +516,46 @@ export function JobsExplorer({ initialJobs, countries }: JobsExplorerProps) {
                 )}
               </div>
 
-              {/* Mobile Filter Button (opens bottom sheet) */}
-              <div className="lg:hidden">
-                <FilterBar
-                  filteredCount={sortedJobs.length}
-                  totalCount={initialJobs.length}
-                  filters={filters}
-                  onFilterChange={setFilters}
-                  isDesktopSidebar={false}
-                  workTypeOptions={workTypeOptions}
-                  domainOptions={domainOptions}
-                  freshnessOptions={freshnessOptions}
-                />
-              </div>
+              {/* Controls Group: Filter Button + Sort Selector */}
+              <div className="flex items-center gap-2 w-full sm:w-auto">
+                {/* Mobile Filter Button (opens bottom sheet) */}
+                <div className="lg:hidden flex-1 sm:flex-initial">
+                  <FilterBar
+                    filteredCount={sortedJobs.length}
+                    totalCount={initialJobs.length}
+                    filters={filters}
+                    onFilterChange={setFilters}
+                    isDesktopSidebar={false}
+                    workTypeOptions={workTypeOptions}
+                    domainOptions={domainOptions}
+                    freshnessOptions={freshnessOptions}
+                  />
+                </div>
 
-              {/* Sort Selector Dropdown */}
-              <div className="relative flex-shrink-0">
-                <label htmlFor="job-sort-select" className="sr-only">
-                  Sort verified roles
-                </label>
-                <div className="flex items-center gap-1.5 px-3 py-2.5 rounded-xl glass-panel text-xs font-mono text-secondary hover:border-cyan-400/50 transition-colors shadow-sm">
-                  <ArrowUpDown size={13} className="text-secondary" aria-hidden="true" />
-                  <select
-                    id="job-sort-select"
-                    value={sort}
-                    onChange={(e) => setSort(e.target.value as "newest" | "freshness" | "pay")}
-                    className="bg-transparent text-primary text-xs font-mono focus:outline-none cursor-pointer"
-                  >
-                    <option value="newest" className="bg-[#0B1222] text-primary">
-                      Newest verified
-                    </option>
-                    <option value="freshness" className="bg-[#0B1222] text-primary">
-                      Recently checked
-                    </option>
-                    <option value="pay" className="bg-[#0B1222] text-primary">
-                      Verified pay first
-                    </option>
-                  </select>
+                {/* Sort Selector Dropdown */}
+                <div className="relative flex-1 sm:flex-initial min-w-0">
+                  <label htmlFor="job-sort-select" className="sr-only">
+                    Sort roles
+                  </label>
+                  <div className="flex items-center gap-1.5 px-3 py-2 min-h-[44px] rounded-xl border border-rule bg-sheet text-xs text-secondary hover:border-[#5A35C8] transition-colors shadow-sm w-full">
+                    <ArrowUpDown size={13} className="text-secondary shrink-0" aria-hidden="true" />
+                    <select
+                      id="job-sort-select"
+                      value={sort}
+                      onChange={(e) => setSort(e.target.value as "newest" | "freshness" | "pay")}
+                      className="bg-transparent text-ink text-xs focus:outline-none cursor-pointer w-full truncate"
+                    >
+                      <option value="newest" className="bg-sheet text-ink">
+                        Newest
+                      </option>
+                      <option value="freshness" className="bg-sheet text-ink">
+                        Recently checked
+                      </option>
+                      <option value="pay" className="bg-sheet text-ink">
+                        Verified pay first
+                      </option>
+                    </select>
+                  </div>
                 </div>
               </div>
             </div>
@@ -542,14 +566,14 @@ export function JobsExplorer({ initialJobs, countries }: JobsExplorerProps) {
                 {activeChips.map((chip) => (
                   <span
                     key={chip.id}
-                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-mono border border-accent-cyan/30 bg-accent-cyan/10 text-primary"
+                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs border border-rule bg-surface text-ink"
                   >
                     <span>{chip.label}</span>
                     <button
                       type="button"
                       onClick={chip.onRemove}
                       aria-label={`Remove filter ${chip.label}`}
-                      className="hover:text-accent-cyan p-0.5"
+                      className="hover:text-[#5A35C8] text-secondary p-0.5"
                     >
                       <X size={12} />
                     </button>
@@ -558,7 +582,7 @@ export function JobsExplorer({ initialJobs, countries }: JobsExplorerProps) {
                 <button
                   type="button"
                   onClick={clearAllFilters}
-                  className="inline-flex items-center gap-1 px-2 py-1 text-xs font-mono text-secondary hover:text-accent-cyan transition-colors"
+                  className="inline-flex items-center gap-1 px-2 py-1 text-xs text-secondary hover:text-[#5A35C8] transition-colors"
                 >
                   <RotateCcw size={11} />
                   <span>Clear all</span>
@@ -567,55 +591,85 @@ export function JobsExplorer({ initialJobs, countries }: JobsExplorerProps) {
             )}
           </div>
 
+          {/* Calm low-count note when 1 to 10 roles */}
+          {sortedJobs.length >= 1 && sortedJobs.length <= 10 && (
+            <div className="p-3.5 rounded-xl border border-rule bg-sheet text-xs text-secondary flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" />
+              <span>
+                We only show roles where human checks passed. Right now that means {sortedJobs.length} verified {sortedJobs.length === 1 ? 'role' : 'roles'}.
+              </span>
+            </div>
+          )}
+
           {/* Result Count Status Bar */}
-          <div className="flex items-center justify-between text-xs font-mono text-secondary pt-1">
+          <div className="flex items-center justify-between text-xs text-secondary pt-1">
             <span>
-              Showing <strong className="text-primary font-semibold">{visibleJobs.length}</strong> of{" "}
-              <strong className="text-primary font-semibold">{sortedJobs.length}</strong> verified roles
+              Showing <strong className="text-ink font-semibold tabular-nums">{visibleJobs.length}</strong> of{" "}
+              <strong className="text-ink font-semibold tabular-nums">{sortedJobs.length}</strong> roles
             </span>
             {selectedCountryCode !== "ALL" && (
-              <span className="text-[11px] text-readable">
-                Filtered for <span className="text-accent-cyan">{selectedCountryCode}</span> eligibility
+              <span className="text-[11px] text-secondary">
+                Open to <span className="text-ink font-medium">{currentCountryName}</span>
               </span>
             )}
           </div>
 
           {/* Cards List or Empty State */}
           {sortedJobs.length === 0 ? (
-            <div className="p-8 sm:p-12 rounded-xl border border-subtle bg-surface text-center space-y-4">
-              <div className="w-12 h-12 mx-auto rounded-full border border-subtle bg-void flex items-center justify-center text-secondary">
+            <div className="p-8 sm:p-12 rounded-xl border border-rule bg-sheet text-center space-y-4">
+              <div className="w-12 h-12 mx-auto rounded-full border border-rule bg-surface flex items-center justify-center text-secondary">
                 <Search size={22} />
               </div>
               <div className="space-y-1">
-                <h2 className="text-base font-semibold text-primary">
-                  No verified roles match your active filters
+                <h2 className="text-base font-semibold text-ink">
+                  {activeChips.length > 0 || query.trim()
+                    ? "No roles match your search."
+                    : "No verified roles right now."}
                 </h2>
                 <p className="text-xs text-secondary max-w-md mx-auto leading-relaxed">
-                  We check official employer feeds every 14 days. Sign up to get an instant email alert when a role matching your country lands.
+                  {activeChips.length > 0 || query.trim()
+                    ? "Try clearing your filters or sign up below to get an email when a role appears."
+                    : "We only list work we have independently checked. Sign up below to get an email when we verify the next role."}
                 </p>
               </div>
 
-              <div className="max-w-md mx-auto pt-2">
-                <EmailCapture
-                  title="Role Alert Notification"
-                  description="Receive an email when new verified roles for your country are confirmed."
-                  source="jobs_empty_state"
-                />
-              </div>
-
-              <div className="pt-2">
+              <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+                {(activeChips.length > 0 || query.trim()) && (
+                  <button
+                    type="button"
+                    onClick={clearAllFilters}
+                    className="px-4 py-2.5 rounded-xl border border-rule bg-surface text-ink hover:border-[#5A35C8] text-xs font-medium min-h-[44px] transition-colors"
+                  >
+                    Clear filters
+                  </button>
+                )}
                 <button
                   type="button"
-                  onClick={clearAllFilters}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-mono border border-subtle bg-void text-primary hover:bg-elevated transition-colors"
+                  onClick={() => setShowEmailAlert(!showEmailAlert)}
+                  className="px-4 py-2.5 rounded-xl bg-[#5A35C8] text-white hover:bg-[#4927AB] text-xs font-medium min-h-[44px] transition-colors"
                 >
-                  <RotateCcw size={12} />
-                  <span>Reset all filters</span>
+                  Email me when one appears
                 </button>
+                <Link
+                  href="/contact"
+                  className="px-4 py-2.5 rounded-xl border border-rule bg-surface text-secondary hover:text-ink hover:border-[#5A35C8] text-xs font-medium min-h-[44px] inline-flex items-center transition-colors"
+                >
+                  Tell us about a platform to check
+                </Link>
               </div>
+
+              {showEmailAlert && (
+                <div className="max-w-md mx-auto pt-4 text-left">
+                  <EmailCapture
+                    title="Role alert"
+                    description={`Get an email when new roles open to ${currentCountryName} are confirmed.`}
+                    source="jobs_empty_state"
+                  />
+                </div>
+              )}
             </div>
           ) : (
-            <div className="space-y-3.5">
+            <div className="space-y-2">
               {visibleJobs.map((job) => {
                 // Determine country eligibility status for the selected country
                 let countryEligibility: "accepted" | "not-accepted" | "unconfirmed" = "unconfirmed";
@@ -644,6 +698,8 @@ export function JobsExplorer({ initialJobs, countries }: JobsExplorerProps) {
                     daysAgo={job.daysAgo ?? 0}
                     status={job.status}
                     isClosed={job.status === "closed"}
+                    linkType={job.link}
+                    isManaged={Boolean((job as unknown as { is_managed?: boolean }).is_managed)}
                   />
                 );
               })}
@@ -654,12 +710,17 @@ export function JobsExplorer({ initialJobs, countries }: JobsExplorerProps) {
                   <button
                     type="button"
                     onClick={handleLoadMore}
-                    className="w-full sm:w-auto px-8 py-3 rounded-xl border border-subtle bg-surface hover:bg-elevated text-primary text-xs font-mono font-semibold transition-colors btn-tactile"
+                    className="w-full sm:w-auto px-8 py-3 rounded-xl border border-rule bg-sheet hover:bg-surface text-ink text-xs font-medium transition-colors min-h-[44px]"
                   >
-                    Load more ({remainingCount} left)
+                    Load more (<span className="tabular-nums">{remainingCount}</span> left)
                   </button>
                 </div>
               )}
+
+              {/* WhatsApp Broadcast Channel Banner */}
+              <div className="pt-6">
+                <WhatsAppAlertBanner />
+              </div>
             </div>
           )}
         </main>

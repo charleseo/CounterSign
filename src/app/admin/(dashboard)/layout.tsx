@@ -36,7 +36,7 @@ export default async function AdminDashboardLayout({
               <SealLogo size={30} priority />
               <div className="flex items-baseline gap-1.5">
                 <span className="font-bold text-sm tracking-tight text-[var(--color-text)]">
-                  Countersign
+                  TraceBase
                 </span>
                 <span className="text-[10px] font-mono font-semibold uppercase px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">
                   Admin

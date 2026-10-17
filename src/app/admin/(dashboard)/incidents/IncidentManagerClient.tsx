@@ -85,8 +85,8 @@ export function IncidentManagerClient({
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
                     <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping" />
-                    <span className="font-mono text-xs font-bold uppercase tracking-wider text-amber-400">
-                      Active 72-Hour Breach Clock : NDPA 2023 Mandatory Protocol
+                    <span className="font-mono text-xs font-bold text-amber-400">
+                      Active 72-hour breach clock: NDPA 2023 mandatory procedure
                     </span>
                   </div>
                   <h2 className="text-xl font-bold text-[var(--color-text)]">
@@ -127,7 +127,7 @@ export function IncidentManagerClient({
                 </div>
                 <div className="p-3 rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)]">
                   <span className="font-mono font-bold text-amber-400 block text-[11px]">Step 4: Close & Audit</span>
-                  <p className="text-[11px] text-[var(--color-muted)] mt-1">Document post-incident remediation report and archive immutable audit log.</p>
+                  <p className="text-[11px] text-[var(--color-muted)] mt-1">Document post-incident remediation report and archive audit log.</p>
                 </div>
               </div>
 

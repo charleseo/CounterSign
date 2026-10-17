@@ -207,7 +207,7 @@ export function LeadsListTable({ initialLeads }: LeadsListTableProps) {
                           <div className="text-[11px] text-[var(--color-muted)] flex items-center gap-1 mt-0.5">
                             <Mail className="w-3 h-3 shrink-0" />
                             <a
-                              href={`mailto:${lead.work_email}?subject=Countersign Scope Inquiry [${lead.reference_id}]`}
+                              href={`mailto:${lead.work_email}?subject=TraceBase Scope Inquiry [${lead.reference_id}]`}
                               className="hover:text-[var(--color-accent)] hover:underline"
                             >
                               {lead.work_email}
@@ -280,7 +280,7 @@ export function LeadsListTable({ initialLeads }: LeadsListTableProps) {
                         <td className="p-3.5 pr-4 text-right whitespace-nowrap">
                           <div className="flex items-center justify-end gap-2">
                             <a
-                              href={`mailto:${lead.work_email}?subject=Countersign Evaluation Scope [${lead.reference_id}]`}
+                              href={`mailto:${lead.work_email}?subject=TraceBase Evaluation Scope [${lead.reference_id}]`}
                               className="px-2.5 py-1 rounded-lg bg-[var(--color-surface-hover)] hover:bg-[var(--color-accent)] hover:text-[var(--color-accent-fg)] border border-[var(--color-border)] text-xs text-[var(--color-text)] transition-colors flex items-center gap-1.5"
                             >
                               <Mail className="w-3 h-3" />
@@ -329,7 +329,7 @@ export function LeadsListTable({ initialLeads }: LeadsListTableProps) {
                                   <p className="font-medium text-[var(--color-text)]">
                                     {lead.has_rubric
                                       ? 'Client has internal rubric draft'
-                                      : 'Countersign will design rubric'}
+                                      : 'TraceBase will design rubric'}
                                   </p>
                                   <p className="text-[11px] text-[var(--color-muted)]">
                                     Target Volume: {lead.volume || 'Custom'}

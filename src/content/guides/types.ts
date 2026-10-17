@@ -57,4 +57,7 @@ export interface Guide {
   sources: GuideSource[];
   practiceExercise?: PracticeExercise;
   relatedWorkTypes?: string[];
+  lastCheckedDate?: string;
+  checkedBy?: string;
+  published?: boolean;
 }

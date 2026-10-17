@@ -1,6 +1,7 @@
 /**
  * Inline script to set data-theme and data-tier attributes on <html> before first paint.
  * Prevents flash of wrong theme or layout shifts on initial load.
+ * Default is light theme.
  */
 export function ThemeAndTierScript() {
   const code = `

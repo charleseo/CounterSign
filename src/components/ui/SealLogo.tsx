@@ -11,7 +11,7 @@ export interface SealLogoProps {
 
 /**
  * The Seal logo: a precision circular ring with an inner check mark.
- * Serves as Countersign's primary brand mark, favicon, and verification stamp.
+ * Serves as TraceBase's primary brand mark, favicon, and verification stamp.
  * Draws itself once (SVG stroke ~500ms) when animating=true.
  */
 export function SealLogo({
@@ -66,7 +66,7 @@ export function SealLogo({
         strokeDasharray="2 3"
         opacity="0.5"
       />
-      {/* Precision Inner Checkmark (Countersign Approval) */}
+      {/* Precision Inner Checkmark (TraceBase Approval) */}
       <path
         d="M10 16.5L14 20.5L22 11.5"
         stroke={strokeColor}

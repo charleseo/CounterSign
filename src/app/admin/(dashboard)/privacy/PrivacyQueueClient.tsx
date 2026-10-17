@@ -135,6 +135,11 @@ export function PrivacyQueueClient({
                       >
                         {req.kind.replace('_', ' ')}
                       </span>
+                      {req.country_code && (
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-[var(--color-surface-hover)] border border-[var(--color-border)] text-[var(--color-text)] font-semibold">
+                          {req.country_code}
+                        </span>
+                      )}
                       {isResolved ? (
                         <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center gap-1">
                           <Check className="w-3 h-3" />

@@ -1,12 +1,18 @@
 {
-  "name": "countersign-app",
+  "name": "tracebase-app",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "npx tsx tests/fix-list-verification.ts && npx tsx tests/viewport-overflow.test.ts",
+    "test:overflow": "npx tsx tests/viewport-overflow.test.ts",
+    "test:fixes": "npx tsx tests/fix-list-verification.ts",
+    "test:country": "npx tsx tests/country-wording.test.ts",
+    "test:health": "npx tsx scripts/site-health-check.ts",
+    "lint:copy": "npx tsx scripts/copy-lint.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.3",
@@ -23,6 +29,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.4.1",
+    "playwright-core": "^1.64.1",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

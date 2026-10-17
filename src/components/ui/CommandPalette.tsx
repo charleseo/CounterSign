@@ -31,18 +31,25 @@ const STATIC_SEARCH_ITEMS: SearchItem[] = [
   { id: 'p-mercor', title: 'Mercor Reality Profile', category: 'Platforms', href: '/platforms/mercor', meta: 'Stripe, Wise • AI video interview' },
   { id: 'p-invisible', title: 'Invisible Technologies Reality Profile', category: 'Platforms', href: '/platforms/invisible-tech', meta: 'Deel, Direct Wire • Technical review' },
   // Guides
-  { id: 'g-1', title: 'How to Tell if an AI Work Listing is Real', category: 'Guides', href: '/guides/how-to-tell-if-an-ai-work-listing-is-real', meta: 'Forensic guide • ATS & domain check' },
+  { id: 'g-1', title: 'How to Tell if an AI Work Listing is Real', category: 'Guides', href: '/guides/how-to-tell-if-an-ai-work-listing-is-real', meta: 'Verification guide • ATS & domain check' },
   { id: 'g-2', title: 'Getting Paid in USD from Nigeria', category: 'Guides', href: '/guides/getting-paid-in-usd-from-nigeria', meta: 'Geegpay, Grey, Dom accounts' },
   { id: 'g-3', title: 'Checking Claims Against Sources', category: 'Guides', href: '/guides/checking-claims-against-sources-simple-method', meta: 'Citation audit • Practice exercise' },
   // Tools & Hubs
+  { id: 't-task-check', title: 'Task Pre-Submission Check', category: 'Tools', href: '/task-check', meta: 'Verify negative constraints & word counts' },
+  { id: 't-payout', title: 'Real Payout & Take-Home Calculator', category: 'Tools', href: '/payout-calculator', meta: 'Net earnings across Deel, Geegpay & AirTM' },
+  { id: 't-rates', title: 'Real Contributor Pay Rate Directory', category: 'Tools', href: '/rates', meta: 'Compare hourly pay by platform and domain' },
+  { id: 't-cv-builder', title: 'AI Contributor CV Builder', category: 'Tools', href: '/cv-builder', meta: 'ATS single-page PDF with verified certificate' },
+  { id: 't-appeals', title: 'Account Dispute & Ban Appeal Kit', category: 'Tools', href: '/appeals', meta: 'Appeal empty queues & location flags' },
   { id: 't-scam', title: '10-Point AI Work Scam Checklist', category: 'Tools', href: '/scam-check', meta: 'Check recruiter offers & red flags' },
+  { id: 't-benchmark', title: 'AI Model Constraint & Truth Benchmark', category: 'Tools', href: '/benchmark', meta: 'Human-audited negative constraint leaderboard' },
   { id: 't-jobs', title: 'Browse All Verified Jobs', category: 'Jobs', href: '/jobs', meta: 'Filter by country, pay, and status' },
-  { id: 't-platforms', title: 'Platform Reality Directory', category: 'Platforms', href: '/platforms', meta: '5 verified platform profiles' },
+  { id: 't-platforms', title: 'Platform Reality Directory', category: 'Platforms', href: '/platforms', meta: '5 verified platform profiles & queue radar' },
   // Studio & Trust
-  { id: 's-about', title: 'About Countersign & Jo (Ebube Okeke)', category: 'Studio', href: '/about', meta: 'Independence pledge & 10 FAQs' },
+  { id: 's-about', title: 'About TraceBase & Jo (Ebube Okeke)', category: 'Studio', href: '/about', meta: 'Independence pledge & 10 FAQs' },
+  { id: 's-estimator', title: 'Evaluation Sprint Estimator', category: 'Studio', href: '/evaluation/estimator', meta: 'Self-serve SLA, volume & capacity calculator' },
   { id: 's-methodology', title: '10-Point Verification Methodology', category: 'Studio', href: '/methodology', meta: '14-day recheck standard' },
   { id: 's-studio', title: 'Evaluation Studio: RAG & Citation Audits', category: 'Studio', href: '/evaluation', meta: 'Technical docs verification for AI teams' },
-  { id: 's-sample-audit', title: 'Sample Audit Report: 5 Empirical Cases', category: 'Studio', href: '/evaluation/sample-audit', meta: 'Postgres, Stripe, Next.js, Bedrock, Tailwind' },
+  { id: 's-sample-audit', title: 'Sample Audit Report: 5 Illustrative Cases', category: 'Studio', href: '/evaluation/sample-audit', meta: 'Postgres, Stripe, Next.js, Bedrock, Tailwind' },
   { id: 's-scope', title: 'Scope an Evaluation Audit (3 Steps)', category: 'Studio', href: '/evaluation/scope', meta: 'Propose an audit for your docs bot' },
   // Legal & Contact
   { id: 'l-privacy', title: 'Privacy Policy & NDPA 2023 Compliance', category: 'Legal', href: '/privacy', meta: '30-day purge & minimal collection' },
@@ -202,15 +209,14 @@ export function CommandPalette({ className = '', triggerLabel }: CommandPaletteP
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-subtle bg-surface hover:border-focus text-secondary hover:text-primary transition-colors text-xs font-mono select-none ${className}`}
+        className={`inline-flex items-center justify-center gap-2 p-2 sm:px-3 sm:py-1.5 min-h-[44px] min-w-[44px] sm:min-w-0 rounded-lg border border-subtle bg-surface hover:border-focus text-secondary hover:text-primary transition-colors text-xs font-sans font-medium select-none ${className}`}
         aria-label="Open command palette search"
       >
-        <Search size={14} className="text-secondary" />
+        <Search size={16} className="text-secondary" />
         <span className="hidden sm:inline">
           {triggerLabel || 'Search roles, platforms, guides...'}
         </span>
-        <span className="sm:hidden">{triggerLabel || 'Search...'}</span>
-        <kbd className="hidden sm:inline-block ml-1.5 px-1.5 py-0.5 rounded border border-subtle bg-void text-[10px] text-secondary font-mono">
+        <kbd className="hidden sm:inline-block ml-1.5 px-1.5 py-0.5 rounded border border-subtle bg-void text-[10px] text-secondary font-sans font-medium">
           ⌘K
         </kbd>
       </button>
@@ -233,8 +239,8 @@ export function CommandPalette({ className = '', triggerLabel }: CommandPaletteP
           {/* Dialog Container: Full-screen on mobile, centered card on desktop */}
           <div className="relative w-full h-full sm:h-auto sm:max-h-[85vh] sm:max-w-xl sm:rounded-2xl border-0 sm:border border-subtle bg-surface shadow-2xl overflow-hidden flex flex-col">
             {/* Search Input Bar */}
-            <div className="p-3.5 sm:p-4 border-b border-subtle flex items-center gap-3 bg-void">
-              <Search size={18} className="text-accent-cyan shrink-0" />
+            <div className="p-3.5 sm:p-4 border-b border-subtle flex items-center gap-3 bg-void min-h-[56px]">
+              <Search size={18} className="text-brand-ink shrink-0" />
               <input
                 ref={inputRef}
                 type="text"
@@ -242,12 +248,12 @@ export function CommandPalette({ className = '', triggerLabel }: CommandPaletteP
                 onChange={(e) => handleQueryChange(e.target.value)}
                 onKeyDown={handleInputKeyDown}
                 placeholder="Type to search roles, platforms, guides..."
-                className="w-full bg-transparent text-sm text-primary placeholder:text-secondary focus:outline-none font-sans"
+                className="w-full min-h-[44px] bg-transparent text-sm text-primary placeholder:text-secondary focus:outline-none font-sans"
               />
               <button
                 type="button"
                 onClick={handleClose}
-                className="p-1.5 rounded-lg border border-subtle text-secondary hover:text-primary hover:bg-elevated transition-colors"
+                className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg border border-subtle text-secondary hover:text-primary hover:bg-elevated transition-colors"
                 aria-label="Close search"
               >
                 <X size={16} />

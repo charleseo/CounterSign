@@ -1,9 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import { Mail, CheckCircle2, AlertCircle, ArrowRight } from "lucide-react";
+import { Mail, CheckCircle2, AlertCircle, ArrowRight, MessageCircle, Send } from "lucide-react";
+import { useSelectedCountry } from "@/components/ui/CountrySelector";
+import { getCountryMeta } from "@/lib/utils/country";
 
 import { subscribeNewsletterAction } from "@/app/newsletter/actions";
+import { trackEvent } from "@/lib/analytics/tracker";
 
 export interface EmailCaptureProps {
   headline?: string;
@@ -37,6 +40,8 @@ export function EmailCapture({
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const [confirmationUrl, setConfirmationUrl] = useState<string | null>(null);
+  const selectedCountryCode = useSelectedCountry();
+  const region = getCountryMeta(selectedCountryCode).region;
 
   const validateEmail = (val: string) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
@@ -77,6 +82,14 @@ export function EmailCapture({
         if (res.confirmationUrl) {
           setConfirmationUrl(res.confirmationUrl);
         }
+      }
+      try {
+        trackEvent('alert_signup', {
+          source: 'newsletter_capture',
+          country: selectedCountryCode,
+        });
+      } catch {
+        // Non-blocking telemetry
       }
       setStatus("success");
     } catch (err: unknown) {
@@ -134,6 +147,41 @@ export function EmailCapture({
             aria-hidden="true"
           />
 
+          {/* Broadcast channels: shown first for Africa and Asia, smaller secondary links for others */}
+          {Boolean(process.env.NEXT_PUBLIC_WHATSAPP_CHANNEL_URL || process.env.NEXT_PUBLIC_TELEGRAM_CHANNEL_URL) &&
+            (region === "africa" || region === "asia") && (
+              <div className="p-3.5 rounded-xl border border-rule bg-sheet space-y-2">
+                <div className="flex items-center justify-between text-xs text-secondary font-medium">
+                  <span>Instant broadcast channels</span>
+                  <span className="text-[11px] text-muted">Never collects phone numbers</span>
+                </div>
+                <div className="flex flex-wrap items-center gap-2">
+                  {process.env.NEXT_PUBLIC_WHATSAPP_CHANNEL_URL && (
+                    <a
+                      href={process.env.NEXT_PUBLIC_WHATSAPP_CHANNEL_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-[#25D366]/15 hover:bg-[#25D366]/25 border border-[#25D366]/30 text-xs font-semibold text-[#128C7E] dark:text-[#25D366] transition-colors min-h-[44px]"
+                    >
+                      <MessageCircle size={15} />
+                      <span>Follow on WhatsApp</span>
+                    </a>
+                  )}
+                  {process.env.NEXT_PUBLIC_TELEGRAM_CHANNEL_URL && (
+                    <a
+                      href={process.env.NEXT_PUBLIC_TELEGRAM_CHANNEL_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-[#0088cc]/15 hover:bg-[#0088cc]/25 border border-[#0088cc]/30 text-xs font-semibold text-[#0088cc] transition-colors min-h-[44px]"
+                    >
+                      <Send size={14} />
+                      <span>Follow on Telegram</span>
+                    </a>
+                  )}
+                </div>
+              </div>
+            )}
+
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
             <div className="relative flex-1">
               <Mail
@@ -152,8 +200,8 @@ export function EmailCapture({
                 placeholder="name@domain.com"
                 aria-label="Email address for weekly verified jobs"
                 aria-invalid={status === "error"}
-                className={`w-full pl-10 pr-4 py-2.5 rounded-lg border bg-void text-xs sm:text-sm text-primary placeholder:text-secondary focus:outline-none focus:border-focus transition-colors ${
-                  status === "error" ? "border-accent-danger" : "border-subtle"
+                className={`w-full pl-10 pr-4 py-2.5 rounded-lg border bg-surface text-xs sm:text-sm text-ink placeholder:text-secondary focus:outline-none focus:border-[#5A35C8] transition-colors ${
+                  status === "error" ? "border-accent-danger" : "border-rule"
                 }`}
               />
             </div>
@@ -161,12 +209,46 @@ export function EmailCapture({
             <button
               type="submit"
               disabled={status === "sending"}
-              className="px-5 py-2.5 rounded-lg bg-accent-cyan text-void font-semibold text-xs sm:text-sm font-mono flex items-center justify-center gap-2 hover:opacity-90 btn-tactile transition-opacity disabled:opacity-50"
+              className="px-5 py-2.5 rounded-lg bg-[#5A35C8] text-white font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 hover:opacity-90 transition-opacity disabled:opacity-50 min-h-[44px] cursor-pointer"
             >
               <span>{status === "sending" ? "Subscribing..." : buttonText}</span>
               {status !== "sending" && <ArrowRight size={14} aria-hidden="true" />}
             </button>
           </div>
+
+          {/* Secondary links for US, UK, Canada & Worldwide */}
+          {Boolean(process.env.NEXT_PUBLIC_WHATSAPP_CHANNEL_URL || process.env.NEXT_PUBLIC_TELEGRAM_CHANNEL_URL) &&
+            region !== "africa" &&
+            region !== "asia" && (
+              <div className="flex flex-wrap items-center gap-3 text-xs text-secondary pt-0.5">
+                <span>Or follow broadcast feeds:</span>
+                {process.env.NEXT_PUBLIC_WHATSAPP_CHANNEL_URL && (
+                  <a
+                    href={process.env.NEXT_PUBLIC_WHATSAPP_CHANNEL_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 font-medium text-secondary hover:text-ink hover:underline min-h-[44px]"
+                  >
+                    <MessageCircle size={13} className="text-[#25D366]" />
+                    <span>Follow on WhatsApp</span>
+                  </a>
+                )}
+                {process.env.NEXT_PUBLIC_WHATSAPP_CHANNEL_URL && process.env.NEXT_PUBLIC_TELEGRAM_CHANNEL_URL && (
+                  <span aria-hidden="true">&bull;</span>
+                )}
+                {process.env.NEXT_PUBLIC_TELEGRAM_CHANNEL_URL && (
+                  <a
+                    href={process.env.NEXT_PUBLIC_TELEGRAM_CHANNEL_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 font-medium text-secondary hover:text-ink hover:underline min-h-[44px]"
+                  >
+                    <Send size={13} className="text-[#0088cc]" />
+                    <span>Follow on Telegram</span>
+                  </a>
+                )}
+              </div>
+            )}
 
           {status === "error" && (
             <div className="flex items-center gap-1.5 text-xs text-[#FF6B6B] font-mono">

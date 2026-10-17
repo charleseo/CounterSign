@@ -6,9 +6,12 @@ export const guideThree: Guide = {
   subtitle: 'How human evaluators audit AI model citations, isolate hallucinations, and write audit-grade justifications that score in the 95th percentile on qualification tests.',
   readingTime: '7 min read',
   lastUpdated: '2026-10-14',
+  lastCheckedDate: '12 Oct 2026',
+  checkedBy: 'Jo (Ebube Okeke)',
+  published: true,
   author: {
     name: 'Jo (Ebube Okeke)',
-    title: 'Lead Evaluator, Countersign',
+    title: 'Lead Evaluator, TraceBase',
   },
   topicTags: ['AI Evaluation', 'Fact-Checking', 'RLHF', 'Rubrics'],
   summaryPoints: [
@@ -96,7 +99,7 @@ By structuring your comments with clear evidence, your ratings can be audited by
       notes: 'Rubric criteria for rater justification structure, atomic claim verification, and benchmark grading.',
     },
     {
-      title: 'Countersign Studio Methodology: RAG & Citation Audits',
+      title: 'TraceBase Studio Methodology: RAG & Citation Audits',
       url: '/methodology',
       label: 'official',
       notes: 'Our internal rubric for checking ground-truth text alignment and negative constraint compliance.',
@@ -107,7 +110,7 @@ By structuring your comments with clear evidence, your ratings can be audited by
     title: 'Interactive Practice: Audit a Model Citation Pair',
     scenario: 'You are grading two model answers that cite a provided technical support policy document.',
     prompt: `Source Document:
-"Countersign provides standard human verification checks on all active listings every 14 days. If a listing cannot be re-verified within 30 days, it is automatically hidden from public search until re-checked."
+"TraceBase provides standard human verification checks on all active listings every 14 days. If a listing cannot be re-verified within 30 days, it is automatically hidden from public search until re-checked."
 
 User Question: "What happens to a job listing if it is not checked for 25 days?"
 

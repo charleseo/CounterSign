@@ -15,14 +15,14 @@ export async function generateMetadata(props: JobsPageProps): Promise<Metadata> 
   });
 
   return {
-    title: 'Verified Remote AI Work | Human-Checked Roles | Countersign',
+    title: 'Verified Remote AI Work | Human-Checked Roles | TraceBase',
     description:
       'Discover legitimate remote AI training, model evaluation, and RLHF roles. Every opportunity is human-verified against official feeds with transparent country eligibility and pay.',
     alternates: {
       canonical: '/jobs',
     },
     openGraph: {
-      title: 'Verified Remote AI Work | Countersign',
+      title: 'Verified Remote AI Work | TraceBase',
       description:
         'Human-verified remote AI training, RLHF, and model evaluation opportunities. Transparent country eligibility and pay.',
       url: '/jobs',
@@ -43,6 +43,7 @@ export async function generateMetadata(props: JobsPageProps): Promise<Metadata> 
 export default function JobsPage() {
   const jobs = dbRepository.getJobs({ status: 'all' });
   const countries = dbRepository.getCountries();
+  const settings = dbRepository.getSettings();
 
   return (
     <Suspense
@@ -60,7 +61,11 @@ export default function JobsPage() {
         </div>
       }
     >
-      <JobsExplorer initialJobs={jobs} countries={countries} />
+      <JobsExplorer
+        initialJobs={jobs}
+        countries={countries}
+        rechecksPausedUntil={settings.rechecks_paused_until}
+      />
     </Suspense>
   );
 }

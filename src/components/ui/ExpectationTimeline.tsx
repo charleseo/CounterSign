@@ -72,33 +72,33 @@ export function ExpectationTimeline({
 }: ExpectationTimelineProps) {
   return (
     <div className={`space-y-4 ${className}`} aria-label={`Expectation timeline for ${platformName}`}>
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 pb-3 border-b border-subtle">
-        <h3 className="text-sm font-semibold text-primary font-mono uppercase tracking-wider">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 pb-3 border-b border-rule">
+        <h3 className="text-sm font-semibold text-ink">
           What To Expect: First 30 Days
         </h3>
-        <span className="text-xs text-secondary font-mono">
+        <span className="text-xs text-secondary">
           Facts labeled Official vs Community-Reported
         </span>
       </div>
 
-      <div className="relative pl-6 sm:pl-8 space-y-6 before:absolute before:left-3 sm:before:left-4 before:top-3 before:bottom-3 before:w-0.5 before:bg-subtle">
+      <div className="relative pl-6 sm:pl-8 space-y-6 before:absolute before:left-3 sm:before:left-4 before:top-3 before:bottom-3 before:w-0.5 before:bg-rule">
         {steps.map((step) => {
           return (
             <div key={step.number} className="relative group">
               {/* Step Number Dot */}
-              <div className="absolute -left-6 sm:-left-8 top-1 w-6 h-6 rounded-full border border-subtle bg-surface flex items-center justify-center text-xs font-mono font-semibold text-accent-cyan shadow">
-                {step.number}
+              <div className="absolute -left-6 sm:-left-8 top-1 w-6 h-6 rounded-full border border-rule bg-sheet flex items-center justify-center text-xs font-semibold text-[#5A35C8] shadow-sm">
+                <span className="tabular-nums">{step.number}</span>
               </div>
 
               {/* Step Card Content */}
-              <div className="p-4 rounded-xl border border-subtle bg-surface space-y-2">
+              <div className="p-4 rounded-xl border border-rule bg-sheet space-y-2">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-semibold text-primary">
+                    <span className="text-sm font-semibold text-ink">
                       {step.title}
                     </span>
-                    <span className="text-xs text-secondary font-mono" aria-hidden="true">&bull;</span>
-                    <span className="text-xs font-mono text-secondary">
+                    <span className="text-xs text-secondary" aria-hidden="true">&bull;</span>
+                    <span className="text-xs text-secondary tabular-nums">
                       {step.duration}
                     </span>
                   </div>
@@ -115,8 +115,13 @@ export function ExpectationTimeline({
                 </p>
 
                 {step.sourceName && (
-                  <div className="pt-2 border-t border-subtle text-[11px] font-mono text-secondary">
-                    <span>Source: {step.sourceName}</span>
+                  <div className="pt-2 border-t border-rule text-xs text-secondary">
+                    <span>
+                      Source:{' '}
+                      {step.sourceType === 'reported' && step.sourceName?.toLowerCase().includes('official')
+                        ? 'Community contributor reports'
+                        : step.sourceName}
+                    </span>
                   </div>
                 )}
               </div>

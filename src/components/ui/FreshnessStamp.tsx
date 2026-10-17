@@ -118,9 +118,9 @@ export function FreshnessStamp({
 
           {/* Audit History Log */}
           <div className="space-y-1.5 pt-2 border-t border-subtle">
-            <div className="flex items-center gap-1 text-[11px] text-secondary uppercase tracking-wider font-mono">
+            <div className="flex items-center gap-1 text-[11px] text-secondary font-mono font-medium">
               <History size={12} aria-hidden="true" />
-              <span>Recent Verification Checks</span>
+              <span>Recent checks</span>
             </div>
 
             {checkLog.length > 0 ? (

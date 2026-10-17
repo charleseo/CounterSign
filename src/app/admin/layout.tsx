@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import React from 'react';
 
 export const metadata: Metadata = {
-  title: 'Countersign Admin Console',
+  title: 'TraceBase Admin Console',
   description: 'Human-verification back-office, 14-day compliance monitor, and audit log.',
   robots: {
     index: false,
@@ -22,7 +22,7 @@ export default function AdminRootLayout({
       <React.Suspense
         fallback={
           <div className="min-h-screen flex items-center justify-center p-8 text-xs text-[var(--color-muted)] font-mono">
-            Loading Countersign Admin...
+            Loading TraceBase Admin...
           </div>
         }
       >

@@ -6,14 +6,14 @@ import { EvaluationLeadScopeForm } from '@/components/evaluation/EvaluationLeadS
 import { BreadcrumbListJsonLd } from '@/components/seo/JsonLd';
 
 export const metadata: Metadata = {
-  title: 'Scope an AI Model Audit | Evaluation Studio | Countersign',
+  title: 'Scope an AI Model Audit | Evaluation Studio | TraceBase',
   description:
     'Define your evaluation batch volume, documentation type, and timeline. Receive an immediate reference ID and preliminary failure taxonomy.',
   alternates: {
     canonical: '/evaluation/scope',
   },
   openGraph: {
-    title: 'Scope an AI Model Audit | Countersign Studio',
+    title: 'Scope an AI Model Audit | TraceBase Studio',
     description:
       'Submit your AI evaluation project scope. Idempotent submission with formal reference ID generation.',
     url: '/evaluation/scope',
@@ -45,7 +45,7 @@ export default function ScopePage({ searchParams }: ScopePageProps) {
       <div>
         <Link
           href="/evaluation"
-          className="inline-flex items-center gap-1.5 text-xs font-mono text-secondary hover:text-accent-cyan transition-colors"
+          className="inline-flex items-center gap-1.5 text-xs text-secondary hover:text-[#5A35C8] font-medium transition-colors"
         >
           <ArrowLeft size={14} />
           <span>Back to Evaluation Studio</span>
@@ -53,12 +53,12 @@ export default function ScopePage({ searchParams }: ScopePageProps) {
       </div>
 
       {/* Header */}
-      <div className="space-y-3 pb-6 border-b border-subtle">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-subtle bg-surface text-xs font-mono text-secondary">
-          <ShieldCheck size={14} className="text-accent-cyan" />
-          <span>Section 7.9c Project Initiation</span>
+      <div className="space-y-3 pb-6 border-b border-rule">
+        <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-rule bg-sheet text-xs text-secondary">
+          <ShieldCheck size={14} className="text-[#5A35C8]" />
+          <span>Project Initiation &amp; Scoping</span>
         </div>
-        <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-primary">
+        <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-ink">
           Scope an AI Model Audit
         </h1>
         <p className="text-sm sm:text-base text-secondary max-w-2xl leading-relaxed">

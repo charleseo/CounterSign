@@ -1,11 +1,12 @@
 import React from 'react';
+import { getSiteUrl } from '@/lib/utils/siteUrl';
 
 /**
  * Organization & WebSite Structured Data (Schema.org)
  * Placed in root layout for broad search engine understanding and SearchAction integration.
  */
 export function OrganizationAndWebsiteJsonLd() {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://countersign.ai';
+  const baseUrl = getSiteUrl();
 
   const schema = {
     '@context': 'https://schema.org',
@@ -13,7 +14,7 @@ export function OrganizationAndWebsiteJsonLd() {
       {
         '@type': 'Organization',
         '@id': `${baseUrl}/#organization`,
-        name: 'Countersign',
+        name: 'TraceBase',
         url: baseUrl,
         logo: {
           '@type': 'ImageObject',
@@ -27,15 +28,15 @@ export function OrganizationAndWebsiteJsonLd() {
         description:
           'Independent human-verified AI work hub and precision model evaluation studio.',
         sameAs: [
-          'https://x.com/countersign_ai',
-          'https://github.com/countersign',
+          'https://x.com/tracebase_ai',
+          'https://github.com/tracebase',
         ],
       },
       {
         '@type': 'WebSite',
         '@id': `${baseUrl}/#website`,
         url: baseUrl,
-        name: 'Countersign',
+        name: 'TraceBase',
         publisher: {
           '@id': `${baseUrl}/#organization`,
         },
@@ -68,7 +69,7 @@ export interface BreadcrumbItem {
 }
 
 export function BreadcrumbListJsonLd({ items }: { items: BreadcrumbItem[] }) {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://countersign.ai';
+  const baseUrl = getSiteUrl();
 
   const schema = {
     '@context': 'https://schema.org',
@@ -107,7 +108,7 @@ export function ArticleJsonLd({
   authorName,
   url,
 }: ArticleJsonLdProps) {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://countersign.ai';
+  const baseUrl = getSiteUrl();
 
   const schema = {
     '@context': 'https://schema.org',
@@ -121,7 +122,7 @@ export function ArticleJsonLd({
     },
     publisher: {
       '@type': 'Organization',
-      name: 'Countersign',
+      name: 'TraceBase',
       url: baseUrl,
       logo: {
         '@type': 'ImageObject',

@@ -7,7 +7,7 @@ import { connection } from 'next/server';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Evaluation Leads | Countersign Admin',
+  title: 'Evaluation Leads | TraceBase Admin',
   description: 'Manage inbound AI evaluation pilot requests and scope inquiries.',
 };
 

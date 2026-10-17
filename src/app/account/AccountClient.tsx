@@ -67,31 +67,32 @@ export function AccountClient({
   return (
     <div className="space-y-8">
       {/* User Header Card */}
-      <div className="p-6 sm:p-7 rounded-2xl glass-panel relative overflow-hidden border border-cyan-500/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xl">
-        <div className="absolute -top-12 -right-12 w-32 h-32 bg-[radial-gradient(circle,rgba(61,235,255,0.12)_0%,transparent_70%)] pointer-events-none" />
-        <div className="space-y-1.5 relative z-10">
+      <div className="p-6 sm:p-7 rounded-xl bg-sheet border border-rule flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="space-y-1.5">
           <div className="flex flex-wrap items-center gap-2.5">
-            <span className="font-bold text-lg sm:text-xl text-primary">
+            <span className="font-semibold text-lg sm:text-xl text-ink">
               {user.email}
             </span>
-            <span className="inline-flex items-center gap-1.5 text-[11px] font-mono px-2.5 py-0.5 rounded-full glass-pill text-accent-cyan border border-cyan-500/30">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+            <span className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-0.5 rounded-full bg-violet-50 text-brand-violet border border-violet-200">
+              <span className="w-1.5 h-1.5 rounded-full bg-brand-violet" />
               <span>Verified Contributor</span>
             </span>
           </div>
           <p className="text-xs text-secondary">
-            Preferred country: <strong className="text-primary font-medium">{user.country_code || "Nigeria (NG)"}</strong> &bull; Member since{" "}
-            {new Date(user.created_at).toLocaleDateString("en-US", {
-              month: "short",
-              year: "numeric",
-            })}
+            Preferred country: <strong className="text-ink font-medium">{user.country_code || "Nigeria (NG)"}</strong> &bull; Member since{" "}
+            <span className="tabular-nums">
+              {new Date(user.created_at).toLocaleDateString("en-US", {
+                month: "short",
+                year: "numeric",
+              })}
+            </span>
           </p>
         </div>
 
-        <form action={logoutAction} className="relative z-10 shrink-0">
+        <form action={logoutAction} className="shrink-0">
           <button
             type="submit"
-            className="px-4 py-2 rounded-xl border border-subtle hover:border-cyan-400/50 bg-void/60 text-xs text-secondary hover:text-primary transition-all flex items-center gap-2 cursor-pointer"
+            className="px-4 py-2 rounded-lg border border-rule hover:border-ink/30 bg-surface text-xs text-secondary hover:text-ink transition-all flex items-center gap-2 cursor-pointer"
           >
             <LogOut size={14} className="text-secondary" />
             <span>Sign Out</span>
@@ -100,14 +101,14 @@ export function AccountClient({
       </div>
 
       {/* Tabs Navigation */}
-      <div className="flex border-b border-subtle gap-2 sm:gap-6 text-xs sm:text-sm font-medium">
+      <div className="flex border-b border-rule gap-2 sm:gap-6 text-xs sm:text-sm font-medium">
         <button
           type="button"
           onClick={() => setActiveTab("saved")}
           className={`pb-3 px-2 border-b-2 transition-all flex items-center gap-2 cursor-pointer ${
             activeTab === "saved"
-              ? "border-accent-cyan text-accent-cyan font-bold shadow-[0_2px_10px_rgba(61,235,255,0.3)]"
-              : "border-transparent text-secondary hover:text-primary"
+              ? "border-[#5A35C8] text-[#5A35C8] font-bold"
+              : "border-transparent text-secondary hover:text-ink"
           }`}
         >
           <Bookmark size={16} />
@@ -119,8 +120,8 @@ export function AccountClient({
           onClick={() => setActiveTab("alerts")}
           className={`pb-3 px-2 border-b-2 transition-all flex items-center gap-2 cursor-pointer ${
             activeTab === "alerts"
-              ? "border-accent-cyan text-accent-cyan font-bold shadow-[0_2px_10px_rgba(61,235,255,0.3)]"
-              : "border-transparent text-secondary hover:text-primary"
+              ? "border-[#5A35C8] text-[#5A35C8] font-bold"
+              : "border-transparent text-secondary hover:text-ink"
           }`}
         >
           <Bell size={16} />
@@ -132,8 +133,8 @@ export function AccountClient({
           onClick={() => setActiveTab("privacy")}
           className={`pb-3 px-2 border-b-2 transition-all flex items-center gap-2 cursor-pointer ${
             activeTab === "privacy"
-              ? "border-accent-cyan text-accent-cyan font-bold shadow-[0_2px_10px_rgba(61,235,255,0.3)]"
-              : "border-transparent text-secondary hover:text-primary"
+              ? "border-[#5A35C8] text-[#5A35C8] font-bold"
+              : "border-transparent text-secondary hover:text-ink"
           }`}
         >
           <ShieldAlert size={16} />
@@ -145,14 +146,14 @@ export function AccountClient({
       {activeTab === "saved" && (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-xs font-mono font-semibold uppercase tracking-wider text-secondary">
-              Bookmarked Opportunities
+            <h2 className="text-xs font-semibold text-secondary">
+              Bookmarked roles
             </h2>
             <Link
               href="/jobs"
-              className="text-xs text-accent-cyan hover:underline font-medium"
+              className="text-xs text-brand-violet hover:underline font-medium"
             >
-              Explore all verified roles &rarr;
+              Explore all roles &rarr;
             </Link>
           </div>
 
@@ -178,11 +179,11 @@ export function AccountClient({
               ))}
             </div>
           ) : (
-            <div className="p-10 rounded-2xl glass-panel text-center space-y-4 border border-white/[0.08] shadow-lg">
-              <div className="w-14 h-14 rounded-2xl glass-pill text-accent-cyan mx-auto flex items-center justify-center border border-cyan-500/20">
+            <div className="p-10 rounded-xl bg-sheet border border-rule text-center space-y-4">
+              <div className="w-14 h-14 rounded-xl bg-surface text-brand-violet mx-auto flex items-center justify-center border border-rule">
                 <Bookmark size={24} />
               </div>
-              <p className="text-base font-bold text-primary">
+              <p className="text-base font-semibold text-ink">
                 No saved roles yet
               </p>
               <p className="text-xs text-secondary max-w-sm mx-auto leading-relaxed">
@@ -191,10 +192,9 @@ export function AccountClient({
               <div className="pt-2">
                 <Link
                   href="/jobs"
-                  className="relative group inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-cyan-400 to-teal-400 text-void hover:shadow-[0_0_20px_rgba(61,235,255,0.4)] transition-all overflow-hidden"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-xs font-semibold bg-[#5A35C8] text-white hover:bg-[#4828AC] transition-all"
                 >
-                  <div className="absolute inset-0 w-1/2 h-full bg-white/20 -skew-x-12 -translate-x-full group-hover:translate-x-[300%] transition-transform duration-1000 ease-out" />
-                  <span className="relative z-10">Browse Verified Roles</span>
+                  <span>Browse Roles</span>
                 </Link>
               </div>
             </div>
@@ -204,9 +204,9 @@ export function AccountClient({
 
       {/* Tab 2: Job Alerts Preferences */}
       {activeTab === "alerts" && (
-        <div className="p-6 sm:p-8 rounded-2xl glass-panel relative overflow-hidden border border-cyan-500/20 space-y-6 shadow-xl">
+        <div className="p-6 sm:p-8 rounded-xl bg-sheet border border-rule space-y-6">
           <div className="space-y-1">
-            <h2 className="text-lg font-bold text-primary">
+            <h2 className="text-lg font-semibold text-ink">
               Job Alert Preferences
             </h2>
             <p className="text-xs text-secondary leading-relaxed">
@@ -219,30 +219,30 @@ export function AccountClient({
             <div className="space-y-1.5">
               <label
                 htmlFor="country_code"
-                className="block text-xs font-mono font-medium text-secondary uppercase tracking-wider"
+                className="block text-xs font-medium text-secondary"
               >
-                Primary Working Jurisdiction
+                Where do you work from?
               </label>
               <select
                 id="country_code"
                 name="country_code"
                 defaultValue={initialAlerts?.country_code || user.country_code || "NG"}
-                className="w-full sm:w-80 px-3.5 py-2.5 rounded-xl bg-surface/70 border border-subtle focus:border-cyan-400/60 focus:shadow-[0_0_15px_rgba(61,235,255,0.2)] text-primary text-xs sm:text-sm outline-none transition-all"
+                className="w-full sm:w-80 px-3.5 py-2.5 rounded-lg bg-surface border border-rule focus:border-[#5A35C8] text-ink text-xs sm:text-sm outline-none transition-all"
               >
-                <option value="NG" className="bg-void text-primary">Nigeria (NG)</option>
-                <option value="US" className="bg-void text-primary">United States (US)</option>
-                <option value="GB" className="bg-void text-primary">United Kingdom (GB)</option>
-                <option value="KE" className="bg-void text-primary">Kenya (KE)</option>
-                <option value="CA" className="bg-void text-primary">Canada (CA)</option>
-                <option value="GH" className="bg-void text-primary">Ghana (GH)</option>
-                <option value="IN" className="bg-void text-primary">India (IN)</option>
+                <option value="NG">Nigeria (NG)</option>
+                <option value="US">United States (US)</option>
+                <option value="GB">United Kingdom (GB)</option>
+                <option value="KE">Kenya (KE)</option>
+                <option value="CA">Canada (CA)</option>
+                <option value="GH">Ghana (GH)</option>
+                <option value="IN">India (IN)</option>
               </select>
             </div>
 
             {/* Work Types */}
             <div className="space-y-2">
-              <label className="block text-xs font-mono font-medium text-secondary uppercase tracking-wider">
-                Work Domains of Interest
+              <label className="block text-xs font-medium text-secondary">
+                Work domains of interest
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
                 {[
@@ -257,16 +257,16 @@ export function AccountClient({
                   return (
                     <label
                       key={wt}
-                      className="p-3.5 rounded-xl glass-card border border-white/[0.08] hover:border-cyan-400/40 flex items-center gap-2.5 cursor-pointer transition-all"
+                      className="p-3.5 rounded-lg bg-surface border border-rule hover:border-[#5A35C8]/40 flex items-center gap-2.5 cursor-pointer transition-all"
                     >
                       <input
                         type="checkbox"
                         name="work_types"
                         value={wt}
                         defaultChecked={isChecked}
-                        className="rounded border-subtle text-accent-cyan focus:ring-accent-cyan cursor-pointer"
+                        className="rounded border-rule text-[#5A35C8] focus:ring-[#5A35C8] cursor-pointer"
                       />
-                      <span className="text-readable font-medium">{wt}</span>
+                      <span className="text-ink font-medium">{wt}</span>
                     </label>
                   );
                 })}
@@ -277,32 +277,31 @@ export function AccountClient({
             <div className="space-y-1.5">
               <label
                 htmlFor="frequency"
-                className="block text-xs font-mono font-medium text-secondary uppercase tracking-wider"
+                className="block text-xs font-medium text-secondary"
               >
-                Alert Frequency
+                Alert frequency
               </label>
               <select
                 id="frequency"
                 name="frequency"
                 defaultValue={initialAlerts?.frequency || "weekly"}
-                className="w-full sm:w-80 px-3.5 py-2.5 rounded-xl bg-surface/70 border border-subtle focus:border-cyan-400/60 focus:shadow-[0_0_15px_rgba(61,235,255,0.2)] text-primary text-xs sm:text-sm outline-none transition-all"
+                className="w-full sm:w-80 px-3.5 py-2.5 rounded-lg bg-surface border border-rule focus:border-[#5A35C8] text-ink text-xs sm:text-sm outline-none transition-all"
               >
-                <option value="weekly" className="bg-void text-primary">Weekly Verified Digest (Recommended)</option>
-                <option value="instant" className="bg-void text-primary">Instant Notification (When role verifies)</option>
+                <option value="weekly">Weekly verified digest (recommended)</option>
+                <option value="instant">Instant notification (when role verifies)</option>
               </select>
             </div>
 
             <div className="pt-2 flex items-center gap-3">
               <button
                 type="submit"
-                className="relative group px-5 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-cyan-400 to-teal-400 text-void hover:shadow-[0_0_20px_rgba(61,235,255,0.4)] transition-all cursor-pointer overflow-hidden"
+                className="px-5 py-2.5 rounded-lg text-xs font-semibold bg-[#5A35C8] text-white hover:bg-[#4828AC] transition-all cursor-pointer"
               >
-                <div className="absolute inset-0 w-1/2 h-full bg-white/20 -skew-x-12 -translate-x-full group-hover:translate-x-[300%] transition-transform duration-1000 ease-out" />
-                <span className="relative z-10">Save Alert Settings</span>
+                <span>Save Alert Settings</span>
               </button>
 
               {saveStatus === "saved" && (
-                <span className="text-xs text-accent-emerald flex items-center gap-1.5 font-medium animate-in fade-in">
+                <span className="text-xs text-emerald-600 flex items-center gap-1.5 font-medium animate-in fade-in">
                   <CheckCircle2 size={15} />
                   <span>Preferences saved</span>
                 </span>
@@ -315,55 +314,55 @@ export function AccountClient({
       {/* Tab 3: NDPA 2023 & Data Rights & One-Click Deletion */}
       {activeTab === "privacy" && (
         <div className="space-y-6">
-          <div className="p-6 sm:p-7 rounded-2xl glass-panel relative overflow-hidden border border-cyan-500/20 space-y-4 shadow-xl">
+          <div className="p-6 sm:p-7 rounded-xl bg-sheet border border-rule space-y-4">
             <div className="flex items-center gap-2">
-              <ShieldCheck className="text-accent-cyan" size={20} />
-              <h2 className="text-base font-bold text-primary">
+              <ShieldCheck className="text-brand-violet" size={20} />
+              <h2 className="text-base font-semibold text-ink">
                 Your Rights Under NDPA 2023
               </h2>
             </div>
-            <p className="text-xs sm:text-sm text-readable leading-relaxed">
-              The Nigeria Data Protection Act (NDPA) 2023 guarantees you full ownership over your personal data. Countersign adheres to strict data minimization: we do not collect National Identification Numbers, bank credentials, biometric scans, or browser keystrokes.
+            <p className="text-xs sm:text-sm text-secondary leading-relaxed">
+              The Nigeria Data Protection Act (NDPA) 2023 guarantees you full ownership over your personal data. TraceBase adheres to strict data minimization: we do not collect National Identification Numbers, bank credentials, biometric scans, or browser keystrokes.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs">
               <Link
                 href="/privacy/request"
-                className="p-3.5 rounded-xl glass-card border border-white/[0.08] hover:border-cyan-400/40 flex items-center justify-between text-secondary hover:text-primary transition-all font-medium"
+                className="p-3.5 rounded-lg bg-surface border border-rule hover:border-[#5A35C8]/40 flex items-center justify-between text-secondary hover:text-ink transition-all font-medium"
               >
                 <span>Submit Statutory Subject Access Request (SAR)</span>
-                <ExternalLink size={13} className="text-accent-cyan" />
+                <ExternalLink size={13} className="text-brand-violet" />
               </Link>
               <Link
                 href="/privacy"
-                className="p-3.5 rounded-xl glass-card border border-white/[0.08] hover:border-cyan-400/40 flex items-center justify-between text-secondary hover:text-primary transition-all font-medium"
+                className="p-3.5 rounded-lg bg-surface border border-rule hover:border-[#5A35C8]/40 flex items-center justify-between text-secondary hover:text-ink transition-all font-medium"
               >
                 <span>View NDPA Processing Record (ROPA)</span>
-                <ExternalLink size={13} className="text-accent-cyan" />
+                <ExternalLink size={13} className="text-brand-violet" />
               </Link>
             </div>
           </div>
 
           {/* Destructive One-Click Deletion */}
-          <div className="p-6 sm:p-7 rounded-2xl glass-panel border border-red-500/30 text-xs space-y-4 shadow-xl">
-            <div className="flex items-center gap-2 text-red-400 font-bold text-base">
+          <div className="p-6 sm:p-7 rounded-xl bg-sheet border border-red-200 text-xs space-y-4">
+            <div className="flex items-center gap-2 text-red-700 font-semibold text-base">
               <Trash2 size={20} />
               <span>One-Click Complete Account Deletion</span>
             </div>
-            <p className="text-xs text-readable leading-relaxed">
-              Clicking the button below will immediately and permanently erase your account profile, all {savedJobs.length} saved jobs, your alert subscriptions, and session tokens. In compliance with NDPA Section 38, your consent withdrawal will be recorded as a cryptographic hash in our append-only log with zero plaintext data retained.
+            <p className="text-xs text-secondary leading-relaxed">
+              Clicking the button below will immediately and permanently erase your account profile, all <span className="tabular-nums">{savedJobs.length}</span> saved jobs, your alert subscriptions, and session tokens. In compliance with NDPA Section 38, your consent withdrawal will be recorded as a cryptographic hash in our append-only log with zero plaintext data retained.
             </p>
 
             {!confirmDelete ? (
               <button
                 type="button"
                 onClick={() => setConfirmDelete(true)}
-                className="px-4 py-2.5 rounded-xl text-xs font-bold bg-accent-danger text-white hover:bg-accent-danger/90 transition-all cursor-pointer shadow-md"
+                className="px-4 py-2.5 rounded-lg text-xs font-semibold bg-red-600 text-white hover:bg-red-700 transition-all cursor-pointer"
               >
                 Delete My Account and Personal Data
               </button>
             ) : (
-              <div className="p-4 rounded-xl glass-panel border border-red-500/50 space-y-3">
-                <div className="flex items-center gap-2 text-xs text-red-400 font-semibold">
+              <div className="p-4 rounded-lg bg-red-50/60 border border-red-200 space-y-3">
+                <div className="flex items-center gap-2 text-xs text-red-700 font-semibold">
                   <AlertTriangle size={16} />
                   <span>Are you absolutely certain? This cannot be undone.</span>
                 </div>
@@ -372,7 +371,7 @@ export function AccountClient({
                     type="button"
                     onClick={handleDeleteAccount}
                     disabled={isDeleting}
-                    className="px-4 py-2 rounded-xl text-xs font-bold bg-accent-danger text-white hover:bg-accent-danger/90 transition-all cursor-pointer disabled:opacity-50"
+                    className="px-4 py-2 rounded-lg text-xs font-semibold bg-red-600 text-white hover:bg-red-700 transition-all cursor-pointer disabled:opacity-50"
                   >
                     {isDeleting ? "Purging All Data..." : "Yes, Permanently Erase All My Data"}
                   </button>
@@ -380,7 +379,7 @@ export function AccountClient({
                     type="button"
                     onClick={() => setConfirmDelete(false)}
                     disabled={isDeleting}
-                    className="px-4 py-2 rounded-xl text-xs font-medium glass-card border border-subtle text-secondary hover:text-primary transition-all cursor-pointer"
+                    className="px-4 py-2 rounded-lg text-xs font-medium bg-surface border border-rule text-secondary hover:text-ink transition-all cursor-pointer"
                   >
                     Cancel
                   </button>

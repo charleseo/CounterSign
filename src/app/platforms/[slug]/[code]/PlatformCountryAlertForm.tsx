@@ -56,12 +56,12 @@ export function PlatformCountryAlertForm({
 
   if (status === "success") {
     return (
-      <div className="p-4 rounded-lg border border-accent-emerald/40 bg-accent-emerald/5 flex items-start gap-3">
-        <CheckCircle2 size={18} className="text-accent-emerald shrink-0 mt-0.5" />
+      <div className="p-4 rounded-lg border border-emerald-500/30 bg-emerald-500/10 flex items-start gap-3">
+        <CheckCircle2 size={18} className="text-emerald-700 dark:text-emerald-400 shrink-0 mt-0.5" />
         <div className="text-xs space-y-1">
-          <p className="font-semibold text-accent-emerald">Alert Registered</p>
-          <p className="text-readable">
-            We will email <span className="font-mono">{email}</span> immediately if {platformName}&apos;s contributor eligibility policy changes for {countryName}.
+          <p className="font-semibold text-emerald-800 dark:text-emerald-300">Alert Registered</p>
+          <p className="text-secondary">
+            We will email <strong>{email}</strong> immediately if {platformName}&apos;s contributor eligibility policy changes for {countryName}.
           </p>
         </div>
       </div>
@@ -78,12 +78,12 @@ export function PlatformCountryAlertForm({
           placeholder={`Enter email for ${countryName} updates`}
           required
           disabled={status === "submitting"}
-          className="flex-1 px-3 py-2 rounded-lg border border-subtle bg-void text-primary placeholder:text-secondary text-xs sm:text-sm focus:outline-none focus:border-focus transition-colors"
+          className="flex-1 px-3 py-2.5 rounded-lg border border-rule bg-sheet text-primary placeholder:text-secondary/60 text-xs sm:text-sm focus:outline-none focus:border-[#5A35C8] focus:ring-1 focus:ring-[#5A35C8] transition-colors min-h-[44px]"
         />
         <button
           type="submit"
           disabled={status === "submitting"}
-          className="px-4 py-2 rounded-lg text-xs font-semibold bg-accent-cyan text-[#04080F] hover:bg-accent-cyan/90 transition-colors shrink-0 flex items-center justify-center gap-1.5"
+          className="px-5 py-2.5 rounded-lg text-xs font-semibold bg-[#5A35C8] hover:bg-[#4A2AB0] text-white transition-colors shrink-0 flex items-center justify-center gap-1.5 min-h-[44px] cursor-pointer"
         >
           {status === "submitting" ? (
             <>
@@ -97,7 +97,7 @@ export function PlatformCountryAlertForm({
       </div>
 
       {status === "error" && (
-        <div className="flex items-center gap-1.5 text-xs text-accent-danger">
+        <div className="flex items-center gap-1.5 text-xs text-red-600 dark:text-red-400">
           <AlertCircle size={14} />
           <span>{errorMessage}</span>
         </div>

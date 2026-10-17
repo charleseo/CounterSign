@@ -3,13 +3,14 @@ import Link from "next/link";
 import { Metadata } from "next";
 import { EvaluatorApplicationForm } from "./EvaluatorApplicationForm";
 import { ShieldCheck, Scale, Clock, ArrowRight } from "lucide-react";
+import { absoluteUrl } from "@/lib/utils/siteUrl";
 
 export const metadata: Metadata = {
-  title: "Join the Evaluator Network | Countersign Studio",
+  title: "Join the Evaluator Network | TraceBase Studio",
   description:
-    "Apply to join Countersign's specialist human evaluation network. Paid sprints for physicians, attorneys, software engineers, and domain researchers checking frontier AI model accuracy.",
+    "Apply to join TraceBase's specialist human evaluation network. Paid sprints for physicians, attorneys, software engineers, and domain researchers checking frontier AI model accuracy.",
   alternates: {
-    canonical: "https://countersign.ai/evaluation/evaluators",
+    canonical: absoluteUrl("/evaluation/evaluators"),
   },
 };
 
@@ -18,34 +19,34 @@ export default function EvaluatorsPage() {
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-10">
       {/* Breadcrumb Navigation */}
       <nav aria-label="Breadcrumb">
-        <ol className="flex items-center gap-2 text-xs font-mono text-secondary">
+        <ol className="flex items-center gap-2 text-xs text-secondary">
           <li>
-            <Link href="/evaluation" className="hover:text-primary transition-colors">
+            <Link href="/evaluation" className="hover:text-ink transition-colors">
               Evaluation Studio
             </Link>
           </li>
-          <li aria-hidden="true">/</li>
-          <li className="text-primary font-medium">Evaluator Network</li>
+          <li aria-hidden="true" className="text-muted">/</li>
+          <li className="text-ink font-medium">Evaluator Network</li>
         </ol>
       </nav>
 
       {/* Header */}
-      <div className="space-y-4 border-b border-subtle pb-8">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-medium bg-accent-cyan/10 text-accent-cyan border border-accent-cyan/20">
+      <div className="space-y-4 border-b border-rule pb-8">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-violet-50 text-brand-violet border border-violet-200">
           Domain Specialists & Peer Reviewers
         </div>
-        <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-primary">
-          Join the Countersign Evaluator Network
+        <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-ink">
+          Join the TraceBase Evaluator Network
         </h1>
-        <p className="text-sm text-readable max-w-2xl leading-relaxed">
-          Countersign delivers independent model evaluation and technical citation audits for enterprise AI teams. When high-volume audits require specialized domain verification, we partner with vetted physicians, engineers, lawyers, and researchers.
+        <p className="text-sm text-secondary max-w-2xl leading-relaxed">
+          TraceBase delivers independent model evaluation and technical citation audits for enterprise AI teams. When high-volume audits require specialized domain verification, we partner with vetted physicians, engineers, lawyers, and researchers.
         </p>
       </div>
 
       {/* Value Pillars for Specialists */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="p-4 rounded-xl border border-subtle bg-surface space-y-2">
-          <div className="flex items-center gap-2 text-accent-cyan font-semibold text-sm">
+        <div className="p-4 rounded-xl border border-rule bg-sheet space-y-2">
+          <div className="flex items-center gap-2 text-brand-violet font-semibold text-sm">
             <ShieldCheck size={18} />
             <span>Honest Scope & Clear Rubrics</span>
           </div>
@@ -54,8 +55,8 @@ export default function EvaluatorsPage() {
           </p>
         </div>
 
-        <div className="p-4 rounded-xl border border-subtle bg-surface space-y-2">
-          <div className="flex items-center gap-2 text-accent-cyan font-semibold text-sm">
+        <div className="p-4 rounded-xl border border-rule bg-sheet space-y-2">
+          <div className="flex items-center gap-2 text-brand-violet font-semibold text-sm">
             <Clock size={18} />
             <span>Flexible Remote Sprints</span>
           </div>
@@ -64,8 +65,8 @@ export default function EvaluatorsPage() {
           </p>
         </div>
 
-        <div className="p-4 rounded-xl border border-subtle bg-surface space-y-2">
-          <div className="flex items-center gap-2 text-accent-cyan font-semibold text-sm">
+        <div className="p-4 rounded-xl border border-rule bg-sheet space-y-2">
+          <div className="flex items-center gap-2 text-brand-violet font-semibold text-sm">
             <Scale size={18} />
             <span>Direct Payouts</span>
           </div>
@@ -76,9 +77,9 @@ export default function EvaluatorsPage() {
       </div>
 
       {/* Application Form */}
-      <div className="p-6 sm:p-8 rounded-xl border border-subtle bg-surface space-y-6">
+      <div className="p-6 sm:p-8 rounded-xl border border-rule bg-sheet space-y-6">
         <div className="space-y-1">
-          <h2 className="text-lg font-semibold text-primary">
+          <h2 className="text-lg font-semibold text-ink">
             Register Your Specialist Credentials
           </h2>
           <p className="text-xs text-secondary leading-relaxed">
@@ -90,14 +91,14 @@ export default function EvaluatorsPage() {
       </div>
 
       {/* Methodological Link */}
-      <div className="p-4 rounded-xl border border-subtle bg-void text-xs text-secondary flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+      <div className="p-4 rounded-xl border border-rule bg-surface text-xs text-secondary flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div className="space-y-0.5">
-          <p className="font-semibold text-primary">Curious how we evaluate models?</p>
+          <p className="font-semibold text-ink">Curious how we evaluate models?</p>
           <p>Read our public methodology on citation tracking, pairwise grading, and error taxonomies.</p>
         </div>
         <Link
           href="/evaluation/methodology"
-          className="text-xs font-medium text-accent-cyan hover:underline inline-flex items-center gap-1 shrink-0"
+          className="text-xs font-medium text-brand-violet hover:underline inline-flex items-center gap-1 shrink-0"
         >
           <span>Studio Methodology</span>
           <ArrowRight size={13} />

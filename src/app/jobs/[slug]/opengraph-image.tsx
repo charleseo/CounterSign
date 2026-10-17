@@ -1,7 +1,8 @@
 import { ImageResponse } from 'next/og';
 import { dbRepository } from '@/lib/db/repository';
+import { getSiteHost } from '@/lib/utils/siteUrl';
 
-export const alt = 'Verified AI Work Role Details | Countersign';
+export const alt = 'Verified AI Work Role Details | TraceBase';
 export const size = {
   width: 1200,
   height: 630,
@@ -29,6 +30,7 @@ export default async function Image({ params }: JobOgProps) {
     .join(', ');
   const countries = countryNames || 'Global Remote';
   const isClosed = job ? job.status === 'closed' : false;
+  const isSample = job ? job.is_sample || job.title.includes('[SAMPLE]') : false;
 
   return new ImageResponse(
     (
@@ -41,7 +43,7 @@ export default async function Image({ params }: JobOgProps) {
           justifyContent: 'space-between',
           backgroundColor: '#070a10',
           backgroundImage:
-            'radial-gradient(circle at 25px 25px, rgba(0, 242, 254, 0.08) 2%, transparent 0%), radial-gradient(circle at 75px 75px, rgba(16, 185, 129, 0.05) 2%, transparent 0%)',
+            'radial-gradient(circle at 25px 25px, rgba(90, 53, 200, 0.08) 2%, transparent 0%), radial-gradient(circle at 75px 75px, rgba(16, 185, 129, 0.05) 2%, transparent 0%)',
           backgroundSize: '100px 100px',
           padding: '60px 80px',
           fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
@@ -65,12 +67,12 @@ export default async function Image({ params }: JobOgProps) {
                 width: '42px',
                 height: '42px',
                 borderRadius: '50%',
-                border: '2px solid #00f2fe',
+                border: '2px solid #5A35C8',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                backgroundColor: 'rgba(0, 242, 254, 0.1)',
-                color: '#00f2fe',
+                backgroundColor: 'rgba(90, 53, 200, 0.1)',
+                color: '#8b6cf7',
                 fontSize: '20px',
                 fontWeight: 800,
               }}
@@ -89,7 +91,7 @@ export default async function Image({ params }: JobOgProps) {
             </span>
           </div>
 
-          {/* Verification Badge */}
+          {/* Verification / Sample Badge */}
           <div
             style={{
               display: 'flex',
@@ -97,15 +99,25 @@ export default async function Image({ params }: JobOgProps) {
               gap: '8px',
               padding: '8px 18px',
               borderRadius: '999px',
-              backgroundColor: isClosed ? 'rgba(239, 68, 68, 0.15)' : 'rgba(16, 185, 129, 0.15)',
-              border: `1px solid ${isClosed ? 'rgba(239, 68, 68, 0.4)' : 'rgba(16, 185, 129, 0.4)'}`,
-              color: isClosed ? '#f87171' : '#34d399',
+              backgroundColor: isSample
+                ? 'rgba(148, 163, 184, 0.15)'
+                : isClosed
+                ? 'rgba(239, 68, 68, 0.15)'
+                : 'rgba(16, 185, 129, 0.15)',
+              border: `1px solid ${
+                isSample
+                  ? 'rgba(148, 163, 184, 0.4)'
+                  : isClosed
+                  ? 'rgba(239, 68, 68, 0.4)'
+                  : 'rgba(16, 185, 129, 0.4)'
+              }`,
+              color: isSample ? '#94a3b8' : isClosed ? '#f87171' : '#34d399',
               fontSize: '14px',
               fontFamily: 'monospace',
               fontWeight: 700,
             }}
           >
-            {isClosed ? 'ROLE CLOSED' : 'HUMAN VERIFIED'}
+            {isSample ? 'SAMPLE ENTRY' : isClosed ? 'ROLE CLOSED' : 'HUMAN VERIFIED'}
           </div>
         </div>
 
@@ -124,8 +136,7 @@ export default async function Image({ params }: JobOgProps) {
                 fontSize: '16px',
                 fontFamily: 'monospace',
                 color: '#00f2fe',
-                letterSpacing: '0.1em',
-                textTransform: 'uppercase',
+                letterSpacing: '0.05em',
                 fontWeight: 700,
               }}
             >
@@ -226,7 +237,7 @@ export default async function Image({ params }: JobOgProps) {
               fontWeight: 700,
             }}
           >
-            countersign.ai/jobs/{slug}
+            {getSiteHost()}/jobs/{slug}
           </span>
         </div>
       </div>

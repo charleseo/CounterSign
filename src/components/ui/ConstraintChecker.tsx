@@ -49,15 +49,15 @@ export function ConstraintChecker({
       className={`rounded-2xl border border-subtle bg-surface p-5 sm:p-6 space-y-4 text-xs font-mono shadow-sm ${className}`}
     >
       <div className="flex items-center justify-between pb-3 border-b border-subtle">
-        <h4 className="font-semibold text-primary uppercase tracking-wider text-sm">
-          Interactive Evaluation Practice: Negative Constraint Checker
+        <h4 className="font-semibold text-primary text-sm">
+          Interactive evaluation practice: negative constraint checker
         </h4>
-        <span className="text-[11px] text-secondary">Original Exercise</span>
+        <span className="text-[11px] text-secondary">Original exercise</span>
       </div>
 
       <div className="p-3.5 rounded-lg border border-subtle bg-void space-y-1 font-sans text-xs">
-        <span className="text-[11px] text-secondary font-mono font-semibold uppercase tracking-wider block">
-          Exercise Prompt:
+        <span className="text-[11px] text-secondary font-mono font-semibold block">
+          Exercise prompt:
         </span>
         <p className="text-readable">{exercisePrompt}</p>
         <div className="text-[11px] text-accent-cyan font-mono pt-1">
@@ -68,19 +68,19 @@ export function ConstraintChecker({
       {/* Input Text Area */}
       <div className="space-y-2">
         <label htmlFor="constraint-textarea" className="block text-secondary font-semibold">
-          Your Candidate Response:
+          Your candidate response:
         </label>
         <textarea
           id="constraint-textarea"
           rows={4}
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Draft your response here. Watch the live constraint telemetry beneath..."
+          placeholder="Draft your response here. Watch the live constraint checks beneath..."
           className="w-full p-3 rounded-lg border border-subtle bg-void text-primary font-sans text-xs focus:outline-none focus:border-focus"
         />
       </div>
 
-      {/* Live Constraint Telemetry Indicator (Icon + Word, Never Color Alone) */}
+      {/* Live Constraint Checks Indicator (Icon + Word, Never Color Alone) */}
       <div className="p-3 rounded-lg border border-subtle bg-void flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
         <div className="flex items-center gap-4">
           <div>

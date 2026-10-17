@@ -1,158 +1,161 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React from "react";
 import Link from "next/link";
-import { Bookmark, BookmarkCheck, ArrowUpRight } from "lucide-react";
-import { StatusBadge, StatusType } from "./StatusBadge";
-import { FreshnessStamp } from "./FreshnessStamp";
+import { cleanRoleTitle, cleanOrgName, getRoleStatus, getShortRecordId, isSampleRole } from "@/lib/utils/roleStatus";
+import { PartnerReferralBadge, ManagedRoleBadge } from "./PartnerReferralBadge";
 
 export interface JobCardProps {
   id: string;
   slug: string;
   title: string;
   platform: string;
-  workType: string;
-  countryEligibility: "accepted" | "not-accepted" | "unconfirmed";
+  workType?: string;
+  countryEligibility?: "accepted" | "not-accepted" | "not_accepted" | "unconfirmed" | "due";
   countryName?: string;
-  verifiedPay?: string;
-  daysAgo: number;
-  status: StatusType;
+  countryCode?: string;
+  verifiedPay?: string | null;
+  daysAgo?: number;
+  status?: string;
   isClosed?: boolean;
   initialSaved?: boolean;
   onSaveToggle?: (id: string, saved: boolean) => void;
   className?: string;
+  checkedDateText?: string;
+  linkType?: 'direct' | 'referral';
+  isManaged?: boolean;
 }
 
 /**
- * JobCard (Section 10.11, 7.2, 10.2a)
- * Whole card tappable, accessible focus ring, scale(0.98) on press,
- * spotlight edge on fine pointers in Full tier, complete metadata visible without clicking.
+ * JobCard - Unified Ledger Row
+ * Renders as a stacked record row on phones (title full width, status/pay/date on one line)
+ * and a 4-column ledger row on desktop.
  */
 export function JobCard({
   id,
   slug,
   title,
   platform,
-  workType,
-  countryEligibility,
-  countryName = "Nigeria",
+  countryCode = "NG",
   verifiedPay,
-  daysAgo,
+  daysAgo = 2,
   status,
   isClosed = false,
-  initialSaved = false,
-  onSaveToggle,
   className = "",
+  checkedDateText,
+  linkType = 'direct',
+  isManaged = false,
 }: JobCardProps) {
-  const [saved, setSaved] = useState(initialSaved);
-  const cardRef = useRef<HTMLDivElement>(null);
+  const shortId = getShortRecordId(id);
+  const cleanTitle = cleanRoleTitle(title);
+  const cleanPlatform = cleanOrgName(platform);
+  const isSample = isSampleRole({ title, platform: { name: platform }, id });
 
-  // Spotlight edge mouse tracking for Full tier
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    cardRef.current.style.setProperty("--mouse-x", `${x}px`);
-    cardRef.current.style.setProperty("--mouse-y", `${y}px`);
-  };
+  const statusInfo = getRoleStatus(
+    { title, platform: { name: platform }, id, status },
+    countryCode
+  );
 
-  const handleSaveClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const nextSaved = !saved;
-    setSaved(nextSaved);
-    if (onSaveToggle) {
-      onSaveToggle(id, nextSaved);
-    }
-  };
+  const payDisplay = verifiedPay && !verifiedPay.toLowerCase().includes("not stated")
+    ? verifiedPay
+    : "Not stated";
 
-  const eligibilityConfig = {
-    accepted: { label: `${countryName}: Accepted`, status: "accepted" as StatusType },
-    "not-accepted": { label: `${countryName}: Not accepted`, status: "not-accepted" as StatusType },
-    unconfirmed: { label: `${countryName}: Unconfirmed`, status: "unconfirmed" as StatusType },
-  }[countryEligibility];
+  const checkedDisplay = checkedDateText || (daysAgo === 0 ? "Today" : `${daysAgo}d ago`);
 
   return (
-    <div
-      ref={cardRef}
-      onMouseMove={handleMouseMove}
-      className={`group relative rounded-2xl glass-card spotlight-card card-press transition-all ${
-        isClosed ? "opacity-60 bg-void/50 border-dashed" : "hover:border-cyan-400/40"
+    <Link
+      href={`/jobs/${slug}`}
+      role="row"
+      className={`cs-row cs-row-link block w-full px-4 py-4 sm:py-5 border-b border-subtle bg-sheet hover:bg-elevated/40 text-ink no-underline focus-visible:outline-offset-2 transition-colors ${
+        isClosed ? "opacity-60" : ""
       } ${className}`}
     >
-      <div className="p-4 sm:p-5 flex flex-col justify-between gap-3 min-h-[170px]">
-        {/* Top Meta Row: Platform + Work Type + Status Badges */}
+      {/* Mobile Stacked Record Row (Phones < 640px) */}
+      <div className="sm:hidden space-y-2">
         <div className="flex items-start justify-between gap-2">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="font-mono text-xs font-semibold text-accent-cyan uppercase tracking-wider">
-              {platform}
-            </span>
-            <span className="text-secondary text-xs" aria-hidden="true">&bull;</span>
-            <span className="text-xs text-secondary">{workType}</span>
-            {isClosed && (
-              <span className="text-[11px] font-mono font-medium px-2 py-0.5 rounded bg-accent-danger/10 text-[#FF6B6B] border border-accent-danger/30">
-                Closed
+          <span className="font-bold text-base text-ink line-clamp-2 leading-snug">
+            {cleanTitle}
+          </span>
+          <div className="flex items-center gap-1 shrink-0 flex-wrap justify-end">
+            {isManaged && <ManagedRoleBadge />}
+            {!isManaged && linkType === 'referral' && <PartnerReferralBadge />}
+            {isSample && (
+              <span className="text-[10px] font-semibold text-secondary bg-subtle border border-rule px-1.5 py-0.5 rounded">
+                Sample entry
               </span>
             )}
           </div>
-
-          <div className="flex items-center gap-2">
-            <StatusBadge status={status} size="sm" />
-            <button
-              type="button"
-              onClick={handleSaveClick}
-              aria-label={saved ? `Remove ${title} from saved jobs` : `Save ${title}`}
-              aria-pressed={saved}
-              className="p-1.5 rounded text-secondary hover:text-primary hover:bg-elevated transition-colors"
-            >
-              {saved ? (
-                <BookmarkCheck size={16} className="text-accent-cyan" />
-              ) : (
-                <Bookmark size={16} />
-              )}
-            </button>
-          </div>
         </div>
-
-        {/* Main Title Row */}
-        <div>
-          <Link
-            href={`/jobs/${slug}`}
-            className="block focus:outline-none"
-            tabIndex={0}
-          >
-            <h3 className="text-base sm:text-lg font-semibold text-primary group-hover:text-accent-cyan transition-colors flex items-start justify-between gap-2">
-              <span className="line-clamp-2 leading-snug">{title}</span>
-              <ArrowUpRight
-                size={18}
-                className="text-accent-cyan opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all flex-shrink-0 mt-0.5"
-                aria-hidden="true"
-              />
-            </h3>
-          </Link>
+        <div className="flex items-center gap-2 text-xs text-secondary">
+          <span>{cleanPlatform}</span>
+          <span aria-hidden="true">&bull;</span>
+          <span className="tabular-nums font-medium text-muted">Record {shortId}</span>
         </div>
-
-        {/* Bottom Details Row: Eligibility Chip + Verified Pay + Freshness Stamp */}
-        <div className="pt-2 border-t border-subtle flex flex-wrap items-center justify-between gap-2.5">
-          <div className="flex flex-wrap items-center gap-2">
-            <StatusBadge
-              status={eligibilityConfig.status}
-              size="sm"
-              showExplanationOnClick={false}
-            />
-            <span className="text-xs font-mono text-readable">
-              {verifiedPay ? (
-                <span className="text-primary font-medium">{verifiedPay}</span>
-              ) : (
-                <span className="text-secondary">Pay: not confirmed</span>
-              )}
-            </span>
-          </div>
-
-          <FreshnessStamp daysAgo={daysAgo} />
+        {/* Status, Pay and Date on one line */}
+        <div className="flex items-center justify-between text-xs text-secondary pt-1.5 border-t border-subtle/60">
+          <span className={`font-semibold ${statusInfo.colorClass}`}>
+            {statusInfo.label}
+          </span>
+          <span className="tabular-nums font-medium text-ink">{payDisplay}</span>
+          <span className="tabular-nums text-secondary">{checkedDisplay}</span>
         </div>
       </div>
-    </div>
+
+      {/* Desktop 4-Column Table Row (sm: >= 640px) */}
+      <div className="hidden sm:grid sm:grid-cols-[minmax(0,1.8fr)_minmax(0,1fr)_minmax(0,1fr)_120px] items-center gap-4">
+        {/* Col 1: Role Title + Platform + Record ID */}
+        <div className="min-w-0 pr-2">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="font-bold text-base lg:text-lg text-ink truncate group-hover:text-[var(--brand-ink)] transition-colors">
+              {cleanTitle}
+            </span>
+            {isManaged && <ManagedRoleBadge />}
+            {!isManaged && linkType === 'referral' && <PartnerReferralBadge />}
+            {isSample && (
+              <span className="shrink-0 text-[10px] font-semibold text-secondary bg-subtle border border-rule px-1.5 py-0.5 rounded">
+                Sample entry
+              </span>
+            )}
+          </div>
+          <div className="flex items-center gap-2 text-xs text-secondary mt-0.5">
+            <span>{cleanPlatform}</span>
+            <span aria-hidden="true">&bull;</span>
+            <span className="tabular-nums font-medium text-muted">Record {shortId}</span>
+          </div>
+        </div>
+
+        {/* Col 2: Eligibility Status */}
+        <div>
+          <span className={`font-semibold text-sm ${statusInfo.colorClass}`}>
+            {statusInfo.label}
+          </span>
+        </div>
+
+        {/* Col 3: Pay Claim */}
+        <div>
+          <span className="text-sm text-secondary tabular-nums">
+            {payDisplay}
+          </span>
+        </div>
+
+        {/* Col 4: Checked Date & Mini Hover Stamp */}
+        <div className="flex items-center justify-between gap-2 text-sm">
+          <span className="tabular-nums text-secondary">
+            {checkedDisplay}
+          </span>
+
+          <svg
+            className="cs-mini text-[var(--brand-ink)] shrink-0"
+            width="26"
+            height="26"
+            viewBox="0 0 32 32"
+            aria-hidden="true"
+          >
+            <circle cx="16" cy="16" r="13.5" fill="none" stroke="currentColor" strokeWidth="2.2" />
+            <path d="M10.5 16.4l3.6 3.6 7-7.4" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </div>
+      </div>
+    </Link>
   );
 }

@@ -95,9 +95,9 @@ const baseStatusConfigs: Record<string, StatusConfig> = {
   official: {
     word: "Official",
     icon: ShieldCheck,
-    colorClass: "text-[#3DEBFF]",
-    bgClass: "bg-[#3DEBFF]/10",
-    borderClass: "border-[#3DEBFF]/30",
+    colorClass: "text-[#5A35C8]",
+    bgClass: "bg-[#5A35C8]/10",
+    borderClass: "border-[#5A35C8]/30",
     meaning: "Fact verified directly from platform's official documentation or feed.",
   },
   reported: {
@@ -149,8 +149,6 @@ export function StatusBadge({
         type="button"
         onClick={() => showExplanationOnClick && setOpen(!open)}
         className={`inline-flex items-center font-medium rounded-full border glass-pill transition-all ${config.bgClass} ${config.borderClass} ${config.colorClass} ${sizeClasses} ${
-          isVerifiedActive ? "shadow-[0_0_12px_rgba(69,245,197,0.18)]" : ""
-        } ${
           showExplanationOnClick ? "cursor-pointer hover:opacity-90 hover:scale-[1.02]" : "cursor-default"
         } ${className}`}
         aria-expanded={showExplanationOnClick ? open : undefined}
@@ -159,7 +157,7 @@ export function StatusBadge({
         <span className={`relative flex items-center justify-center ${isVerifiedActive ? "radar-dot" : ""}`}>
           <IconComponent size={iconSize} className="flex-shrink-0" />
         </span>
-        <span className="font-mono tracking-tight">{config.word}</span>
+        <span className="tracking-tight">{config.word}</span>
       </button>
 
       {/* Accessible Detail Popover */}

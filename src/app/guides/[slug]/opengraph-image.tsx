@@ -1,7 +1,8 @@
 import { ImageResponse } from 'next/og';
 import { getGuideBySlug } from '@/content/guides';
+import { getSiteHost } from '@/lib/utils/siteUrl';
 
-export const alt = 'Practical Guide for Remote AI Work | Countersign';
+export const alt = 'Practical Guide for Remote AI Work | TraceBase';
 export const size = {
   width: 1200,
   height: 630,
@@ -178,7 +179,7 @@ export default async function Image({ params }: GuideOgProps) {
               }}
             />
             <span style={{ fontSize: '14px', color: '#94a3b8', fontFamily: 'monospace' }}>
-              Free forensic guide. Never sponsored.
+              Free verified guide. Never sponsored.
             </span>
           </div>
 
@@ -190,7 +191,7 @@ export default async function Image({ params }: GuideOgProps) {
               fontWeight: 700,
             }}
           >
-            countersign.ai/guides/{slug}
+            {getSiteHost()}/guides/{slug}
           </span>
         </div>
       </div>

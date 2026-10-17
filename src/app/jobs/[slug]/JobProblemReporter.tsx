@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { AlertTriangle, ChevronDown, ChevronUp } from "lucide-react";
 import { ReportForm, ReportFormData } from "@/components/ui/ReportForm";
 import { submitReportAction } from "@/lib/actions/report";
+import { absoluteUrl } from "@/lib/utils/siteUrl";
 
 interface JobProblemReporterProps {
   jobTitle: string;
@@ -54,7 +55,7 @@ export function JobProblemReporter({ jobTitle, jobSlug }: JobProblemReporterProp
         <div className="pt-3 border-t border-subtle animate-in fade-in duration-200">
           <ReportForm
             initialRoleTitle={jobTitle}
-            initialUrl={`https://countersign.ai/jobs/${jobSlug}`}
+            initialUrl={absoluteUrl(`/jobs/${jobSlug}`)}
             onSubmitReport={handleSubmit}
           />
         </div>

@@ -34,7 +34,9 @@ import {
   TaskAvailability,
   ReportStatus,
   PlatformCountryEligibilityResult,
+  WeeklyScamPost,
 } from './types';
+import { getSiteUrl } from '../utils/siteUrl';
 
 // Initial ISO Countries (Master Plan Section 6 & 12)
 const INITIAL_COUNTRIES: Country[] = [
@@ -140,7 +142,7 @@ const INITIAL_PLATFORM_STEPS: PlatformStep[] = [
   { id: 'step-3-1', platform_id: '00000000-0000-0000-0000-000000000003', position: 1, title: 'Registration & Phone Confirmation', detail: 'Basic profile signup with PayPal email address and phone number verification.', label: 'official', source_url: 'https://dataannotation.tech' },
   { id: 'step-3-2', platform_id: '00000000-0000-0000-0000-000000000003', position: 2, title: 'Starter Assessment', detail: 'Open-ended 45-60 minute evaluation testing fact-checking, creative prompt writing, and nuance.', label: 'official', source_url: 'https://dataannotation.tech' },
   { id: 'step-3-3', platform_id: '00000000-0000-0000-0000-000000000003', position: 3, title: 'Manual Quality Review', detail: 'Internal review of submitted reasoning. Successful applicants receive access in 3-7 days.', label: 'reported', source_url: 'https://reddit.com/r/dataannotation' },
-  { id: 'step-3-4', platform_id: '00000000-0000-0000-0000-000000000003', position: 4, title: 'Subject Qualification Quizzes', detail: 'Coding, Math, or Safety qualification quizzes unlock higher-rate project categories.', label: 'official', source_url: 'https://dataannotation.tech' },
+  { id: 'step-3-4', platform_id: '00000000-0000-0000-0000-000000000003', position: 4, title: 'Subject Qualification Quizzes', detail: 'Coding, Math, or Safety qualification quizzes grant access to higher-rate project categories.', label: 'official', source_url: 'https://dataannotation.tech' },
   { id: 'step-3-5', platform_id: '00000000-0000-0000-0000-000000000003', position: 5, title: 'Active Project Dashboard', detail: 'Self-paced tasks appear on dashboard; log time directly per project batch.', label: 'official', source_url: 'https://dataannotation.tech' },
   // Mercor
   { id: 'step-4-1', platform_id: '00000000-0000-0000-0000-000000000004', position: 1, title: 'Profile & GitHub Synchronization', detail: 'Connect GitHub, upload resume, and index open-source contributions.', label: 'official', source_url: 'https://mercor.com' },
@@ -198,7 +200,7 @@ const INITIAL_JOBS: Job[] = [
     pay_source_url: 'https://alignerr.com/roles/code-sample',
     official_url: 'https://alignerr.com',
     apply_url: 'https://alignerr.com/apply/code-eval-sample',
-    link: 'direct',
+    link: 'referral',
     status: 'verified',
     last_checked_at: new Date(Date.now() - 6 * 86400000).toISOString(),
     next_check_at: new Date(Date.now() + 8 * 86400000).toISOString(),
@@ -341,7 +343,7 @@ const INITIAL_JOBS: Job[] = [
     domains: ['Information Retrieval', 'Web Search', 'General Knowledge'],
     languages: ['English'],
     degree_levels: ['Associate', "Bachelor's"],
-    summary: 'Evaluate relevance and user utility of search engine results, direct answers, and snippet summaries for ambiguous search queries.',
+    summary: 'Evaluate relevance and user usefulness of search engine results, direct answers, and snippet summaries for ambiguous search queries.',
     requirements: 'Familiarity with web search evaluation guidelines. High attention to query intent and regional web sources.',
     pay_text: '$14 - $18 / hr',
     pay_verified: true,
@@ -432,6 +434,32 @@ const INITIAL_JOBS: Job[] = [
     created_at: new Date(Date.now() - 22 * 86400000).toISOString(),
     daysAgo: 3,
   },
+  {
+    id: '10000000-0000-0000-0000-000000000012',
+    slug: 'sample-tracebase-managed-vbt-author',
+    platform_id: '00000000-0000-0000-0000-000000000005',
+    title: 'Benchmark Task Author & RAG Evaluator [SAMPLE]',
+    work_type: 'TraceBase Managed Sprint',
+    domains: ['AI Benchmarking', 'RAG Evaluation', 'Citation Accuracy'],
+    languages: ['English'],
+    degree_levels: ["Bachelor's", "Master's"],
+    summary: 'Direct contracted evaluation sprint managed by TraceBase. Author benchmark test sets, grade hallucination rates, and verify RAG retrieval citations for enterprise models.',
+    requirements: 'Strong analytical writing and rubric adherence. Completion of TraceBase AI Evaluation Competency Certificate or equivalent proven evaluation portfolio.',
+    pay_text: '$40 - $65 / hr',
+    pay_verified: true,
+    pay_source_url: 'https://tracebase.work/managed-sprints',
+    official_url: 'https://tracebase.work',
+    apply_url: 'https://tracebase.work/apply/managed-sprint',
+    link: 'direct',
+    is_managed: true,
+    status: 'verified',
+    last_checked_at: new Date(Date.now() - 1 * 86400000).toISOString(),
+    next_check_at: new Date(Date.now() + 13 * 86400000).toISOString(),
+    closed_at: null,
+    created_by: null,
+    created_at: new Date(Date.now() - 5 * 86400000).toISOString(),
+    daysAgo: 1,
+  },
 ];
 
 const INITIAL_ELIGIBILITY: JobEligibility[] = [
@@ -510,13 +538,24 @@ const INITIAL_ELIGIBILITY: JobEligibility[] = [
   { job_id: '10000000-0000-0000-0000-000000000011', country_code: 'ZA', status: 'accepted', source_url: 'https://invisible.co/faq', checked_at: new Date(Date.now() - 3 * 86400000).toISOString() },
   { job_id: '10000000-0000-0000-0000-000000000011', country_code: 'IN', status: 'accepted', source_url: 'https://invisible.co/faq', checked_at: new Date(Date.now() - 3 * 86400000).toISOString() },
   { job_id: '10000000-0000-0000-0000-000000000011', country_code: 'DE', status: 'accepted', source_url: 'https://invisible.co/faq', checked_at: new Date(Date.now() - 3 * 86400000).toISOString() },
+  // Job 12 (TraceBase Managed Sprint)
+  { job_id: '10000000-0000-0000-0000-000000000012', country_code: 'US', status: 'accepted', source_url: 'https://tracebase.work', checked_at: new Date(Date.now() - 1 * 86400000).toISOString() },
+  { job_id: '10000000-0000-0000-0000-000000000012', country_code: 'NG', status: 'accepted', source_url: 'https://tracebase.work', checked_at: new Date(Date.now() - 1 * 86400000).toISOString() },
+  { job_id: '10000000-0000-0000-0000-000000000012', country_code: 'GB', status: 'accepted', source_url: 'https://tracebase.work', checked_at: new Date(Date.now() - 1 * 86400000).toISOString() },
+  { job_id: '10000000-0000-0000-0000-000000000012', country_code: 'KE', status: 'accepted', source_url: 'https://tracebase.work', checked_at: new Date(Date.now() - 1 * 86400000).toISOString() },
+  { job_id: '10000000-0000-0000-0000-000000000012', country_code: 'GH', status: 'accepted', source_url: 'https://tracebase.work', checked_at: new Date(Date.now() - 1 * 86400000).toISOString() },
+  { job_id: '10000000-0000-0000-0000-000000000012', country_code: 'CA', status: 'accepted', source_url: 'https://tracebase.work', checked_at: new Date(Date.now() - 1 * 86400000).toISOString() },
+  { job_id: '10000000-0000-0000-0000-000000000012', country_code: 'IN', status: 'accepted', source_url: 'https://tracebase.work', checked_at: new Date(Date.now() - 1 * 86400000).toISOString() },
+  { job_id: '10000000-0000-0000-0000-000000000012', country_code: 'ZA', status: 'accepted', source_url: 'https://tracebase.work', checked_at: new Date(Date.now() - 1 * 86400000).toISOString() },
+  { job_id: '10000000-0000-0000-0000-000000000012', country_code: 'PH', status: 'accepted', source_url: 'https://tracebase.work', checked_at: new Date(Date.now() - 1 * 86400000).toISOString() },
+  { job_id: '10000000-0000-0000-0000-000000000012', country_code: 'DE', status: 'accepted', source_url: 'https://tracebase.work', checked_at: new Date(Date.now() - 1 * 86400000).toISOString() },
 ];
 
 const INITIAL_CHECK_LOGS: CheckLog[] = [
-  { id: 1, job_id: '10000000-0000-0000-0000-000000000001', platform_id: '00000000-0000-0000-0000-000000000001', result: 'verified', note: 'SAMPLE human check: verified application form is active and accepting candidate applications. Pay confirmed at $15-$22.', checked_by: null, checked_at: new Date(Date.now() - 3 * 86400000).toISOString(), daysAgo: 3 },
-  { id: 2, job_id: '10000000-0000-0000-0000-000000000002', platform_id: '00000000-0000-0000-0000-000000000002', result: 'verified', note: 'SAMPLE human check: confirmed TestGorilla pipeline is live for Python benchmark roles.', checked_by: null, checked_at: new Date(Date.now() - 6 * 86400000).toISOString(), daysAgo: 6 },
-  { id: 3, job_id: '10000000-0000-0000-0000-000000000003', platform_id: '00000000-0000-0000-0000-000000000003', result: 'needs_recheck', note: 'SAMPLE automated sweeper: 14 days elapsed since last human verification check.', checked_by: null, checked_at: new Date(Date.now() - 4 * 86400000).toISOString(), daysAgo: 4 },
-  { id: 4, job_id: '10000000-0000-0000-0000-000000000005', platform_id: '00000000-0000-0000-0000-000000000001', result: 'closed', note: 'SAMPLE human check: application link returned 404 and listing removed from career portal.', checked_by: null, checked_at: new Date(Date.now() - 15 * 86400000).toISOString(), daysAgo: 15 },
+  { id: 1, job_id: '10000000-0000-0000-0000-000000000001', platform_id: '00000000-0000-0000-0000-000000000001', result: 'verified', note: 'SAMPLE human check: verified application form is active and accepting candidate applications. Pay confirmed at $15-$22.', checked_by: 'EO', checked_at: new Date(Date.now() - 3 * 86400000).toISOString(), daysAgo: 3 },
+  { id: 2, job_id: '10000000-0000-0000-0000-000000000002', platform_id: '00000000-0000-0000-0000-000000000002', result: 'verified', note: 'SAMPLE human check: confirmed TestGorilla pipeline is live for Python benchmark roles.', checked_by: 'AD', checked_at: new Date(Date.now() - 6 * 86400000).toISOString(), daysAgo: 6 },
+  { id: 3, job_id: '10000000-0000-0000-0000-000000000003', platform_id: '00000000-0000-0000-0000-000000000003', result: 'needs_recheck', note: 'SAMPLE automated sweeper: 14 days elapsed since last human verification check.', checked_by: 'MK', checked_at: new Date(Date.now() - 4 * 86400000).toISOString(), daysAgo: 4 },
+  { id: 4, job_id: '10000000-0000-0000-0000-000000000005', platform_id: '00000000-0000-0000-0000-000000000001', result: 'closed', note: 'SAMPLE human check: application link returned 404 and listing removed from career portal.', checked_by: 'EO', checked_at: new Date(Date.now() - 15 * 86400000).toISOString(), daysAgo: 15 },
 ];
 
 const INITIAL_AUDIT_LOGS: AuditLog[] = [
@@ -633,7 +672,7 @@ const INITIAL_COMMUNITY_REPORTS: CommunityExperienceReport[] = [
 const INITIAL_USERS: User[] = [
   {
     id: 'usr-00000000-0000-0000-0000-000000000001',
-    email: 'contributor@countersign.ai',
+    email: 'contributor@tracebase.ai',
     country_code: 'NG',
     interests: ['RLHF & Alignment', 'Code Verification'],
     consent_marketing: true,
@@ -671,6 +710,30 @@ const INITIAL_EVALUATOR_LEADS: EvaluatorLead[] = [
   },
 ];
 
+const INITIAL_WEEKLY_SCAMS: WeeklyScamPost[] = [
+  {
+    id: 'wscam-sample-1',
+    slug: 'telegram-advance-fee-recruitment-scheme',
+    title: 'Advance fee recruitment scheme impersonating frontier AI research lab [SAMPLE]',
+    reported_date: '12 Oct 2026',
+    message_paraphrased:
+      'Unsolicited WhatsApp outreach claiming to offer remote model evaluation contracts at 45 USD per hour, requesting candidates move to Telegram and pay a mandatory onboarding software licensing fee before task assignment.',
+    warning_signs: [
+      'Unsolicited outreach from personal mobile numbers or free webmail accounts.',
+      'Demanding upfront payment for background checks, equipment, or software licenses.',
+      'Refusal to conduct formal interview steps through official corporate domains.',
+    ],
+    what_to_do: [
+      'Never send funds, cryptocurrency, or gift cards to any recruiter or hiring manager.',
+      'Cross-check company email domains directly against our Official Channels Directory.',
+      'Report the message immediately to our Scam Radar and block the sender.',
+    ],
+    published: true,
+    source_report_id: null,
+    created_at: new Date(Date.now() - 3 * 86400000).toISOString(),
+  },
+];
+
 // Singleton storage state in memory
 class RepositoryStore {
   countries: Country[] = [...INITIAL_COUNTRIES];
@@ -695,9 +758,44 @@ class RepositoryStore {
   sessions: UserSession[] = [];
   communityReports: CommunityExperienceReport[] = [...INITIAL_COMMUNITY_REPORTS];
   evaluatorLeads: EvaluatorLead[] = [...INITIAL_EVALUATOR_LEADS];
+  weeklyScams: WeeklyScamPost[] = [...INITIAL_WEEKLY_SCAMS];
+  settings: {
+    max_live_roles: number;
+    rechecks_paused_until: string | null;
+  } = {
+    max_live_roles: 35,
+    rechecks_paused_until: null,
+  };
 }
 
 const globalStore = new RepositoryStore();
+
+/**
+ * Launch-day state: in production (NODE_ENV === 'production'), seed sample
+ * entries marked [SAMPLE] are hidden unless SHOW_SAMPLE_DATA is explicitly 'true'.
+ */
+export function shouldShowSampleData(): boolean {
+  if (process.env.SHOW_SAMPLE_DATA !== undefined) {
+    return process.env.SHOW_SAMPLE_DATA === 'true';
+  }
+  return process.env.NODE_ENV !== 'production';
+}
+
+export function isSampleJob(job: { is_sample?: boolean; title: string; slug: string; status_info?: { isSample?: boolean } }): boolean {
+  return (
+    Boolean(job.is_sample) ||
+    job.title.includes('[SAMPLE]') ||
+    job.slug.startsWith('sample-') ||
+    Boolean(job.status_info?.isSample)
+  );
+}
+
+export function isSamplePlatform(platform: { name: string; slug: string }): boolean {
+  return (
+    platform.name.includes('[SAMPLE]') ||
+    platform.slug.startsWith('sample-')
+  );
+}
 
 export interface JobFilterParams {
   country?: string;
@@ -712,12 +810,34 @@ export interface JobFilterParams {
   degreeLevel?: string;
   degreeLevels?: string[];
   includeUnconfirmed?: boolean;
+  includeSample?: boolean;
   sort?: 'newest' | 'freshness' | 'pay';
   limit?: number;
   offset?: number;
 }
 
 export const dbRepository = {
+  // Settings
+  getSettings(): { max_live_roles: number; rechecks_paused_until: string | null } {
+    return { ...globalStore.settings };
+  },
+
+  updateSettings(
+    partial: Partial<{ max_live_roles: number; rechecks_paused_until: string | null }>,
+    actorId?: string | null
+  ) {
+    const prev = { ...globalStore.settings };
+    globalStore.settings = { ...globalStore.settings, ...partial };
+    this.logAudit({
+      actor: actorId || null,
+      action: 'settings.update',
+      entity: 'settings',
+      entity_id: 'global',
+      diff: { before: prev, after: globalStore.settings },
+    });
+    return { ...globalStore.settings };
+  },
+
   // Countries
   getCountries(): Country[] {
     return [...globalStore.countries];
@@ -728,16 +848,28 @@ export const dbRepository = {
   },
 
   // Platforms
-  getPlatforms(): Platform[] {
+  getPlatforms(options?: { includeSample?: boolean }): Platform[] {
+    const showSample = options?.includeSample ?? shouldShowSampleData();
+    if (!showSample) {
+      return globalStore.platforms.filter((p) => !isSamplePlatform(p));
+    }
     return [...globalStore.platforms];
   },
 
-  getPlatformById(id: string): Platform | undefined {
-    return globalStore.platforms.find((p) => p.id === id);
+  getPlatformById(id: string, options?: { includeSample?: boolean }): Platform | undefined {
+    const p = globalStore.platforms.find((item) => item.id === id);
+    if (!p) return undefined;
+    const showSample = options?.includeSample ?? shouldShowSampleData();
+    if (!showSample && isSamplePlatform(p)) return undefined;
+    return p;
   },
 
-  getPlatformBySlug(slug: string): Platform | undefined {
-    return globalStore.platforms.find((p) => p.slug === slug);
+  getPlatformBySlug(slug: string, options?: { includeSample?: boolean }): Platform | undefined {
+    const p = globalStore.platforms.find((item) => item.slug === slug);
+    if (!p) return undefined;
+    const showSample = options?.includeSample ?? shouldShowSampleData();
+    if (!showSample && isSamplePlatform(p)) return undefined;
+    return p;
   },
 
   getPlatformSteps(platformId: string): PlatformStep[] {
@@ -785,6 +917,10 @@ export const dbRepository = {
   // Jobs
   getJobs(filters: JobFilterParams = {}): JobWithPlatform[] {
     let result = globalStore.jobs;
+    const showSample = filters.includeSample ?? shouldShowSampleData();
+    if (!showSample) {
+      result = result.filter((j) => !isSampleJob(j));
+    }
 
     // Status filter:
     // If not specified or undefined, default to showing active jobs: 'verified' and 'needs_recheck'
@@ -925,9 +1061,11 @@ export const dbRepository = {
     });
   },
 
-  getJobById(id: string): JobWithPlatform | undefined {
+  getJobById(id: string, options?: { includeSample?: boolean }): JobWithPlatform | undefined {
     const job = globalStore.jobs.find((j) => j.id === id);
     if (!job) return undefined;
+    const showSample = options?.includeSample ?? shouldShowSampleData();
+    if (!showSample && isSampleJob(job)) return undefined;
     const platform = globalStore.platforms.find((p) => p.id === job.platform_id) || {
       id: job.platform_id,
       slug: 'unknown',
@@ -947,10 +1085,12 @@ export const dbRepository = {
     return { ...job, daysAgo, platform, eligibility };
   },
 
-  getJobBySlug(slug: string): JobWithPlatform | undefined {
+  getJobBySlug(slug: string, options?: { includeSample?: boolean }): JobWithPlatform | undefined {
     const job = globalStore.jobs.find((j) => j.slug === slug);
     if (!job) return undefined;
-    return this.getJobById(job.id);
+    const showSample = options?.includeSample ?? shouldShowSampleData();
+    if (!showSample && isSampleJob(job)) return undefined;
+    return this.getJobById(job.id, { includeSample: true });
   },
 
   createJob(
@@ -1049,6 +1189,11 @@ export const dbRepository = {
     };
     globalStore.jobs[idx] = updated;
 
+    const checkerInitials =
+      actorId && actorId.length <= 4 && /^[A-Z0-9]+$/i.test(actorId)
+        ? actorId.toUpperCase()
+        : 'CO';
+
     // Write check log
     globalStore.checkLogs.unshift({
       id: globalStore.checkLogs.length + 1,
@@ -1056,7 +1201,7 @@ export const dbRepository = {
       platform_id: updated.platform_id,
       result: 'verified',
       note: note.trim() || 'Human verification confirmed active and accurate',
-      checked_by: actorId || null,
+      checked_by: checkerInitials,
       checked_at: nowIso,
     });
 
@@ -1089,13 +1234,18 @@ export const dbRepository = {
     };
     globalStore.jobs[idx] = updated;
 
+    const checkerInitials =
+      actorId && actorId.length <= 4 && /^[A-Z0-9]+$/i.test(actorId)
+        ? actorId.toUpperCase()
+        : 'CO';
+
     globalStore.checkLogs.unshift({
       id: globalStore.checkLogs.length + 1,
       job_id: jobId,
       platform_id: updated.platform_id,
       result: 'closed',
       note: reason.trim() || 'Role marked closed by admin',
-      checked_by: actorId || null,
+      checked_by: checkerInitials,
       checked_at: nowIso,
     });
 
@@ -1233,10 +1383,14 @@ export const dbRepository = {
     return globalStore.auditLogs.slice(0, limit);
   },
 
-  getCheckLogs(jobId?: string, limit: number = 50): CheckLog[] {
-    const logs = jobId
+  getCheckLogs(jobId?: string, limit: number = 50, options?: { includeSample?: boolean }): CheckLog[] {
+    const showSample = options?.includeSample ?? shouldShowSampleData();
+    let logs = jobId
       ? globalStore.checkLogs.filter((c) => c.job_id === jobId)
       : globalStore.checkLogs;
+    if (!showSample) {
+      logs = logs.filter((l) => !l.note.includes('SAMPLE') && !l.note.includes('[SAMPLE]'));
+    }
     return logs.slice(0, limit);
   },
 
@@ -1300,6 +1454,7 @@ export const dbRepository = {
     kind: PrivacyRequestKind;
     contact_email: string;
     note?: string | null;
+    country_code?: string | null;
   }): PrivacyRequest {
     const nowIso = new Date().toISOString();
     // 30 days statutory response window per NDPA 2023
@@ -1312,6 +1467,7 @@ export const dbRepository = {
       due_at: dueIso,
       closed_at: null,
       note: data.note ? data.note.trim() : null,
+      country_code: data.country_code ? data.country_code.trim().toUpperCase() : null,
     };
 
     globalStore.privacyRequests.unshift(req);
@@ -1321,7 +1477,7 @@ export const dbRepository = {
       action: 'privacy_request.create',
       entity: 'privacy_requests',
       entity_id: req.id,
-      diff: { kind: req.kind, email: req.contact_email, due_at: req.due_at },
+      diff: { kind: req.kind, email: req.contact_email, due_at: req.due_at, country_code: req.country_code },
     });
 
     return req;
@@ -1354,6 +1510,9 @@ export const dbRepository = {
     const closedJobs = jobs.filter((j) => j.status === 'closed').length;
     const activeAudits = verifiedJobs + needsRecheckJobs;
     const complianceRate = activeAudits > 0 ? Math.round((verifiedJobs / activeAudits) * 100) : 100;
+    const maxLiveRoles = this.getMaxLiveRoles();
+    const activeJobs = activeAudits;
+    const recheckCapacityWarning = activeJobs > maxLiveRoles;
 
     return {
       totalJobs: jobs.length,
@@ -1368,7 +1527,33 @@ export const dbRepository = {
       totalLeads: globalStore.evalLeads.length,
       pendingCommunityReports: globalStore.communityReports.filter((r) => r.status === 'pending').length,
       evaluatorApplications: globalStore.evaluatorLeads.length,
+      maxLiveRoles,
+      activeJobs,
+      recheckCapacityWarning,
     };
+  },
+
+  getMaxLiveRoles(): number {
+    return globalStore.settings?.max_live_roles ?? 35;
+  },
+
+  setMaxLiveRoles(limit: number, actorId?: string | null): number {
+    const parsed = Math.max(1, Math.min(200, Math.floor(limit)));
+    if (!globalStore.settings) {
+      globalStore.settings = { max_live_roles: 35, rechecks_paused_until: null };
+    }
+    const previous = globalStore.settings.max_live_roles;
+    globalStore.settings.max_live_roles = parsed;
+
+    this.logAudit({
+      actor: actorId || null,
+      action: 'settings.update_max_live_roles',
+      entity: 'settings',
+      entity_id: 'max_live_roles',
+      diff: { previous, updated: parsed },
+    });
+
+    return parsed;
   },
 
   getRecheckQueue(): JobWithPlatform[] {
@@ -1378,7 +1563,12 @@ export const dbRepository = {
         if (j.status === 'verified' && (j.daysAgo ?? 0) >= 10) return true;
         return false;
       })
-      .sort((a, b) => (b.daysAgo ?? 0) - (a.daysAgo ?? 0));
+      .sort((a, b) => {
+        // Sort strictly by due date: most overdue (earliest last_checked_at) first
+        const dueA = a.last_checked_at ? new Date(a.last_checked_at).getTime() : 0;
+        const dueB = b.last_checked_at ? new Date(b.last_checked_at).getTime() : 0;
+        return dueA - dueB;
+      });
   },
 
   getActiveIncidentRemainingHours(): number | null {
@@ -1437,6 +1627,85 @@ export const dbRepository = {
 
   getReports(): Report[] {
     return [...globalStore.reports];
+  },
+
+  updateReportStatus(id: string, status: ReportStatus, moderationNotes?: string): boolean {
+    const report = globalStore.reports.find((r) => r.id === id);
+    if (!report) return false;
+    report.status = status;
+    if (moderationNotes) {
+      report.moderation_notes = moderationNotes;
+    }
+    this.logAudit({
+      actor: null,
+      action: 'report.moderate',
+      entity: 'reports',
+      entity_id: id,
+      diff: { status, moderation_notes: moderationNotes },
+    });
+    return true;
+  },
+
+  // Scams We Saw This Week (Part 3.4)
+  getWeeklyScams(includeDrafts = false): WeeklyScamPost[] {
+    if (includeDrafts) {
+      return [...globalStore.weeklyScams];
+    }
+    return globalStore.weeklyScams.filter((s) => s.published);
+  },
+
+  getWeeklyScamBySlug(slug: string): WeeklyScamPost | undefined {
+    return globalStore.weeklyScams.find((s) => s.slug === slug);
+  },
+
+  createWeeklyScam(data: {
+    title: string;
+    slug?: string;
+    reported_date: string;
+    message_paraphrased: string;
+    warning_signs: string[];
+    what_to_do: string[];
+    published?: boolean;
+    source_report_id?: string | null;
+  }): WeeklyScamPost {
+    const baseSlug =
+      data.slug ||
+      data.title
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-|-$/g, '');
+
+    const post: WeeklyScamPost = {
+      id: `wscam-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+      slug: baseSlug,
+      title: data.title,
+      reported_date: data.reported_date,
+      message_paraphrased: data.message_paraphrased,
+      warning_signs: data.warning_signs,
+      what_to_do: data.what_to_do,
+      published: data.published ?? true,
+      source_report_id: data.source_report_id || null,
+      created_at: new Date().toISOString(),
+    };
+
+    globalStore.weeklyScams.unshift(post);
+
+    this.logAudit({
+      actor: null,
+      action: 'weekly_scam.publish',
+      entity: 'weekly_scams',
+      entity_id: post.id,
+      diff: { title: post.title, slug: post.slug, published: post.published },
+    });
+
+    return post;
+  },
+
+  publishWeeklyScam(id: string): boolean {
+    const post = globalStore.weeklyScams.find((s) => s.id === id);
+    if (!post) return false;
+    post.published = true;
+    return true;
   },
 
   // Evaluation Studio Leads (Master Plan Section 7.9c & 13)
@@ -1681,10 +1950,17 @@ export const dbRepository = {
     return entry;
   },
 
-  getAnalyticsStats() {
-    const events = globalStore.analyticsEvents;
-    const directClicks = globalStore.outboundClicks.filter((c) => c.link === 'direct').length;
-    const referralClicks = globalStore.outboundClicks.filter((c) => c.link === 'referral').length;
+  getAnalyticsStats(days: number = 7) {
+    const cutoffMs = Date.now() - days * 86400000;
+    const events = globalStore.analyticsEvents.filter(
+      (e) => !e.timestamp || new Date(e.timestamp).getTime() >= cutoffMs
+    );
+    const directClicks = globalStore.outboundClicks.filter(
+      (c) => c.link === 'direct' && (!c.clicked_on || new Date(c.clicked_on).getTime() >= cutoffMs)
+    ).length;
+    const referralClicks = globalStore.outboundClicks.filter(
+      (c) => c.link === 'referral' && (!c.clicked_on || new Date(c.clicked_on).getTime() >= cutoffMs)
+    ).length;
 
     const eventCounts: Record<string, number> = {};
     const countryCounts: Record<string, number> = {};
@@ -1751,12 +2027,12 @@ export const dbRepository = {
       id: `digest-${Date.now()}`,
       issueNumber: 1,
       weekStarting: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-      subject: `Countersign Weekly AI Work Digest: ${freshJobs.length} Verified Roles Fresh`,
+      subject: `TraceBase Weekly AI Work Digest: ${freshJobs.length} Verified Roles Fresh`,
       previewText: `New human-checked evaluation roles across Outlier, Alignerr, Mercor, and Invisible. Zero em dashes, zero fake pay.`,
       featuredGuide: {
         title: 'How to Tell If an AI Work Listing Is Real',
         slug: 'how-to-tell-if-an-ai-work-listing-is-real',
-        summary: 'A 5-step forensic test to evaluate whether remote AI training listings are legitimate before handing over personal credentials.',
+        summary: 'A 5-step verification test to evaluate whether remote AI training listings are legitimate before handing over personal credentials.',
       },
       rolesByCountry: [
         {
@@ -1776,23 +2052,24 @@ export const dbRepository = {
       created_at: new Date().toISOString(),
     };
 
-    draft.markdownContent = `# Countersign Weekly Digest (Issue #${draft.issueNumber})\n\nWeek of ${draft.weekStarting}\n\n## 1. Verified Roles Fresh This Week\n` +
-      draft.rolesByCountry.map(c => `### [${c.flag}] ${c.country}\n` + c.roles.map(r => `- **${r.title}** (${r.platform}) : ${r.payText}\n  https://countersign.ai/jobs/${r.slug}`).join('\n')).join('\n\n') +
-      `\n\n## 2. Practical Guide of the Week\n**${draft.featuredGuide.title}**\n${draft.featuredGuide.summary}\nhttps://countersign.ai/guides/${draft.featuredGuide.slug}\n\n## 3. Scam Radar\n${draft.scamRadarNote}\n\n---\nCountersign : Human-Checked AI Work Hub : Unsubscribe anytime`;
+    const siteUrl = getSiteUrl();
+    draft.markdownContent = `# TraceBase Weekly Digest (Issue #${draft.issueNumber})\n\nWeek of ${draft.weekStarting}\n\n## 1. Verified Roles Fresh This Week\n` +
+      draft.rolesByCountry.map(c => `### [${c.flag}] ${c.country}\n` + c.roles.map(r => `- **${r.title}** (${r.platform}) : ${r.payText}\n  ${siteUrl}/jobs/${r.slug}`).join('\n')).join('\n\n') +
+      `\n\n## 2. Practical Guide of the Week\n**${draft.featuredGuide.title}**\n${draft.featuredGuide.summary}\n${siteUrl}/guides/${draft.featuredGuide.slug}\n\n## 3. Scam Radar\n${draft.scamRadarNote}\n\n---\nTraceBase : Human-Checked AI Work Hub : Unsubscribe anytime`;
 
     draft.htmlContent = `<!DOCTYPE html><html><body style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: #111;">
-<h2>Countersign Weekly Digest #${draft.issueNumber}</h2>
+<h2>TraceBase Weekly Digest #${draft.issueNumber}</h2>
 <p style="color: #666; font-size: 14px;">Week of ${draft.weekStarting}</p>
 <hr style="border: 0; border-top: 1px solid #eee;" />
 <h3>1. Verified Roles Fresh This Week</h3>
-${draft.rolesByCountry.map(c => `<h4>[${c.flag}] ${c.country}</h4><ul>${c.roles.map(r => `<li><strong><a href="https://countersign.ai/jobs/${r.slug}">${r.title}</a></strong> (${r.platform}) &bull; ${r.payText}</li>`).join('')}</ul>`).join('')}
+${draft.rolesByCountry.map(c => `<h4>[${c.flag}] ${c.country}</h4><ul>${c.roles.map(r => `<li><strong><a href="${siteUrl}/jobs/${r.slug}">${r.title}</a></strong> (${r.platform}) &bull; ${r.payText}</li>`).join('')}</ul>`).join('')}
 <hr style="border: 0; border-top: 1px solid #eee;" />
 <h3>2. Guide of the Week</h3>
-<p><strong><a href="https://countersign.ai/guides/${draft.featuredGuide.slug}">${draft.featuredGuide.title}</a></strong><br/>${draft.featuredGuide.summary}</p>
+<p><strong><a href="${siteUrl}/guides/${draft.featuredGuide.slug}">${draft.featuredGuide.title}</a></strong><br/>${draft.featuredGuide.summary}</p>
 <hr style="border: 0; border-top: 1px solid #eee;" />
 <h3>3. Scam Radar Advisory</h3>
 <p style="font-size: 13px; color: #b45309; background: #fffbeb; padding: 12px; border-radius: 8px;">${draft.scamRadarNote}</p>
-<p style="font-size: 11px; color: #888; text-align: center; margin-top: 30px;">Countersign &bull; Human-Checked AI Work Hub<br/><a href="https://countersign.ai/newsletter/unsubscribe">Unsubscribe</a> anytime in one click. Protected under NDPA 2023.</p>
+<p style="font-size: 11px; color: #888; text-align: center; margin-top: 30px;">TraceBase &bull; Human-Checked AI Work Hub<br/><a href="${siteUrl}/newsletter/unsubscribe">Unsubscribe</a> anytime in one click. Protected under NDPA 2023.</p>
 </body></html>`;
 
     return draft;
@@ -2104,7 +2381,7 @@ ${draft.rolesByCountry.map(c => `<h4>[${c.flag}] ${c.country}</h4><ul>${c.roles.
     report.moderation_notes = moderation_notes || null;
 
     this.logAudit({
-      actor: 'jo@countersign.ai',
+      actor: 'jo@tracebase.ai',
       action: `report.community_experience_${status}`,
       entity: 'community_reports',
       entity_id: id,
@@ -2133,6 +2410,11 @@ ${draft.rolesByCountry.map(c => `<h4>[${c.flag}] ${c.country}</h4><ul>${c.roles.
         tasks_intermittent_percent: 0,
         tasks_empty_queue_percent: 0,
         removed_without_explanation_percent: 0,
+        onboarding_paid_count: 0,
+        tasks_regular_count: 0,
+        tasks_intermittent_count: 0,
+        tasks_empty_queue_count: 0,
+        removed_without_explanation_count: 0,
         earliest_period: approved[approved.length - 1]?.period_month_year || null,
         latest_period: approved[0]?.period_month_year || null,
       };
@@ -2153,6 +2435,11 @@ ${draft.rolesByCountry.map(c => `<h4>[${c.flag}] ${c.country}</h4><ul>${c.roles.
       tasks_intermittent_percent: Math.round((tasksIntermittentCount / sampleSize) * 100),
       tasks_empty_queue_percent: Math.round((tasksEmptyQueueCount / sampleSize) * 100),
       removed_without_explanation_percent: Math.round((removedCount / sampleSize) * 100),
+      onboarding_paid_count: onboardingPaidCount,
+      tasks_regular_count: tasksRegularCount,
+      tasks_intermittent_count: tasksIntermittentCount,
+      tasks_empty_queue_count: tasksEmptyQueueCount,
+      removed_without_explanation_count: removedCount,
       earliest_period: approved[approved.length - 1]?.period_month_year || null,
       latest_period: approved[0]?.period_month_year || null,
     };

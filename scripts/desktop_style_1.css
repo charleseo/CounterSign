@@ -1,0 +1,59 @@
+
+body{margin:0;background:#F5F6F8}
+a{color:#121826}a:hover{color:#5A35C8}
+:focus-visible{outline:3px solid #5A35C8;outline-offset:3px;border-radius:4px}
+
+/* Glass, used in four places only: header, reading ruler, AI-teams finding, phone action bar */
+.cs-glass-head{background:rgba(245,246,248,.74);-webkit-backdrop-filter:blur(16px) saturate(160%);backdrop-filter:blur(16px) saturate(160%);border-bottom:1px solid rgba(18,24,38,.08)}
+.cs-glass-dark{background:rgba(255,255,255,.07);-webkit-backdrop-filter:blur(18px) saturate(140%);backdrop-filter:blur(18px) saturate(140%);border:1px solid rgba(255,255,255,.16);box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 40px 80px -40px rgba(0,0,0,.7)}
+@supports not ((backdrop-filter:blur(2px)) or (-webkit-backdrop-filter:blur(2px))){.cs-glass-head{background:#F5F6F8}.cs-glass-dark{background:#1C2334}}
+
+/* Hero sequence: source page, record, reading ruler, ticks, signature, stamp */
+.cs-src{transform:rotate(3deg);animation:cs-src .8s cubic-bezier(.2,.8,.2,1) .1s both}
+@keyframes cs-src{from{opacity:0;transform:translate(28px,-10px) rotate(5deg)}to{opacity:1;transform:rotate(3deg)}}
+.cs-sheet{animation:cs-sheet .8s cubic-bezier(.2,.8,.2,1) .3s both}
+@keyframes cs-sheet{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+.cs-ruler{position:absolute;left:-14px;right:-14px;height:25%;top:0;border-radius:6px;background:rgba(90,53,200,.07);-webkit-backdrop-filter:saturate(170%) brightness(1.04);backdrop-filter:saturate(170%) brightness(1.04);border-top:1.5px solid rgba(90,53,200,.55);border-bottom:1.5px solid rgba(90,53,200,.55);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 8px 24px -12px rgba(90,53,200,.45);pointer-events:none;animation:cs-ruler 2s cubic-bezier(.65,0,.25,1) .8s both}
+@keyframes cs-ruler{0%{top:0;opacity:0}8%{top:0;opacity:1}18%{top:0}28%{top:25%}43%{top:25%}53%{top:50%}68%{top:50%}78%{top:75%}92%{top:75%;opacity:1}100%{top:75%;opacity:0}}
+.cs-tick{opacity:0;transform:scale(.4);animation:cs-tick .35s cubic-bezier(.2,1.6,.4,1) both}
+@keyframes cs-tick{to{opacity:1;transform:scale(1)}}
+.cs-t1{animation-delay:1.05s}.cs-t2{animation-delay:1.4s}.cs-t3{animation-delay:1.85s}.cs-t4{animation-delay:2.3s}
+.cs-sig{stroke-dasharray:420;stroke-dashoffset:420;animation:cs-sig .9s cubic-bezier(.5,0,.3,1) 2.75s forwards}
+@keyframes cs-sig{to{stroke-dashoffset:0}}
+.cs-stamp{transform:rotate(-9deg);animation:cs-land .6s cubic-bezier(.2,.8,.2,1) 3.4s both}
+@keyframes cs-land{0%{opacity:0;transform:rotate(-9deg) scale(1.45)}55%{opacity:1;transform:rotate(-9deg) scale(.94)}100%{opacity:1;transform:rotate(-9deg) scale(1)}}
+.cs-sheet-shadow{animation:cs-thud .5s ease-out 3.65s both}
+@keyframes cs-thud{0%{transform:none}30%{transform:translateY(2px)}100%{transform:none}}
+
+/* Ledger */
+.cs-row{display:grid;grid-template-columns:minmax(0,2.4fr) minmax(0,1.3fr) minmax(0,1.1fr) minmax(0,.9fr);gap:24px;align-items:center;transition:background-color .2s ease}
+.cs-row-link:hover{background:#F7F5FD}
+.cs-mini{opacity:0;transform:rotate(-30deg) scale(.6);transition:opacity .25s ease,transform .35s cubic-bezier(.2,1.5,.4,1)}
+.cs-row-link:hover .cs-mini,.cs-row-link:focus-visible .cs-mini{opacity:1;transform:rotate(-9deg) scale(1)}
+.cs-chip{transition:background-color .2s ease,color .2s ease,border-color .2s ease}
+@media (max-width:760px){.cs-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr);row-gap:6px}.cs-head{display:none}}
+
+/* Buttons: press feel */
+.cs-btn{transition:transform .12s ease,box-shadow .2s ease,background-color .2s ease}
+.cs-btn:hover{box-shadow:0 10px 24px -12px rgba(90,53,200,.7)}
+.cs-btn:active{transform:translateY(1px)}
+
+/* Scam check */
+.cs-seg{transition:background-color .35s ease}
+.cs-verdict{transition:border-color .3s ease,background-color .3s ease}
+
+/* Scroll-driven, where supported: signing line and red stamp */
+.cs-line{transform-origin:left center}
+.cs-red{transform:rotate(-6deg)}
+@supports (animation-timeline: view()){
+.cs-line{animation:cs-grow linear both;animation-timeline:view();animation-range:entry 10% cover 45%}
+@keyframes cs-grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.cs-red{animation:cs-press linear both;animation-timeline:view();animation-range:entry 30% cover 50%}
+@keyframes cs-press{0%{opacity:0;transform:rotate(-6deg) scale(1.5)}70%{opacity:1;transform:rotate(-6deg) scale(.96)}100%{opacity:1;transform:rotate(-6deg) scale(1)}}
+}
+
+@media (prefers-reduced-motion: reduce){
+.cs-src,.cs-sheet,.cs-ruler,.cs-tick,.cs-sig,.cs-stamp,.cs-sheet-shadow,.cs-line,.cs-red{animation:none!important}
+.cs-ruler{display:none}.cs-tick{opacity:1;transform:none}.cs-sig{stroke-dashoffset:0}
+.cs-btn,.cs-mini,.cs-seg,.cs-row{transition:none}
+}

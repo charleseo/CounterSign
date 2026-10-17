@@ -91,8 +91,8 @@ export function ComparisonPanel({
             aria-labelledby="tab-prompt"
             className="space-y-2 animate-in fade-in duration-100"
           >
-            <span className="text-[11px] text-secondary uppercase tracking-wider block">
-              Evaluator Instruction & User Prompt:
+            <span className="text-[11px] font-medium text-secondary block">
+              Evaluator instruction and user prompt:
             </span>
             <p className="text-primary font-sans">{promptText}</p>
           </div>
@@ -105,8 +105,8 @@ export function ComparisonPanel({
             aria-labelledby="tab-answer"
             className="space-y-2 animate-in fade-in duration-100"
           >
-            <span className="text-[11px] text-secondary uppercase tracking-wider block">
-              AI Generation Output:
+            <span className="text-[11px] font-medium text-secondary block">
+              AI model output:
             </span>
             <p className="text-readable font-sans">{answerText}</p>
           </div>
@@ -119,8 +119,8 @@ export function ComparisonPanel({
             aria-labelledby="tab-source"
             className="space-y-2 animate-in fade-in duration-100"
           >
-            <span className="text-[11px] text-secondary uppercase tracking-wider block">
-              Reference Document (Ground-Truth Excerpt):
+            <span className="text-[11px] font-medium text-secondary block">
+              Reference document (source excerpt):
             </span>
             <p className="text-readable font-sans">{sourceText}</p>
           </div>
@@ -133,8 +133,8 @@ export function ComparisonPanel({
             aria-labelledby="tab-verdict"
             className="space-y-2 animate-in fade-in duration-100"
           >
-            <span className="text-[11px] text-secondary uppercase tracking-wider block">
-              Human Evaluation Verdict & Annotation Rationale:
+            <span className="text-[11px] font-medium text-secondary block">
+              Evaluation verdict and notes:
             </span>
             <p className="text-primary font-sans">{verdictText}</p>
           </div>
@@ -143,7 +143,7 @@ export function ComparisonPanel({
 
       <div className="text-[11px] font-mono text-secondary flex items-center justify-between">
         <span>Use &larr; / &rarr; keys to switch tabs</span>
-        <span>Audited against immutable rubric</span>
+        <span>Audited against standard rubric</span>
       </div>
     </div>
   );

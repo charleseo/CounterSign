@@ -13,8 +13,8 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Confirm Subscription | Countersign Weekly Digest',
-  description: 'Double opt-in confirmation for Countersign human-verified AI work digest.',
+  title: 'Confirm Subscription | TraceBase Weekly Digest',
+  description: 'Double opt-in confirmation for TraceBase human-verified AI work digest.',
   robots: {
     index: false,
     follow: false,
@@ -129,7 +129,7 @@ async function ConfirmationHandler({
 
         <div className="space-y-3 text-xs sm:text-sm text-[var(--color-text)] leading-relaxed font-sans">
           <div className="font-semibold text-sm">
-            Subject: Welcome to Countersign • How we check every listing
+            Subject: Welcome to TraceBase • How we check every listing
           </div>
 
           <p className="text-xs text-[var(--color-muted)]">
@@ -137,12 +137,12 @@ async function ConfirmationHandler({
           </p>
 
           <p className="text-xs text-[var(--color-muted)] leading-relaxed">
-            Thank you for subscribing to Countersign. We built this hub because remote AI evaluation listings are flooded with unverified brokers, closed roles, and unrealistic pay claims.
+            Thank you for subscribing to TraceBase. We built this hub because remote AI evaluation listings are flooded with unverified brokers, closed roles, and unrealistic pay claims.
           </p>
 
           <div className="p-4 rounded-xl bg-[var(--color-bg)] border border-[var(--color-border)] space-y-2 text-xs">
-            <div className="font-mono font-semibold text-[var(--color-text)] text-[11px] uppercase tracking-wider">
-              Our 3 Rules For Every Email We Send:
+            <div className="font-mono font-semibold text-[var(--color-text)] text-[11px]">
+              Our 3 rules for every email we send:
             </div>
             <ul className="space-y-1.5 text-[var(--color-muted)]">
               <li>1. <strong>Human-checked within 14 days:</strong> If we haven&apos;t verified an open role in the last 14 days, it never appears in the digest.</li>
@@ -152,7 +152,7 @@ async function ConfirmationHandler({
           </div>
 
           <p className="text-[11px] text-[var(--color-muted)] pt-2 border-t border-[var(--color-border)] flex items-center justify-between">
-            <span>Countersign • Independent Human-Verified AI Work Hub</span>
+            <span>TraceBase • Independent Human-Verified AI Work Hub</span>
             <Link
               href={`/newsletter/unsubscribe?token=${encodeURIComponent(token)}`}
               className="text-rose-400 hover:underline"
@@ -172,7 +172,7 @@ export default function ConfirmNewsletterPage({ searchParams }: ConfirmPageProps
       <div className="max-w-2xl mx-auto space-y-6">
         <div className="flex items-center gap-2 text-xs font-mono text-[var(--color-muted)]">
           <ShieldCheck className="w-4 h-4 text-[var(--color-accent)]" />
-          <span>Countersign • Double Opt-in Verification</span>
+          <span>TraceBase • Double Opt-in Verification</span>
         </div>
 
         <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[var(--color-text)]">

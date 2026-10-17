@@ -29,9 +29,9 @@ export const SAMPLE_AUDIT_METADATA = {
   leadEvaluator: 'Jo (Ebube) Okeke',
   title: 'Technical Documentation RAG & Citation Accuracy Benchmark',
   summary:
-    'A 5-case empirical evaluation auditing frontier model outputs against authoritative developer documentation across PostgreSQL, Stripe, Next.js, AWS Bedrock, and Tailwind CSS. Demonstrates hallucination modes, negative-constraint failures, and citation drift.',
+    'A 5-case illustrative evaluation benchmark demonstrating our rubric against authoritative developer documentation across PostgreSQL, Stripe, Next.js, AWS Bedrock, and Tailwind CSS. Demonstrates hallucination modes, negative-constraint failures, and citation drift.',
   limitations:
-    'These five audited cases are a qualitative demonstration of our evaluation rubric and root-cause diagnostic method. They demonstrate specific failure modes and do not constitute a comprehensive statistical measurement of overall model capabilities across diverse domains.',
+    'These five audited cases are an illustrative demonstration of our evaluation rubric and root-cause diagnostic method. They demonstrate specific failure modes and do not constitute a comprehensive statistical measurement of overall model capabilities across diverse domains.',
 };
 
 export const SAMPLE_AUDIT_CASES: AuditCase[] = [

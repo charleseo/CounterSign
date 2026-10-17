@@ -41,7 +41,7 @@ export function UnsubscribeForm({ initialIdentifier = '' }: UnsubscribeFormProps
             href="/"
             className="px-4 py-2 rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] text-xs font-semibold text-[var(--color-text)] hover:border-[var(--color-accent)] inline-flex items-center gap-1.5 transition-colors"
           >
-            <span>Return to Countersign</span>
+            <span>Return to TraceBase</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>

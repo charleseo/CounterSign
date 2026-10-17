@@ -1,6 +1,7 @@
 import { ImageResponse } from 'next/og';
+import { getSiteHost } from '@/lib/utils/siteUrl';
 
-export const alt = 'Countersign | Human-Verified AI Work Hub & Model Evaluation Studio';
+export const alt = 'TraceBase | Human-Verified AI Work Hub & Model Evaluation Studio';
 export const size = {
   width: 1200,
   height: 630,
@@ -64,18 +65,17 @@ export default function Image() {
                   color: '#ffffff',
                 }}
               >
-                COUNTERSIGN
+                TraceBase
               </span>
               <span
                 style={{
                   fontSize: '12px',
                   fontFamily: 'monospace',
                   color: '#00f2fe',
-                  letterSpacing: '0.15em',
-                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em',
                 }}
               >
-                Independent Verification Hub
+                Independent verification hub
               </span>
             </div>
           </div>
@@ -192,7 +192,7 @@ export default function Image() {
               color: '#64748b',
             }}
           >
-            countersign.ai
+            {getSiteHost()}
           </span>
         </div>
       </div>

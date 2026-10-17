@@ -93,7 +93,7 @@ export function TruthStrip({
             >
               <div className="flex items-center gap-1.5 text-secondary mb-1">
                 <Icon size={13} className="text-secondary flex-shrink-0" aria-hidden="true" />
-                <span className="text-[10px] font-mono font-semibold tracking-wider uppercase text-secondary">
+                <span className="text-[10px] font-mono font-semibold text-secondary">
                   {cell.label}
                 </span>
               </div>

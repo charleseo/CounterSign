@@ -28,6 +28,7 @@ export async function submitPrivacyRequestAction(
     const raw = {
       kind: formData.get('kind'),
       contact_email: formData.get('contact_email'),
+      country_code: formData.get('country_code') || undefined,
       note: formData.get('note') || undefined,
       honeypot: formData.get('website') || undefined, // Honeypot field
     };
@@ -57,6 +58,7 @@ export async function submitPrivacyRequestAction(
     const request = dbRepository.createPrivacyRequest({
       kind: parsed.data.kind as PrivacyRequestKind,
       contact_email: parsed.data.contact_email,
+      country_code: parsed.data.country_code,
       note: parsed.data.note,
     });
 

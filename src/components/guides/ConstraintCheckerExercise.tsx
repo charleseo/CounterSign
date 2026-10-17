@@ -56,7 +56,7 @@ export function ConstraintCheckerExercise({ exercise }: ConstraintCheckerExercis
             Interactive Practice Exercise
           </span>
           <span className="text-[11px] font-mono text-secondary">
-            Section 7.7 Live Constraint Checker
+            Live Constraint Checker
           </span>
         </div>
         <h3 className="text-base sm:text-lg font-bold text-primary">
@@ -69,8 +69,8 @@ export function ConstraintCheckerExercise({ exercise }: ConstraintCheckerExercis
 
       {/* The Prompt / Question */}
       <div className="rounded-lg border border-subtle bg-void p-4 space-y-2 font-mono text-xs">
-        <div className="text-accent-cyan font-semibold uppercase tracking-wider">
-          Task Prompt:
+        <div className="text-accent-cyan font-semibold">
+          Task prompt:
         </div>
         <div className="text-readable whitespace-pre-wrap leading-relaxed">
           {exercise.prompt}
@@ -79,7 +79,7 @@ export function ConstraintCheckerExercise({ exercise }: ConstraintCheckerExercis
 
       {/* Option Choices */}
       <div className="space-y-3">
-        <label className="text-xs font-mono font-semibold text-secondary uppercase tracking-wider block">
+        <label className="text-xs font-mono font-semibold text-secondary block">
           Step 1: Select your preferred response
         </label>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -142,7 +142,7 @@ export function ConstraintCheckerExercise({ exercise }: ConstraintCheckerExercis
         <div className="flex flex-wrap items-center justify-between gap-2">
           <label
             htmlFor={`rationale-${exercise.id}`}
-            className="text-xs font-mono font-semibold text-secondary uppercase tracking-wider"
+            className="text-xs font-mono font-semibold text-secondary"
           >
             Step 2: Write your rationale
           </label>
@@ -200,9 +200,9 @@ export function ConstraintCheckerExercise({ exercise }: ConstraintCheckerExercis
           type="button"
           onClick={() => setSubmitted(true)}
           disabled={!selectedOption || stats.sentences === 0}
-          className="w-full sm:w-auto px-5 py-2.5 rounded-lg border border-accent-cyan/30 bg-accent-cyan text-void font-mono font-bold text-xs uppercase tracking-wider hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+          className="w-full sm:w-auto px-5 py-2.5 rounded-lg border border-accent-cyan/30 bg-accent-cyan text-void font-mono font-bold text-xs hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
         >
-          {submitted ? 'Compare with Model Answer' : 'Submit Practice Exercise'}
+          {submitted ? 'Compare with model answer' : 'Submit practice exercise'}
         </button>
       </div>
 
@@ -232,8 +232,8 @@ export function ConstraintCheckerExercise({ exercise }: ConstraintCheckerExercis
           </div>
 
           <div className="p-3 rounded-lg border border-subtle bg-surface space-y-1">
-            <div className="font-mono text-[11px] font-semibold text-accent-cyan uppercase tracking-wider">
-              Key Audit Principle
+            <div className="font-mono text-[11px] font-semibold text-accent-cyan">
+              Key audit principle
             </div>
             <p className="text-readable text-[11px]">
               {exercise.modelAnswer.keyAuditPrinciple}

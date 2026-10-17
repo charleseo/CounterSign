@@ -12,6 +12,8 @@ const EvaluatorApplicationSchema = z.object({
   years_experience: z.string().min(1, "Please specify your years of experience."),
   portfolio_url: z.string().url("Please provide a valid URL.").optional().or(z.literal("")),
   weekly_hours: z.string().min(1, "Please specify your weekly availability."),
+  certificate_id: z.string().optional().or(z.literal("")),
+  job_slug: z.string().optional().or(z.literal("")),
   honeypot: z.string().max(0, "Bot detected.").optional(),
 });
 
@@ -33,12 +35,14 @@ export async function submitEvaluatorApplicationAction(
   const raw = {
     name: formData.get("name") as string,
     email: formData.get("email") as string,
-    country_code: formData.get("country_code") as string,
-    domain: formData.get("domain") as string,
-    credentials: formData.get("credentials") as string,
-    years_experience: formData.get("years_experience") as string,
+    country_code: (formData.get("country_code") as string) || "NG",
+    domain: (formData.get("domain") as string) || "General Evaluation",
+    credentials: (formData.get("credentials") as string) || "Degree / Equivalent",
+    years_experience: (formData.get("years_experience") as string) || "1-3 years",
     portfolio_url: (formData.get("portfolio_url") as string) || "",
-    weekly_hours: formData.get("weekly_hours") as string,
+    weekly_hours: (formData.get("weekly_hours") as string) || "20",
+    certificate_id: (formData.get("certificate_id") as string) || "",
+    job_slug: (formData.get("job_slug") as string) || "",
   };
 
   const parsed = EvaluatorApplicationSchema.safeParse(raw);
@@ -53,7 +57,9 @@ export async function submitEvaluatorApplicationAction(
     name: parsed.data.name,
     email: parsed.data.email,
     country_code: parsed.data.country_code,
-    domain: parsed.data.domain,
+    domain: parsed.data.certificate_id
+      ? `${parsed.data.domain} [Cert: ${parsed.data.certificate_id}]`
+      : parsed.data.domain,
     credentials: parsed.data.credentials,
     years_experience: parsed.data.years_experience,
     portfolio_url: parsed.data.portfolio_url || null,
@@ -62,7 +68,7 @@ export async function submitEvaluatorApplicationAction(
 
   return {
     success: true,
-    message: "Thank you for joining our specialist evaluation network.",
+    message: "Thank you for applying. Your application has been logged for review.",
     referenceId: lead.id,
   };
 }

@@ -11,6 +11,7 @@ import {
   Lock,
 } from 'lucide-react';
 import { submitEvaluationScope, ScopeFormInput } from '@/app/evaluation/actions';
+import { trackEvent } from '@/lib/analytics/tracker';
 
 interface EvaluationLeadScopeFormProps {
   initialService?: string;
@@ -101,6 +102,14 @@ export function EvaluationLeadScopeForm({
     try {
       const result = await submitEvaluationScope(payload);
       if (result.success && result.referenceId) {
+        try {
+          trackEvent('scope_submit', {
+            service: formData.service,
+            timeline: formData.timeline,
+          });
+        } catch {
+          // Non-blocking telemetry
+        }
         setSubmissionReceipt({
           referenceId: result.referenceId,
           email: formData.work_email,
@@ -119,30 +128,30 @@ export function EvaluationLeadScopeForm({
   // On-Page Confirmation Receipt View
   if (submissionReceipt) {
     return (
-      <div className="w-full max-w-2xl mx-auto p-6 sm:p-8 rounded-2xl border border-accent-emerald/40 bg-surface space-y-6 shadow-2xl animate-in fade-in">
+      <div className="w-full max-w-2xl mx-auto p-6 sm:p-8 rounded-2xl border border-rule bg-sheet space-y-6 shadow-sm animate-in fade-in">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-xl bg-accent-emerald/20 border border-accent-emerald/50 flex items-center justify-center text-accent-emerald">
+          <div className="w-12 h-12 rounded-xl bg-[#17663F]/10 border border-[#17663F]/20 flex items-center justify-center text-[#17663F]">
             <CheckCircle2 size={24} />
           </div>
           <div>
-            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-accent-emerald/20 text-accent-emerald border border-accent-emerald/40">
+            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded text-xs font-semibold bg-[#17663F]/10 text-[#17663F] border border-[#17663F]/20">
               Receipt Confirmed
             </div>
-            <h2 className="text-xl sm:text-2xl font-bold text-primary mt-1">
+            <h2 className="text-xl sm:text-2xl font-bold text-ink mt-1">
               Scope Request Received
             </h2>
           </div>
         </div>
 
-        {/* Reference ID Banner (Plan Section 8.2 & 7.9c) */}
-        <div className="p-4 sm:p-5 rounded-xl bg-void border border-subtle space-y-2">
-          <div className="text-xs font-mono text-secondary">OFFICIAL AUDIT REFERENCE NUMBER</div>
-          <div className="text-2xl sm:text-3xl font-mono font-bold text-accent-cyan tracking-wider">
+        {/* Reference ID Banner */}
+        <div className="p-4 sm:p-5 rounded-xl bg-surface border border-rule space-y-2">
+          <div className="text-xs text-secondary font-medium">Official Audit Reference Number</div>
+          <div className="text-2xl sm:text-3xl font-bold text-[#5A35C8] tracking-wider tabular-nums">
             {submissionReceipt.referenceId}
           </div>
-          <p className="text-sm text-readable leading-relaxed pt-1">
+          <p className="text-sm text-secondary leading-relaxed pt-1">
             Got it, {submissionReceipt.name}. Your reference is{' '}
-            <span className="font-mono text-primary font-semibold">
+            <span className="text-ink font-semibold">
               {submissionReceipt.referenceId}
             </span>
             . I review every submission personally and reply within two working days.
@@ -151,76 +160,76 @@ export function EvaluationLeadScopeForm({
 
         {/* What Happens Next Checklist */}
         <div className="space-y-3 pt-2">
-          <h3 className="text-xs font-mono font-semibold uppercase text-secondary tracking-wider">
-            Next Steps in the Scoping Protocol:
+          <h3 className="text-xs font-semibold text-secondary">
+            What happens next:
           </h3>
-          <ul className="space-y-2.5 text-xs text-readable">
+          <ul className="space-y-2.5 text-xs text-secondary">
             <li className="flex items-start gap-2">
-              <span className="text-accent-emerald font-mono font-bold mt-0.5">1.</span>
+              <span className="text-[#17663F] font-bold mt-0.5">1.</span>
               <span>
-                <strong>Confirmation Notice:</strong> An auto-reply has been queued for{' '}
-                <span className="font-mono text-primary">{submissionReceipt.email}</span> with your reference ID.
+                <strong className="text-ink">Confirmation Notice:</strong> An auto-reply has been queued for{' '}
+                <span className="text-ink font-medium">{submissionReceipt.email}</span> with your reference ID.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-accent-emerald font-mono font-bold mt-0.5">2.</span>
+              <span className="text-[#17663F] font-bold mt-0.5">2.</span>
               <span>
-                <strong>Sample Extraction:</strong> If you have 5 to 10 sample prompt-and-answer pairs (non-confidential), replying directly to the email allows me to draft a preliminary failure taxonomy before our call.
+                <strong className="text-ink">Sample Extraction:</strong> If you have 5 to 10 sample prompt-and-answer pairs (non-confidential), replying directly to the email allows me to draft a preliminary failure taxonomy before our call.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-accent-emerald font-mono font-bold mt-0.5">3.</span>
+              <span className="text-[#17663F] font-bold mt-0.5">3.</span>
               <span>
-                <strong>Secure Vault Setup:</strong> If private documentation or customer logs are required for evaluation, we provide a mutual NDA and secure, short-lived transmission vault.
+                <strong className="text-ink">Secure Vault Setup:</strong> If private documentation or customer logs are required for evaluation, we provide a mutual NDA and secure, short-lived transmission vault.
               </span>
             </li>
           </ul>
         </div>
 
-        <div className="pt-4 border-t border-subtle flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-secondary font-mono">
+        <div className="pt-4 border-t border-rule flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-secondary">
           <span>Evaluator: Jo (Ebube) Okeke</span>
-          <span className="text-accent-cyan">Countersign Studio Ops</span>
+          <span className="text-[#5A35C8] font-medium">TraceBase Studio Ops</span>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="w-full max-w-2xl mx-auto rounded-2xl border border-subtle bg-surface p-6 sm:p-8 space-y-6 shadow-2xl">
-      {/* Step Indicator Header (Signal Trace Concept) */}
-      <div className="space-y-3 pb-4 border-b border-subtle">
+    <div className="w-full max-w-2xl mx-auto rounded-2xl border border-rule bg-sheet p-6 sm:p-8 space-y-6">
+      {/* Step Indicator Header */}
+      <div className="space-y-3 pb-4 border-b border-rule">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <ShieldCheck size={16} className="text-accent-cyan" />
-            <span className="text-xs font-mono font-bold uppercase tracking-wider text-accent-cyan">
-              Section 7.9c Scoping Protocol
+            <ShieldCheck size={16} className="text-[#5A35C8]" />
+            <span className="text-xs font-semibold text-ink">
+              Scope an audit
             </span>
           </div>
-          <span className="text-xs font-mono text-secondary">Step {step} of 3</span>
+          <span className="text-xs text-secondary">Step {step} of 3</span>
         </div>
 
         {/* Progress Bar */}
         <div className="grid grid-cols-3 gap-2">
           <div
             className={`h-1.5 rounded-full transition-all duration-300 ${
-              step >= 1 ? 'bg-accent-cyan' : 'bg-void'
+              step >= 1 ? 'bg-[#5A35C8]' : 'bg-surface border border-rule'
             }`}
           />
           <div
             className={`h-1.5 rounded-full transition-all duration-300 ${
-              step >= 2 ? 'bg-accent-cyan' : 'bg-void'
+              step >= 2 ? 'bg-[#5A35C8]' : 'bg-surface border border-rule'
             }`}
           />
           <div
             className={`h-1.5 rounded-full transition-all duration-300 ${
-              step === 3 ? 'bg-accent-emerald' : 'bg-void'
+              step === 3 ? 'bg-[#17663F]' : 'bg-surface border border-rule'
             }`}
           />
         </div>
       </div>
 
       {error && (
-        <div className="p-3.5 rounded-xl border border-accent-danger/40 bg-accent-danger/10 text-xs text-accent-danger flex items-start gap-2 animate-in fade-in">
+        <div className="p-3.5 rounded-xl border border-[#A8322A]/20 bg-[#A8322A]/5 text-xs text-[#A8322A] flex items-start gap-2 animate-in fade-in">
           <AlertTriangle size={15} className="flex-shrink-0 mt-0.5" />
           <span>{error}</span>
         </div>
@@ -230,7 +239,7 @@ export function EvaluationLeadScopeForm({
       {step === 1 && (
         <div className="space-y-4 animate-in fade-in">
           <div className="space-y-1">
-            <h3 className="text-lg font-bold text-primary">1. Your Details &amp; Application</h3>
+            <h3 className="text-lg font-bold text-ink">1. Your Details &amp; Application</h3>
             <p className="text-xs text-secondary leading-relaxed">
               Tell us who you are and which AI system you are deploying to production.
             </p>
@@ -238,8 +247,8 @@ export function EvaluationLeadScopeForm({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label htmlFor="name" className="text-xs font-mono text-secondary block">
-                Your Full Name <span className="text-accent-cyan">*</span>
+              <label htmlFor="name" className="text-xs text-secondary block font-medium">
+                Your Full Name <span className="text-[#5A35C8]">*</span>
               </label>
               <input
                 id="name"
@@ -249,13 +258,13 @@ export function EvaluationLeadScopeForm({
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Ada Lovelace"
-                className="w-full px-3.5 py-2.5 rounded-lg border border-subtle bg-void text-primary text-sm focus:outline-none focus:border-accent-cyan transition-colors"
+                className="w-full px-3.5 py-2.5 rounded-lg border border-rule bg-surface text-ink text-sm focus:outline-none focus:border-[#5A35C8] transition-colors"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label htmlFor="work_email" className="text-xs font-mono text-secondary block">
-                Work Email <span className="text-accent-cyan">*</span>
+              <label htmlFor="work_email" className="text-xs text-secondary block font-medium">
+                Work Email <span className="text-[#5A35C8]">*</span>
               </label>
               <input
                 id="work_email"
@@ -265,14 +274,14 @@ export function EvaluationLeadScopeForm({
                 value={formData.work_email}
                 onChange={handleChange}
                 placeholder="ada@company.com"
-                className="w-full px-3.5 py-2.5 rounded-lg border border-subtle bg-void text-primary text-sm focus:outline-none focus:border-accent-cyan transition-colors"
+                className="w-full px-3.5 py-2.5 rounded-lg border border-rule bg-surface text-ink text-sm focus:outline-none focus:border-[#5A35C8] transition-colors"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label htmlFor="company" className="text-xs font-mono text-secondary block">
+              <label htmlFor="company" className="text-xs text-secondary block font-medium">
                 Company / Organization
               </label>
               <input
@@ -282,12 +291,12 @@ export function EvaluationLeadScopeForm({
                 value={formData.company}
                 onChange={handleChange}
                 placeholder="Acme AI Technologies"
-                className="w-full px-3.5 py-2.5 rounded-lg border border-subtle bg-void text-primary text-sm focus:outline-none focus:border-accent-cyan transition-colors"
+                className="w-full px-3.5 py-2.5 rounded-lg border border-rule bg-surface text-ink text-sm focus:outline-none focus:border-[#5A35C8] transition-colors"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label htmlFor="product_url" className="text-xs font-mono text-secondary block">
+              <label htmlFor="product_url" className="text-xs text-secondary block font-medium">
                 Product / Docs URL
               </label>
               <input
@@ -297,13 +306,13 @@ export function EvaluationLeadScopeForm({
                 value={formData.product_url}
                 onChange={handleChange}
                 placeholder="https://docs.acme.ai"
-                className="w-full px-3.5 py-2.5 rounded-lg border border-subtle bg-void text-primary text-sm focus:outline-none focus:border-accent-cyan transition-colors"
+                className="w-full px-3.5 py-2.5 rounded-lg border border-rule bg-surface text-ink text-sm focus:outline-none focus:border-[#5A35C8] transition-colors"
               />
             </div>
           </div>
 
           <div className="space-y-1.5">
-            <label htmlFor="service" className="text-xs font-mono text-secondary block">
+            <label htmlFor="service" className="text-xs text-secondary block font-medium">
               Evaluation Service
             </label>
             <select
@@ -311,7 +320,7 @@ export function EvaluationLeadScopeForm({
               name="service"
               value={formData.service}
               onChange={handleChange}
-              className="w-full px-3.5 py-2.5 rounded-lg border border-subtle bg-void text-primary text-sm focus:outline-none focus:border-accent-cyan transition-colors"
+              className="w-full px-3.5 py-2.5 rounded-lg border border-rule bg-surface text-ink text-sm focus:outline-none focus:border-[#5A35C8] transition-colors"
             >
               <option value="rag_and_citation_audit">RAG &amp; Citation Accuracy Audit (Primary)</option>
               <option value="technical_docs_truth">Technical Documentation Truth &amp; Hallucination Check</option>
@@ -320,7 +329,7 @@ export function EvaluationLeadScopeForm({
           </div>
 
           <div className="space-y-1.5">
-            <label htmlFor="message" className="text-xs font-mono text-secondary block">
+            <label htmlFor="message" className="text-xs text-secondary block font-medium">
               One-Line Problem Description
             </label>
             <textarea
@@ -330,7 +339,7 @@ export function EvaluationLeadScopeForm({
               value={formData.message}
               onChange={handleChange}
               placeholder="e.g. Bot answers questions using deprecated v2 endpoints instead of v3 docs."
-              className="w-full px-3.5 py-2 rounded-lg border border-subtle bg-void text-primary text-sm focus:outline-none focus:border-accent-cyan transition-colors"
+              className="w-full px-3.5 py-2 rounded-lg border border-rule bg-surface text-ink text-sm focus:outline-none focus:border-[#5A35C8] transition-colors"
             />
           </div>
 
@@ -338,7 +347,7 @@ export function EvaluationLeadScopeForm({
             <button
               type="button"
               onClick={handleNextStep}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-accent-cyan text-black font-semibold text-xs tracking-wider uppercase hover:shadow-[0_0_20px_rgba(61,235,255,0.4)] transition-all"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#5A35C8] text-white font-medium text-xs tracking-normal hover:bg-[#4D2BAE] transition-all shadow-sm"
             >
               <span>Continue to Scope</span>
               <ArrowRight size={14} />
@@ -351,7 +360,7 @@ export function EvaluationLeadScopeForm({
       {step === 2 && (
         <div className="space-y-4 animate-in fade-in">
           <div className="space-y-1">
-            <h3 className="text-lg font-bold text-primary">2. Project Scope &amp; Target Artifacts</h3>
+            <h3 className="text-lg font-bold text-ink">2. Project Scope &amp; Target Artifacts</h3>
             <p className="text-xs text-secondary leading-relaxed">
               Define the evaluation corpus, test volume, and delivery timeline.
             </p>
@@ -359,7 +368,7 @@ export function EvaluationLeadScopeForm({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label htmlFor="volume" className="text-xs font-mono text-secondary block">
+              <label htmlFor="volume" className="text-xs text-secondary block font-medium">
                 Evaluation Batch Volume
               </label>
               <select
@@ -367,7 +376,7 @@ export function EvaluationLeadScopeForm({
                 name="volume"
                 value={formData.volume}
                 onChange={handleChange}
-                className="w-full px-3.5 py-2.5 rounded-lg border border-subtle bg-void text-primary text-sm focus:outline-none focus:border-accent-cyan"
+                className="w-full px-3.5 py-2.5 rounded-lg border border-rule bg-surface text-ink text-sm focus:outline-none focus:border-[#5A35C8]"
               >
                 <option value="50_to_100_pairs">50 to 100 test pairs (Quick Diagnostic)</option>
                 <option value="100_to_300_pairs">100 to 300 test pairs (Standard Pilot)</option>
@@ -377,7 +386,7 @@ export function EvaluationLeadScopeForm({
             </div>
 
             <div className="space-y-1.5">
-              <label htmlFor="source_type" className="text-xs font-mono text-secondary block">
+              <label htmlFor="source_type" className="text-xs text-secondary block font-medium">
                 Ground-Truth Source Type
               </label>
               <select
@@ -385,7 +394,7 @@ export function EvaluationLeadScopeForm({
                 name="source_type"
                 value={formData.source_type}
                 onChange={handleChange}
-                className="w-full px-3.5 py-2.5 rounded-lg border border-subtle bg-void text-primary text-sm focus:outline-none focus:border-accent-cyan"
+                className="w-full px-3.5 py-2.5 rounded-lg border border-rule bg-surface text-ink text-sm focus:outline-none focus:border-[#5A35C8]"
               >
                 <option value="public_docs">Public Web / API Documentation</option>
                 <option value="private_docs">Private / Internal Technical Knowledge Base</option>
@@ -395,7 +404,7 @@ export function EvaluationLeadScopeForm({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label htmlFor="timeline" className="text-xs font-mono text-secondary block">
+              <label htmlFor="timeline" className="text-xs text-secondary block font-medium">
                 Target Timeline
               </label>
               <select
@@ -403,7 +412,7 @@ export function EvaluationLeadScopeForm({
                 name="timeline"
                 value={formData.timeline}
                 onChange={handleChange}
-                className="w-full px-3.5 py-2.5 rounded-lg border border-subtle bg-void text-primary text-sm focus:outline-none focus:border-accent-cyan"
+                className="w-full px-3.5 py-2.5 rounded-lg border border-rule bg-surface text-ink text-sm focus:outline-none focus:border-[#5A35C8]"
               >
                 <option value="standard_2_weeks">Standard (2 weeks)</option>
                 <option value="fast_track_5_days">Fast-Track Sprint (5 business days)</option>
@@ -412,7 +421,7 @@ export function EvaluationLeadScopeForm({
             </div>
 
             <div className="space-y-1.5">
-              <label htmlFor="sensitivity" className="text-xs font-mono text-secondary block">
+              <label htmlFor="sensitivity" className="text-xs text-secondary block font-medium">
                 Confidentiality Requirement
               </label>
               <select
@@ -420,7 +429,7 @@ export function EvaluationLeadScopeForm({
                 name="sensitivity"
                 value={formData.sensitivity}
                 onChange={handleChange}
-                className="w-full px-3.5 py-2.5 rounded-lg border border-subtle bg-void text-primary text-sm focus:outline-none focus:border-accent-cyan"
+                className="w-full px-3.5 py-2.5 rounded-lg border border-rule bg-surface text-ink text-sm focus:outline-none focus:border-[#5A35C8]"
               >
                 <option value="standard">Standard (Public documentation)</option>
                 <option value="nda_required">Mutual NDA required before data exchange</option>
@@ -429,9 +438,9 @@ export function EvaluationLeadScopeForm({
           </div>
 
           {/* Existing Rubric Toggle */}
-          <div className="p-3.5 rounded-xl border border-subtle bg-void flex items-center justify-between">
+          <div className="p-3.5 rounded-xl border border-rule bg-surface flex items-center justify-between">
             <div className="space-y-0.5 pr-4">
-              <div className="text-xs font-semibold text-primary">Do you have an existing rubric?</div>
+              <div className="text-xs font-semibold text-ink">Do you have an existing rubric?</div>
               <div className="text-[11px] text-secondary">
                 If no, we will provide our version-locked Rubric v1.0 standard.
               </div>
@@ -444,7 +453,7 @@ export function EvaluationLeadScopeForm({
                 onChange={handleChange}
                 className="sr-only peer"
               />
-              <div className="w-11 h-6 bg-surface peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-accent-cyan"></div>
+              <div className="w-11 h-6 bg-[#D9DEE6] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#5A35C8]"></div>
             </label>
           </div>
 
@@ -452,7 +461,7 @@ export function EvaluationLeadScopeForm({
             <button
               type="button"
               onClick={handlePrevStep}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-secondary hover:text-primary text-xs font-mono"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-secondary hover:text-ink text-xs font-medium"
             >
               <ArrowLeft size={14} />
               <span>Back</span>
@@ -461,7 +470,7 @@ export function EvaluationLeadScopeForm({
             <button
               type="button"
               onClick={handleNextStep}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-accent-cyan text-black font-semibold text-xs tracking-wider uppercase hover:shadow-[0_0_20px_rgba(61,235,255,0.4)] transition-all"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#5A35C8] text-white font-medium text-xs tracking-normal hover:bg-[#4D2BAE] transition-all shadow-sm"
             >
               <span>Review Scope</span>
               <ArrowRight size={14} />
@@ -474,45 +483,45 @@ export function EvaluationLeadScopeForm({
       {step === 3 && (
         <form onSubmit={handleSubmit} className="space-y-5 animate-in fade-in">
           <div className="space-y-1">
-            <h3 className="text-lg font-bold text-primary">3. Review Scope &amp; Submit</h3>
+            <h3 className="text-lg font-bold text-ink">3. Review Scope &amp; Submit</h3>
             <p className="text-xs text-secondary leading-relaxed">
               Verify your scope details. A formal reference ID will be generated upon submission.
             </p>
           </div>
 
           {/* Summary Box */}
-          <div className="p-4 rounded-xl bg-void border border-subtle space-y-2.5 text-xs font-mono">
-            <div className="flex justify-between pb-2 border-b border-subtle/60">
+          <div className="p-4 rounded-xl bg-surface border border-rule space-y-2.5 text-xs">
+            <div className="flex justify-between pb-2 border-b border-rule">
               <span className="text-secondary">Applicant:</span>
-              <span className="text-primary font-semibold">{formData.name} ({formData.work_email})</span>
+              <span className="text-ink font-semibold">{formData.name} ({formData.work_email})</span>
             </div>
-            <div className="flex justify-between pb-2 border-b border-subtle/60">
+            <div className="flex justify-between pb-2 border-b border-rule">
               <span className="text-secondary">Company:</span>
-              <span className="text-primary">{formData.company || 'Not specified'}</span>
+              <span className="text-ink">{formData.company || 'Not specified'}</span>
             </div>
-            <div className="flex justify-between pb-2 border-b border-subtle/60">
+            <div className="flex justify-between pb-2 border-b border-rule">
               <span className="text-secondary">Service:</span>
-              <span className="text-accent-cyan font-semibold">
+              <span className="text-[#5A35C8] font-semibold">
                 {formData.service === 'rag_and_citation_audit' ? 'RAG & Citation Accuracy' : formData.service}
               </span>
             </div>
-            <div className="flex justify-between pb-2 border-b border-subtle/60">
+            <div className="flex justify-between pb-2 border-b border-rule">
               <span className="text-secondary">Volume:</span>
-              <span className="text-primary">{formData.volume.replace(/_/g, ' ')}</span>
+              <span className="text-ink">{formData.volume.replace(/_/g, ' ')}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-secondary">Confidentiality:</span>
-              <span className="text-accent-emerald">
+              <span className="text-[#17663F] font-medium">
                 {formData.sensitivity === 'nda_required' ? 'Mutual NDA Required' : 'Standard (Public)'}
               </span>
             </div>
           </div>
 
-          {/* Mandatory Confidential Data Notice (Plan Section 7.9c & 8.2) */}
-          <div className="p-4 rounded-xl border border-accent-amber/40 bg-accent-amber/10 flex items-start gap-3 text-xs leading-relaxed">
-            <Lock size={16} className="text-[#FFC66D] flex-shrink-0 mt-0.5" />
-            <div className="space-y-1 text-readable">
-              <div className="font-semibold text-primary">Zero Confidential Data Policy</div>
+          {/* Mandatory Confidential Data Notice */}
+          <div className="p-4 rounded-xl border border-amber-500/20 bg-amber-500/5 flex items-start gap-3 text-xs leading-relaxed">
+            <Lock size={16} className="text-[#8A5300] flex-shrink-0 mt-0.5" />
+            <div className="space-y-1 text-secondary">
+              <div className="font-semibold text-ink">Zero Confidential Data Policy</div>
               <p>
                 Please do not send proprietary documents, credentials, or private client queries through this public form. We set up an encrypted, access-controlled transmission channel after our initial scoping conversation.
               </p>
@@ -520,15 +529,15 @@ export function EvaluationLeadScopeForm({
           </div>
 
           {/* Un-ticked Consent Checkbox */}
-          <div className="p-3.5 rounded-xl border border-subtle bg-void">
-            <label className="flex items-start gap-2.5 cursor-pointer text-xs leading-relaxed text-readable">
+          <div className="p-3.5 rounded-xl border border-rule bg-surface">
+            <label className="flex items-start gap-2.5 cursor-pointer text-xs leading-relaxed text-secondary">
               <input
                 type="checkbox"
                 name="consent"
                 required
                 checked={formData.consent}
                 onChange={handleChange}
-                className="mt-0.5 h-4 w-4 rounded border-subtle text-accent-cyan focus:ring-accent-cyan"
+                className="mt-0.5 h-4 w-4 rounded border-rule text-[#5A35C8] focus:ring-[#5A35C8]"
               />
               <span>
                 I agree to the scoping submission terms and confirm that no classified, regulated, or sensitive personal data is included in this form.
@@ -541,7 +550,7 @@ export function EvaluationLeadScopeForm({
               type="button"
               disabled={isSubmitting}
               onClick={handlePrevStep}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-secondary hover:text-primary text-xs font-mono"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-secondary hover:text-ink text-xs font-medium"
             >
               <ArrowLeft size={14} />
               <span>Back</span>
@@ -550,7 +559,7 @@ export function EvaluationLeadScopeForm({
             <button
               type="submit"
               disabled={isSubmitting}
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-accent-cyan text-black font-semibold text-xs tracking-wider uppercase hover:shadow-[0_0_20px_rgba(61,235,255,0.4)] disabled:opacity-50 transition-all"
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#5A35C8] text-white font-medium text-xs tracking-normal hover:bg-[#4D2BAE] disabled:opacity-50 transition-all shadow-sm"
             >
               {isSubmitting ? (
                 <span>Generating Reference...</span>

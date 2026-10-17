@@ -10,6 +10,10 @@ import {
   Info,
 } from 'lucide-react';
 import { submitReportAction } from '@/lib/actions/report';
+import { ShareButton } from '@/components/ui/ShareButton';
+import { useSelectedCountry } from '@/components/ui/CountrySelector';
+import { SampleBadge } from '@/components/ui/SampleBadge';
+import { trackEvent } from '@/lib/analytics/tracker';
 
 interface ChecklistItem {
   id: string;
@@ -41,17 +45,17 @@ const CHECKLIST_ITEMS: ChecklistItem[] = [
     id: 'sensitive-credentials',
     number: 3,
     title: 'Sensitive Financial Credential Requests',
-    description: 'The recruiter asks for your Bank Verification Number (BVN), ATM PIN, online banking passwords, or card OTPs.',
+    description: 'The recruiter asks for your Social Security number, National Insurance number or SIN, Bank Verification Number (BVN), ATM PIN, online banking password, or card OTP.',
     severity: 'critical',
-    actionTip: 'Critical danger. Never disclose your BVN, card details, or banking passwords to any employer or recruiter.',
+    actionTip: 'Critical danger. Never disclose your national tax ID, card details, or banking passwords to any recruiter before formal hire.',
   },
   {
     id: 'missing-cac-reg',
     number: 4,
     title: 'Missing Official Corporate Registration',
-    description: 'For Nigerian-based entities, the recruiting company cannot be located in the Corporate Affairs Commission (CAC) public registry.',
+    description: 'The recruiting business cannot be found in national or state company registries (such as state business filings, Companies House, or CAC).',
     severity: 'high',
-    actionTip: 'Search search.cac.gov.ng. If a domestic recruiter has no registered corporate identity, treat with caution.',
+    actionTip: 'Search official corporate registries. If a recruiter has no registered corporate identity, treat with caution.',
   },
   {
     id: 'messaging-app-only',
@@ -103,9 +107,70 @@ const CHECKLIST_ITEMS: ChecklistItem[] = [
   },
 ];
 
+interface RegionQuestion {
+  id: string;
+  countryCode: string;
+  title: string;
+  description: string;
+  actionTip: string;
+  isSample: boolean;
+}
+
+const REGION_QUESTIONS: RegionQuestion[] = [
+  {
+    id: 'us-check-deposit',
+    countryCode: 'US',
+    title: 'Asked you to deposit a check and send money back [SAMPLE]',
+    description: 'Recruiter sends an advance check to deposit for home office equipment, requesting a return wire or Zelle transfer.',
+    actionTip: 'Fake check scams are common in the US. The check will bounce after you send real funds.',
+    isSample: true,
+  },
+  {
+    id: 'uk-dbs-fee',
+    countryCode: 'GB',
+    title: 'Asked you to pay for a DBS check or equipment upfront [SAMPLE]',
+    description: 'Recruiter demands payment for a background check or shipping an evaluation laptop upfront.',
+    actionTip: 'Legitimate UK employers pay for required DBS checks directly and never ask candidates to wire money.',
+    isSample: true,
+  },
+  {
+    id: 'ca-advance-cheque',
+    countryCode: 'CA',
+    title: 'Asked you to deposit an advance cheque for office setup [SAMPLE]',
+    description: 'Recruiter asks you to deposit a cheque into your Canadian bank account and buy supplies from an unauthorized vendor.',
+    actionTip: 'Cheque overpayment fraud is prevalent in Canada. Never transfer funds against uncleared cheques.',
+    isSample: true,
+  },
+  {
+    id: 'ng-bvn-request',
+    countryCode: 'NG',
+    title: 'Asked for your BVN to verify your application [SAMPLE]',
+    description: 'Recruiter asks for your Bank Verification Number or bank token before job offer issuance.',
+    actionTip: 'No legitimate international AI contractor requires your BVN. Only share NUBAN or virtual USD details.',
+    isSample: true,
+  },
+  {
+    id: 'in-task-unlock',
+    countryCode: 'IN',
+    title: 'Asked you to pay a deposit for tasks [SAMPLE]',
+    description: 'Demanding an advance deposit, VIP membership, or task recharge to access daily annotation batches.',
+    actionTip: 'Task deposit schemes are widespread in India and Southeast Asia. Legitimate platforms never charge workers.',
+    isSample: true,
+  },
+  {
+    id: 'ph-task-unlock',
+    countryCode: 'PH',
+    title: 'Asked you to pay a deposit for tasks [SAMPLE]',
+    description: 'Demanding an advance deposit, VIP membership, or task recharge to release completed annotation payouts.',
+    actionTip: 'Task deposit schemes are widespread in the Philippines. Legitimate platforms never charge workers.',
+    isSample: true,
+  },
+];
+
 export function ScamCheckClient() {
   const [checkedIds, setCheckedIds] = useState<string[]>([]);
   const [inquiryText, setInquiryText] = useState<string>('');
+  const countryCode = useSelectedCountry();
 
   // Report Form State
   const [isPending, startTransition] = useTransition();
@@ -114,9 +179,19 @@ export function ScamCheckClient() {
   const [validationErrors, setValidationErrors] = useState<Record<string, string[]>>({});
 
   const handleToggle = (id: string) => {
-    setCheckedIds((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    );
+    setCheckedIds((prev) => {
+      const next = prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id];
+      try {
+        trackEvent('scam_check_complete', {
+          flagCount: next.length,
+          hasFlags: next.length > 0,
+          country: countryCode,
+        });
+      } catch {
+        // Non-blocking telemetry
+      }
+      return next;
+    });
   };
 
   const handleReset = () => {
@@ -127,19 +202,19 @@ export function ScamCheckClient() {
   const flagCount = checkedIds.length;
 
   // Determine Risk Category (Never shown by color alone per AGENTS.md)
-  let riskLevel = 'LOW RISK';
-  let riskBadgeColor = 'border-accent-emerald/30 bg-accent-emerald/10 text-accent-emerald';
+  let riskLevel = 'Low Risk';
+  let riskBadgeColor = 'border-[#17663F]/30 bg-[#17663F]/10 text-[#17663F]';
   let riskSummary =
     'No structural red flags checked. The opportunity appears consistent with standard hiring practices, but always authenticate the role on the official career portal before submitting personal documents.';
 
   if (flagCount === 1) {
-    riskLevel = 'MODERATE CAUTION';
-    riskBadgeColor = 'border-accent-amber/30 bg-accent-amber/10 text-accent-amber';
+    riskLevel = 'Moderate Caution';
+    riskBadgeColor = 'border-[#8A5300]/30 bg-[#8A5300]/10 text-[#8A5300]';
     riskSummary =
       '1 warning flag detected. Do not share payment details, passwords, or identity documents until you have verified the recruiter corporate email domain directly.';
   } else if (flagCount >= 2) {
-    riskLevel = 'CRITICAL HIGH RISK';
-    riskBadgeColor = 'border-accent-rose/30 bg-accent-rose/10 text-accent-rose';
+    riskLevel = 'Critical High Risk';
+    riskBadgeColor = 'border-[#A8322A]/30 bg-[#A8322A]/10 text-[#A8322A]';
     riskSummary =
       'Multiple critical red flags detected. This outreach strongly resembles known advance-fee fraud or credential harvesting schemes. Do not send funds, do not provide BVN/banking details, and cease communication.';
   }
@@ -177,11 +252,11 @@ export function ScamCheckClient() {
   return (
     <div className="space-y-10">
       {/* 1. Quick Inquiry Input */}
-      <div className="glass-panel rounded-xl p-5 sm:p-6 space-y-4">
+      <div className="rounded-xl border border-rule bg-sheet p-5 sm:p-6 space-y-4 shadow-sm">
         <div className="space-y-1">
           <label
             htmlFor="inquiry-input"
-            className="text-xs font-mono font-bold text-primary uppercase tracking-wider block"
+            className="text-xs font-semibold text-ink block"
           >
             Target Opportunity or Recruiter Details (Optional)
           </label>
@@ -196,7 +271,7 @@ export function ScamCheckClient() {
           value={inquiryText}
           onChange={(e) => setInquiryText(e.target.value)}
           placeholder="e.g., https://example-remote-careers.com or recruiter@gmail.com"
-          className="w-full rounded-lg border border-subtle bg-void p-3 text-xs sm:text-sm text-primary placeholder:text-secondary focus:outline-none focus:border-focus focus:ring-1 focus:ring-accent-cyan transition-all"
+          className="w-full rounded-xl border border-rule bg-surface p-3 text-xs sm:text-sm text-ink placeholder:text-secondary focus:outline-none focus:border-[#5A35C8] focus:ring-1 focus:ring-[#5A35C8] transition-all min-h-[44px]"
         />
       </div>
 
@@ -204,7 +279,7 @@ export function ScamCheckClient() {
       <div className="space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h2 className="text-lg sm:text-xl font-bold text-primary tracking-tight">
+            <h2 className="text-lg sm:text-xl font-bold text-ink tracking-tight">
               10-Point Verification Checklist
             </h2>
             <p className="text-xs text-secondary mt-0.5">
@@ -216,7 +291,7 @@ export function ScamCheckClient() {
             <button
               type="button"
               onClick={handleReset}
-              className="text-xs font-mono text-secondary hover:text-primary transition-colors underline"
+              className="text-xs text-secondary hover:text-ink transition-colors underline min-h-[44px] inline-flex items-center"
             >
               Clear all checks ({flagCount})
             </button>
@@ -233,8 +308,8 @@ export function ScamCheckClient() {
                 htmlFor={`check-${item.id}`}
                 className={`rounded-xl border p-4 flex items-start gap-3.5 cursor-pointer transition-all select-none ${
                   isChecked
-                    ? 'border-accent-rose/50 bg-elevated ring-1 ring-accent-rose/40'
-                    : 'glass-card hover:border-focus'
+                    ? 'border-[#A8322A]/40 bg-[#A8322A]/5'
+                    : 'border-rule bg-sheet hover:border-[#5A35C8]'
                 }`}
               >
                 <input
@@ -242,21 +317,21 @@ export function ScamCheckClient() {
                   id={`check-${item.id}`}
                   checked={isChecked}
                   onChange={() => handleToggle(item.id)}
-                  className="mt-1 h-4 w-4 rounded border-subtle bg-void text-accent-rose focus:ring-accent-rose accent-accent-rose cursor-pointer"
+                  className="mt-1 h-4 w-4 rounded border-rule text-[#A8322A] focus:ring-[#A8322A] accent-[#A8322A] cursor-pointer"
                 />
 
                 <div className="space-y-1 text-xs">
                   <div className="flex items-center gap-2">
-                    <span className="font-mono font-bold text-primary">
+                    <span className="font-semibold text-ink">
                       {item.number}. {item.title}
                     </span>
                     <span
-                      className={`text-[9px] font-mono px-1.5 py-0.2 rounded uppercase tracking-wider ${
+                      className={`text-xs px-1.5 py-0.2 rounded capitalize ${
                         item.severity === 'critical'
-                          ? 'bg-accent-rose/10 text-accent-rose border border-accent-rose/20'
+                          ? 'bg-[#A8322A]/10 text-[#A8322A] border border-[#A8322A]/20'
                           : item.severity === 'high'
-                          ? 'bg-accent-amber/10 text-accent-amber border border-accent-amber/20'
-                          : 'bg-void text-secondary border border-subtle'
+                          ? 'bg-[#8A5300]/10 text-[#8A5300] border border-[#8A5300]/20'
+                          : 'bg-surface text-secondary border border-rule'
                       }`}
                     >
                       {item.severity}
@@ -268,7 +343,7 @@ export function ScamCheckClient() {
                   </p>
 
                   {isChecked && (
-                    <p className="text-[11px] font-mono text-accent-rose pt-1 border-t border-subtle">
+                    <p className="text-xs text-[#A8322A] pt-1 border-t border-rule">
                       <strong>Warning:</strong> {item.actionTip}
                     </p>
                   )}
@@ -276,6 +351,51 @@ export function ScamCheckClient() {
               </label>
             );
           })}
+          {/* Region-Specific Warning Indicators (Marked SAMPLE, hidden in production until filled) */}
+          {process.env.NODE_ENV !== 'production' &&
+            REGION_QUESTIONS.filter(
+              (q) => q.countryCode === countryCode || (countryCode === 'WW' && ['US', 'GB', 'CA'].includes(q.countryCode))
+            ).map((item) => {
+              const isChecked = checkedIds.includes(item.id);
+              return (
+                <label
+                  key={item.id}
+                  htmlFor={`check-${item.id}`}
+                  className={`rounded-xl border p-4 flex items-start gap-3.5 cursor-pointer transition-all select-none ${
+                    isChecked
+                      ? 'border-[#A8322A]/40 bg-[#A8322A]/5'
+                      : 'border-rule bg-sheet hover:border-[#5A35C8]'
+                  }`}
+                >
+                  <input
+                    type="checkbox"
+                    id={`check-${item.id}`}
+                    checked={isChecked}
+                    onChange={() => handleToggle(item.id)}
+                    className="mt-1 h-4 w-4 rounded border-rule text-[#A8322A] focus:ring-[#A8322A] accent-[#A8322A] cursor-pointer"
+                  />
+
+                  <div className="space-y-1 text-xs">
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-ink">
+                        {item.title}
+                      </span>
+                      <SampleBadge />
+                    </div>
+
+                    <p className="text-readable leading-relaxed">
+                      {item.description}
+                    </p>
+
+                    {isChecked && (
+                      <p className="text-xs text-[#A8322A] pt-1 border-t border-rule">
+                        <strong>Warning:</strong> {item.actionTip}
+                      </p>
+                    )}
+                  </div>
+                </label>
+              );
+            })}
         </div>
       </div>
 
@@ -283,23 +403,21 @@ export function ScamCheckClient() {
       <section
         role="region"
         aria-label="Risk analysis score"
-        className="glass-panel rounded-xl p-5 sm:p-6 space-y-4 relative overflow-hidden"
+        className="rounded-xl border border-rule bg-sheet p-5 sm:p-6 space-y-4 shadow-sm"
       >
-        {/* Ambient risk glow */}
-        <div className="absolute -top-10 -right-10 w-28 h-28 bg-[radial-gradient(circle,rgba(61,235,255,0.05)_0%,transparent_70%)] pointer-events-none" />
-        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-subtle">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-rule">
           <div className="space-y-0.5">
-            <span className="text-[11px] font-mono uppercase tracking-wider text-secondary">
+            <span className="text-xs text-secondary font-medium">
               Objective Risk Assessment
             </span>
-            <div className="text-sm font-mono text-primary">
-              {flagCount} of 10 structural warning flags detected
+            <div className="text-sm font-semibold text-ink tabular-nums">
+              {flagCount} structural warning flags detected
             </div>
           </div>
 
           {/* Status Badge with Text & Icon (Never color alone) */}
           <div
-            className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider ${riskBadgeColor}`}
+            className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border text-xs font-semibold ${riskBadgeColor}`}
           >
             {flagCount === 0 ? (
               <ShieldCheck size={16} />
@@ -316,26 +434,40 @@ export function ScamCheckClient() {
           {riskSummary}
         </p>
 
-        {/* Legal Defamation Safeguard Notice (Master Plan Section 7.8) */}
-        <div className="p-3.5 rounded-lg border border-subtle bg-void flex items-start gap-2.5 text-xs text-secondary leading-relaxed">
-          <Info size={16} className="text-accent-cyan shrink-0 mt-0.5" />
+        {/* Share Check Results */}
+        <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-rule">
+          <span className="text-xs text-secondary">
+            Share these check results with others before they reply
+          </span>
+          <ShareButton
+            title="Job Offer Scam Check | TraceBase"
+            shareText={`I checked a job offer on TraceBase: ${flagCount === 1 ? '1 warning sign' : `${flagCount} warning signs`}. Check yours before you reply:`}
+            url="/scam-check"
+            pageType="scam-check"
+            buttonText="Share result"
+          />
+        </div>
+
+        {/* Legal Defamation Safeguard Notice */}
+        <div className="p-3.5 rounded-xl border border-rule bg-surface flex items-start gap-2.5 text-xs text-secondary leading-relaxed">
+          <Info size={16} className="text-[#5A35C8] shrink-0 mt-0.5" />
           <div>
-            <strong className="text-primary font-mono text-[11px] uppercase tracking-wider block mb-0.5">
-              Defamation & Neutrality Safeguard
+            <strong className="text-ink font-semibold text-xs block mb-0.5">
+              Defamation &amp; Neutrality Safeguard
             </strong>
-            Countersign analyzes verifiable structural signals and objective hiring criteria. We do not maintain unmoderated public blacklists, nor do we issue automated defamatory declarations. If an opportunity shows multiple flags, we advise verifying directly through official corporate channels before taking action.
+            TraceBase analyzes verifiable structural signals and objective hiring criteria. We do not maintain unmoderated public blacklists, nor do we issue automated defamatory declarations. If an opportunity shows multiple flags, we advise verifying directly through official corporate channels before taking action.
           </div>
         </div>
       </section>
 
-      {/* 4. Scam Reporting Form (Section 7.8 & 9.6) */}
-      <section className="glass-panel rounded-xl p-5 sm:p-6 space-y-5 relative overflow-hidden">
+      {/* 4. Scam Reporting Form */}
+      <section className="rounded-xl border border-rule bg-sheet p-5 sm:p-6 space-y-5 shadow-sm">
         <div className="space-y-1">
-          <div className="flex items-center gap-2 text-xs font-mono font-bold text-accent-rose uppercase tracking-wider">
+          <div className="flex items-center gap-2 text-xs font-semibold text-[#A8322A]">
             <ShieldAlert size={15} />
             <span>Submit a Suspicious Listing for Human Moderation</span>
           </div>
-          <h3 className="text-base sm:text-lg font-bold text-primary">
+          <h3 className="text-base sm:text-lg font-bold text-ink">
             Flag a Recruiter or Suspicious Job Offer
           </h3>
           <p className="text-xs text-secondary leading-relaxed">
@@ -344,14 +476,14 @@ export function ScamCheckClient() {
         </div>
 
         {reportSuccess ? (
-          <div className="p-4 rounded-lg border border-accent-emerald/30 bg-accent-emerald/10 text-accent-emerald text-xs font-mono flex items-center gap-2">
+          <div className="p-4 rounded-xl border border-[#17663F]/30 bg-[#17663F]/10 text-[#17663F] text-xs flex items-center gap-2">
             <CheckCircle2 size={16} />
             <span>{reportSuccess}</span>
           </div>
         ) : (
           <form onSubmit={handleReportSubmit} className="space-y-4">
             {reportError && (
-              <div className="p-3 rounded-lg border border-accent-rose/30 bg-accent-rose/10 text-accent-rose text-xs font-mono flex items-center gap-2">
+              <div className="p-3 rounded-xl border border-[#A8322A]/30 bg-[#A8322A]/10 text-[#A8322A] text-xs flex items-center gap-2">
                 <AlertTriangle size={15} />
                 <span>{reportError}</span>
               </div>
@@ -361,7 +493,7 @@ export function ScamCheckClient() {
             <div className="space-y-1">
               <label
                 htmlFor="urlOrRole"
-                className="text-xs font-mono font-semibold text-secondary uppercase tracking-wider block"
+                className="text-xs font-semibold text-secondary block"
               >
                 Suspicious Link, Company, or Contact *
               </label>
@@ -372,10 +504,10 @@ export function ScamCheckClient() {
                 required
                 defaultValue={inquiryText}
                 placeholder="e.g., https://fake-platform-eval.com or WhatsApp recruiter +234..."
-                className="w-full rounded-lg border border-subtle bg-void p-3 text-xs sm:text-sm text-primary placeholder:text-secondary focus:outline-none focus:border-focus focus:ring-1 focus:ring-accent-cyan transition-all"
+                className="w-full rounded-xl border border-rule bg-surface p-3 text-xs sm:text-sm text-ink placeholder:text-secondary focus:outline-none focus:border-[#5A35C8] focus:ring-1 focus:ring-[#5A35C8] transition-all min-h-[44px]"
               />
               {validationErrors.urlOrRole && (
-                <p className="text-[11px] text-accent-rose font-mono">
+                <p className="text-xs text-[#A8322A]">
                   {validationErrors.urlOrRole[0]}
                 </p>
               )}
@@ -385,7 +517,7 @@ export function ScamCheckClient() {
             <div className="space-y-1">
               <label
                 htmlFor="details"
-                className="text-xs font-mono font-semibold text-secondary uppercase tracking-wider block"
+                className="text-xs font-semibold text-secondary block"
               >
                 What happened? (Describe fees demanded, messaging app used, or domain issues) *
               </label>
@@ -395,10 +527,10 @@ export function ScamCheckClient() {
                 rows={3}
                 required
                 placeholder="Explain the red flags you encountered (minimum 10 characters)..."
-                className="w-full rounded-lg border border-subtle bg-void p-3 text-xs sm:text-sm text-primary placeholder:text-secondary focus:outline-none focus:border-focus focus:ring-1 focus:ring-accent-cyan transition-all"
+                className="w-full rounded-xl border border-rule bg-surface p-3 text-xs sm:text-sm text-ink placeholder:text-secondary focus:outline-none focus:border-[#5A35C8] focus:ring-1 focus:ring-[#5A35C8] transition-all"
               />
               {validationErrors.details && (
-                <p className="text-[11px] text-accent-rose font-mono">
+                <p className="text-xs text-[#A8322A]">
                   {validationErrors.details[0]}
                 </p>
               )}
@@ -409,7 +541,7 @@ export function ScamCheckClient() {
               <div className="space-y-1">
                 <label
                   htmlFor="contactEmail"
-                  className="text-xs font-mono font-semibold text-secondary uppercase tracking-wider block"
+                  className="text-xs font-semibold text-secondary block"
                 >
                   Your Email (Optional, for investigation updates)
                 </label>
@@ -418,7 +550,7 @@ export function ScamCheckClient() {
                   name="contactEmail"
                   type="email"
                   placeholder="name@example.com"
-                  className="w-full rounded-lg border border-subtle bg-void p-2.5 text-xs sm:text-sm text-primary placeholder:text-secondary focus:outline-none focus:border-focus focus:ring-1 focus:ring-accent-cyan transition-all"
+                  className="w-full rounded-xl border border-rule bg-surface p-2.5 text-xs sm:text-sm text-ink placeholder:text-secondary focus:outline-none focus:border-[#5A35C8] focus:ring-1 focus:ring-[#5A35C8] transition-all min-h-[44px]"
                 />
               </div>
 
@@ -426,7 +558,7 @@ export function ScamCheckClient() {
               <div className="space-y-1">
                 <label
                   htmlFor="mathAnswer"
-                  className="text-xs font-mono font-semibold text-secondary uppercase tracking-wider block"
+                  className="text-xs font-semibold text-secondary block"
                 >
                   Verification Challenge: 4 + 3 = ? *
                 </label>
@@ -436,10 +568,10 @@ export function ScamCheckClient() {
                   type="text"
                   required
                   placeholder="Answer"
-                  className="w-full rounded-lg border border-subtle bg-void p-2.5 text-xs sm:text-sm text-primary placeholder:text-secondary focus:outline-none focus:border-focus focus:ring-1 focus:ring-accent-cyan transition-all"
+                  className="w-full rounded-xl border border-rule bg-surface p-2.5 text-xs sm:text-sm text-ink placeholder:text-secondary focus:outline-none focus:border-[#5A35C8] focus:ring-1 focus:ring-[#5A35C8] transition-all min-h-[44px]"
                 />
                 {validationErrors.mathAnswer && (
-                  <p className="text-[11px] text-accent-rose font-mono">
+                  <p className="text-xs text-[#A8322A]">
                     {validationErrors.mathAnswer[0]}
                   </p>
                 )}
@@ -461,7 +593,7 @@ export function ScamCheckClient() {
               <button
                 type="submit"
                 disabled={isPending}
-                className="shimmer-sweep w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg border border-accent-rose/30 bg-accent-rose/20 text-accent-rose font-mono font-bold text-xs uppercase tracking-wider hover:bg-accent-rose/30 transition-all disabled:opacity-50"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#5A35C8] text-white font-medium text-xs hover:bg-[#4927AB] transition-colors min-h-[44px] disabled:opacity-50"
               >
                 {isPending ? (
                   <span>Submitting report...</span>

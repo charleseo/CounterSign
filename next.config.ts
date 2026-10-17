@@ -19,6 +19,16 @@ const nextConfig: NextConfig = {
         destination: '/evaluation',
         permanent: true,
       },
+      {
+        source: '/countries/uk',
+        destination: '/countries/gb',
+        permanent: true,
+      },
+      {
+        source: '/countries/ng',
+        destination: '/countries/nigeria',
+        permanent: true,
+      },
     ];
   },
 };
