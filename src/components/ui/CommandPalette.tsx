@@ -42,10 +42,13 @@ const STATIC_SEARCH_ITEMS: SearchItem[] = [
   { id: 't-appeals', title: 'Account Dispute & Ban Appeal Kit', category: 'Tools', href: '/appeals', meta: 'Appeal empty queues & location flags' },
   { id: 't-scam', title: '10-Point AI Work Scam Checklist', category: 'Tools', href: '/scam-check', meta: 'Check recruiter offers & red flags' },
   { id: 't-benchmark', title: 'AI Model Constraint & Truth Benchmark', category: 'Tools', href: '/benchmark', meta: 'Human-audited negative constraint leaderboard' },
+  { id: 't-glossary', title: 'AI Evaluation Jargon & Reviewer Decoder', category: 'Tools', href: '/glossary', meta: 'Understand EQ, SFT, DPO, and reviewer notes' },
+  { id: 't-w8ben', title: 'Form W-8BEN International Tax Guide', category: 'Tools', href: '/w8ben', meta: 'Avoid 30% US tax withholding on Deel & Outlier' },
   { id: 't-jobs', title: 'Browse All Verified Jobs', category: 'Jobs', href: '/jobs', meta: 'Filter by country, pay, and status' },
   { id: 't-platforms', title: 'Platform Reality Directory', category: 'Platforms', href: '/platforms', meta: '5 verified platform profiles & queue radar' },
   // Studio & Trust
   { id: 's-about', title: 'About TraceBase & Jo (Ebube Okeke)', category: 'Studio', href: '/about', meta: 'Independence pledge & 10 FAQs' },
+  { id: 's-demo', title: 'Interactive Grounding & RAG Audit Demo', category: 'Studio', href: '/evaluation/demo', meta: 'Test prompt against docs to catch hallucinations' },
   { id: 's-estimator', title: 'Evaluation Sprint Estimator', category: 'Studio', href: '/evaluation/estimator', meta: 'Self-serve SLA, volume & capacity calculator' },
   { id: 's-methodology', title: '10-Point Verification Methodology', category: 'Studio', href: '/methodology', meta: '14-day recheck standard' },
   { id: 's-studio', title: 'Evaluation Studio: RAG & Citation Audits', category: 'Studio', href: '/evaluation', meta: 'Technical docs verification for AI teams' },

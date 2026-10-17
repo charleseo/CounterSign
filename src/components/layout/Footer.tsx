@@ -124,8 +124,23 @@ export function Footer() {
               </Link>
             </li>
             <li>
+              <Link href="/glossary" className="min-h-[44px] inline-flex items-center hover:text-ink transition-colors">
+                Glossary
+              </Link>
+            </li>
+            <li>
+              <Link href="/w8ben" className="min-h-[44px] inline-flex items-center hover:text-ink transition-colors">
+                Tax guide (W-8BEN)
+              </Link>
+            </li>
+            <li>
               <Link href="/evaluation" className="min-h-[44px] inline-flex items-center hover:text-ink transition-colors">
                 For AI teams
+              </Link>
+            </li>
+            <li>
+              <Link href="/evaluation/demo" className="min-h-[44px] inline-flex items-center hover:text-ink transition-colors">
+                Live audit demo
               </Link>
             </li>
             <li>

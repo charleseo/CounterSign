@@ -15,6 +15,7 @@ import {
   Play,
   Pause,
   RotateCcw,
+  ExternalLink,
 } from 'lucide-react';
 
 interface Preset {
@@ -240,9 +241,27 @@ export function TaskCheckClient() {
     <div className="space-y-8">
       {/* Platform Preset Strip */}
       <div className="space-y-2">
-        <label className="text-xs font-semibold text-secondary uppercase tracking-wider block">
-          Select standard review preset
-        </label>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <label className="text-xs font-semibold text-secondary uppercase tracking-wider block">
+            Select standard review preset
+          </label>
+          <button
+            type="button"
+            onClick={() => {
+              if (typeof window !== 'undefined') {
+                window.open(
+                  '/task-check',
+                  'TraceBaseTaskGuard',
+                  'width=480,height=760,menubar=no,toolbar=no,location=no,status=no,resizable=yes'
+                );
+              }
+            }}
+            className="inline-flex items-center gap-1.5 text-xs text-[#5A35C8] hover:underline font-medium min-h-[36px]"
+          >
+            <span>Open as compact sidecar window</span>
+            <ExternalLink size={13} />
+          </button>
+        </div>
         <div className="flex flex-wrap gap-2">
           {PRESETS.map((preset) => (
             <button

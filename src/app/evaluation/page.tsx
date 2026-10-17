@@ -140,8 +140,23 @@ export default function EvaluationStudioPage() {
             </a>
 
             <Link
+              href="/evaluation/demo"
+              className="inline-flex items-center gap-2 px-4 py-3.5 rounded-xl border border-rule bg-sheet text-ink text-xs font-medium hover:border-[#5A35C8] transition-colors min-h-[44px]"
+            >
+              <Sparkles size={15} className="text-amber-500" />
+              <span>Try live audit demo</span>
+            </Link>
+
+            <Link
+              href="/evaluation/estimator"
+              className="inline-flex items-center gap-2 px-4 py-3.5 rounded-xl border border-rule bg-sheet text-ink text-xs font-medium hover:border-[#5A35C8] transition-colors min-h-[44px]"
+            >
+              <span>Sprint estimator</span>
+            </Link>
+
+            <Link
               href="/evaluation/scope"
-              className="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl border border-rule bg-sheet text-ink text-xs font-medium hover:border-[#5A35C8] transition-colors min-h-[44px]"
+              className="inline-flex items-center gap-2 px-4 py-3.5 rounded-xl border border-rule bg-sheet text-ink text-xs font-medium hover:border-[#5A35C8] transition-colors min-h-[44px]"
             >
               <span>Scope an audit</span>
             </Link>

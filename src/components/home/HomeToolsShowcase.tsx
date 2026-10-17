@@ -187,6 +187,23 @@ export function HomeToolsShowcase() {
             </Link>
           ))}
         </div>
+
+        {/* Additional Reference Strip */}
+        <div className="pt-6 border-t border-rule flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-secondary">
+          <div className="flex flex-wrap items-center gap-3">
+            <span className="font-semibold text-ink">More contributor resources:</span>
+            <Link href="/glossary" className="text-[#5A35C8] hover:underline font-medium min-h-[36px] inline-flex items-center">
+              AI evaluation glossary &amp; acronyms
+            </Link>
+            <span aria-hidden="true">&bull;</span>
+            <Link href="/w8ben" className="text-[#5A35C8] hover:underline font-medium min-h-[36px] inline-flex items-center">
+              W-8BEN tax walkthrough
+            </Link>
+          </div>
+          <Link href="/evaluation/demo" className="text-secondary hover:text-ink font-medium min-h-[36px] inline-flex items-center">
+            For AI teams: Try live audit demo &rarr;
+          </Link>
+        </div>
       </div>
     </section>
   );
