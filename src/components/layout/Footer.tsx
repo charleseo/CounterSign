@@ -134,6 +134,16 @@ export function Footer() {
               </Link>
             </li>
             <li>
+              <Link href="/training/drills" className="min-h-[44px] inline-flex items-center hover:text-ink transition-colors">
+                Practice drills
+              </Link>
+            </li>
+            <li>
+              <Link href="/invoice" className="min-h-[44px] inline-flex items-center hover:text-ink transition-colors">
+                Invoice maker
+              </Link>
+            </li>
+            <li>
               <Link href="/evaluation" className="min-h-[44px] inline-flex items-center hover:text-ink transition-colors">
                 For AI teams
               </Link>
@@ -141,6 +151,11 @@ export function Footer() {
             <li>
               <Link href="/evaluation/demo" className="min-h-[44px] inline-flex items-center hover:text-ink transition-colors">
                 Live audit demo
+              </Link>
+            </li>
+            <li>
+              <Link href="/evaluation/whitepaper" className="min-h-[44px] inline-flex items-center hover:text-ink transition-colors">
+                Research whitepaper
               </Link>
             </li>
             <li>

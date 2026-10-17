@@ -15,6 +15,7 @@ import {
   Calculator,
   Search,
   ExternalLink,
+  Plus,
 } from 'lucide-react';
 
 export interface RateItem {
@@ -234,16 +235,26 @@ export function RatesClient() {
           ))}
         </div>
 
-        {/* Search Input */}
-        <div className="relative min-w-[240px]">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-secondary" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search platform or role..."
-            className="w-full pl-9 pr-3 py-2 rounded-xl border border-rule bg-sheet text-xs text-ink placeholder:text-secondary focus:outline-none focus:border-[#5A35C8] transition-colors"
-          />
+        {/* Search and Submit Actions */}
+        <div className="flex items-center gap-2">
+          <div className="relative min-w-[200px] sm:min-w-[240px]">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-secondary" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search platform or role..."
+              className="w-full pl-9 pr-3 py-2 rounded-xl border border-rule bg-sheet text-xs text-ink placeholder:text-secondary focus:outline-none focus:border-[#5A35C8] transition-colors"
+            />
+          </div>
+
+          <Link
+            href="/rates/submit"
+            className="px-3 py-2 rounded-xl bg-[#5A35C8] hover:bg-[#4D2DB3] text-white text-xs font-semibold inline-flex items-center gap-1.5 transition-colors whitespace-nowrap min-h-[38px]"
+          >
+            <Plus size={13} />
+            <span>Submit a rate</span>
+          </Link>
         </div>
       </div>
 

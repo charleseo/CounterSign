@@ -272,6 +272,100 @@ const COUNTRY_HUBS: Record<string, CountryHubConfig> = {
       },
     ],
   },
+  KE: {
+    code: 'KE',
+    slug: 'kenya',
+    name: 'Kenya',
+    flag: '🇰🇪',
+    priority: 2,
+    isPublished: true,
+    payoutPlaybook: {
+      title: 'Kenya Contractor Payout & KRA Tax Framework',
+      description:
+        'Kenyan evaluators receive USD contract earnings directly into local bank accounts or Safaricom M-Pesa.',
+      rails: [
+        {
+          name: 'Deel / AirTM to M-Pesa',
+          tag: 'Fast Mobile Rail',
+          details:
+            'Direct USD to KES real-time withdrawal into Safaricom M-Pesa lines with zero bank wait times.',
+        },
+        {
+          name: 'Direct USD Wire (Equity Bank, KCB, Standard Chartered)',
+          tag: 'Bank Rail',
+          details:
+            'Direct SWIFT transfer into personal foreign currency accounts for larger monthly balances.',
+        },
+      ],
+      taxNote:
+        'Kenyan contractors provide their KRA PIN on Form W-8BEN. Because services are performed physically in Kenya, 0% US tax withholding applies. Earnings are subject to local Kenyan personal income tax. Consult a licensed tax advisor.',
+    },
+    scamsPlaybook: {
+      title: 'Common Recruitment Scams Targeting Kenyan Applicants',
+      description:
+        'Account broker syndicates and upfront deposit schemes frequently target Nairobi and regional tech talent.',
+      commonTactics: [
+        'WhatsApp groups offering to rent or sell verified Outlier or Alignerr accounts for a weekly cut.',
+        'Telegram channels asking for an upfront M-Pesa fee to unlock task queues or access assessment answers.',
+        'Unsolicited text messages claiming to hire for Google or OpenAI data entry without an official application link.',
+      ],
+    },
+    faqs: [
+      {
+        q: 'Which platforms actively recruit Kenyan evaluators?',
+        a: 'Outlier, Alignerr, Remotasks (CrowdGen), and OneForma regularly recruit Kenyan contributors for English reasoning, STEM, and Swahili localization.',
+      },
+      {
+        q: 'Do Kenyans pay US taxes on AI evaluation earnings?',
+        a: 'No. Submitting Form W-8BEN with your KRA PIN establishes foreign status, ensuring platforms withhold zero percent US federal tax.',
+      },
+    ],
+  },
+  GH: {
+    code: 'GH',
+    slug: 'ghana',
+    name: 'Ghana',
+    flag: '🇬🇭',
+    priority: 2,
+    isPublished: true,
+    payoutPlaybook: {
+      title: 'Ghana Contractor Payout & GRA Framework',
+      description:
+        'Ghanaian contributors receive USD payouts through mobile money wallets and local multi-currency bank accounts.',
+      rails: [
+        {
+          name: 'Deel to MTN Mobile Money (MoMo) / Telecel Cash',
+          tag: 'Fast Mobile Rail',
+          details:
+            'Direct USD to GHS withdrawal into registered MTN MoMo or Telecel Cash wallets.',
+        },
+        {
+          name: 'USD Domiciliary Bank Account (Ecobank, Stanbic, CalBank)',
+          tag: 'Bank Rail',
+          details:
+            'Direct international wire into personal foreign currency accounts to retain US Dollars.',
+        },
+      ],
+      taxNote:
+        'Ghanaian contractors use their Ghana Card PIN as their Taxpayer Identification Number (TIN). Filing Form W-8BEN ensures 0% US withholding tax under foreign-source income rules. Earnings are declared under local Ghana Revenue Authority regulations.',
+    },
+    scamsPlaybook: {
+      title: 'Common Recruitment Scams Targeting Ghanaian Applicants',
+      description:
+        'Advance-fee training scams and fake mobile money verification requests target Ghanaian freelancers.',
+      commonTactics: [
+        'Requests to send an upfront MTN MoMo fee for identity verification or onboarding equipment.',
+        'Impersonation of international remote staffing recruiters offering high hourly wages without screening tests.',
+        'Unverified third-party websites claiming to sell TestGorilla answer keys for Alignerr screening.',
+      ],
+    },
+    faqs: [
+      {
+        q: 'Can Ghanaians get paid through Deel and Outlier?',
+        a: 'Yes. Deel supports withdrawals directly to Ghanaian bank accounts and mobile money wallets, and Outlier supports AirTM and PayPal.',
+      },
+    ],
+  },
 };
 
 interface Props {
@@ -291,6 +385,10 @@ export async function generateStaticParams() {
     { country: 'india' },
     { country: 'ph' },
     { country: 'philippines' },
+    { country: 'ke' },
+    { country: 'kenya' },
+    { country: 'gh' },
+    { country: 'ghana' },
   ];
 }
 
@@ -311,9 +409,13 @@ function resolveCountryCode(slug: string): string | null {
     INDIA: 'IN',
     PH: 'PH',
     PHILIPPINES: 'PH',
+    KE: 'KE',
+    KENYA: 'KE',
+    GH: 'GH',
+    GHANA: 'GH',
   };
 
-  return mapping[slug.trim().toLowerCase()] || null;
+  return mapping[clean] || null;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
