@@ -3,9 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   Activity,
-  CheckCircle2,
   Clock,
-  AlertCircle,
   ThumbsUp,
   ThumbsDown,
   Info,
@@ -28,7 +26,7 @@ const INITIAL_QUEUE_DATA: PlatformQueueStatus[] = [
     name: 'Outlier AI',
     status: 'active',
     statusLabel: 'Active queue',
-    detail: 'Coding and STEM evaluation batches active. Generalist queues report occasional throttling.',
+    detail: 'Coding and science and math evaluation batches active. Generalist queues report occasional throttling.',
     activeCount: 38,
     emptyCount: 7,
     lastUpdated: '18 minutes ago',
@@ -93,7 +91,11 @@ export function QueueHealthRadar() {
     try {
       const savedVotes = localStorage.getItem('tracebase_queue_votes');
       if (savedVotes) {
-        setUserVotes(JSON.parse(savedVotes));
+        const parsed = JSON.parse(savedVotes);
+        const timer = setTimeout(() => {
+          setUserVotes(parsed);
+        }, 0);
+        return () => clearTimeout(timer);
       }
     } catch {
       // Ignore localStorage issues

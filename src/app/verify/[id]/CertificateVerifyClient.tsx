@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import {
   Award,
@@ -12,7 +12,7 @@ import {
   ArrowRight,
   ShieldCheck,
 } from 'lucide-react';
-import { getCertificateById, CertificateRecord } from '@/lib/training/certificates';
+import { getCertificateById } from '@/lib/training/certificates';
 
 interface CertificateVerifyClientProps {
   id: string;
@@ -20,19 +20,9 @@ interface CertificateVerifyClientProps {
 
 export function CertificateVerifyClient({ id }: CertificateVerifyClientProps) {
   const rawId = id || '';
-  const [cert, setCert] = useState<CertificateRecord | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const cert = rawId ? getCertificateById(rawId) : null;
   const [copied, setCopied] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (rawId) {
-      const found = getCertificateById(rawId);
-      setCert(found);
-      setLoading(false);
-    } else {
-      setLoading(false);
-    }
-  }, [rawId]);
 
   const handleCopyLink = async () => {
     try {
@@ -52,13 +42,6 @@ export function CertificateVerifyClient({ id }: CertificateVerifyClientProps) {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-canvas text-ink flex items-center justify-center p-6">
-        <div className="text-secondary text-sm">Verifying certificate registry...</div>
-      </div>
-    );
-  }
 
   if (!cert) {
     return (

@@ -111,7 +111,11 @@ export function CvBuilderClient() {
     try {
       const saved = localStorage.getItem('tracebase_cv_data');
       if (saved) {
-        setData(JSON.parse(saved));
+        const parsed = JSON.parse(saved);
+        const timer = setTimeout(() => {
+          setData(parsed);
+        }, 0);
+        return () => clearTimeout(timer);
       }
     } catch {}
   }, []);
@@ -123,7 +127,7 @@ export function CvBuilderClient() {
     } catch {}
   };
 
-  const updateField = (field: keyof CvData, value: any) => {
+  const updateField = <K extends keyof CvData>(field: K, value: CvData[K]) => {
     saveToLocal({ ...data, [field]: value });
   };
 

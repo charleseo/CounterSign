@@ -86,7 +86,7 @@ const TOOLS: ToolItem[] = [
     tag: 'Transparency',
     tagTone: 'emerald',
     description:
-      'Compare verified hourly rates across Coding ($40-$65/hr), STEM, and General RLHF. Review penalty policies and payout frequencies.',
+      'Compare verified hourly rates across Coding ($40-$65/hr), science and math, and General RLHF. Review penalty policies and payout frequencies.',
     href: '/rates',
     icon: <DollarSign className="w-5 h-5 text-emerald-500" />,
     actionText: 'Compare pay rates',
