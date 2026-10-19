@@ -808,7 +808,7 @@ const INITIAL_USER_APPLICATIONS: UserApplication[] = [
     status: 'accepted',
     applied_at: new Date(Date.now() - 12 * 86400000).toISOString(),
     last_updated_at: new Date(Date.now() - 2 * 86400000).toISOString(),
-    notes: 'Passed TestGorilla screening (96%). Deel contract countersigned and workspace active.',
+    notes: 'Passed TestGorilla screening (96%). Deel contract signed and workspace active.',
   },
   {
     id: 'app-003',

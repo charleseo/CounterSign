@@ -1,4 +1,4 @@
-# Countersign user test kit
+# TraceBase user test kit
 
 Version: 1.0
 Target cohort: 5 participants (3 US, UK, or Canada + 2 Nigeria)
@@ -8,7 +8,7 @@ Testing mode: Remote moderated or unmoderated session (30 minutes)
 
 ## 1. Test objective and overview
 
-This test kit evaluates the usability, clarity, and trust perception of Countersign across its two primary user journeys:
+This test kit evaluates the usability, clarity, and trust perception of TraceBase across its two primary user journeys:
 1. Remote AI workers searching for verified, scam-free remote roles.
 2. AI teams and developers seeking independent model answers and citation checks.
 
@@ -33,7 +33,7 @@ We recruit 5 real users matching our primary launch audiences:
 ## 3. Part 1: The 5-second test
 
 ### Instructions for facilitator
-1. Have the participant open the Countersign home page (`https://countersign.ai` or test staging URL) on their mobile phone.
+1. Have the participant open the TraceBase home page (`https://tracebase.work` or test staging URL) on their mobile phone.
 2. Allow them to view the screen for exactly 5 seconds.
 3. Immediately ask them to turn their phone face down or switch tabs.
 
@@ -43,7 +43,7 @@ We recruit 5 real users matching our primary launch audiences:
 3. "Did anything stand out as untrustworthy or confusing?"
 
 ### Success criteria
-- The participant understands within 5 seconds that Countersign lists human-verified AI training roles and checks AI model answers.
+- The participant understands within 5 seconds that TraceBase lists human-verified AI training roles and checks AI model answers.
 - The participant recognizes that this is an independent directory, not a generic scam job board.
 
 ---
@@ -53,7 +53,7 @@ We recruit 5 real users matching our primary launch audiences:
 Participants complete three realistic tasks without hints or coaching from the facilitator.
 
 ### Task 1: Find a role open to your country
-- **Prompt**: "Imagine you are looking for remote AI work from where you currently live. Use Countersign to find a role you are eligible for, inspect why it was verified, and find out where you would submit an application."
+- **Prompt**: "Imagine you are looking for remote AI work from where you currently live. Use TraceBase to find a role you are eligible for, inspect why it was verified, and find out where you would submit an application."
 - **Observe**:
   - Does the participant easily locate or change the country filter?
   - Do they notice the "Human verified" status badge and understand what it means?
@@ -62,7 +62,7 @@ Participants complete three realistic tasks without hints or coaching from the f
 - **Pass criteria**: Participant locates an eligible role within 60 seconds and correctly identifies that the application is completed on the employer's official platform.
 
 ### Task 2: Check an offer for signs of a scam
-- **Prompt**: "You received a direct message on Telegram from someone claiming to represent an AI data training company. They are offering $40 per hour, but they want you to pay a $15 registration fee for equipment. Use Countersign to evaluate whether this offer is safe."
+- **Prompt**: "You received a direct message on Telegram from someone claiming to represent an AI data training company. They are offering $40 per hour, but they want you to pay a $15 registration fee for equipment. Use TraceBase to evaluate whether this offer is safe."
 - **Observe**:
   - Does the participant locate the "Check an offer" tool (`/scam-check`) from the navigation or home page?
   - Do they step through the checklist items easily on their mobile screen?

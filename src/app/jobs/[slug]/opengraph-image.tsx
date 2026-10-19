@@ -77,7 +77,7 @@ export default async function Image({ params }: JobOgProps) {
                 fontWeight: 800,
               }}
             >
-              CS
+              TB
             </div>
             <span
               style={{
@@ -87,7 +87,7 @@ export default async function Image({ params }: JobOgProps) {
                 color: '#ffffff',
               }}
             >
-              COUNTERSIGN
+              TRACEBASE
             </span>
           </div>
 

@@ -109,7 +109,7 @@ const FAQS = [
 ];
 
 export default function EvaluationStudioPage() {
-  const bookingUrl = process.env.NEXT_PUBLIC_BOOKING_URL || 'https://cal.com/countersign/audit-intro';
+  const bookingUrl = process.env.NEXT_PUBLIC_BOOKING_URL || 'https://cal.com/tracebase/audit-intro';
   const pilotPriceText = process.env.NEXT_PUBLIC_PILOT_PRICE_TEXT || 'Pilots start at $1,500';
 
   return (

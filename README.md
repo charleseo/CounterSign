@@ -1,9 +1,9 @@
-# Countersign
+# TraceBase
 
 > **AI work, checked by a human. Model answers, checked against the source.**  
 > Independent verification for remote AI trainers and enterprise AI teams.
 
-Countersign (`countersign.ai` / `countersign.ng`) is a dual-sided web platform engineered according to the **Countersign Master Build Plan v5**:
+TraceBase (`tracebase.work` / `tracebase.ai` / `tracebase.ng`) is a dual-sided web platform engineered according to the **TraceBase Master Build Plan v5**:
 1. **The Audience Engine (Track 2):** An honest, human-verified remote AI training opportunity hub with country-specific playbooks, payout guides, scam protection, and side-by-side platform comparisons.
 2. **The Commercial Business (Track 1):** A high-integrity AI model evaluation studio specializing in RAG retrieval citation auditing, hallucination detection, and domain specialist evaluation.
 
@@ -136,4 +136,4 @@ npm run build
 
 ## License
 
-Confidential and Proprietary. All rights reserved by Countersign.
+Confidential and Proprietary. All rights reserved by TraceBase.

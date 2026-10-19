@@ -1,6 +1,6 @@
-# Countersign production launch readiness checklist
+# TraceBase production launch readiness checklist
 
-This document defines the pre-flight verification checklist for Countersign's production release as an independent, human-verified remote AI work hub and evaluation studio.
+This document defines the pre-flight verification checklist for TraceBase's production release as an independent, human-verified remote AI work hub and evaluation studio.
 
 ---
 
@@ -67,7 +67,7 @@ This document defines the pre-flight verification checklist for Countersign's pr
 ---
 
 ## 7. Email deliverability and analytics
-- [x] **Email sender configured**: `EMAIL_FROM` variable configured with domain matching `countersign.ai`.
+- [x] **Email sender configured**: `EMAIL_FROM` variable configured with domain matching `tracebase.work`.
 - [x] **Authentication records**: SPF, DKIM, and DMARC (`p=none`) documented in `docs/email-setup.md`.
 - [x] **RFC 8058 one-click unsubscribe**: `List-Unsubscribe` and `List-Unsubscribe-Post` headers included on all outbound mail.
 - [x] **Plain text fallback**: Every transactional email renders a clean plain text version.
@@ -103,6 +103,6 @@ This document defines the pre-flight verification checklist for Countersign's pr
 - [ ] `ADMIN_PASSWORD` or production auth session provider configured.
 - [ ] `RESEND_API_KEY` configured for double opt-in confirmation emails.
 - [ ] `SHOW_SAMPLE_DATA` set to `false` in production environment.
-- [ ] `NEXT_PUBLIC_SITE_URL` set to `https://countersign.ai`.
+- [ ] `NEXT_PUBLIC_SITE_URL` set to `https://tracebase.work`.
 - [ ] `NEXT_PUBLIC_BOOKING_URL` set to live calendar booking URL.
 - [ ] Production build verified via `npm run build && npm start`.

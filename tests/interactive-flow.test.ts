@@ -111,7 +111,7 @@ async function runInteractiveTests() {
   await page.waitForTimeout(400);
   const emailInput = page.locator('input[type="email"]').first();
   if (await emailInput.isVisible()) {
-    await emailInput.fill('playwright-test@countersign.ai');
+    await emailInput.fill('playwright-test@tracebase.work');
     const submitBtn = page.locator('button[type="submit"]').first();
     if (await submitBtn.isVisible()) {
       await submitBtn.click();

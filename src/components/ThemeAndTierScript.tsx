@@ -7,12 +7,12 @@ export function ThemeAndTierScript() {
   const code = `
     (function() {
       try {
-        var t = localStorage.getItem('countersign_theme');
+        var t = localStorage.getItem('tracebase_theme') || localStorage.getItem('countersign_theme');
         var isDark = t === 'dark';
         document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
         document.documentElement.classList.toggle('dark', isDark);
         
-        var tier = localStorage.getItem('countersign_tier');
+        var tier = localStorage.getItem('tracebase_tier') || localStorage.getItem('countersign_tier');
         if (tier === 'lite' || tier === 'full' || tier === 'basic') {
           document.documentElement.dataset.tier = tier;
         } else {

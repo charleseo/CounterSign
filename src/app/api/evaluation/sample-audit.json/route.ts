@@ -14,7 +14,7 @@ export async function GET() {
   return NextResponse.json(payload, {
     headers: {
       'Content-Type': 'application/json',
-      'Content-Disposition': 'attachment; filename="countersign-sample-audit-v1.json"',
+      'Content-Disposition': 'attachment; filename="tracebase-sample-audit-v1.json"',
       'Cache-Control': 'public, max-age=3600, s-maxage=86400',
     },
   });

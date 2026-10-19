@@ -55,7 +55,7 @@ export async function GET() {
   return new NextResponse(csvContent, {
     headers: {
       'Content-Type': 'text/csv; charset=utf-8',
-      'Content-Disposition': 'attachment; filename="countersign-sample-audit-v1.csv"',
+      'Content-Disposition': 'attachment; filename="tracebase-sample-audit-v1.csv"',
       'Cache-Control': 'public, max-age=3600, s-maxage=86400',
     },
   });

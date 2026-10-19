@@ -93,13 +93,13 @@ export default function AboutPage() {
         </h2>
         <div className="space-y-3 text-xs sm:text-sm text-readable leading-relaxed">
           <p>
-            To <strong>countersign</strong> means to add a second signature confirming that an original document is genuine.
+            <strong>TraceBase</strong> is built on two principles: every claim must be traced to its source, and every recommendation rests on a verified base.
           </p>
           <p>
-            On the talent side, every job listing is countersigned: verified by a human evaluator directly against official employer portals before it is published. We state true country eligibility, confirmed pay rates, and realistic month-one expectations.
+            On the talent side, every job listing is traced to source: verified by a human evaluator directly against official employer portals before it is published. We state true country eligibility, confirmed pay rates, and realistic month-one expectations.
           </p>
           <p>
-            On the enterprise studio side, every model assertion is countersigned: audited by domain specialists against primary ground-truth documentation to isolate hallucinations and negative-constraint failures.
+            On the enterprise studio side, every model assertion is traced to ground truth: audited by domain specialists against primary reference documentation to isolate hallucinations and negative-constraint failures.
           </p>
         </div>
       </section>

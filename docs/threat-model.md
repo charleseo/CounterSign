@@ -1,6 +1,6 @@
-# Countersign Security Threat Model (v1)
+# TraceBase Security Threat Model (v1)
 
-**Product:** Countersign (Dual-Sided AI Model Evaluation Studio & Human-Verified AI Work Hub)  
+**Product:** TraceBase (Dual-Sided AI Model Evaluation Studio & Human-Verified AI Work Hub)  
 **Author:** Security & Engineering  
 **Version:** 1.0 (Milestone 3, Oct 2026)  
 **Applicability:** Public website forms, `/go/[id]` redirector, admin authentication, enterprise lead data, and NDPA 2023 compliance.
@@ -9,7 +9,7 @@
 
 ## 1. System Overview & Asset Classification
 
-Countersign operates on a strict principle of least-privilege data collection:
+TraceBase operates on a strict principle of least-privilege data collection:
 
 | Asset Tier | Data Description | Confidentiality | Integrity | Availability |
 |---|---|---|---|---|
@@ -63,7 +63,7 @@ Countersign operates on a strict principle of least-privilege data collection:
 
 ## 3. OWASP Top 10 (2025/2026 Edition) Matrix
 
-| OWASP Vulnerability | Risk Level | Mitigation in Countersign Architecture |
+| OWASP Vulnerability | Risk Level | Mitigation in TraceBase Architecture |
 |---|---|---|
 | **A01: Broken Access Control** | High | Row-Level Security (RLS) enabled on all 16 tables. User tables restricted to owner UUID; leads and reports are write-only for public, read-only for admin. |
 | **A02: Cryptographic Failures** | Medium | HTTPS enforced with HSTS. Email addresses hashed via SHA-256 for consent verification logs. Environment secrets separated across dev, preview, and prod. |

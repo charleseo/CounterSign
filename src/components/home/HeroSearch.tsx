@@ -19,7 +19,7 @@ export function HeroSearch() {
   };
 
   const handleOpenPalette = () => {
-    window.dispatchEvent(new CustomEvent('countersign:open-search'));
+    window.dispatchEvent(new CustomEvent('tracebase:open-search'));
   };
 
   return (

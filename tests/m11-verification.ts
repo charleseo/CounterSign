@@ -40,7 +40,7 @@ console.log("Passed: All 17 tables have explicit Row Level Security enabled.");
 
 // 2. User Account & Magic Link Verification
 console.log("\n2. Verifying User Accounts & Magic Link Flow...");
-const testEmail = "test-contributor@countersign.ai";
+const testEmail = "test-contributor@tracebase.work";
 const magicLink = dbRepository.requestMagicLink(testEmail);
 assert(magicLink.token.startsWith("magic_"), "Token format mismatch");
 assert(magicLink.email === testEmail, "Email mismatch");

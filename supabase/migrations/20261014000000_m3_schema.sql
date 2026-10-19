@@ -1,6 +1,6 @@
 -- ============================================================================
--- Countersign Master Schema Migration (Milestone 3)
--- Section 12 & 13 of Countersign Master Build Plan (v5 Definitive)
+-- TraceBase Master Schema Migration (Milestone 3)
+-- Section 12 & 13 of TraceBase Master Build Plan (v5 Definitive)
 -- Database: PostgreSQL 15+ / Supabase
 -- Includes: Types, Tables, RLS Policies, Sweeper Function, and Indexes
 -- ============================================================================
@@ -359,15 +359,15 @@ create policy "Public can insert privacy requests" on privacy_requests for inser
 create policy "Server can insert outbound clicks" on outbound_clicks for insert with check (true);
 
 -- Admin Full Access Policies (via service_role or authenticated admin role)
-create policy "Admin full access on platforms" on platforms for all using (auth.jwt() ->> 'role' = 'service_role' or auth.jwt() ->> 'email' like '%@countersign.%');
-create policy "Admin full access on platform_steps" on platform_steps for all using (auth.jwt() ->> 'role' = 'service_role' or auth.jwt() ->> 'email' like '%@countersign.%');
-create policy "Admin full access on jobs" on jobs for all using (auth.jwt() ->> 'role' = 'service_role' or auth.jwt() ->> 'email' like '%@countersign.%');
-create policy "Admin full access on job_eligibility" on job_eligibility for all using (auth.jwt() ->> 'role' = 'service_role' or auth.jwt() ->> 'email' like '%@countersign.%');
-create policy "Admin full access on check_log" on check_log for all using (auth.jwt() ->> 'role' = 'service_role' or auth.jwt() ->> 'email' like '%@countersign.%');
-create policy "Admin full access on reports" on reports for all using (auth.jwt() ->> 'role' = 'service_role' or auth.jwt() ->> 'email' like '%@countersign.%');
-create policy "Admin full access on eval_leads" on eval_leads for all using (auth.jwt() ->> 'role' = 'service_role' or auth.jwt() ->> 'email' like '%@countersign.%');
-create policy "Admin full access on audit_log" on audit_log for all using (auth.jwt() ->> 'role' = 'service_role' or auth.jwt() ->> 'email' like '%@countersign.%');
-create policy "Admin full access on outbound_clicks" on outbound_clicks for all using (auth.jwt() ->> 'role' = 'service_role' or auth.jwt() ->> 'email' like '%@countersign.%');
-create policy "Admin full access on consent_log" on consent_log for all using (auth.jwt() ->> 'role' = 'service_role' or auth.jwt() ->> 'email' like '%@countersign.%');
-create policy "Admin full access on privacy_requests" on privacy_requests for all using (auth.jwt() ->> 'role' = 'service_role' or auth.jwt() ->> 'email' like '%@countersign.%');
-create policy "Admin full access on incident_log" on incident_log for all using (auth.jwt() ->> 'role' = 'service_role' or auth.jwt() ->> 'email' like '%@countersign.%');
+create policy "Admin full access on platforms" on platforms for all using (auth.jwt() ->> 'role' = 'service_role' or auth.jwt() ->> 'email' like '%@tracebase.%' or auth.jwt() ->> 'email' like '%@countersign.%');
+create policy "Admin full access on platform_steps" on platform_steps for all using (auth.jwt() ->> 'role' = 'service_role' or auth.jwt() ->> 'email' like '%@tracebase.%' or auth.jwt() ->> 'email' like '%@countersign.%');
+create policy "Admin full access on jobs" on jobs for all using (auth.jwt() ->> 'role' = 'service_role' or auth.jwt() ->> 'email' like '%@tracebase.%' or auth.jwt() ->> 'email' like '%@countersign.%');
+create policy "Admin full access on job_eligibility" on job_eligibility for all using (auth.jwt() ->> 'role' = 'service_role' or auth.jwt() ->> 'email' like '%@tracebase.%' or auth.jwt() ->> 'email' like '%@countersign.%');
+create policy "Admin full access on check_log" on check_log for all using (auth.jwt() ->> 'role' = 'service_role' or auth.jwt() ->> 'email' like '%@tracebase.%' or auth.jwt() ->> 'email' like '%@countersign.%');
+create policy "Admin full access on reports" on reports for all using (auth.jwt() ->> 'role' = 'service_role' or auth.jwt() ->> 'email' like '%@tracebase.%' or auth.jwt() ->> 'email' like '%@countersign.%');
+create policy "Admin full access on eval_leads" on eval_leads for all using (auth.jwt() ->> 'role' = 'service_role' or auth.jwt() ->> 'email' like '%@tracebase.%' or auth.jwt() ->> 'email' like '%@countersign.%');
+create policy "Admin full access on audit_log" on audit_log for all using (auth.jwt() ->> 'role' = 'service_role' or auth.jwt() ->> 'email' like '%@tracebase.%' or auth.jwt() ->> 'email' like '%@countersign.%');
+create policy "Admin full access on outbound_clicks" on outbound_clicks for all using (auth.jwt() ->> 'role' = 'service_role' or auth.jwt() ->> 'email' like '%@tracebase.%' or auth.jwt() ->> 'email' like '%@countersign.%');
+create policy "Admin full access on consent_log" on consent_log for all using (auth.jwt() ->> 'role' = 'service_role' or auth.jwt() ->> 'email' like '%@tracebase.%' or auth.jwt() ->> 'email' like '%@countersign.%');
+create policy "Admin full access on privacy_requests" on privacy_requests for all using (auth.jwt() ->> 'role' = 'service_role' or auth.jwt() ->> 'email' like '%@tracebase.%' or auth.jwt() ->> 'email' like '%@countersign.%');
+create policy "Admin full access on incident_log" on incident_log for all using (auth.jwt() ->> 'role' = 'service_role' or auth.jwt() ->> 'email' like '%@tracebase.%' or auth.jwt() ->> 'email' like '%@countersign.%');

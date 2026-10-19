@@ -24,7 +24,7 @@ export const SUPPORTED_COUNTRIES: CountryOption[] = ALL_SUPPORTED_COUNTRIES.map(
   flag: c.flag,
 }));
 
-export const COUNTRY_STORAGE_KEY = "countersign_country";
+export const COUNTRY_STORAGE_KEY = "tracebase_country";
 
 function subscribeCountry(callback: () => void) {
   window.addEventListener("countrychange", callback);
@@ -47,9 +47,9 @@ function getCountrySnapshot(): string {
         return qCountry;
       }
     }
-    let stored = localStorage.getItem(COUNTRY_STORAGE_KEY);
+    let stored = localStorage.getItem(COUNTRY_STORAGE_KEY) || localStorage.getItem("countersign_country");
     if (!stored) {
-      const match = document.cookie.match(new RegExp(`(?:^|; )${COUNTRY_STORAGE_KEY}=([^;]*)`));
+      const match = document.cookie.match(/(?:^|; )(?:tracebase_country|countersign_country)=([^;]*)/);
       if (match) stored = decodeURIComponent(match[1]);
     }
     if (stored) {

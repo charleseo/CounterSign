@@ -1,9 +1,9 @@
-# Countersign: Record of Processing Activities (ROPA)
+# TraceBase: Record of Processing Activities (ROPA)
 ## In Compliance with Section 38 of the Nigeria Data Protection Act (NDPA) 2023
 
-**Data Controller:** Countersign (`countersign.ai` / `countersign.ng`)  
+**Data Controller:** TraceBase (`tracebase.work` / `tracebase.ai` / `tracebase.ng`)  
 **Lead & DPO:** Jo (Ebube Okeke), Founder & Lead Evaluator  
-**Contact:** `privacy@countersign.ai` | Lagos, Nigeria  
+**Contact:** `privacy@tracebase.work` | Lagos, Nigeria  
 **Version:** 1.0 (Audited 15 October 2026)
 
 ---
@@ -43,7 +43,7 @@
 |---|---|---|---|
 | **Vercel Inc.** | Edge cloud hosting, SSR compute, serverless API execution | United States & Global Edge Nodes | SOC 2 Type II, encrypted transit (TLS 1.3), edge caching |
 | **Resend Inc.** | Transactional email dispatch (double opt-in links, receipts) | United States | DPA executed, encrypted API transit, transient mail queue |
-| **Countersign DB** | Encrypted relational store for jobs, audit logs, leads, consent | Cloud / Encrypted storage | RLS policies enabled, service role restricted to server |
+| **TraceBase DB** | Encrypted relational store for jobs, audit logs, leads, consent | Cloud / Encrypted storage | RLS policies enabled, service role restricted to server |
 
 ---
 

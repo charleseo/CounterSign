@@ -1,4 +1,4 @@
-# Countersign accessibility audit report
+# TraceBase accessibility audit report
 
 Date: 15 October 2026
 Status: Completed pass
@@ -8,7 +8,7 @@ Standards: WCAG 2.1 Level AA, section 508, mobile first at 360 px
 
 ## 1. Executive summary
 
-Countersign was designed and audited against WCAG 2.1 Level AA specifications to ensure workers from any country, device, or network speed can safely access verified job listings and evaluation services.
+TraceBase was designed and audited against WCAG 2.1 Level AA specifications to ensure workers from any country, device, or network speed can safely access verified job listings and evaluation services.
 
 The manual and automated audit covered all key public and administrative routes:
 - Home page (`/`)
@@ -25,7 +25,7 @@ All pages met or exceeded the 4.5:1 minimum contrast threshold for standard body
 
 ## 2. Viewport and layout testing (360 px mobile)
 
-Countersign enforces a strict mobile-first viewport budget starting at 360 px (baseline for budget Android smartphones common in emerging markets).
+TraceBase enforces a strict mobile-first viewport budget starting at 360 px (baseline for budget Android smartphones common in emerging markets).
 
 ### Audit findings
 - **Horizontal overflow**: Zero horizontal scrolling observed across all public routes. Container widths rely on responsive CSS rules (`w-full`, `max-w-4xl`, `px-4 sm:px-6`).
@@ -49,7 +49,7 @@ All interactive controls were tested on 360 px and 375 px viewports against the 
 
 ## 4. Color contrast and visual ergonomics (dark theme)
 
-Countersign uses a dark theme by default. Color tokens were measured against WCAG 2.1 AA standards (minimum 4.5:1 for normal body text, 3.0:1 for large headings and active graphical user interface elements).
+TraceBase uses a dark theme by default. Color tokens were measured against WCAG 2.1 AA standards (minimum 4.5:1 for normal body text, 3.0:1 for large headings and active graphical user interface elements).
 
 ### Token measurements
 
@@ -65,7 +65,7 @@ Countersign uses a dark theme by default. Color tokens were measured against WCA
 | Error text / alerts | `#f87171` (Red 400) | `#450a0a` (Red 950) | 5.4:1 | Pass (AA) |
 
 ### Non-color-alone rule enforcement
-Per Countersign project rules, status is never conveyed by color alone:
+Per TraceBase project rules, status is never conveyed by color alone:
 - **Verified status**: Displays green background tint plus a distinct shield check icon and literal text "Human verified".
 - **Flagged status**: Displays amber tint plus alert triangle icon and text "Review needed".
 - **Closed roles**: Displays grey styling, struck-through title, and explicit "Closed" badge.
@@ -93,7 +93,7 @@ All pages were evaluated for logical document outline and assistive navigation.
 
 ## 6. Low bandwidth and accessibility tiers
 
-Countersign implements a three-tier rendering model to support users on low-bandwidth or data-constrained connections:
+TraceBase implements a three-tier rendering model to support users on low-bandwidth or data-constrained connections:
 1. **Full tier**: Default experience with subtle SVG animations and glass headers.
 2. **Lite tier**: Activates when user browser signals `Save-Data: on` or user toggles low bandwidth mode. Blurs, background gradients, and sequence animations are disabled. Fonts revert to native system font stacks (`system-ui`).
 3. **Basic tier**: Static HTML and simple CSS styling for ultra-low latency or legacy mobile browsers.

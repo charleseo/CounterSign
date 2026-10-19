@@ -8,6 +8,13 @@ import { ApplicationStatus } from "@/lib/db/types";
 
 const EmailSchema = z.string().email("Please provide a valid email address.");
 
+const SESSION_COOKIE_NAME = "tracebase_session";
+
+export async function getAccountSessionToken() {
+  const cookieStore = await cookies();
+  return cookieStore.get(SESSION_COOKIE_NAME)?.value || cookieStore.get("countersign_session")?.value;
+}
+
 export interface MagicLinkResult {
   success: boolean;
   message: string;
@@ -48,7 +55,7 @@ export async function verifyMagicLinkAction(token: string) {
   }
 
   const cookieStore = await cookies();
-  cookieStore.set("countersign_session", res.sessionToken, {
+  cookieStore.set(SESSION_COOKIE_NAME, res.sessionToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
@@ -76,7 +83,7 @@ export async function demoContributorLoginAction() {
   }
 
   const cookieStore = await cookies();
-  cookieStore.set("countersign_session", res.sessionToken, {
+  cookieStore.set(SESSION_COOKIE_NAME, res.sessionToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
@@ -138,7 +145,7 @@ export async function passwordLoginAction(
   }
 
   const cookieStore = await cookies();
-  cookieStore.set("countersign_session", res.sessionToken, {
+  cookieStore.set(SESSION_COOKIE_NAME, res.sessionToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
@@ -153,6 +160,7 @@ export async function passwordLoginAction(
 
 export async function logoutAction() {
   const cookieStore = await cookies();
+  cookieStore.delete(SESSION_COOKIE_NAME);
   cookieStore.delete("countersign_session");
   redirect("/account/login");
 }
@@ -193,6 +201,7 @@ export async function deleteAccountAction(userId: string) {
   const res = dbRepository.deleteUserAndData(userId);
   if (res.success) {
     const cookieStore = await cookies();
+    cookieStore.delete(SESSION_COOKIE_NAME);
     cookieStore.delete("countersign_session");
     redirect("/account/login?status=account_deleted");
   }
@@ -200,8 +209,7 @@ export async function deleteAccountAction(userId: string) {
 }
 
 export async function toggleSaveJobAction(jobId: string) {
-  const cookieStore = await cookies();
-  const session = cookieStore.get("countersign_session")?.value;
+  const session = await getAccountSessionToken();
   const user = session ? dbRepository.getSessionUser(session) : null;
 
   if (!user) {
@@ -217,8 +225,7 @@ export async function updateApplicationStatusAction(
   status: ApplicationStatus,
   notes?: string
 ) {
-  const cookieStore = await cookies();
-  const session = cookieStore.get("countersign_session")?.value;
+  const session = await getAccountSessionToken();
   const user = session ? dbRepository.getSessionUser(session) : null;
   if (!user) {
     return { success: false, error: "Authentication required." };
@@ -229,8 +236,7 @@ export async function updateApplicationStatusAction(
 }
 
 export async function addUserApplicationAction(formData: FormData) {
-  const cookieStore = await cookies();
-  const session = cookieStore.get("countersign_session")?.value;
+  const session = await getAccountSessionToken();
   const user = session ? dbRepository.getSessionUser(session) : null;
   if (!user) {
     return { success: false, error: "Authentication required." };
@@ -261,8 +267,7 @@ export async function addUserApplicationAction(formData: FormData) {
 }
 
 export async function deleteUserApplicationAction(applicationId: string) {
-  const cookieStore = await cookies();
-  const session = cookieStore.get("countersign_session")?.value;
+  const session = await getAccountSessionToken();
   const user = session ? dbRepository.getSessionUser(session) : null;
   if (!user) {
     return { success: false, error: "Authentication required." };

@@ -6,8 +6,8 @@
 export type CapabilityTier = "full" | "lite" | "basic";
 export type ThemeMode = "dark" | "light";
 
-export const TIER_STORAGE_KEY = "countersign_tier";
-export const THEME_STORAGE_KEY = "countersign_theme";
+export const TIER_STORAGE_KEY = "tracebase_tier";
+export const THEME_STORAGE_KEY = "tracebase_theme";
 
 /**
  * Determine the initial capability tier.
@@ -16,7 +16,7 @@ export const THEME_STORAGE_KEY = "countersign_theme";
 export function chooseTier(): CapabilityTier {
   if (typeof window === "undefined") return "full";
 
-  const stored = localStorage.getItem(TIER_STORAGE_KEY);
+  const stored = localStorage.getItem(TIER_STORAGE_KEY) || localStorage.getItem("countersign_tier");
   if (stored === "lite" || stored === "full" || stored === "basic") {
     return stored;
   }
@@ -59,7 +59,7 @@ export function setTier(tier: CapabilityTier): void {
  */
 export function chooseTheme(): ThemeMode {
   if (typeof window === "undefined") return "light";
-  const stored = localStorage.getItem(THEME_STORAGE_KEY);
+  const stored = localStorage.getItem(THEME_STORAGE_KEY) || localStorage.getItem("countersign_theme");
   if (stored === "light" || stored === "dark") {
     return stored;
   }

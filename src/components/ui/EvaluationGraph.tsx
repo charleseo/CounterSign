@@ -40,7 +40,7 @@ export function EvaluationGraph({
             How we check an answer
           </h3>
           <p className="text-xs text-secondary font-mono">
-            How model answers are countersigned against reference truth
+            How model answers are verified against reference truth
           </p>
         </div>
 

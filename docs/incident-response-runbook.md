@@ -1,8 +1,8 @@
-# Countersign: 72-Hour Data Incident Response Runbook
+# TraceBase: 72-Hour Data Incident Response Runbook
 ## Mandatory Procedure under Section 40 of the Nigeria Data Protection Act (NDPA) 2023
 
 **Document Owner:** Jo (Ebube Okeke), Data Protection Lead  
-**Contact:** `privacy@countersign.ai` | Emergency Phone: Private  
+**Contact:** `privacy@tracebase.work` | Emergency Phone: Private  
 **Applicability:** All security incidents, credential leaks, or near-misses affecting personal data.
 
 ---

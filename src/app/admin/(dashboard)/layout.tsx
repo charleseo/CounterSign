@@ -18,7 +18,7 @@ export default async function AdminDashboardLayout({
 }) {
   await connection();
   const cookieStore = await cookies();
-  const session = cookieStore.get('countersign_admin_session')?.value;
+  const session = cookieStore.get('tracebase_admin_session')?.value || cookieStore.get('countersign_admin_session')?.value;
 
   if (session !== 'authenticated_admin') {
     redirect('/admin/login');

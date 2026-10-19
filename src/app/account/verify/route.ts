@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
   }
 
   const response = NextResponse.redirect(new URL("/account", request.url));
-  response.cookies.set("countersign_session", res.sessionToken, {
+  response.cookies.set("tracebase_session", res.sessionToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",

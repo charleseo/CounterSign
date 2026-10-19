@@ -67,7 +67,7 @@ export default async function Image({ params }: PlatformOgProps) {
                 fontWeight: 800,
               }}
             >
-              CS
+              TB
             </div>
             <span
               style={{
@@ -77,7 +77,7 @@ export default async function Image({ params }: PlatformOgProps) {
                 color: '#ffffff',
               }}
             >
-              COUNTERSIGN
+              TRACEBASE
             </span>
           </div>
 

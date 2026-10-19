@@ -275,7 +275,7 @@ async function runCopyLint() {
     });
     process.exit(1);
   } else {
-    console.log('All public routes comply with Countersign copy rules!');
+    console.log('All public routes comply with TraceBase copy rules!');
     process.exit(0);
   }
 }

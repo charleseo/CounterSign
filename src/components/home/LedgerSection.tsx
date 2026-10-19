@@ -223,7 +223,7 @@ export function LedgerSection({ roles }: LedgerSectionProps) {
                 </button>
                 <button
                   type="button"
-                  onClick={() => window.dispatchEvent(new CustomEvent("countersign:open-alert-modal"))}
+                  onClick={() => window.dispatchEvent(new CustomEvent("tracebase:open-alert-modal"))}
                   className="min-h-[44px] px-4 py-2 text-sm font-semibold rounded-lg bg-[var(--brand-ink)] text-white hover:opacity-95 transition-opacity cursor-pointer"
                 >
                   Email me when one appears

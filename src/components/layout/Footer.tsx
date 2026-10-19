@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { TraceBaseLogo } from "@/components/ui/TraceBaseLogo";
 import { COUNTRY_STORAGE_KEY } from "@/components/ui/CountrySelector";
+import { TIER_STORAGE_KEY } from "@/lib/tiers";
 
 function subscribeTier(callback: () => void) {
   window.addEventListener("tierchange", callback);
@@ -18,7 +19,7 @@ function subscribeTier(callback: () => void) {
 function getTierSnapshot(): boolean {
   if (typeof window === "undefined") return false;
   try {
-    const currentTier = document.documentElement.dataset.tier || localStorage.getItem("countersign_tier");
+    const currentTier = document.documentElement.dataset.tier || localStorage.getItem(TIER_STORAGE_KEY) || localStorage.getItem("countersign_tier");
     return currentTier === "lite" || currentTier === "basic";
   } catch {
     return false;
@@ -61,7 +62,7 @@ export function Footer() {
   const toggleDataSaver = () => {
     const nextTier = dataSaver ? "full" : "lite";
     try {
-      localStorage.setItem("countersign_tier", nextTier);
+      localStorage.setItem(TIER_STORAGE_KEY, nextTier);
       document.documentElement.dataset.tier = nextTier;
       window.dispatchEvent(new CustomEvent("tierchange", { detail: nextTier }));
     } catch {

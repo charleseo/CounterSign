@@ -51,7 +51,7 @@ async function runFixListChecks() {
   const xml = await response.text();
   assert.ok(xml.includes('<rss version="2.0"'), 'Must be valid RSS 2.0');
   assert.ok(xml.includes('<channel>'), 'Must contain RSS channel');
-  assert.ok(xml.includes('<title>TraceBase') || xml.includes('<title>Countersign'), 'Must have channel title');
+  assert.ok(xml.includes('<title>TraceBase'), 'Must have channel title');
   assert.ok(xml.includes('<item>'), 'Must contain RSS items');
   console.log('Passed: /rss.xml generates valid RSS 2.0 feed.\n');
 

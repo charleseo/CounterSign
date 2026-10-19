@@ -58,7 +58,7 @@ export async function GET() {
     '0 -11 Td',
     '(- Evaluation Pilots: Standard 100-300 test pair calibration sprints. Turnaround in 5 working days.) Tj',
     '0 -18 Td',
-    '(Book an audit scoping call: https://countersign.work/evaluation/scope | Contact: hello@tracebase.work) Tj',
+    '(Book an audit scoping call: https://tracebase.work/evaluation/scope | Contact: hello@tracebase.work) Tj',
     'ET',
   ];
 
@@ -119,7 +119,7 @@ ${420 + streamLength}
     status: 200,
     headers: {
       'Content-Type': 'application/pdf',
-      'Content-Disposition': 'inline; filename="countersign-sample-audit.pdf"',
+      'Content-Disposition': 'inline; filename="tracebase-sample-audit.pdf"',
       'Cache-Control': 'public, max-age=86400, s-maxage=86400',
     },
   });

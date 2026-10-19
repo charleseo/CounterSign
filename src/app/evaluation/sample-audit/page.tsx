@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 
 export default function SampleAuditPage() {
   const cases = SAMPLE_AUDIT_CASES;
-  const bookingUrl = process.env.NEXT_PUBLIC_BOOKING_URL || 'https://cal.com/countersign/audit-intro';
+  const bookingUrl = process.env.NEXT_PUBLIC_BOOKING_URL || 'https://cal.com/tracebase/audit-intro';
   const pilotPriceText = process.env.NEXT_PUBLIC_PILOT_PRICE_TEXT || 'Pilots start at $1,500';
 
   return (
@@ -140,7 +140,7 @@ export default function SampleAuditPage() {
 
             <a
               href="/api/evaluation/sample-audit.csv"
-              download="countersign-sample-audit-v1.0.0.csv"
+              download="tracebase-sample-audit-v1.0.0.csv"
               className="px-3.5 py-2 rounded-xl bg-sheet border border-rule hover:border-[#5A35C8] text-xs text-ink flex items-center gap-2 transition-colors cursor-pointer"
             >
               <Download className="w-3.5 h-3.5 text-[#5A35C8]" />

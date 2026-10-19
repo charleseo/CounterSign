@@ -25,7 +25,7 @@ interface LoginPageProps {
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {
   const cookieStore = await cookies();
-  const sessionToken = cookieStore.get("countersign_session")?.value;
+  const sessionToken = cookieStore.get("tracebase_session")?.value || cookieStore.get("countersign_session")?.value;
   if (sessionToken) {
     const user = dbRepository.getSessionUser(sessionToken);
     if (user) {

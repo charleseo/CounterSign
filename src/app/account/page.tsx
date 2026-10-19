@@ -19,7 +19,7 @@ export const instant = false;
 
 export default async function AccountPage() {
   const cookieStore = await cookies();
-  const sessionToken = cookieStore.get("countersign_session")?.value;
+  const sessionToken = cookieStore.get("tracebase_session")?.value || cookieStore.get("countersign_session")?.value;
 
   if (!sessionToken) {
     redirect("/account/login");

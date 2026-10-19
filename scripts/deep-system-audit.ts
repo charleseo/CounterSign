@@ -223,7 +223,7 @@ async function runDeepSystemAudit() {
     for (const t of tiers) {
       await page.evaluate((tier) => {
         document.documentElement.dataset.tier = tier;
-        localStorage.setItem('countersign_tier', tier);
+        localStorage.setItem('tracebase_tier', tier);
         window.dispatchEvent(new CustomEvent('tierchange', { detail: tier }));
       }, t);
       await page.waitForTimeout(100);
@@ -239,7 +239,7 @@ async function runDeepSystemAudit() {
 
     await page.evaluate(() => {
       document.documentElement.dataset.theme = 'light';
-      localStorage.setItem('countersign_theme', 'light');
+      localStorage.setItem('tracebase_theme', 'light');
     });
     await page.waitForTimeout(100);
     const lightTheme = await page.evaluate(() => document.documentElement.dataset.theme);
@@ -249,7 +249,7 @@ async function runDeepSystemAudit() {
     // Restore dark theme
     await page.evaluate(() => {
       document.documentElement.dataset.theme = 'dark';
-      localStorage.setItem('countersign_theme', 'dark');
+      localStorage.setItem('tracebase_theme', 'dark');
     });
     await page.waitForTimeout(100);
     console.log('✓ Dark theme restored');

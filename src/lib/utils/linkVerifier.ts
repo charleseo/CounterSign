@@ -26,7 +26,7 @@ export async function checkUrlStatus(targetUrl: string): Promise<{
         method: 'HEAD',
         redirect: 'manual',
         headers: {
-          'User-Agent': 'TraceBaseLinkVerifier/1.0 (+https://countersign.work)',
+          'User-Agent': 'TraceBaseLinkVerifier/1.0 (+https://tracebase.work)',
           Accept: 'text/html,application/xhtml+xml',
         },
         signal: controller.signal,
@@ -38,7 +38,7 @@ export async function checkUrlStatus(targetUrl: string): Promise<{
           method: 'GET',
           redirect: 'manual',
           headers: {
-            'User-Agent': 'TraceBaseLinkVerifier/1.0 (+https://countersign.work)',
+            'User-Agent': 'TraceBaseLinkVerifier/1.0 (+https://tracebase.work)',
             Accept: 'text/html,application/xhtml+xml',
           },
           signal: controller.signal,

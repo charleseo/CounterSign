@@ -98,7 +98,7 @@ export function JobsExplorer({ initialJobs, countries, rechecksPausedUntil }: Jo
   // Update document cookie whenever country changes so SSR/edge routes read it
   useEffect(() => {
     try {
-      document.cookie = `countersign_country=${selectedCountryCode}; path=/; max-age=31536000; SameSite=Lax`;
+      document.cookie = `tracebase_country=${selectedCountryCode}; path=/; max-age=31536000; SameSite=Lax`;
     } catch {
       // Ignore in non-standard environments
     }

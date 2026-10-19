@@ -17,7 +17,7 @@ export async function GET(
   }
 
   // Read the country chip value from cookie or header (never IP / geolocation)
-  const countryCookie = request.cookies.get('countersign_country')?.value;
+  const countryCookie = request.cookies.get('tracebase_country')?.value || request.cookies.get('countersign_country')?.value;
   const coarseCountryCode = countryCookie ? countryCookie.toUpperCase().slice(0, 2) : 'NG';
 
   // 1. Log anonymous click safely inside try/catch so logging errors NEVER block the redirect

@@ -1,5 +1,5 @@
 -- ============================================================================
--- Countersign Master Seed Data (SAMPLE DATA ONLY)
+-- TraceBase Master Seed Data (SAMPLE DATA ONLY)
 -- Section 12 & 13 of Master Plan v5
 -- All sample records are explicitly labeled SAMPLE
 -- ============================================================================

@@ -95,7 +95,7 @@ export function ShareButton({
       trackEvent('share_click', { pageType, channel });
       if (typeof window !== "undefined") {
         window.dispatchEvent(
-          new CustomEvent("countersign:share_click", {
+          new CustomEvent("tracebase:share_click", {
             detail: {
               pageType,
               channel,

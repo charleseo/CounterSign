@@ -289,7 +289,7 @@ export async function adminLoginAction(
 
     if (isAuthValid) {
       const cookieStore = await cookies();
-      cookieStore.set('countersign_admin_session', 'authenticated_admin', {
+      cookieStore.set('tracebase_admin_session', 'authenticated_admin', {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
@@ -340,6 +340,7 @@ export async function adminLogoutAction(): Promise<void> {
   let redirectTarget: string | null = null;
   try {
     const cookieStore = await cookies();
+    cookieStore.delete('tracebase_admin_session');
     cookieStore.delete('countersign_admin_session');
     redirectTarget = '/admin/login';
   } catch {

@@ -1,6 +1,6 @@
-# Countersign email setup and deliverability guide
+# TraceBase email setup and deliverability guide
 
-This document details the production email architecture, DNS records (SPF, DKIM, DMARC), and deliverability standards for Countersign.
+This document details the production email architecture, DNS records (SPF, DKIM, DMARC), and deliverability standards for TraceBase.
 
 ## 1. Sender configuration
 
@@ -8,20 +8,20 @@ The sending identity is read dynamically from the `EMAIL_FROM` environment varia
 
 ```env
 # Default production sender
-EMAIL_FROM="Countersign <alerts@countersign.work>"
+EMAIL_FROM="TraceBase <alerts@tracebase.work>"
 
 # Dedicated review/contact sender
-EMAIL_CONTACT="hello@countersign.work"
+EMAIL_CONTACT="hello@tracebase.work"
 ```
 
-If `EMAIL_FROM` is unset, the system defaults to `"Countersign <alerts@countersign.work>"`.
+If `EMAIL_FROM` is unset, the system defaults to `"TraceBase <alerts@tracebase.work>"`.
 
 ## 2. DNS authentication records
 
 To guarantee that job alert emails and weekly digests arrive in user inboxes without being flagged as spam or spoofed by bad actors, the sending domain must have SPF, DKIM, and DMARC configured.
 
 ### SPF (Sender Policy Framework)
-Add a TXT record to the root sending domain (`countersign.work`):
+Add a TXT record to the root sending domain (`tracebase.work`):
 
 | Host | Type | Value | TTL |
 | :--- | :--- | :--- | :--- |
@@ -41,17 +41,17 @@ For launch readiness, configure DMARC with `p=none` to monitor alignment and gat
 
 | Host | Type | Value | TTL |
 | :--- | :--- | :--- | :--- |
-| `_dmarc` | TXT | `v=DMARC1; p=none; rua=mailto:dmarc-reports@countersign.work; pct=100; sp=none; aspf=r;` | 3600 |
+| `_dmarc` | TXT | `v=DMARC1; p=none; rua=mailto:dmarc-reports@tracebase.work; pct=100; sp=none; aspf=r;` | 3600 |
 
 > [!NOTE]
 > Once delivery reports confirm 100% DKIM and SPF alignment across all recipient mailboxes (Gmail, Yahoo, Outlook, iCloud), upgrade the policy from `p=none` to `p=quarantine` and eventually `p=reject`.
 
 ## 3. RFC 8058 one-click unsubscribe compliance
 
-Every outbound email message sent by Countersign includes both header-level and body-level unsubscribe mechanisms compliant with RFC 2369 and RFC 8058:
+Every outbound email message sent by TraceBase includes both header-level and body-level unsubscribe mechanisms compliant with RFC 2369 and RFC 8058:
 
 ```http
-List-Unsubscribe: <https://countersign.work/newsletter/unsubscribe?token=...>
+List-Unsubscribe: <https://tracebase.work/newsletter/unsubscribe?token=...>
 List-Unsubscribe-Post: List-Unsubscribe=One-Click
 Auto-Submitted: auto-generated
 ```

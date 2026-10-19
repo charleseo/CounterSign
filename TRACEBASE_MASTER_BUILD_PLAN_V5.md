@@ -1,11 +1,11 @@
-# Countersign: Master Website Build Plan (v5, Definitive)
+# TraceBase: Master Website Build Plan (v5, Definitive)
 ## Dual-Sided AI Model Evaluation Studio & Human-Verified AI Work Hub
 
 Prepared for Jo (Ebube Okeke), 14 Oct 2026.  
 Hand this whole file to your coding agent. It covers strategy, competitor research, every page specification, copy deck, futuristic design tokens, database schema, coding agent prompt sequence, practical NDPA data protection rules, and the 90-day launch roadmap.
 
 ### What changed in v5 (Definitive Master Plan):
-1. **Brand Name Locked:** Adopted **Countersign** (`countersign.ai` | `countersign.ng` | `getcountersign.com`). Meaning: To countersign means to add a second signature confirming something is genuine. On the talent side, every job is countersigned (human-checked against official employer sources). On the enterprise AI side, every model answer is countersigned (checked against source documents by domain specialists). Fits the Seal logo mark naturally.
+1. **Brand Name Locked:** Adopted **TraceBase** (`tracebase.work` | `tracebase.ai` | `tracebase.ng`). Meaning: TraceBase stands for tracing every claim to its verified base. On the talent side, every job is human-checked against official employer sources. On the enterprise AI side, every model answer is verified and checked against source documents by domain specialists.
 2. **Nigeria Hub Content:** Integrated practical playbooks for receiving USD payments in Nigeria (Geegpay, Grey, Nigerian bank domiciliary accounts), mapping Nigerian university degrees (B.Sc., B.Eng., HND) to global evaluation qualification tiers, and local tips for backup power (mini DC UPS) and mobile data conservation.
 3. **Expanded Scam Checklist:** Integrated high-signal warning signs—demanding cryptocurrency or gift card payments, requesting BVN or online banking passwords, entities unlisted in the CAC public register, and fake recruiters using WhatsApp/Telegram with no official corporate domain email. Reinforced legal safety: risk scores and warning signs only, never automated defamatory public blacklists.
 4. **Nightly Link Checker:** Added an automated cron helper that pings Apply links nightly to catch dead 404s/redirects, explicitly paired with the mandatory 14-day human recheck.
@@ -245,15 +245,15 @@ ChatGPT grouped the space in three bands. Study each for clarity and workflow, n
 
 ## 4. Positioning, voice and naming
 
-**Brand name:** **Countersign**  
-*Origin & Meaning:* To countersign means to add a second signature confirming that a document or record is genuine. This is the exact promise Countersign delivers on both sides of the market:
-- **For AI Job Seekers:** Every role is countersigned—meaning an independent human verified it against the official employer source before it was published.
-- **For Enterprise AI Teams:** Every model answer is countersigned—meaning human domain evaluators verified the completion against the ground-truth reference context.
+**Brand name:** **TraceBase**  
+*Origin & Meaning:* TraceBase stands for tracing every opportunity and AI completion back to verified base truth. This is the exact promise TraceBase delivers on both sides of the market:
+- **For AI Job Seekers:** Every role is independently verified by a human against the official employer source before publication.
+- **For Enterprise AI Teams:** Every model answer is verified against ground-truth reference context.
 
-**Brand device:** The Seal: a precision circular ring with an inner check mark. Used as logo, favicon, verification stamp, and status glyph across both the work hub and evaluation studio.
+**Brand device:** The TraceBase Mark: precision geometric verification mark. Used as logo, favicon, verification stamp, and status glyph across both the work hub and evaluation studio.
 
 **Domains & Handles Strategy:**
-- Primary web domain targets: `countersign.ai`, `countersign.ng`, or `getcountersign.com`.
+- Primary web domain targets: `tracebase.work`, `tracebase.ai`, or `tracebase.ng`.
 - Immediate validation checks:
   1. Check domain availability on Cloudflare Registrar or Namecheap.
   2. Run a business name availability search on the Nigerian **Corporate Affairs Commission (CAC)** public portal (`search.cac.gov.ng`).
@@ -265,12 +265,12 @@ ChatGPT grouped the space in three bands. Study each for clarity and workflow, n
 
 **Promise lines (OPEN, pick one):**
 - "AI work, checked by a human." (Recommended for initial launch)
-- "Every role countersigned. Every answer verified."
+- "Every role checked. Every answer verified."
 - "Real AI jobs. Real answers. Checked."
 - "Know before you apply."
 
 **Value propositions:**
-1. **Countersigned listings:** Every role has a verified status, an official employer source, and a visible last-checked date.
+1. **Verified listings:** Every role has a verified status, an official employer source, and a visible last-checked date.
 2. **Honest country eligibility:** We tell you if your country is accepted, or that we could not confirm it.
 3. **Transparent onboarding reality:** We tell you what the first month actually looks like, and label what is official versus community-reported.
 4. **Uncompromising neutrality:** We never sell ranking, we never charge candidates, and referral links are always disclosed.
@@ -524,7 +524,7 @@ Targeted, practical guide for Nigerian candidates navigating international AI wo
 
 **4. Electricity, Backup Power & Data Conservation:**
 - **Power Reliability Setup:** Recommends affordable mini DC UPS devices (12V / mini-UPS) to keep Wi-Fi routers powered during national grid load-shedding, alongside high-capacity power banks for laptops and smartphones.
-- **Mobile Data Conservation:** Practical browser settings to save bandwidth, advice on using Countersign's Data-Saver mode (<48 KB initial load), and optimizing image/video download settings.
+- **Mobile Data Conservation:** Practical browser settings to save bandwidth, advice on using TraceBase's Data-Saver mode (<48 KB initial load), and optimizing image/video download settings.
 
 **5. Active Platforms for Nigerians:**
 - Filtered subset of platforms that currently accept Nigerian residents, with explicit status: *Official support*, *Reported working by community*, or *Currently waitlisted*.
@@ -1038,7 +1038,7 @@ Short, purposeful, tied to meaning.
 
 ### 10.10 Capability tiers (how futuristic stays fast)
 
-Countersign guarantees that visitors in Lagos on 3G mobile experience the exact same speed and legibility as enterprise buyers in San Francisco on fiber broadband:
+TraceBase guarantees that visitors in Lagos on 3G mobile experience the exact same speed and legibility as enterprise buyers in San Francisco on fiber broadband:
 
 **1. Full Tier (Fast broadband, desktop, modern mobile):**
 - Hardware-accelerated CSS subtle spotlight edges on interactive cards.
@@ -1380,7 +1380,7 @@ Rules:
 ### 13.1 Sourcing rules
 
 1. **Official Feeds Only:** Every job record must come directly from an official company career feed (Ashby, Greenhouse, Lever, Workable) or an authorized employer partnership.
-2. **Zero Aggregator Scraping:** Countersign never scrapes third-party job boards, community aggregators, or unverified social media posts. This prevents stale listings, copyright issues, and scraper IP bans.
+2. **Zero Aggregator Scraping:** TraceBase never scrapes third-party job boards, community aggregators, or unverified social media posts. This prevents stale listings, copyright issues, and scraper IP bans.
 3. **Automated Nightly Link Ping Helper:**
    - A scheduled serverless cron worker (`/api/cron/verify-links`) runs nightly at 02:00 UTC.
    - It performs an HTTP HEAD or lightweight GET request on every active external `apply_url`.
@@ -1980,7 +1980,7 @@ Build none of this until a client has paid for a pilot and the work is too much 
 
 | Change Category | What Was Updated | Rationale |
 |---|---|---|
-| **Brand Identity** | Renamed platform to **Countersign** (`countersign.ai` / `countersign.ng`) | Plain English, high trust, exact alignment with human sign-off on jobs and AI ground truth. Matches the Seal logo. |
+| **Brand Identity** | Named platform **TraceBase** (`tracebase.work` / `tracebase.ai` / `tracebase.ng`) | Plain English, high trust, exact alignment with human sign-off on jobs and AI ground truth. Matches the TraceBase Mark. |
 | **Nigeria Hub** | Added USD payout guide (Geegpay, Grey, Domiciliary), degree mapping, and power/data tips | Provides original, high-utility guidance tailored to Nigerian STEM graduates. |
 | **Scam Checklist** | Added crypto/giftcard pay, BVN/password requests, and CAC checks | Catches the most prevalent modern job scams without defamation risk. |
 | **Link Verification** | Added automated nightly link ping (`/api/cron/verify-links`) | Catches broken apply URLs automatically while preserving the 14-day human recheck. |

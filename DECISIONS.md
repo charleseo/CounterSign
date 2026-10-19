@@ -1,14 +1,14 @@
-# Countersign Architectural & Product Decisions (DECISIONS.md)
+# TraceBase Architectural & Product Decisions (DECISIONS.md)
 
-This log records the safe defaults and product decisions made during implementation in accordance with `COUNTERSIGN_MASTER_BUILD_PLAN_V5.md` (Section 20.1 & Section 23).
+This log records the safe defaults and product decisions made during implementation in accordance with `TRACEBASE_MASTER_BUILD_PLAN_V5.md` (Section 20.1 & Section 23).
 
 ---
 
 ## 1. Brand & Identity
-- **Product Name:** Countersign.
-- **Domains:** Primary `countersign.ai`, localized hub `countersign.ng`.
+- **Product Name:** TraceBase.
+- **Domains:** Primary `tracebase.work` / `tracebase.ai`, localized hub `tracebase.ng`.
 - **Core Promise:** "AI work, checked by a human. Model answers, checked against the source."
-- **Logo Device:** The Seal (concentric geometric verification stamp with authentic SVG tick and micro-radii).
+- **Logo Device:** The TraceBase Mark (geometric verification mark with dual-color palette).
 - **Typography:** Inter (`--font-sans`) and JetBrains Mono (`--font-mono`). All typography loaded via `next/font/google` with strict `< 100 KB` total font weight budget.
 - **Copy Guardrail:** Absolute prohibition of em dashes in any public-facing text across all pages.
 

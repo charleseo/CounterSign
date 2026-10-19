@@ -61,7 +61,7 @@ export default async function Image() {
                 color: '#ffffff',
               }}
             >
-              COUNTERSIGN
+              TRACEBASE
             </span>
           </div>
 

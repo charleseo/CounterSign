@@ -92,8 +92,12 @@ export function CommandPalette({ className = '', triggerLabel }: CommandPaletteP
       setSelectedIndex(0);
       setIsOpen(true);
     };
+    window.addEventListener('tracebase:open-search', handleOpenEvent);
     window.addEventListener('countersign:open-search', handleOpenEvent);
-    return () => window.removeEventListener('countersign:open-search', handleOpenEvent);
+    return () => {
+      window.removeEventListener('tracebase:open-search', handleOpenEvent);
+      window.removeEventListener('countersign:open-search', handleOpenEvent);
+    };
   }, []);
 
   // Keyboard shortcut listener (Cmd+K / Ctrl+K / Escape)
