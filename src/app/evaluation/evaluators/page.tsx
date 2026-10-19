@@ -83,7 +83,7 @@ export default function EvaluatorsPage() {
             Register Your Specialist Credentials
           </h2>
           <p className="text-xs text-secondary leading-relaxed">
-            Tell us about your background and verified qualifications. Jo reviews every application personally before project allocation.
+            Tell us about your background and verified qualifications. Ebubechukwu Okeke reviews every application personally before project allocation.
           </p>
         </div>
 

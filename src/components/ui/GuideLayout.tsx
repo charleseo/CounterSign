@@ -22,14 +22,14 @@ export interface GuideLayoutProps {
 /**
  * GuideLayout (Section 7.7 & 10.11)
  * Optimized 680px reading column, desktop table of contents,
- * verified author sign-off ("Checked by Jo"), and source bibliography.
+ * verified author sign-off ("Checked by Ebubechukwu Okeke"), and source bibliography.
  */
 export function GuideLayout({
   title,
   summary,
   readingTimeMinutes,
   lastUpdated,
-  author = "Jo (Ebube Okeke)",
+  author = "Ebubechukwu Okeke",
   sources = [],
   tableOfContents = [],
   children,
@@ -135,10 +135,10 @@ export function GuideLayout({
           {/* Guide Sign-off */}
           <div className="mt-8 p-4 rounded-xl border border-subtle bg-surface not-prose flex items-start gap-3">
             <div className="w-10 h-10 rounded-full border border-subtle bg-void flex items-center justify-center font-mono font-bold text-accent-cyan flex-shrink-0">
-              JO
+              EO
             </div>
             <div className="text-xs space-y-1">
-              <div className="font-semibold text-primary">Written & Verified by Jo</div>
+              <div className="font-semibold text-primary">Written & verified by Ebubechukwu Okeke</div>
               <p className="text-secondary leading-relaxed">
                 Independent AI evaluation specialist based in Nigeria. If any information in this guide has changed or needs correction, submit a report for immediate update.
               </p>

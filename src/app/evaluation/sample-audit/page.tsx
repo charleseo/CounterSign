@@ -440,7 +440,7 @@ export default function SampleAuditPage() {
               </li>
               <li>
                 <strong className="text-ink">Temporal Version Anchoring:</strong> In
-                fast-moving developer ecosystems (Tailwind v4, Next.js 15), legacy configuration
+                fast-moving developer environments (Tailwind v4, Next.js 15), legacy configuration
                 patterns remain sticky unless explicit version-boundary negative constraints are
                 enforced.
               </li>

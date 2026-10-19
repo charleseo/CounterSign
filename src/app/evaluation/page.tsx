@@ -7,6 +7,7 @@ import {
   Lock,
   Sparkles,
   ChevronDown,
+  Clock,
 } from 'lucide-react';
 import { EvaluationGraph } from '@/components/evaluation/EvaluationGraph';
 import { InteractiveComparisonPanel } from '@/components/evaluation/InteractiveComparisonPanel';
@@ -255,6 +256,86 @@ export default function EvaluationStudioPage() {
         </div>
       </section>
 
+      {/* 48-Hour Startup Pilot Sprint Package */}
+      <section aria-labelledby="sprint-package-h" className="p-6 sm:p-8 rounded-2xl border-2 border-[#5A35C8]/40 bg-[#5A35C8]/5 space-y-6">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-[#5A35C8]/20">
+          <div className="space-y-1.5">
+            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full border border-[#5A35C8]/40 bg-[#5A35C8]/10 text-xs font-semibold text-[#5A35C8]">
+              <Clock size={13} />
+              <span>48-hour pilot turnaround</span>
+            </div>
+            <h2 id="sprint-package-h" className="text-xl sm:text-3xl font-extrabold tracking-tight text-ink m-0">
+              48-hour RAG truth and citation audit sprint
+            </h2>
+            <p className="text-xs sm:text-sm text-secondary m-0">
+              A rapid, focused pilot package for AI startups shipping developer assistants, documentation bots, or search retrieval systems.
+            </p>
+          </div>
+
+          <div className="p-4 rounded-xl border border-[#5A35C8]/30 bg-sheet shrink-0 text-center sm:text-right">
+            <span className="text-[11px] font-semibold text-secondary block">Flat pilot fee</span>
+            <span className="text-2xl sm:text-3xl font-extrabold text-ink tabular-nums">$1,500</span>
+            <span className="text-[11px] text-emerald-800 dark:text-emerald-400 font-semibold block">100 outputs audited</span>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+          <div className="p-4 rounded-xl border border-rule bg-sheet space-y-1.5">
+            <span className="font-bold text-ink block">100 Test pairs audited</span>
+            <p className="text-secondary leading-relaxed m-0">
+              Line-by-line verification of model answers against your official ground-truth technical documentation chunks.
+            </p>
+          </div>
+
+          <div className="p-4 rounded-xl border border-rule bg-sheet space-y-1.5">
+            <span className="font-bold text-ink block">48-Hour turnaround</span>
+            <p className="text-secondary leading-relaxed m-0">
+              Delivered within 48 business hours from dataset receipt. Ideal for immediate pre-launch sanity checks.
+            </p>
+          </div>
+
+          <div className="p-4 rounded-xl border border-rule bg-sheet space-y-1.5">
+            <span className="font-bold text-ink block">Principal evaluator lead</span>
+            <p className="text-secondary leading-relaxed m-0">
+              Led directly by founder Ebubechukwu Okeke. Every citation defect verified against source documentation.
+            </p>
+          </div>
+
+          <div className="p-4 rounded-xl border border-rule bg-sheet space-y-1.5">
+            <span className="font-bold text-ink block">Actionable audit pack</span>
+            <p className="text-secondary leading-relaxed m-0">
+              Clean CSV and JSON defect logs, hallucination taxonomy, prompt fixes, and signed verification certificate.
+            </p>
+          </div>
+        </div>
+
+        <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="text-xs text-secondary flex items-center gap-2">
+            <ShieldCheck size={15} className="text-[#5A35C8] shrink-0" />
+            <span>Mutual NDA signed before data transfer. Your data is never used to train external models.</span>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2.5">
+            <a
+              href={bookingUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-rule bg-sheet hover:bg-surface text-ink text-xs font-semibold transition-colors min-h-[40px]"
+            >
+              <span>Book 20-minute prep call</span>
+              <ArrowRight size={13} />
+            </a>
+            <Link
+              href="/evaluation/scope"
+              className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-[#5A35C8] text-white hover:bg-[#4D2BAE] text-xs font-bold transition-colors min-h-[40px]"
+            >
+              <span>Scope 48-hour sprint ($1,500)</span>
+              <ArrowRight size={13} />
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* 4. Service Cards */}
       <section className="space-y-6">
         <div className="space-y-2 max-w-2xl">
@@ -393,7 +474,7 @@ export default function EvaluationStudioPage() {
               <ShieldCheck size={15} />
               <span>About the Evaluator</span>
             </div>
-            <h3 className="text-lg font-bold text-ink">Jo (Ebube) Okeke, Principal</h3>
+            <h3 className="text-lg font-bold text-ink">Ebubechukwu Okeke, Principal</h3>
             <p className="text-xs text-secondary leading-relaxed">
               Experienced technical AI evaluator and software engineer. I operate as a solo specialist for preliminary scoping and calibration, bringing in vetted domain reviewers when batch volumes require dual-annotator consensus.
             </p>

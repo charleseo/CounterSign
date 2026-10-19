@@ -7,6 +7,8 @@ const subscribeSchema = z.object({
   email: z.string().email('Please enter a valid email address').trim().toLowerCase(),
   countryCode: z.string().optional().nullable(),
   workTypes: z.array(z.string()).optional(),
+  frequency: z.enum(['daily', 'weekly', 'instant']).optional(),
+  categories: z.array(z.string()).optional(),
   honeypot: z.string().optional(),
 });
 
@@ -26,6 +28,8 @@ export async function subscribeNewsletterAction(
     email: string;
     countryCode?: string | null;
     workTypes?: string[];
+    frequency?: 'daily' | 'weekly' | 'instant';
+    categories?: string[];
     honeypot?: string;
   }
 ): Promise<NewsletterActionResponse> {
@@ -47,11 +51,13 @@ export async function subscribeNewsletterAction(
       };
     }
 
-    const { email, countryCode, workTypes } = parse.data;
+    const { email, countryCode, workTypes, frequency, categories } = parse.data;
     const { token, isNew } = dbRepository.subscribeNewsletter({
       email,
       country_code: countryCode,
       work_types: workTypes || [],
+      frequency: frequency || 'weekly',
+      categories: categories || ['opportunities', 'newsletter', 'scam_alerts'],
     });
 
     const confirmationUrl = `/newsletter/confirm?token=${encodeURIComponent(token)}`;

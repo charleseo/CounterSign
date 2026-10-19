@@ -99,6 +99,7 @@ export function ConstraintCheckerExercise({ exercise }: ConstraintCheckerExercis
               <input
                 type="radio"
                 name={`exercise-${exercise.id}`}
+                aria-label={exercise.optionA.label}
                 checked={selectedOption === 'A'}
                 onChange={() => setSelectedOption('A')}
                 className="accent-accent-cyan cursor-pointer"
@@ -125,6 +126,7 @@ export function ConstraintCheckerExercise({ exercise }: ConstraintCheckerExercis
               <input
                 type="radio"
                 name={`exercise-${exercise.id}`}
+                aria-label={exercise.optionB.label}
                 checked={selectedOption === 'B'}
                 onChange={() => setSelectedOption('B')}
                 className="accent-accent-cyan cursor-pointer"

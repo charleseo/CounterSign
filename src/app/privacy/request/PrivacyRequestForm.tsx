@@ -75,7 +75,7 @@ export function PrivacyRequestForm() {
             1. An email confirmation has been dispatched to your address.
           </p>
           <p>
-            2. Our Data Protection Lead (Jo) will verify your email ownership.
+            2. Our Data Protection Lead (Ebubechukwu Okeke) will verify your email ownership.
           </p>
           <p>
             3. Your requested action (access, correction, or permanent deletion) will be executed, with a formal resolution receipt provided.

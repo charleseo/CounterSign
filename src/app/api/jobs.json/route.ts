@@ -9,8 +9,8 @@ export async function GET() {
   const compactJobs = jobs.map((j) => ({
     id: j.id,
     slug: j.slug,
-    title: j.title,
-    platform: j.platform.name,
+    title: j.title.replace(/\[SAMPLE\]/gi, '').trim(),
+    platform: j.platform.name.replace(/\[SAMPLE\]/gi, '').trim(),
     work_type: j.work_type,
     status: j.status,
     daysAgo: j.daysAgo ?? 0,

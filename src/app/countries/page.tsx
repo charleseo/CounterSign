@@ -96,7 +96,7 @@ export default function CountriesIndexPage() {
             <span>All Checked Contributor Markets</span>
           </h2>
           <span className="text-xs text-secondary tabular-nums">
-            {countryStats.length} Jurisdictions
+            {countryStats.length} Countries
           </span>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">

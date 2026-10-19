@@ -32,6 +32,10 @@ export default async function AccountPage() {
 
   const savedJobs = dbRepository.getSavedJobs(user.id);
   const alertPreferences = dbRepository.getUserAlertPreferences(user.id);
+  const applications = dbRepository.getUserApplications(user.id);
+  const testScores = dbRepository.getUserTestScores(user.id);
+  const userCvs = dbRepository.getUserCvs(user.id);
+  const userPayouts = dbRepository.getUserPayouts(user.id);
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-6">
@@ -39,6 +43,10 @@ export default async function AccountPage() {
         user={user}
         savedJobs={savedJobs}
         alertPreferences={alertPreferences}
+        applications={applications}
+        testScores={testScores}
+        userCvs={userCvs}
+        userPayouts={userPayouts}
       />
     </div>
   );

@@ -34,37 +34,48 @@ export function AiTeamsSection() {
       <div className="relative max-w-[1240px] mx-auto px-4 sm:px-8 flex flex-wrap gap-12 sm:gap-16 items-center">
         {/* Left Column: Heading + Copy + Action Buttons */}
         <div className="flex-1 basis-[420px] min-w-0">
-          <p className="font-bold text-[#B9A6FF] text-base sm:text-lg m-0">
-            For AI teams
-          </p>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#B9A6FF]/30 bg-[#B9A6FF]/10 text-xs font-semibold text-[#B9A6FF] mb-2">
+            <span>48-hour startup pilot sprint: $1,500 flat fee</span>
+          </div>
+
           <h2
             id="teams-h"
-            className="mt-3 text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.05] text-[#EEF1F5] m-0 max-w-[14ch]"
+            style={{ color: '#EEF1F5' }}
+            className="mt-1 text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.05] !text-[#EEF1F5] m-0 max-w-[14ch]"
           >
             We check your docs bot against your docs.
           </h2>
           <p className="mt-5 text-lg sm:text-xl leading-relaxed text-[#C6CCD8] max-w-[32em] m-0">
-            Send us 100 real questions. For each answer we quote the page it should have used and say whether it holds up. You get every finding with its source, ready to fix.
+            Send us 100 real questions. For each answer we quote the page it should have used and say whether it holds up. You get every finding with its source, ready to fix. Turnaround in 48 hours, led by Ebubechukwu Okeke.
           </p>
           <div className="flex flex-wrap gap-3 mt-8">
             <Link
               href="/evaluation/scope"
-              className="cs-btn min-h-[48px] px-6 rounded-md bg-white text-[#121826] font-bold text-base hover:bg-white/90 transition-all"
+              style={{ color: '#121826' }}
+              className="cs-btn cs-btn-shimmer min-h-[48px] px-6 rounded-xl bg-white !text-[#121826] font-bold text-base hover:bg-white/95 transition-all shadow-lg hover:shadow-white/20 hover:-translate-y-0.5 active:translate-y-0"
             >
-              Scope an audit
+              Scope 48-hour sprint ($1,500)
+            </Link>
+            <Link
+              href="/evaluation/demo"
+              style={{ color: '#FFFFFF' }}
+              className="cs-btn min-h-[48px] px-6 rounded-xl border border-white/30 !text-white font-bold text-base hover:bg-white/10 transition-all hover:-translate-y-0.5 active:translate-y-0"
+            >
+              Try live audit demo
             </Link>
             <Link
               href="/evaluation/sample-audit"
-              className="cs-btn min-h-[48px] px-6 rounded-md border-2 border-[#EEF1F5] text-[#EEF1F5] font-bold text-base hover:bg-white/10 transition-all"
+              style={{ color: '#C6CCD8' }}
+              className="cs-btn min-h-[48px] px-6 rounded-xl border border-white/20 !text-[#C6CCD8] hover:!text-white font-semibold text-base hover:bg-white/5 transition-all hover:-translate-y-0.5 active:translate-y-0"
             >
-              Read a sample finding
+              Read sample finding
             </Link>
           </div>
         </div>
 
         {/* Right Column: Glass Finding Card (.cs-glass-dark) */}
         <article
-          className="cs-glass-dark flex-1 basis-[440px] min-w-0 rounded-xl p-6 sm:p-8 relative border border-white/20 shadow-2xl"
+          className="cs-glass-dark flex-1 basis-[440px] min-w-0 rounded-2xl p-6 sm:p-8 relative border border-white/20 shadow-2xl cs-card-lift cs-glow-breathe transition-all duration-300"
           aria-label="Illustrative audit finding"
         >
           <div className="flex justify-between items-center text-xs font-semibold text-[#AEB6C5]">

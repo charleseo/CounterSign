@@ -20,6 +20,7 @@ interface ToolItem {
   tagTone: 'brand' | 'emerald' | 'amber' | 'blue';
   description: string;
   href: string;
+  emoji: string;
   icon: React.ReactNode;
   actionText: string;
 }
@@ -33,6 +34,7 @@ const TOOLS: ToolItem[] = [
     description:
       'Audit your model evaluation answer before submitting. Live word count limits, negative constraint scanner, and anti-rushing pacing timer.',
     href: '/task-check',
+    emoji: '🎯',
     icon: <FileCheck className="w-5 h-5 text-[var(--brand-ink)]" />,
     actionText: 'Check a task draft',
   },
@@ -44,6 +46,7 @@ const TOOLS: ToolItem[] = [
     description:
       'Calculate exact take-home earnings across Deel, Geegpay, AirTM, and domiciliary accounts after processor fees and currency exchange spreads.',
     href: '/payout-calculator',
+    emoji: '🧮',
     icon: <DollarSign className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />,
     actionText: 'Calculate net pay',
   },
@@ -55,6 +58,7 @@ const TOOLS: ToolItem[] = [
     description:
       'Community crowdsourced task queue monitor for Outlier AI, Alignerr, and DataAnnotation. Check which platforms have active batches today.',
     href: '/platforms',
+    emoji: '⚡',
     icon: <Activity className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />,
     actionText: 'View queue status',
   },
@@ -66,6 +70,7 @@ const TOOLS: ToolItem[] = [
     description:
       'Create an ATS-friendly single-page resume built specifically for AI evaluation. Embed your verified TraceBase credential and export to PDF.',
     href: '/cv-builder',
+    emoji: '📄',
     icon: <FileText className="w-5 h-5 text-[var(--brand-ink)]" />,
     actionText: 'Build evaluator CV',
   },
@@ -77,6 +82,7 @@ const TOOLS: ToolItem[] = [
     description:
       'Practice realistic 5-minute timed screening tests for Alignerr (TestGorilla) and Outlier before risking your real onboarding application.',
     href: '/training',
+    emoji: '🛡️',
     icon: <ShieldCheck className="w-5 h-5 text-sky-500" />,
     actionText: 'Try mock test',
   },
@@ -87,7 +93,8 @@ const TOOLS: ToolItem[] = [
     tagTone: 'emerald',
     description:
       'Compare verified hourly rates across Coding ($40-$65/hr), science and math, and General RLHF. Review penalty policies and payout frequencies.',
-    href: '/rates',
+    href: '/platforms?tab=rates',
+    emoji: '💵',
     icon: <DollarSign className="w-5 h-5 text-emerald-500" />,
     actionText: 'Compare pay rates',
   },
@@ -99,6 +106,7 @@ const TOOLS: ToolItem[] = [
     description:
       'Generate evidence-backed appeal letters for sudden empty queues, false location alerts, or disputed reviewer ratings with one-click copy.',
     href: '/appeals',
+    emoji: '⚖️',
     icon: <ShieldAlert className="w-5 h-5 text-amber-500" />,
     actionText: 'Generate appeal letter',
   },
@@ -108,8 +116,9 @@ const TOOLS: ToolItem[] = [
     tag: 'Open data',
     tagTone: 'brand',
     description:
-      'Explore our human-audited evaluation leaderboard tracking Claude 3.5, GPT-4o, and Gemini 2.0 on negative constraints and truth adherence.',
+      'Explore our human-audited evaluation leaderboard tracking Claude 3.5 Sonnet, OpenAI o1, and Gemini 2.0 on negative constraints and truth adherence.',
     href: '/benchmark',
+    emoji: '🔮',
     icon: <Sparkles className="w-5 h-5 text-[var(--brand-ink)]" />,
     actionText: 'View leaderboard',
   },
@@ -149,15 +158,15 @@ export function HomeToolsShowcase() {
             <Link
               key={tool.id}
               href={tool.href}
-              className="rounded-2xl border border-rule bg-sheet p-6 flex flex-col justify-between gap-5 hover:border-subtle hover:bg-elevated/40 transition-all group"
+              className="rounded-2xl border border-rule bg-sheet p-6 flex flex-col justify-between gap-5 cs-card-lift group min-h-[44px] hover:border-[var(--brand-ink)]/60 transition-all hover:shadow-xl hover:shadow-[var(--brand-ink)]/10"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <div className="w-10 h-10 rounded-xl bg-surface border border-rule flex items-center justify-center group-hover:scale-105 transition-transform">
-                    {tool.icon}
+                  <div className="w-10 h-10 rounded-xl bg-surface border border-rule flex items-center justify-center text-lg group-hover:scale-115 group-hover:-rotate-6 transition-transform duration-200 shadow-xs">
+                    <span role="img" aria-label={tool.title}>{tool.emoji}</span>
                   </div>
                   <span
-                    className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full border ${
+                    className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full border transition-colors group-hover:border-[var(--brand-ink)]/40 ${
                       tool.tagTone === 'brand'
                         ? 'border-[var(--brand-ink)]/30 bg-[var(--brand-tint)] text-[var(--brand-ink)]'
                         : tool.tagTone === 'emerald'
@@ -182,7 +191,7 @@ export function HomeToolsShowcase() {
 
               <div className="pt-3 border-t border-rule flex items-center justify-between text-xs font-bold text-primary group-hover:text-[var(--brand-ink)] transition-colors">
                 <span>{tool.actionText}</span>
-                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                <ArrowRight size={14} className="group-hover:translate-x-1.5 transition-transform duration-200" />
               </div>
             </Link>
           ))}

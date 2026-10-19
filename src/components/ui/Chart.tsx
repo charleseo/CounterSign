@@ -166,23 +166,25 @@ export function Chart({
       </div>
 
       {/* Accessible Table Alternative for Screen Readers */}
-      <table className="sr-only">
-        <caption>{title}</caption>
-        <thead>
-          <tr>
-            <th scope="col">{xAxisLabel}</th>
-            <th scope="col">{yAxisLabel}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((d) => (
-            <tr key={d.label}>
-              <td>{d.label}</td>
-              <td>{d.value}{d.unit || "%"}</td>
+      <div className="sr-only">
+        <table>
+          <caption>{title}</caption>
+          <thead>
+            <tr>
+              <th scope="col">{xAxisLabel}</th>
+              <th scope="col">{yAxisLabel}</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {data.map((d) => (
+              <tr key={d.label}>
+                <td>{d.label}</td>
+                <td>{d.value}{d.unit || "%"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       {/* Source Citation Footer */}
       <div className="pt-2 border-t border-subtle flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[11px] font-mono text-secondary">

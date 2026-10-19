@@ -78,7 +78,7 @@ export function ContactForm() {
             id="name"
             name="name"
             required
-            placeholder="e.g. Ebube Okeke"
+            placeholder="e.g. Ebubechukwu Okeke"
             className="w-full px-3.5 py-2.5 rounded-lg bg-sheet border border-rule focus:border-[#5A35C8] focus:ring-1 focus:ring-[#5A35C8] text-xs text-primary outline-none transition-colors min-h-[44px]"
           />
           {fieldErrors.name && (

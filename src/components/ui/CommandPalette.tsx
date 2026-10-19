@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import {
   Search,
@@ -37,7 +38,7 @@ const STATIC_SEARCH_ITEMS: SearchItem[] = [
   // Tools & Hubs
   { id: 't-task-check', title: 'Task Pre-Submission Check', category: 'Tools', href: '/task-check', meta: 'Verify negative constraints & word counts' },
   { id: 't-payout', title: 'Real Payout & Take-Home Calculator', category: 'Tools', href: '/payout-calculator', meta: 'Net earnings across Deel, Geegpay & AirTM' },
-  { id: 't-rates', title: 'Real Contributor Pay Rate Directory', category: 'Tools', href: '/rates', meta: 'Compare hourly pay by platform and domain' },
+  { id: 't-rates', title: 'Real Contributor Pay Rate Directory', category: 'Tools', href: '/platforms?tab=rates', meta: 'Compare hourly pay by platform and domain' },
   { id: 't-cv-builder', title: 'AI Contributor CV Builder', category: 'Tools', href: '/cv-builder', meta: 'ATS single-page PDF with verified certificate' },
   { id: 't-appeals', title: 'Account Dispute & Ban Appeal Kit', category: 'Tools', href: '/appeals', meta: 'Appeal empty queues & location flags' },
   { id: 't-scam', title: '10-Point AI Work Scam Checklist', category: 'Tools', href: '/scam-check', meta: 'Check recruiter offers & red flags' },
@@ -49,7 +50,7 @@ const STATIC_SEARCH_ITEMS: SearchItem[] = [
   { id: 't-jobs', title: 'Browse All Verified Jobs', category: 'Jobs', href: '/jobs', meta: 'Filter by country, pay, and status' },
   { id: 't-platforms', title: 'Platform Reality Directory', category: 'Platforms', href: '/platforms', meta: '5 verified platform profiles & queue radar' },
   // Studio & Trust
-  { id: 's-about', title: 'About TraceBase & Jo (Ebube Okeke)', category: 'Studio', href: '/about', meta: 'Independence pledge & 10 FAQs' },
+  { id: 's-about', title: 'About TraceBase & Ebubechukwu Okeke', category: 'Studio', href: '/about', meta: 'Independence pledge & 10 FAQs' },
   { id: 's-demo', title: 'Interactive Grounding & RAG Audit Demo', category: 'Studio', href: '/evaluation/demo', meta: 'Test prompt against docs to catch hallucinations' },
   { id: 's-whitepaper', title: 'State of RAG & Hallucinations Whitepaper', category: 'Studio', href: '/evaluation/whitepaper', meta: 'Research briefing on 500 frontier model technical queries' },
   { id: 's-estimator', title: 'Evaluation Sprint Estimator', category: 'Studio', href: '/evaluation/estimator', meta: 'Self-serve SLA, volume & capacity calculator' },
@@ -73,12 +74,17 @@ export interface CommandPaletteProps {
 
 export function CommandPalette({ className = '', triggerLabel }: CommandPaletteProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [apiJobs, setApiJobs] = useState<SearchItem[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Listen for custom search open event (e.g. from hero search bar)
   useEffect(() => {
@@ -118,13 +124,17 @@ export function CommandPalette({ className = '', triggerLabel }: CommandPaletteP
           .then((res) => res.json())
           .then((data: Array<{ id: string; slug: string; title: string; platform: string; work_type: string; verifiedPay?: string | null }>) => {
             if (Array.isArray(data)) {
-              const formatted: SearchItem[] = data.map((j) => ({
-                id: `job-${j.id}`,
-                title: j.title.replace(/\[SAMPLE\]/g, '').trim(),
-                category: 'Jobs',
-                href: `/jobs/${j.slug}`,
-                meta: `${j.platform} • ${j.work_type}${j.verifiedPay ? ` • ${j.verifiedPay}` : ''}`,
-              }));
+              const formatted: SearchItem[] = data.map((j) => {
+                const cleanTitle = (j.title || '').replace(/\[SAMPLE\]/gi, '').trim();
+                const cleanPlatform = (j.platform || '').replace(/\[SAMPLE\]/gi, '').trim();
+                return {
+                  id: `job-${j.id}`,
+                  title: cleanTitle,
+                  category: 'Jobs',
+                  href: `/jobs/${j.slug}`,
+                  meta: `${cleanPlatform} • ${j.work_type}${j.verifiedPay ? ` • ${j.verifiedPay}` : ''}`,
+                };
+              });
               setApiJobs(formatted);
             }
           })
@@ -147,12 +157,24 @@ export function CommandPalette({ className = '', triggerLabel }: CommandPaletteP
     if (!trimmed) {
       return allItems.slice(0, 8);
     }
-    return allItems.filter(
-      (item) =>
-        item.title.toLowerCase().includes(trimmed) ||
-        (item.meta && item.meta.toLowerCase().includes(trimmed)) ||
-        item.category.toLowerCase().includes(trimmed)
-    ).slice(0, 10);
+
+    const tokens = trimmed.split(/\s+/).filter(Boolean);
+    const compactQuery = trimmed.replace(/[^a-z0-9]/g, '');
+
+    return allItems.filter((item) => {
+      const fullText = `${item.title} ${item.meta || ''} ${item.category}`.toLowerCase();
+      const compactFullText = fullText.replace(/[^a-z0-9]/g, '');
+
+      if (compactQuery.length > 2 && compactFullText.includes(compactQuery)) {
+        return true;
+      }
+
+      return tokens.every((token) => {
+        if (fullText.includes(token)) return true;
+        const compactToken = token.replace(/[^a-z0-9]/g, '');
+        return compactToken.length > 2 && compactFullText.includes(compactToken);
+      });
+    }).slice(0, 10);
   }, [allItems, query]);
 
   const handleQueryChange = (val: string) => {
@@ -170,7 +192,15 @@ export function CommandPalette({ className = '', triggerLabel }: CommandPaletteP
 
   // Keyboard navigation within the list (ArrowUp, ArrowDown, Enter)
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (filteredItems.length === 0) return;
+    if (filteredItems.length === 0) {
+      if (e.key === 'Enter' && query.trim()) {
+        e.preventDefault();
+        const searchTarget = query.trim();
+        handleClose();
+        router.push(`/jobs?q=${encodeURIComponent(searchTarget)}`);
+      }
+      return;
+    }
 
     if (e.key === 'ArrowDown') {
       e.preventDefault();
@@ -183,6 +213,10 @@ export function CommandPalette({ className = '', triggerLabel }: CommandPaletteP
       const current = filteredItems[selectedIndex];
       if (current) {
         handleSelect(current);
+      } else if (query.trim()) {
+        const searchTarget = query.trim();
+        handleClose();
+        router.push(`/jobs?q=${encodeURIComponent(searchTarget)}`);
       }
     }
   };
@@ -228,12 +262,12 @@ export function CommandPalette({ className = '', triggerLabel }: CommandPaletteP
       </button>
 
       {/* Modal Overlay / Full-Screen Search Sheet on Mobile */}
-      {isOpen && (
+      {isOpen && mounted && typeof document !== 'undefined' && createPortal(
         <div
           role="dialog"
           aria-modal="true"
           aria-label="Command search palette"
-          className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-0 sm:p-6 bg-black/75 backdrop-blur-sm animate-in fade-in duration-150"
+          className="fixed inset-0 z-[9999] flex items-start sm:items-center justify-center p-0 sm:p-6 bg-black/75 backdrop-blur-sm animate-in fade-in duration-150"
         >
           {/* Backdrop click dismiss */}
           <div
@@ -321,7 +355,7 @@ export function CommandPalette({ className = '', triggerLabel }: CommandPaletteP
                 })
               ) : (
                 <div className="p-8 text-center space-y-2">
-                  <p className="text-xs font-mono text-secondary">
+                  <p className="text-xs font-sans text-secondary">
                     No verified items found matching &ldquo;{query}&rdquo;.
                   </p>
                   <p className="text-[11px] text-secondary">
@@ -332,7 +366,7 @@ export function CommandPalette({ className = '', triggerLabel }: CommandPaletteP
             </div>
 
             {/* Footer Navigation Hints */}
-            <div className="p-2.5 sm:p-3 bg-void border-t border-subtle flex items-center justify-between text-[11px] font-mono text-secondary">
+            <div className="p-2.5 sm:p-3 bg-void border-t border-subtle flex items-center justify-between text-[11px] font-sans text-secondary">
               <div className="flex items-center gap-2">
                 <span>
                   Navigate:{' '}
@@ -349,10 +383,11 @@ export function CommandPalette({ className = '', triggerLabel }: CommandPaletteP
                 <button
                   type="button"
                   onClick={() => {
+                    const searchTarget = query.trim();
                     handleClose();
-                    router.push(`/jobs?q=${encodeURIComponent(query)}`);
+                    router.push(searchTarget ? `/jobs?q=${encodeURIComponent(searchTarget)}` : '/jobs');
                   }}
-                  className="text-accent-cyan hover:underline flex items-center gap-1"
+                  className="text-accent-cyan hover:underline flex items-center gap-1 cursor-pointer"
                 >
                   <span>Search in jobs</span>
                   <ArrowRight size={11} />
@@ -360,7 +395,8 @@ export function CommandPalette({ className = '', triggerLabel }: CommandPaletteP
               </div>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );

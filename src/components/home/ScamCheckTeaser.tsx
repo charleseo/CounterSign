@@ -99,7 +99,9 @@ export function ScamCheckTeaser() {
           <div
             role="status"
             aria-live="polite"
-            className={`cs-verdict mt-8 p-5 sm:p-6 rounded-lg border-2 ${boxBorder} ${boxBg} max-w-[30em] transition-colors`}
+            className={`cs-verdict mt-8 p-5 sm:p-6 rounded-2xl border-2 ${boxBorder} ${boxBg} max-w-[30em] transition-all duration-300 ${
+              yesCount >= 2 ? 'shadow-lg shadow-rose-500/10' : yesCount === 1 ? 'shadow-md shadow-amber-500/10' : ''
+            }`}
           >
             {/* 3 Progress Segments */}
             <div className="flex gap-1.5" aria-hidden="true">

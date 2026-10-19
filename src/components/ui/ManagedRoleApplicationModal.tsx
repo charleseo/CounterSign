@@ -102,7 +102,7 @@ export function ManagedRoleApplicationModal({
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4 text-xs">
             {/* Honeypot field for anti-bot protection */}
-            <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
+            <input type="text" name="website" aria-label="Do not fill this field" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
 
             <div className="space-y-1">
               <label htmlFor="name" className="font-bold text-ink block">
@@ -113,7 +113,7 @@ export function ManagedRoleApplicationModal({
                 name="name"
                 type="text"
                 required
-                placeholder="e.g. Ebube Okeke"
+                placeholder="e.g. Ebubechukwu Okeke"
                 className="w-full px-3.5 py-2.5 rounded-lg border border-rule bg-surface text-ink focus:outline-none focus:ring-1 focus:ring-[var(--brand-ink)] min-h-[44px]"
               />
             </div>

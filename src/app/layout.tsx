@@ -31,7 +31,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" data-theme="dark" data-tier="full" suppressHydrationWarning>
+    <html lang="en" data-theme="dark" data-tier="full" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         <ThemeAndTierScript />
         <OrganizationAndWebsiteJsonLd />

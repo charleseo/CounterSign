@@ -142,7 +142,7 @@ export default async function AdminMetricsPage({ searchParams }: AdminMetricsPag
 
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-[var(--color-surface-hover)] border-b border-[var(--color-border)] text-[var(--color-muted)] font-mono text-[11px] uppercase tracking-wider">
+            <thead className="bg-[var(--color-surface-hover)] border-b border-[var(--color-border)] text-[var(--color-muted)] font-mono text-[11px] normal-case font-semibold">
               <tr>
                 <th className="p-3.5 pl-5">#</th>
                 <th className="p-3.5">Metric &amp; Dimension</th>

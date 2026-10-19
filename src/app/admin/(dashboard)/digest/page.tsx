@@ -24,7 +24,7 @@ export default async function AdminDigestPage() {
             <span>Weekly Digest Draft Generator</span>
           </h1>
           <p className="text-xs sm:text-sm text-[var(--color-muted)] mt-0.5">
-            Compiled from live 14-day verified roles. Sent to Jo for editorial review, never auto-dispatched.
+            Compiled from live 14-day verified roles. Sent to Ebubechukwu Okeke for editorial review, never auto-dispatched.
           </p>
         </div>
 

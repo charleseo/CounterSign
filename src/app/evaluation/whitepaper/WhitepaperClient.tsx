@@ -33,7 +33,7 @@ export function WhitepaperClient() {
         <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-secondary border-b border-rule pb-3">
           <div className="flex items-center gap-2">
             <span className="font-semibold text-ink">Author:</span>
-            <span>TraceBase Evaluation Studio (Lead: Jo Okeke)</span>
+            <span>TraceBase Evaluation Studio (Lead: Ebubechukwu Okeke)</span>
           </div>
           <div className="flex items-center gap-2">
             <span className="font-semibold text-ink">Published:</span>

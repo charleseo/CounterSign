@@ -236,10 +236,14 @@ export function PlatformCompareTable({
                     )}
                     <div className="pt-1.5">
                       <Link
-                        href={`/platforms/${d.platform.slug}/${selectedCountryCode.toLowerCase()}`}
+                        href={
+                          selectedCountryCode === "WW" || selectedCountryCode === "ALL"
+                            ? `/platforms/${d.platform.slug}`
+                            : `/platforms/${d.platform.slug}/${selectedCountryCode.toLowerCase()}`
+                        }
                         className="text-xs text-[#5A35C8] hover:underline font-medium min-h-[44px] inline-flex items-center"
                       >
-                        View {selectedCountryCode === "WW" ? "country" : countryName} analysis &rarr;
+                        View {selectedCountryCode === "WW" || selectedCountryCode === "ALL" ? "platform" : countryName} analysis &rarr;
                       </Link>
                     </div>
                   </td>

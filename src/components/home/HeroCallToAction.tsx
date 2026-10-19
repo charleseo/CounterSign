@@ -59,15 +59,17 @@ export function HeroCallToAction({ initialCountryCode = "WW" }: HeroCallToAction
       <div id="hero-actions" className="flex flex-wrap gap-3 mt-8">
         <Link
           href="#roles"
-          className="cs-btn cs-btn-primary min-h-[52px] text-base sm:text-lg font-bold"
+          className="cs-btn cs-btn-primary cs-btn-shimmer min-h-[52px] text-base sm:text-lg font-bold inline-flex items-center gap-2 group hover:shadow-xl hover:shadow-[var(--brand-ink)]/25 transition-all cursor-pointer hover:-translate-y-0.5 active:translate-y-0"
         >
-          {heroButtonText}
+          <span className="group-hover:translate-x-0.5 transition-transform">👉</span>
+          <span>{heroButtonText}</span>
         </Link>
         <Link
           href="#check"
-          className="cs-btn cs-btn-secondary min-h-[52px] text-base sm:text-lg font-bold"
+          className="cs-btn cs-btn-secondary min-h-[52px] text-base sm:text-lg font-bold inline-flex items-center gap-2 hover:border-ink/50 transition-all cursor-pointer hover:-translate-y-0.5 active:translate-y-0"
         >
-          Check a job offer
+          <span className="group-hover:scale-110 transition-transform">🔍</span>
+          <span>Check a job offer</span>
         </Link>
       </div>
 

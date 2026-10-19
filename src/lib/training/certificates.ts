@@ -11,7 +11,7 @@ export interface CertificateRecord {
 const SEED_CERTIFICATES: Record<string, CertificateRecord> = {
   'TB-2026-A101': {
     id: 'TB-2026-A101',
-    recipientName: 'Ebube Okeke',
+    recipientName: 'Ebubechukwu Okeke',
     courseTitle: 'AI Model Evaluation & Citation Accuracy',
     scorePercent: 100,
     issuedAt: '2026-10-14T10:00:00.000Z',
@@ -40,7 +40,7 @@ const SEED_CERTIFICATES: Record<string, CertificateRecord> = {
   // Compatibility alias for previous CS-2026 IDs
   'CS-2026-A101': {
     id: 'CS-2026-A101',
-    recipientName: 'Ebube Okeke',
+    recipientName: 'Ebubechukwu Okeke',
     courseTitle: 'AI Model Evaluation & Citation Accuracy',
     scorePercent: 100,
     issuedAt: '2026-10-14T10:00:00.000Z',

@@ -9,10 +9,10 @@ export const draftGuideIsOutlierLegit: Guide = {
   readingTime: '7 min read',
   lastUpdated: '2026-10-15',
   lastCheckedDate: '15 Oct 2026',
-  checkedBy: 'Jo (Ebube Okeke)',
+  checkedBy: 'Ebubechukwu Okeke',
   published: false, // Draft, not published
   author: {
-    name: 'Jo (Ebube Okeke)',
+    name: 'Ebubechukwu Okeke',
     title: 'Lead Evaluator, TraceBase',
   },
   topicTags: ['Platform Audit', 'Outlier', 'Contractor Verification', 'US', 'UK', 'Canada'],
@@ -265,10 +265,10 @@ export const draftGuideNigeriaDataAnnotation: Guide = {
   readingTime: '6 min read',
   lastUpdated: '2026-10-15',
   lastCheckedDate: '15 Oct 2026',
-  checkedBy: 'Jo (Ebube Okeke)',
+  checkedBy: 'Ebubechukwu Okeke',
   published: false, // Draft, not published
   author: {
-    name: 'Jo (Ebube Okeke)',
+    name: 'Ebubechukwu Okeke',
     title: 'Lead Evaluator, TraceBase',
   },
   topicTags: ['Nigeria', 'DataAnnotation', 'Country Eligibility', 'VPN Risk'],

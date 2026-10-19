@@ -63,6 +63,13 @@ export interface Job {
   daysAgo?: number;
   is_sample?: boolean;
   is_managed?: boolean;
+  posted_date?: string | null;
+  accepting_since?: string | null;
+  accepted_count?: number | null;
+  success_rate?: string | null;
+  knowledge_requirements?: string[];
+  cv_requirements?: string | null;
+  other_requirements?: string | null;
 }
 
 export interface Country {
@@ -117,6 +124,67 @@ export interface SavedJob {
   created_at: string;
 }
 
+export type ApplicationStatus =
+  | 'applied'
+  | 'assessment_pending'
+  | 'interviewing'
+  | 'accepted'
+  | 'rejected'
+  | 'archived';
+
+export interface UserApplication {
+  id: string;
+  user_id: string;
+  job_id?: string;
+  job_title: string;
+  platform_name: string;
+  platform_url: string;
+  pay_text: string;
+  status: ApplicationStatus;
+  applied_at: string;
+  last_updated_at: string;
+  notes?: string;
+}
+
+export interface UserTestScore {
+  id: string;
+  user_id: string;
+  drill_id: string;
+  title: string;
+  category: string;
+  platform_target: string;
+  score: number; // 0-100 percentage
+  passed: boolean;
+  accuracy: string;
+  completed_at: string;
+}
+
+export interface UserCv {
+  id: string;
+  user_id: string;
+  title: string;
+  target_role: string;
+  ats_score: number;
+  density: 'standard' | 'compact' | 'ultra-compact';
+  filename: string;
+  created_at: string;
+  last_updated_at: string;
+  summary_snippet: string;
+}
+
+export interface UserPayoutLog {
+  id: string;
+  user_id: string;
+  platform_name: string;
+  hours_logged: number;
+  rate_usd: number;
+  gross_usd: number;
+  net_local_currency: string;
+  period: string;
+  status: 'paid' | 'processing' | 'logged';
+  created_at: string;
+}
+
 export interface AlertSubscription {
   id: string;
   email: string;
@@ -124,6 +192,7 @@ export interface AlertSubscription {
   country_code: string | null;
   work_types: string[];
   frequency: string;
+  categories?: string[];
   token?: string;
   status?: 'pending' | 'active' | 'unsubscribed';
   confirmed_at: string | null;

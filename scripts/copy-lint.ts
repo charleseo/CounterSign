@@ -38,7 +38,7 @@ const ALLOWED_ACRONYMS = new Set([
   'FAQ', 'RSS', 'PDF', 'CSV', 'JSON', 'API', 'RAG', 'LLM', 'URL', 'USD',
   'GBP', 'NGN', 'EUR', 'CAD', 'W2', 'SLA', 'NDPA', 'NDPC', 'CCPA', 'CPRA',
   'IRS', 'CRA', 'HMRC', 'SEO', 'P1', 'P2', 'WW', 'GMT', 'UTC', 'ISO',
-  'ACH', 'DOM', 'KYC', 'AML', 'TOC', 'RLHF', 'SFT', 'AGY', 'IDE',
+  'ACH', 'DOM', 'KYC', 'AML', 'TOC', 'RLHF', 'SFT', 'AGY', 'IDE', 'STEM',
   'AWS', 'CSS', 'SDK', 'NDA', 'MVCC', 'ATS', 'CAC', 'GDPR', 'CDN', 'HTTP',
   'SAR', 'GPC', 'ATM', 'USDT', 'ICANN', 'WHOIS', 'CAPTCHA', 'OCT',
   'COUNTERSIGNED', 'CREATE', 'INDEX', 'CONCURRENTLY', 'BEGIN', 'COMMIT',

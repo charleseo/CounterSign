@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Metadata } from "next";
 import { dbRepository } from "@/lib/db/repository";
 import { PlatformCompareTable } from "./PlatformCompareTable";
+import { DirectVsAgencyComparison } from "@/components/ui/DirectVsAgencyComparison";
 import { ShieldCheck, Scale } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -101,6 +102,14 @@ export default function ComparePlatformsPage() {
         initialPlatforms={compareData}
         allPlatforms={platformSummaries}
       />
+
+      {/* Direct Application vs Agency Middleman Breakdown */}
+      <section aria-labelledby="direct-vs-agency-compare-h" className="pt-4">
+        <h2 id="direct-vs-agency-compare-h" className="sr-only">
+          Direct application compared to agency middleman
+        </h2>
+        <DirectVsAgencyComparison />
+      </section>
     </div>
   );
 }

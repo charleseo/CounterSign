@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useEffect, useTransition } from "react";
+import React, { useState, useMemo, useEffect, useTransition, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Search, X, RotateCcw, SlidersHorizontal, Globe, ArrowUpDown, Clock } from "lucide-react";
@@ -10,6 +10,7 @@ import { FilterBar, FilterState, DEFAULT_FILTER_STATE, FilterOption } from "@/co
 import { EmailCapture } from "@/components/ui/EmailCapture";
 import { COUNTRY_STORAGE_KEY, SUPPORTED_COUNTRIES } from "@/components/ui/CountrySelector";
 import { WhatsAppAlertBanner } from "@/components/home/WhatsAppAlertBanner";
+import { QueueHealthRadar } from "@/components/ui/QueueHealthRadar";
 
 interface JobsExplorerProps {
   initialJobs: JobWithPlatform[];
@@ -40,6 +41,7 @@ export function JobsExplorer({ initialJobs, countries, rechecksPausedUntil }: Jo
 
   // Search input state
   const [query, setQuery] = useState(searchParams.get("q") || "");
+  const lastSyncedUrlRef = useRef<string>(searchParams.get("q") || "");
 
   // Sort state
   const [sort, setSort] = useState<"newest" | "freshness" | "pay">(
@@ -53,6 +55,7 @@ export function JobsExplorer({ initialJobs, countries, rechecksPausedUntil }: Jo
   });
 
   const [showEmailAlert, setShowEmailAlert] = useState(false);
+  const [showQueueRadar, setShowQueueRadar] = useState(false);
 
   // Filter state
   const [filters, setFilters] = useState<FilterState>(() => {
@@ -101,45 +104,60 @@ export function JobsExplorer({ initialJobs, countries, rechecksPausedUntil }: Jo
     }
   }, [selectedCountryCode]);
 
-  // Sync state with URL search params
+  // Sync local query state if URL parameter changes externally (e.g. back/forward, CommandPalette)
   useEffect(() => {
-    const params = new URLSearchParams();
-    if (query.trim()) params.set("q", query.trim());
-    if (selectedCountryCode && selectedCountryCode !== "NG") {
-      params.set("country", selectedCountryCode);
+    const urlQ = searchParams.get("q") || "";
+    if (urlQ !== lastSyncedUrlRef.current) {
+      lastSyncedUrlRef.current = urlQ;
+      setQuery(urlQ);
     }
-    if (filters.workTypes.length > 0) {
-      params.set("workTypes", filters.workTypes.join(","));
-    }
-    if (filters.domains.length > 0) {
-      params.set("domains", filters.domains.join(","));
-    }
-    if (filters.freshness !== "any") {
-      params.set("freshness", filters.freshness);
-    }
-    if (filters.status !== "verified") {
-      params.set("status", filters.status);
-    }
-    if (filters.includeUnconfirmed) {
-      params.set("includeUnconfirmed", "true");
-    }
-    if (sort !== "newest") {
-      params.set("sort", sort);
-    }
-    const pageNum = Math.ceil(visibleCount / ITEMS_PER_PAGE);
-    if (pageNum > 1) {
-      params.set("page", String(pageNum));
-    }
+  }, [searchParams]);
 
-    const currentUrl = `?${params.toString()}`;
-    const windowUrl = window.location.search;
-    if (currentUrl !== windowUrl) {
-      startTransition(() => {
-        router.replace(params.toString() ? `/jobs?${params.toString()}` : "/jobs", {
-          scroll: false,
+  // Sync state with URL search params (debounced to avoid laggy rapid router transitions)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const params = new URLSearchParams();
+      if (query.trim()) params.set("q", query.trim());
+      if (selectedCountryCode && selectedCountryCode !== "NG") {
+        params.set("country", selectedCountryCode);
+      }
+      if (filters.workTypes.length > 0) {
+        params.set("workTypes", filters.workTypes.join(","));
+      }
+      if (filters.domains.length > 0) {
+        params.set("domains", filters.domains.join(","));
+      }
+      if (filters.freshness !== "any") {
+        params.set("freshness", filters.freshness);
+      }
+      if (filters.status !== "verified") {
+        params.set("status", filters.status);
+      }
+      if (filters.includeUnconfirmed) {
+        params.set("includeUnconfirmed", "true");
+      }
+      if (sort !== "newest") {
+        params.set("sort", sort);
+      }
+      const pageNum = Math.ceil(visibleCount / ITEMS_PER_PAGE);
+      if (pageNum > 1) {
+        params.set("page", String(pageNum));
+      }
+
+      const queryString = params.toString();
+      const currentQuery = window.location.search.replace(/^\?/, "");
+
+      if (queryString !== currentQuery) {
+        lastSyncedUrlRef.current = query.trim();
+        startTransition(() => {
+          router.replace(queryString ? `/jobs?${queryString}` : "/jobs", {
+            scroll: false,
+          });
         });
-      });
-    }
+      }
+    }, 250);
+
+    return () => clearTimeout(timer);
   }, [query, selectedCountryCode, filters, sort, visibleCount, router]);
 
   // Country metadata
@@ -296,21 +314,44 @@ export function JobsExplorer({ initialJobs, countries, rechecksPausedUntil }: Jo
       // 6. Search Query Filter
       if (query.trim()) {
         const q = query.toLowerCase().trim();
-        const inTitle = job.title.toLowerCase().includes(q);
-        const inPlatform = job.platform.name.toLowerCase().includes(q);
-        const inWorkType = job.work_type.toLowerCase().includes(q);
-        const inSummary = job.summary.toLowerCase().includes(q);
-        const inDomains = job.domains.some((d) => d.toLowerCase().includes(q));
-        const inLanguages = job.languages.some((l) => l.toLowerCase().includes(q));
+        const tokens = q.split(/\s+/).filter(Boolean);
+        const compactQuery = q.replace(/[^a-z0-9]/g, "");
 
-        if (!inTitle && !inPlatform && !inWorkType && !inSummary && !inDomains && !inLanguages) {
-          return false;
+        const jobTitle = job.title.toLowerCase();
+        const platformName = job.platform.name.toLowerCase();
+        const workType = job.work_type.toLowerCase();
+        const summary = (job.summary || "").toLowerCase();
+        const requirements = (job.requirements || "").toLowerCase();
+        const domains = (job.domains || []).map((d) => d.toLowerCase()).join(" ");
+        const languages = (job.languages || []).map((l) => l.toLowerCase()).join(" ");
+        const pay = (job.pay_text || "").toLowerCase();
+
+        const eligibleCountries = (job.eligibility || [])
+          .filter((e) => e.status === "accepted")
+          .map((e) => {
+            const country = countries.find((c) => c.code === e.country_code);
+            return `${e.country_code.toLowerCase()} ${country ? country.name.toLowerCase() : ""}`;
+          })
+          .join(" ");
+
+        const fullText = `${jobTitle} ${platformName} ${workType} ${summary} ${requirements} ${domains} ${languages} ${pay} ${eligibleCountries}`;
+        const compactFullText = fullText.replace(/[^a-z0-9]/g, "");
+
+        if (compactQuery.length > 2 && compactFullText.includes(compactQuery)) {
+          // matches compact representation
+        } else {
+          const allTokensMatch = tokens.every((token) => {
+            if (fullText.includes(token)) return true;
+            const compactToken = token.replace(/[^a-z0-9]/g, "");
+            return compactToken.length > 2 && compactFullText.includes(compactToken);
+          });
+          if (!allTokensMatch) return false;
         }
       }
 
       return true;
     });
-  }, [initialJobs, selectedCountryCode, filters, query]);
+  }, [initialJobs, selectedCountryCode, filters, query, countries]);
 
   // Sort filtered jobs
   const sortedJobs = useMemo(() => {
@@ -414,7 +455,7 @@ export function JobsExplorer({ initialJobs, countries, rechecksPausedUntil }: Jo
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-6">
+    <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-6 animate-fade-in">
       {/* Page Header (Mobile first) */}
       <div className="space-y-2">
         <div className="flex flex-wrap items-center justify-between gap-3">
@@ -470,7 +511,7 @@ export function JobsExplorer({ initialJobs, countries, rechecksPausedUntil }: Jo
         </aside>
 
         {/* Results Area */}
-        <main className="space-y-4">
+        <div className="space-y-4">
           {/* Rechecks Paused Calm Banner */}
           {rechecksPausedUntil && (
             <div className="p-4 rounded-xl border border-amber-500/30 bg-amber-500/10 text-amber-200 text-xs sm:text-sm flex items-start gap-3">
@@ -486,6 +527,31 @@ export function JobsExplorer({ initialJobs, countries, rechecksPausedUntil }: Jo
             </div>
           )}
 
+          {/* Collapsible Live Queue Health Radar */}
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <button
+                type="button"
+                onClick={() => setShowQueueRadar(!showQueueRadar)}
+                className="inline-flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-xl border border-rule bg-sheet hover:bg-surface text-ink transition-colors cursor-pointer min-h-[36px]"
+              >
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span>
+                  {showQueueRadar ? "Hide queue health radar" : "Check live task queue availability"}
+                </span>
+              </button>
+              <span className="text-[11px] text-secondary hidden sm:inline">
+                Live contributor updates across 6 platforms
+              </span>
+            </div>
+
+            {showQueueRadar && (
+              <div className="animate-in fade-in pb-1">
+                <QueueHealthRadar />
+              </div>
+            )}
+          </div>
+
           {/* Sticky Mobile Search Bar + Filter Trigger */}
           <div className="sticky top-16 z-30 w-full py-2.5 sm:py-0 bg-surface/90 sm:bg-transparent backdrop-blur sm:backdrop-blur-none border-b sm:border-b-0 border-rule flex flex-col gap-2">
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full">
@@ -497,18 +563,23 @@ export function JobsExplorer({ initialJobs, countries, rechecksPausedUntil }: Jo
                   aria-hidden="true"
                 />
                 <input
-                  type="search"
+                  type="text"
+                  inputMode="search"
+                  role="searchbox"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Escape") setQuery("");
+                  }}
                   placeholder="Search by role, platform, skill (e.g. Python, STEM, RLHF)..."
                   aria-label="Search roles"
-                  className="w-full pl-9 pr-9 py-2.5 min-h-[44px] text-xs sm:text-sm rounded-xl border border-rule bg-sheet text-ink placeholder:text-secondary/60 focus:outline-none focus:border-[#5A35C8] focus:ring-1 focus:ring-[#5A35C8] transition-all"
+                  className="w-full pl-9 pr-9 py-2.5 min-h-[44px] text-xs sm:text-sm rounded-xl border border-rule bg-sheet text-ink placeholder:text-secondary/60 focus:outline-none focus:border-[#5A35C8] focus:ring-1 focus:ring-[#5A35C8] transition-all [&::-webkit-search-cancel-button]:hidden"
                 />
                 {query && (
                   <button
                     type="button"
                     onClick={() => setQuery("")}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 text-secondary hover:text-ink min-h-[44px] min-w-[44px] flex items-center justify-center p-1"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-secondary hover:text-ink min-h-[44px] min-w-[44px] flex items-center justify-center p-1 cursor-pointer"
                     aria-label="Clear search"
                   >
                     <X size={14} />
@@ -669,7 +740,17 @@ export function JobsExplorer({ initialJobs, countries, rechecksPausedUntil }: Jo
               )}
             </div>
           ) : (
-            <div className="space-y-2">
+            <div className="rounded-2xl border border-rule bg-sheet divide-y divide-subtle overflow-hidden shadow-sm">
+              {/* Desktop Ledger Table Column Header */}
+              <div
+                role="row"
+                className="hidden sm:grid sm:grid-cols-[minmax(0,1.8fr)_minmax(0,1fr)_minmax(0,1fr)_120px] items-center gap-4 px-4 py-3 bg-surface/60 border-b border-rule text-xs font-semibold text-secondary select-none"
+              >
+                <span>Role</span>
+                <span>Location</span>
+                <span>Pay</span>
+                <span>Checked</span>
+              </div>
               {visibleJobs.map((job) => {
                 // Determine country eligibility status for the selected country
                 let countryEligibility: "accepted" | "not-accepted" | "unconfirmed" = "unconfirmed";
@@ -700,6 +781,12 @@ export function JobsExplorer({ initialJobs, countries, rechecksPausedUntil }: Jo
                     isClosed={job.status === "closed"}
                     linkType={job.link}
                     isManaged={Boolean((job as unknown as { is_managed?: boolean }).is_managed)}
+                    summary={job.summary}
+                    acceptingSince={job.accepting_since || (job.created_at ? new Date(job.created_at).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' }) : null)}
+                    acceptedCount={job.accepted_count}
+                    successRate={job.success_rate}
+                    domains={job.domains}
+                    knowledgeRequirements={job.knowledge_requirements}
                   />
                 );
               })}
@@ -723,7 +810,7 @@ export function JobsExplorer({ initialJobs, countries, rechecksPausedUntil }: Jo
               </div>
             </div>
           )}
-        </main>
+        </div>
       </div>
     </div>
   );

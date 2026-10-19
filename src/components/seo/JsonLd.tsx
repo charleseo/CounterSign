@@ -22,7 +22,7 @@ export function OrganizationAndWebsiteJsonLd() {
         },
         founder: {
           '@type': 'Person',
-          name: 'Jo (Ebube) Okeke',
+          name: 'Ebubechukwu Okeke',
           jobTitle: 'Founder & Principal Evaluator',
         },
         description:

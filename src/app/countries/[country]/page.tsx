@@ -306,14 +306,14 @@ const COUNTRY_HUBS: Record<string, CountryHubConfig> = {
         'Account broker syndicates and upfront deposit schemes frequently target Nairobi and regional tech talent.',
       commonTactics: [
         'WhatsApp groups offering to rent or sell verified Outlier or Alignerr accounts for a weekly cut.',
-        'Telegram channels asking for an upfront M-Pesa fee to unlock task queues or access assessment answers.',
+        'Telegram channels asking for an upfront M-Pesa fee to access task queues or buy assessment answers.',
         'Unsolicited text messages claiming to hire for Google or OpenAI data entry without an official application link.',
       ],
     },
     faqs: [
       {
         q: 'Which platforms actively recruit Kenyan evaluators?',
-        a: 'Outlier, Alignerr, Remotasks (CrowdGen), and OneForma regularly recruit Kenyan contributors for English reasoning, STEM, and Swahili localization.',
+        a: 'Outlier, Alignerr, Remotasks (CrowdGen), and OneForma regularly recruit Kenyan contributors for English reasoning, science and math, and Swahili localization.',
       },
       {
         q: 'Do Kenyans pay US taxes on AI evaluation earnings?',

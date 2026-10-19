@@ -214,7 +214,7 @@ export function InteractiveComparisonPanel() {
               <div className="flex items-center gap-2">
                 <ShieldAlert size={16} className="text-[#A8322A]" />
                 <span className="font-semibold text-ink">
-                  Jo Okeke&apos;s Evaluation Verdict: {currentCase.verdictLabel}
+                  Ebubechukwu Okeke&apos;s evaluation verdict: {currentCase.verdictLabel}
                 </span>
               </div>
               <span className="text-xs text-secondary">

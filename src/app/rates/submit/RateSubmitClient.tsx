@@ -53,10 +53,10 @@ export function RateSubmitClient() {
 
           <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
             <Link
-              href="/rates"
+              href="/platforms?tab=rates"
               className="px-5 py-2.5 rounded-xl bg-[#5A35C8] hover:bg-[#4D2DB3] text-white text-xs font-semibold inline-flex items-center gap-1.5 transition-colors min-h-[44px]"
             >
-              <span>Back to pay rates directory</span>
+              <span>Back to platforms & pay rates</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

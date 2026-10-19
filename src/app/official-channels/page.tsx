@@ -4,6 +4,7 @@ import { Metadata } from "next";
 import { ShieldCheck, AlertOctagon, Globe, Mail, MessageCircle, Send } from "lucide-react";
 import { BreadcrumbListJsonLd } from "@/components/seo/JsonLd";
 import { getSiteUrl, getSiteHost } from "@/lib/utils/siteUrl";
+import { WhatsAppAlertBanner } from "@/components/home/WhatsAppAlertBanner";
 
 export const metadata: Metadata = {
   title: "Our Only Official Channels | TraceBase",
@@ -164,6 +165,14 @@ export default function OfficialChannelsPage() {
           })}
         </div>
       </div>
+
+      {/* Join Announcement Channels */}
+      <section aria-labelledby="join-channels-h" className="pt-2">
+        <h2 id="join-channels-h" className="sr-only">
+          Join authentic announcement channels
+        </h2>
+        <WhatsAppAlertBanner />
+      </section>
     </div>
   );
 }

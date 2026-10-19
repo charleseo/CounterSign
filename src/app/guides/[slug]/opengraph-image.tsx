@@ -20,7 +20,7 @@ export default async function Image({ params }: GuideOgProps) {
   const title = guide ? guide.title : 'Practical Guide for Remote AI Work';
   const subtitle = guide ? guide.subtitle : 'Tactical playbook for remote AI evaluators and alignment specialists.';
   const readingTime = guide ? guide.readingTime : '5 min read';
-  const authorName = guide ? guide.author.name : 'Jo (Ebube) Okeke';
+  const authorName = guide ? guide.author.name : 'Ebubechukwu Okeke';
 
   return new ImageResponse(
     (

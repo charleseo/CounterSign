@@ -70,7 +70,7 @@ export function Stepper({ className = "", onComplete }: StepperProps) {
         </div>
         <h3 className="text-lg font-bold text-primary font-mono">Scope Request Transmitted</h3>
         <p className="text-xs sm:text-sm text-readable max-w-md mx-auto leading-relaxed">
-          Reference ID <span className="font-mono text-accent-cyan">#EVA-9042</span>. Jo will review your system context and reply within 1 business day with sample rubrics and pilot schedule.
+          Reference ID <span className="font-mono text-accent-cyan">#EVA-9042</span>. Ebubechukwu Okeke will review your system context and reply within 1 business day with sample rubrics and pilot schedule.
         </p>
       </div>
     );

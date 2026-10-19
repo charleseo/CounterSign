@@ -71,7 +71,7 @@ export default function PrivacyPolicyPage() {
             Data Controller & Scope
           </h2>
           <p className="text-secondary">
-            This Privacy Policy governs your use of TraceBase (<code className="text-xs bg-surface px-1.5 py-0.5 rounded border border-rule text-primary">{getSiteHost()}</code>). TraceBase operates as an independent, human-verified remote AI work directory and specialized AI model evaluation studio managed by Jo (Ebube Okeke).
+            This Privacy Policy governs your use of TraceBase (<code className="text-xs bg-surface px-1.5 py-0.5 rounded border border-rule text-primary">{getSiteHost()}</code>). TraceBase operates as an independent, human-verified remote AI work directory and specialized AI model evaluation studio managed by Ebubechukwu Okeke.
           </p>
           <p className="text-secondary">
             For inquiries regarding our compliance or data governance, our Data Protection Lead can be contacted directly at <a href={`mailto:privacy@${getSiteHost()}`} className="text-brand-ink underline hover:text-[#4A2AB0]">privacy@{getSiteHost()}</a>.
@@ -291,7 +291,7 @@ export default function PrivacyPolicyPage() {
           </p>
           <div className="p-5 rounded-xl bg-sheet border border-rule text-xs text-secondary space-y-1.5">
             <div className="font-semibold text-primary text-sm">TraceBase Legal & Privacy Desk</div>
-            <div>Attn: Jo (Ebube Okeke), Data Protection Lead</div>
+            <div>Attn: Ebubechukwu Okeke, Data Protection Lead</div>
             <div>Email: <a href={`mailto:privacy@${getSiteHost()}`} className="text-brand-ink underline hover:text-[#4A2AB0]">privacy@{getSiteHost()}</a></div>
             <div>Official Portal: <Link href="/contact" className="text-brand-ink underline hover:text-[#4A2AB0]">{getSiteHost()}/contact</Link></div>
             <div>Lagos, Nigeria</div>

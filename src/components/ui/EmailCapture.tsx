@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Mail, CheckCircle2, AlertCircle, ArrowRight, MessageCircle, Send } from "lucide-react";
+import { Mail, CheckCircle2, AlertCircle, ArrowRight, MessageCircle, Send, Sparkles } from "lucide-react";
 import { useSelectedCountry } from "@/components/ui/CountrySelector";
 import { getCountryMeta } from "@/lib/utils/country";
 
@@ -21,8 +21,8 @@ export interface EmailCaptureProps {
 
 /**
  * EmailCapture (Section 7.1, 7.12 & 10.11)
- * Single email field with inline validation, NDPA 2023 explicit consent line,
- * double opt-in email dispatch, and in-place state transitions.
+ * Email subscription with daily vs weekly frequency selector, inline validation,
+ * NDPA 2023 explicit consent, double opt-in, and in-place state transitions.
  */
 export function EmailCapture({
   headline,
@@ -34,8 +34,9 @@ export function EmailCapture({
   onSubscribe,
 }: EmailCaptureProps) {
   const displayHeadline = headline || title || "Get verified AI roles in your inbox";
-  const displaySubtext = subtext || description || "Weekly digest of human-checked opportunities open to your country. Zero spam.";
+  const displaySubtext = subtext || description || "Human-checked opportunities and platform intelligence. Zero spam.";
   const [email, setEmail] = useState("");
+  const [frequency, setFrequency] = useState<"weekly" | "daily">("weekly");
   const [honeypot, setHoneypot] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
@@ -72,6 +73,8 @@ export function EmailCapture({
       } else {
         const res = await subscribeNewsletterAction({
           email,
+          countryCode: selectedCountryCode,
+          frequency,
           honeypot,
         });
 
@@ -87,6 +90,7 @@ export function EmailCapture({
         trackEvent('alert_signup', {
           source: 'newsletter_capture',
           country: selectedCountryCode,
+          frequency,
         });
       } catch {
         // Non-blocking telemetry
@@ -119,7 +123,7 @@ export function EmailCapture({
           <div className="space-y-2">
             <div className="font-semibold text-primary">Check your inbox to confirm.</div>
             <p className="text-readable">
-              A double opt-in confirmation link has been sent to <span className="font-mono text-accent-cyan">{email}</span>. Click it to activate your weekly verified digest.
+              A double opt-in confirmation link has been sent to <span className="font-mono text-accent-cyan">{email}</span>. Click it to activate your {frequency === "daily" ? "daily opportunity alerts" : "weekly verified digest"}.
             </p>
             {confirmationUrl && (
               <div className="pt-1">
@@ -127,18 +131,19 @@ export function EmailCapture({
                   href={confirmationUrl}
                   className="inline-flex items-center gap-1 font-mono text-[11px] text-accent-cyan hover:underline"
                 >
-                  <span>Instant Verification: Click to confirm &rarr;</span>
+                  <span>Instant verification: click to confirm &rarr;</span>
                 </a>
               </div>
             )}
           </div>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="space-y-3" noValidate>
+        <form onSubmit={handleSubmit} className="space-y-3.5" noValidate>
           {/* Honeypot field for bot protection */}
           <input
             type="text"
             name="website_profile_hp"
+            aria-label="Do not fill this field"
             value={honeypot}
             onChange={(e) => setHoneypot(e.target.value)}
             style={{ display: "none" }}
@@ -147,7 +152,41 @@ export function EmailCapture({
             aria-hidden="true"
           />
 
-          {/* Broadcast channels: shown first for Africa and Asia, smaller secondary links for others */}
+          {/* Delivery Cadence Selector */}
+          <div className="space-y-1.5">
+            <span className="text-[11px] font-semibold text-secondary flex items-center gap-1.5">
+              <Sparkles size={12} className="text-[#8B5CF6]" />
+              <span>Choose delivery cadence:</span>
+            </span>
+            <div className="grid grid-cols-2 gap-2 text-xs">
+              <button
+                type="button"
+                onClick={() => setFrequency("weekly")}
+                className={`py-2 px-3 rounded-xl border text-left transition-all cursor-pointer ${
+                  frequency === "weekly"
+                    ? "bg-[#5A35C8]/15 border-[#5A35C8] text-ink font-semibold"
+                    : "bg-sheet border-rule text-secondary hover:text-ink"
+                }`}
+              >
+                <span className="block font-medium">Weekly digest</span>
+                <span className="text-[10px] text-secondary/80 block">Curated summary every Monday</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setFrequency("daily")}
+                className={`py-2 px-3 rounded-xl border text-left transition-all cursor-pointer ${
+                  frequency === "daily"
+                    ? "bg-[#5A35C8]/15 border-[#5A35C8] text-ink font-semibold"
+                    : "bg-sheet border-rule text-secondary hover:text-ink"
+                }`}
+              >
+                <span className="block font-medium">Daily opportunities</span>
+                <span className="text-[10px] text-secondary/80 block">Instant alerts as roles verify</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Broadcast channels: shown first for Africa and Asia */}
           {Boolean(process.env.NEXT_PUBLIC_WHATSAPP_CHANNEL_URL || process.env.NEXT_PUBLIC_TELEGRAM_CHANNEL_URL) &&
             (region === "africa" || region === "asia") && (
               <div className="p-3.5 rounded-xl border border-rule bg-sheet space-y-2">
@@ -198,9 +237,9 @@ export function EmailCapture({
                 }}
                 disabled={status === "sending"}
                 placeholder="name@domain.com"
-                aria-label="Email address for weekly verified jobs"
+                aria-label="Email address for verified AI roles"
                 aria-invalid={status === "error"}
-                className={`w-full pl-10 pr-4 py-2.5 rounded-lg border bg-surface text-xs sm:text-sm text-ink placeholder:text-secondary focus:outline-none focus:border-[#5A35C8] transition-colors ${
+                className={`w-full pl-10 pr-4 py-2.5 rounded-lg border bg-surface text-xs sm:text-sm text-ink placeholder:text-secondary focus:outline-none focus:border-[#5A35C8] transition-colors min-h-[44px] ${
                   status === "error" ? "border-accent-danger" : "border-rule"
                 }`}
               />
@@ -216,7 +255,7 @@ export function EmailCapture({
             </button>
           </div>
 
-          {/* Secondary links for US, UK, Canada & Worldwide */}
+          {/* Secondary links for other regions */}
           {Boolean(process.env.NEXT_PUBLIC_WHATSAPP_CHANNEL_URL || process.env.NEXT_PUBLIC_TELEGRAM_CHANNEL_URL) &&
             region !== "africa" &&
             region !== "asia" && (
@@ -258,7 +297,7 @@ export function EmailCapture({
           )}
 
           <p className="text-[11px] text-secondary leading-normal">
-            By subscribing, you agree to receive weekly verified role notices. Unsubscribe anytime in one click. Protected under NDPA 2023.
+            By subscribing, you agree to receive verified role notices. Unsubscribe anytime in one click. Protected under NDPA 2023.
           </p>
         </form>
       )}

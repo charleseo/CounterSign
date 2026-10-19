@@ -119,12 +119,25 @@ export function CountrySelector({ className = "", compact = false, onCountryChan
 
   const query = searchQuery.trim().toLowerCase();
   const searchResults = query
-    ? ALL_SUPPORTED_COUNTRIES.filter(
-        (c) =>
-          c.name.toLowerCase().includes(query) ||
-          c.code.toLowerCase().includes(query) ||
-          c.withArticle.toLowerCase().includes(query)
-      )
+    ? ALL_SUPPORTED_COUNTRIES.filter((c) => {
+        const name = c.name.toLowerCase();
+        const code = c.code.toLowerCase();
+        const withArticle = c.withArticle.toLowerCase();
+        const short = c.short.toLowerCase();
+        let aliases = "";
+        if (c.code === "US") aliases = "usa america united states of america";
+        if (c.code === "GB") aliases = "uk britain great britain england united kingdom";
+        if (c.code === "AE") aliases = "uae dubai abu dhabi united arab emirates";
+        if (c.code === "ZA") aliases = "rsa south africa";
+
+        return (
+          name.includes(query) ||
+          code.includes(query) ||
+          withArticle.includes(query) ||
+          short.includes(query) ||
+          aliases.includes(query)
+        );
+      })
     : null;
 
   return (

@@ -187,7 +187,7 @@ export function EvaluationLeadScopeForm({
         </div>
 
         <div className="pt-4 border-t border-rule flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-secondary">
-          <span>Evaluator: Jo (Ebube) Okeke</span>
+          <span>Evaluator: Ebubechukwu Okeke</span>
           <span className="text-[#5A35C8] font-medium">TraceBase Studio Ops</span>
         </div>
       </div>
@@ -378,6 +378,7 @@ export function EvaluationLeadScopeForm({
                 onChange={handleChange}
                 className="w-full px-3.5 py-2.5 rounded-lg border border-rule bg-surface text-ink text-sm focus:outline-none focus:border-[#5A35C8]"
               >
+                <option value="100_pilot_sprint">100 test pairs (48-Hour Startup Pilot Sprint - $1,500)</option>
                 <option value="50_to_100_pairs">50 to 100 test pairs (Quick Diagnostic)</option>
                 <option value="100_to_300_pairs">100 to 300 test pairs (Standard Pilot)</option>
                 <option value="300_to_500_pairs">300 to 500 test pairs (Full Audit)</option>
@@ -414,8 +415,9 @@ export function EvaluationLeadScopeForm({
                 onChange={handleChange}
                 className="w-full px-3.5 py-2.5 rounded-lg border border-rule bg-surface text-ink text-sm focus:outline-none focus:border-[#5A35C8]"
               >
+                <option value="sprint_48h">48-Hour Fast-Track Sprint ($1,500)</option>
+                <option value="fast_track_5_days">5 Business Days (Standard Sprint)</option>
                 <option value="standard_2_weeks">Standard (2 weeks)</option>
-                <option value="fast_track_5_days">Fast-Track Sprint (5 business days)</option>
                 <option value="exploratory">Exploratory / Planning phase</option>
               </select>
             </div>

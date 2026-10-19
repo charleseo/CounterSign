@@ -37,10 +37,14 @@ export default async function AdminDashboardPage() {
       {/* Top Banner & Title */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--color-text)]">
-            Operations & Compliance
+          <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-[11px] font-semibold text-emerald-800 dark:text-emerald-300 mb-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span>SLA verification engine: Active</span>
+          </div>
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--color-text)] m-0">
+            Operations and compliance
           </h1>
-          <p className="text-xs sm:text-sm text-[var(--color-muted)] mt-0.5">
+          <p className="text-xs sm:text-sm text-[var(--color-muted)] mt-0.5 m-0">
             14-day human verification SLA, real-time recheck queue, and audit logs.
           </p>
         </div>
@@ -48,9 +52,9 @@ export default async function AdminDashboardPage() {
         <div className="flex items-center gap-2">
           <Link
             href="/admin/jobs/new"
-            className="px-3.5 py-2 rounded-xl bg-[var(--color-accent)] text-[var(--color-accent-fg)] font-medium text-xs hover:opacity-90 transition-opacity flex items-center gap-2 shadow-sm"
+            className="px-3.5 py-2 rounded-xl bg-[var(--color-accent)] text-[var(--color-accent-fg)] font-semibold text-xs hover:opacity-90 transition-opacity flex items-center gap-2 shadow-sm min-h-[40px]"
           >
-            <span>+ Add Verified Role</span>
+            <span>+ Add verified role</span>
           </Link>
         </div>
       </div>
@@ -216,8 +220,8 @@ export default async function AdminDashboardPage() {
       <section className="space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <h2 className="text-base sm:text-lg font-bold text-[var(--color-text)]">
-              Fast Recheck Queue
+            <h2 className="text-base sm:text-lg font-bold text-[var(--color-text)] m-0">
+              Fast recheck queue
             </h2>
             <span className="px-2 py-0.5 rounded-full text-xs font-mono font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">
               Sorted by due date • {queueJobs.length} Priority
@@ -225,9 +229,9 @@ export default async function AdminDashboardPage() {
           </div>
           <Link
             href="/admin/jobs"
-            className="text-xs text-[var(--color-accent)] hover:underline flex items-center gap-1 font-medium"
+            className="text-xs text-[var(--color-accent)] hover:underline flex items-center gap-1 font-semibold"
           >
-            <span>View All Jobs</span>
+            <span>View all roles</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
@@ -235,7 +239,7 @@ export default async function AdminDashboardPage() {
         {queueJobs.length === 0 ? (
           <div className="p-8 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] text-center">
             <CheckCircle2 className="w-8 h-8 text-emerald-400 mx-auto mb-2" />
-            <h3 className="text-sm font-semibold text-[var(--color-text)]">All Roles Verified</h3>
+            <h3 className="text-sm font-semibold text-[var(--color-text)]">All roles verified</h3>
             <p className="text-xs text-[var(--color-muted)] max-w-sm mx-auto mt-1">
               Every active role has been human-verified within the required 14-day SLA window.
             </p>
@@ -249,14 +253,51 @@ export default async function AdminDashboardPage() {
         )}
       </section>
 
+      {/* Live Queue Health Monitor Widget in Admin */}
+      <section className="p-5 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] space-y-3 shadow-xs">
+        <div className="flex items-center justify-between pb-2 border-b border-[var(--color-border)]">
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+            <h3 className="text-sm font-bold text-[var(--color-text)] m-0">
+              Live platform queue status monitor
+            </h3>
+          </div>
+          <Link
+            href="/platforms"
+            className="text-xs text-[var(--color-accent)] hover:underline font-semibold flex items-center gap-1"
+          >
+            <span>Open public radar</span>
+            <ArrowRight className="w-3 h-3" />
+          </Link>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 text-xs">
+          {[
+            { name: 'Outlier AI', status: 'Active tasks', emoji: '🟢', tone: 'text-emerald-400' },
+            { name: 'DataAnnotation', status: 'Steady flow', emoji: '🟢', tone: 'text-emerald-400' },
+            { name: 'Populii AI', status: 'Intermittent', emoji: '🟡', tone: 'text-amber-400' },
+            { name: 'Alignerr', status: 'Wave approvals', emoji: '🔵', tone: 'text-sky-400' },
+            { name: 'Mercor', status: 'Interviewing', emoji: '🟣', tone: 'text-purple-400' },
+            { name: 'Invisible Tech', status: 'Active shifts', emoji: '🟢', tone: 'text-emerald-400' },
+          ].map((p) => (
+            <div key={p.name} className="p-2.5 rounded-xl bg-[var(--color-surface-hover)] border border-[var(--color-border)] space-y-1">
+              <div className="flex items-center justify-between">
+                <span className="font-semibold text-[var(--color-text)] text-[11px] truncate">{p.name}</span>
+                <span className="text-[10px]">{p.emoji}</span>
+              </div>
+              <div className={`text-[10px] font-mono ${p.tone}`}>{p.status}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* Dual Activity Stream: Check Logs & Audit Activity */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Verification Check Logs */}
-        <section className="p-5 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] space-y-4">
+        <section className="p-5 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] space-y-4 shadow-xs">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-bold text-[var(--color-text)] flex items-center gap-2">
+            <h3 className="text-sm font-bold text-[var(--color-text)] flex items-center gap-2 m-0">
               <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              <span>Recent Verification Checks</span>
+              <span>Recent verification checks</span>
             </h3>
             <span className="text-xs font-mono text-[var(--color-muted)]">check_log</span>
           </div>
@@ -271,7 +312,7 @@ export default async function AdminDashboardPage() {
                   <StatusBadge status={log.result} size="sm" />
                   <FreshnessStamp daysAgo={log.daysAgo ?? 0} />
                 </div>
-                <p className="text-[var(--color-text)] font-medium">{log.note}</p>
+                <p className="text-[var(--color-text)] font-medium m-0">{log.note}</p>
                 <div className="text-[10px] font-mono text-[var(--color-muted)] flex items-center gap-2">
                   <span>ID: #{log.id}</span>
                   {log.checked_by && <span>Actor: {log.checked_by}</span>}
@@ -282,17 +323,17 @@ export default async function AdminDashboardPage() {
         </section>
 
         {/* Audit Log */}
-        <section className="p-5 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] space-y-4">
+        <section className="p-5 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] space-y-4 shadow-xs">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-bold text-[var(--color-text)] flex items-center gap-2">
+            <h3 className="text-sm font-bold text-[var(--color-text)] flex items-center gap-2 m-0">
               <History className="w-4 h-4 text-[var(--color-accent)]" />
-              <span>Administrative Audit Trail</span>
+              <span>Administrative audit trail</span>
             </h3>
             <Link
               href="/admin/audit"
-              className="text-xs text-[var(--color-accent)] hover:underline flex items-center gap-1 font-medium"
+              className="text-xs text-[var(--color-accent)] hover:underline flex items-center gap-1 font-semibold"
             >
-              <span>Full Log</span>
+              <span>Full log</span>
               <ArrowRight className="w-3 h-3" />
             </Link>
           </div>

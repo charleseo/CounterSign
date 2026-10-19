@@ -196,10 +196,12 @@ export function PayoutCalculatorClient() {
           {/* Hourly Rate Control */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-xs font-semibold text-secondary">Hourly pay rate (USD)</label>
+              <label htmlFor="hourly-rate-input" className="text-xs font-semibold text-secondary">Hourly pay rate (USD)</label>
               <div className="flex items-center gap-1">
                 <span className="text-xs text-secondary font-mono">$</span>
                 <input
+                  id="hourly-rate-input"
+                  aria-label="Hourly pay rate in USD"
                   type="number"
                   min={5}
                   max={200}
@@ -233,11 +235,13 @@ export function PayoutCalculatorClient() {
           {/* Hours Per Week Control */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-xs font-semibold text-secondary">Hours worked per week</label>
+              <label htmlFor="hours-per-week-input" className="text-xs font-semibold text-secondary">Hours worked per week</label>
               <span className="text-sm font-bold font-mono text-primary">{hoursPerWeek} hrs/week</span>
             </div>
 
             <input
+              id="hours-per-week-input"
+              aria-label="Hours worked per week"
               type="range"
               min={2}
               max={50}

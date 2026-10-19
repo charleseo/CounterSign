@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { cleanRoleTitle, cleanOrgName, isSampleRole } from "@/lib/utils/roleStatus";
+import { cleanRoleTitle, cleanOrgName, isSampleRole, getRoleStatus } from "@/lib/utils/roleStatus";
 import { COUNTRY_STORAGE_KEY } from "@/components/ui/CountrySelector";
 import { countryLabel } from "@/lib/utils/country";
 
@@ -18,6 +18,7 @@ export interface LedgerRoleItem {
   checkedText: string;
   isDue: boolean;
   isSample?: boolean;
+  eligibility?: Array<{ country_code: string; status: string }>;
 }
 
 export interface LedgerSectionProps {
@@ -60,27 +61,11 @@ export function LedgerSection({ roles }: LedgerSectionProps) {
   ];
 
   const filteredRoles = roles.filter((r) => {
-    if (filter === "open") return r.ngTone === "accepted";
+    const statusInfo = getRoleStatus(r, countryCode);
+    if (filter === "open") return statusInfo.tone === "accepted";
     if (filter === "pay") return r.hasPayStated;
     return true;
   });
-
-  const getToneColor = (tone: LedgerRoleItem["ngTone"]) => {
-    switch (tone) {
-      case "accepted":
-        return "text-[var(--status-accepted)]";
-      case "due":
-      case "recheck":
-        return "text-[var(--status-recheck)]";
-      case "not":
-      case "not_accepted":
-        return "text-[var(--status-not-accepted)]";
-      case "sample":
-      case "unconfirmed":
-      default:
-        return "text-secondary";
-    }
-  };
 
   return (
     <section id="roles" aria-labelledby="roles-h" className="w-full bg-sheet border-y border-rule transition-colors">
@@ -137,6 +122,7 @@ export function LedgerSection({ roles }: LedgerSectionProps) {
             const isSample = role.isSample ?? isSampleRole(role);
             const cleanTitle = cleanRoleTitle(role.title);
             const cleanOrg = cleanOrgName(role.platformName);
+            const statusInfo = getRoleStatus(role, countryCode);
 
             return (
               <Link
@@ -152,15 +138,15 @@ export function LedgerSection({ roles }: LedgerSectionProps) {
                       {cleanTitle}
                     </span>
                     {isSample && (
-                      <span className="shrink-0 text-[10px] font-semibold text-secondary bg-subtle border border-rule px-1.5 py-0.5 rounded">
+                      <span className="shrink-0 whitespace-nowrap text-[10px] font-semibold text-secondary bg-subtle border border-rule px-1.5 py-0.5 rounded">
                         Sample entry
                       </span>
                     )}
                   </div>
                   <div className="text-xs text-secondary">{cleanOrg}</div>
                   <div className="flex items-center justify-between text-xs text-secondary pt-1.5 border-t border-subtle/60">
-                    <span className={`font-semibold ${getToneColor(role.ngTone)}`}>
-                      {role.ngStatus}
+                    <span className={`font-semibold ${statusInfo.colorClass}`}>
+                      {statusInfo.label}
                     </span>
                     <span className="tabular-nums font-medium text-ink">{role.payText}</span>
                     <span className={`tabular-nums ${role.isDue ? "font-bold text-[var(--status-recheck)]" : "text-secondary"}`}>
@@ -171,11 +157,11 @@ export function LedgerSection({ roles }: LedgerSectionProps) {
 
                 {/* Desktop 4-Column Table Row */}
                 <div className="hidden sm:contents">
-                  <span role="cell">
+                  <span role="cell" className="min-w-0 pr-4">
                     <span className="flex items-center gap-2 font-bold text-base sm:text-lg text-ink">
-                      <span>{cleanTitle}</span>
+                      <span className="min-w-0">{cleanTitle}</span>
                       {isSample && (
-                        <span className="text-[10px] font-semibold text-secondary bg-subtle border border-rule px-1.5 py-0.5 rounded">
+                        <span className="shrink-0 whitespace-nowrap text-[10px] font-semibold text-secondary bg-subtle border border-rule px-1.5 py-0.5 rounded">
                           Sample entry
                         </span>
                       )}
@@ -185,8 +171,8 @@ export function LedgerSection({ roles }: LedgerSectionProps) {
                     </span>
                   </span>
 
-                  <span role="cell" className={`font-semibold text-sm sm:text-base ${getToneColor(role.ngTone)}`}>
-                    {role.ngStatus}
+                  <span role="cell" className={`font-semibold text-sm sm:text-base ${statusInfo.colorClass}`}>
+                    {statusInfo.label}
                   </span>
 
                   <span role="cell" className="text-sm sm:text-base text-secondary tabular-nums">

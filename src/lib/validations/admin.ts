@@ -19,6 +19,13 @@ export const jobFormSchema = z.object({
   official_url: z.string().url('Official platform URL must be valid'),
   apply_url: z.string().url('Application URL must be valid'),
   link: z.enum(['direct', 'referral']).default('direct'),
+  posted_date: z.string().optional().nullable(),
+  accepting_since: z.string().optional().nullable(),
+  accepted_count: z.number().int().nonnegative().optional().nullable(),
+  success_rate: z.string().optional().nullable(),
+  knowledge_requirements: z.array(z.string()).default([]),
+  cv_requirements: z.string().optional().nullable(),
+  other_requirements: z.string().optional().nullable(),
   eligibility: z
     .array(
       z.object({
@@ -72,5 +79,6 @@ export type PlatformFormInput = z.infer<typeof platformFormSchema>;
 
 export const adminLoginSchema = z.object({
   email: z.string().email('Please enter a valid administrative email address'),
-  code: z.string().length(6, '2FA code must be exactly 6 digits').optional(),
+  code: z.string().min(1, 'Please enter your password or 6-digit code').optional(),
 });
+

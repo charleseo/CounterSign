@@ -582,6 +582,7 @@ export function ScamCheckClient() {
             <input
               type="text"
               name="honeypot"
+              aria-label="Do not fill this field"
               tabIndex={-1}
               autoComplete="off"
               className="opacity-0 absolute -z-10 h-0 w-0 pointer-events-none"

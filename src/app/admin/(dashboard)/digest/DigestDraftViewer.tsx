@@ -119,14 +119,14 @@ export function DigestDraftViewer({ draft, subscriberCount }: DigestDraftViewerP
             )}
           </button>
 
-          {/* Send to Jo */}
+          {/* Send to Ebubechukwu Okeke */}
           <button
             onClick={handleSendReview}
             disabled={isPending}
             className="px-3.5 py-1.5 rounded-lg bg-[var(--color-accent)] text-[var(--color-accent-fg)] text-xs font-semibold hover:opacity-90 transition-opacity flex items-center gap-1.5 disabled:opacity-50 cursor-pointer"
           >
             <Send className="w-3.5 h-3.5" />
-            <span>{isPending ? 'Sending...' : 'Send Review to Jo'}</span>
+            <span>{isPending ? 'Sending...' : 'Send Review to Ebubechukwu Okeke'}</span>
           </button>
         </div>
       </div>

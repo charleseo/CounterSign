@@ -26,6 +26,11 @@ import {
   DigestDraft,
   User,
   SavedJob,
+  UserApplication,
+  UserTestScore,
+  UserCv,
+  UserPayoutLog,
+  ApplicationStatus,
   CommunityExperienceReport,
   AggregatedPlatformExperience,
   EvaluatorLead,
@@ -183,6 +188,13 @@ const INITIAL_JOBS: Job[] = [
     created_by: null,
     created_at: new Date(Date.now() - 30 * 86400000).toISOString(),
     daysAgo: 3,
+    posted_date: '14 August 2024',
+    accepting_since: 'August 2024',
+    accepted_count: 64,
+    success_rate: '~18% selection rate (Reported)',
+    knowledge_requirements: ["5-point pairwise grading matrix and rubric comprehension","Hallucination and parameter drift detection in text responses","Fact-checking claims against verifiable primary sources","Objective justification commentary with excerpt citations"],
+    cv_requirements: "One-page ATS-formatted resume in PDF format. Highlight degree (STEM, humanities, or linguistics), analytical writing experience, and any past data annotation or fact-checking background. Avoid multi-column graphics.",
+    other_requirements: "Desktop or laptop computer running Google Chrome. Minimum 10 Mbps broadband connection. Government-issued photo ID for automated identity verification. Minimum 10 hours per week availability.",
   },
   {
     id: '10000000-0000-0000-0000-000000000002',
@@ -208,6 +220,13 @@ const INITIAL_JOBS: Job[] = [
     created_by: null,
     created_at: new Date(Date.now() - 25 * 86400000).toISOString(),
     daysAgo: 6,
+    posted_date: '20 September 2024',
+    accepting_since: 'September 2024',
+    accepted_count: 38,
+    success_rate: '~12% selection rate (Reported)',
+    knowledge_requirements: ["Python 3.10+ and TypeScript standard library proficiency","Unit test authoring using pytest and vitest frameworks","Time and space complexity profiling for generated code","Edge-case synthesis and boundary condition testing"],
+    cv_requirements: "One-page technical CV in PDF format. Include direct clickable links to active GitHub repositories or production code samples. Detail professional software engineering background and testing experience.",
+    other_requirements: "Modern laptop or workstation with local IDE and terminal environment. Passing score on initial 45-minute TestGorilla coding assessment. Identity check via official portal.",
   },
   {
     id: '10000000-0000-0000-0000-000000000003',
@@ -233,6 +252,13 @@ const INITIAL_JOBS: Job[] = [
     created_by: null,
     created_at: new Date(Date.now() - 45 * 86400000).toISOString(),
     daysAgo: 18,
+    posted_date: '10 July 2024',
+    accepting_since: 'July 2024',
+    accepted_count: 52,
+    success_rate: '~15% selection rate (Reported)',
+    knowledge_requirements: ["Bilingual fluency in English and French or Spanish","Idiom accuracy and cultural localization error tagging","Conversational register, tone, and polite phrasing classification","High attention to grammar, syntax, and punctuation nuances"],
+    cv_requirements: "One-page resume demonstrating formal bilingual fluency, literature or linguistics coursework, or professional editorial experience. Avoid generic soft-skills summaries.",
+    other_requirements: "Desktop or laptop with physical keyboard. Stable internet connection. Completion of unpaid 2-hour onboarding qualification assessment.",
   },
   {
     id: '10000000-0000-0000-0000-000000000004',
@@ -258,6 +284,13 @@ const INITIAL_JOBS: Job[] = [
     created_by: null,
     created_at: new Date(Date.now() - 10 * 86400000).toISOString(),
     daysAgo: 1,
+    posted_date: '05 October 2024',
+    accepting_since: 'October 2024',
+    accepted_count: 19,
+    success_rate: '~8% selection rate (Reported)',
+    knowledge_requirements: ["Adversarial prompt injection design and jailbreak taxonomy","Safety policy boundary probing and refusal precision audit","OWASP Top 10 for LLMs and multi-turn attack strategies","System prompt extraction and privilege escalation detection"],
+    cv_requirements: "Technical security CV highlighting published AI safety papers, capture-the-flag competitions, red teaming audits, or advanced cybersecurity degree.",
+    other_requirements: "Mercor platform technical video interview and profile evaluation. High-performance workstation with isolated sandbox environment. Client NDA required.",
   },
   {
     id: '10000000-0000-0000-0000-000000000005',
@@ -283,6 +316,13 @@ const INITIAL_JOBS: Job[] = [
     created_by: null,
     created_at: new Date(Date.now() - 80 * 86400000).toISOString(),
     daysAgo: 32,
+    posted_date: '15 March 2024',
+    accepting_since: 'March 2024',
+    accepted_count: 45,
+    success_rate: '~25% selection rate (Reported)',
+    knowledge_requirements: ["Creative writing and multi-turn character continuity","Persona adherence and dialogue naturalness scoring","Narrative pacing and tone consistency evaluation"],
+    cv_requirements: "Creative writing portfolio or academic background in English literature or creative writing.",
+    other_requirements: "Role currently closed by employer. Historical record maintained for rate and platform verification.",
   },
   {
     id: '10000000-0000-0000-0000-000000000006',
@@ -308,6 +348,13 @@ const INITIAL_JOBS: Job[] = [
     created_by: null,
     created_at: new Date(Date.now() - 14 * 86400000).toISOString(),
     daysAgo: 2,
+    posted_date: '12 November 2024',
+    accepting_since: 'November 2024',
+    accepted_count: 27,
+    success_rate: '~14% selection rate (Reported)',
+    knowledge_requirements: ["Spatial bounding box verification and visual grounding","OCR verification across technical charts, UI designs, and receipts","Infographic data extraction and coordinate precision audits","Detection of visual hallucinations and artifact misclassifications"],
+    cv_requirements: "One-page resume showing STEM background, UI design inspection, or analytical data verification experience. Specify familiarity with technical charts and schematics.",
+    other_requirements: "High-resolution display monitor (minimum 1080p recommended). Minimum 15 Mbps broadband. Completion of Alignerr multimodal assessment.",
   },
   {
     id: '10000000-0000-0000-0000-000000000007',
@@ -333,6 +380,13 @@ const INITIAL_JOBS: Job[] = [
     created_by: null,
     created_at: new Date(Date.now() - 20 * 86400000).toISOString(),
     daysAgo: 4,
+    posted_date: '18 August 2024',
+    accepting_since: 'August 2024',
+    accepted_count: 31,
+    success_rate: '~11% selection rate (Reported)',
+    knowledge_requirements: ["High school competition and university-level mathematics","Clean LaTeX mathematical typesetting and notation","Step-by-step chain-of-thought proof verification","Zero-tolerance error detection in arithmetic and algebraic steps"],
+    cv_requirements: "One-page academic CV with degree in Mathematics, Physics, Statistics, or Engineering. Highlight math competition achievements or tutoring/teaching background.",
+    other_requirements: "Laptop or desktop with reliable browser and LaTeX preview capability. Completion of 2-hour mathematics assessment.",
   },
   {
     id: '10000000-0000-0000-0000-000000000008',
@@ -358,6 +412,13 @@ const INITIAL_JOBS: Job[] = [
     created_by: null,
     created_at: new Date(Date.now() - 15 * 86400000).toISOString(),
     daysAgo: 5,
+    posted_date: '02 June 2024',
+    accepting_since: 'June 2024',
+    accepted_count: 85,
+    success_rate: '~22% selection rate (Reported)',
+    knowledge_requirements: ["Search query intent classification (informational, navigational, transactional)","Web search relevance rubrics and regional source credibility","Snippet accuracy, date freshness, and direct answer validation"],
+    cv_requirements: "One-page resume demonstrating strong online research habits, analytical reading skills, and concise written communication.",
+    other_requirements: "Desktop or laptop computer running Chrome. Reliable internet and power backup. Government ID for KYC verification.",
   },
   {
     id: '10000000-0000-0000-0000-000000000009',
@@ -383,6 +444,13 @@ const INITIAL_JOBS: Job[] = [
     created_by: null,
     created_at: new Date(Date.now() - 12 * 86400000).toISOString(),
     daysAgo: 7,
+    posted_date: '28 October 2024',
+    accepting_since: 'October 2024',
+    accepted_count: 14,
+    success_rate: '~6% selection rate (Reported)',
+    knowledge_requirements: ["Clinical medicine, pharmacokinetics, and adverse reaction pathways","PubMed, Cochrane, and clinical guideline citation verification","Medical hallucination detection in clinical diagnostic reasoning","Evidence-based medicine rubrics and contraindication checks"],
+    cv_requirements: "Medical CV showing graduation from accredited medical school (MBBS, MD, PharmD), clinical licensing details, and specialty certifications.",
+    other_requirements: "Verification of medical credentials and clinical licensing status. Short technical profiling video interview.",
   },
   {
     id: '10000000-0000-0000-0000-000000000010',
@@ -408,6 +476,13 @@ const INITIAL_JOBS: Job[] = [
     created_by: null,
     created_at: new Date(Date.now() - 18 * 86400000).toISOString(),
     daysAgo: 9,
+    posted_date: '15 September 2024',
+    accepting_since: 'September 2024',
+    accepted_count: 22,
+    success_rate: '~9% selection rate (Reported)',
+    knowledge_requirements: ["Common law statutory interpretation and legal synthesis","Legal citation accuracy and jurisdiction verification","Contractual clause analysis and statutory compliance checks","Zero tolerance for fabricated legal precedents or hallucinated case names"],
+    cv_requirements: "Legal CV indicating law degree (LL.B, J.D., or LL.M), bar admission or legal internship experience, and legal research credentials.",
+    other_requirements: "Desktop computer with dual-screen capability recommended for comparing statutory provisions. Government ID check.",
   },
   {
     id: '10000000-0000-0000-0000-000000000011',
@@ -433,6 +508,13 @@ const INITIAL_JOBS: Job[] = [
     created_by: null,
     created_at: new Date(Date.now() - 22 * 86400000).toISOString(),
     daysAgo: 3,
+    posted_date: '08 November 2024',
+    accepting_since: 'November 2024',
+    accepted_count: 16,
+    success_rate: '~7% selection rate (Reported)',
+    knowledge_requirements: ["Postgraduate scientific reasoning across Physics, Chemistry, or Computational Biology","Authoring multi-turn SFT prompts and verification rubrics","Chain-of-thought proof evaluation and rigorous derivation checks","LaTeX typesetting and complex scientific notation"],
+    cv_requirements: "Academic CV highlighting postgraduate research (M.Sc., Ph.D.), peer-reviewed papers, and specific laboratory or computational domain specialties.",
+    other_requirements: "Completion of 3-hour timed domain competency exam on Invisible platform. Technical interview with operations lead.",
   },
   {
     id: '10000000-0000-0000-0000-000000000012',
@@ -459,6 +541,13 @@ const INITIAL_JOBS: Job[] = [
     created_by: null,
     created_at: new Date(Date.now() - 5 * 86400000).toISOString(),
     daysAgo: 1,
+    posted_date: '01 January 2025',
+    accepting_since: 'January 2025',
+    accepted_count: 12,
+    success_rate: '~15% selection rate (Reported)',
+    knowledge_requirements: ["TraceBase 5-point pairwise rubric scoring standards","Ground truth citation verification and excerpt linking","Negative constraint compliance checking and word limit adherence","RAG retrieval hallucination detection and parameter drift analysis"],
+    cv_requirements: "TraceBase verified evaluator profile or certificate. Portfolio showing evaluated prompts, benchmark test sets, or audit contributions.",
+    other_requirements: "Desktop workstation. Identity verification. Agreement to TraceBase evaluator code of conduct and audit confidentiality standards.",
   },
 ];
 
@@ -694,6 +783,214 @@ const INITIAL_SAVED_JOBS: SavedJob[] = [
   },
 ];
 
+const INITIAL_USER_APPLICATIONS: UserApplication[] = [
+  {
+    id: 'app-001',
+    user_id: 'usr-00000000-0000-0000-0000-000000000001',
+    job_id: '10000000-0000-0000-0000-000000000001',
+    job_title: 'AI Generalist & Fact-Checking Evaluator [SAMPLE]',
+    platform_name: 'Outlier AI',
+    platform_url: 'https://outlier.ai/careers',
+    pay_text: '$25 - $40 / hr',
+    status: 'assessment_pending',
+    applied_at: new Date(Date.now() - 4 * 86400000).toISOString(),
+    last_updated_at: new Date(Date.now() - 1 * 86400000).toISOString(),
+    notes: 'Submitted profile and 1-page ATS CV. TestGorilla assessment invitation link received.',
+  },
+  {
+    id: 'app-002',
+    user_id: 'usr-00000000-0000-0000-0000-000000000001',
+    job_id: '10000000-0000-0000-0000-000000000006',
+    job_title: 'Multimodal & Code Reasoning Evaluator [SAMPLE]',
+    platform_name: 'Alignerr',
+    platform_url: 'https://alignerr.com/careers',
+    pay_text: '$35 - $60 / hr',
+    status: 'accepted',
+    applied_at: new Date(Date.now() - 12 * 86400000).toISOString(),
+    last_updated_at: new Date(Date.now() - 2 * 86400000).toISOString(),
+    notes: 'Passed TestGorilla screening (96%). Deel contract countersigned and workspace active.',
+  },
+  {
+    id: 'app-003',
+    user_id: 'usr-00000000-0000-0000-0000-000000000001',
+    job_id: '10000000-0000-0000-0000-000000000007',
+    job_title: 'Math & STEM Reasoning Specialist [SAMPLE]',
+    platform_name: 'DataAnnotation Tech',
+    platform_url: 'https://dataannotation.tech',
+    pay_text: '$40 / hr',
+    status: 'interviewing',
+    applied_at: new Date(Date.now() - 18 * 86400000).toISOString(),
+    last_updated_at: new Date(Date.now() - 5 * 86400000).toISOString(),
+    notes: 'Starter assessment completed. Awaiting project pool allocation for STEM batch.',
+  },
+  {
+    id: 'app-004',
+    user_id: 'usr-00000000-0000-0000-0000-000000000001',
+    job_id: '10000000-0000-0000-0000-000000000011',
+    job_title: 'Advanced Task Writer & Logic Auditor [SAMPLE]',
+    platform_name: 'Invisible Technologies',
+    platform_url: 'https://invisible.co/careers',
+    pay_text: '$30 - $45 / hr',
+    status: 'applied',
+    applied_at: new Date(Date.now() - 24 * 86400000).toISOString(),
+    last_updated_at: new Date(Date.now() - 24 * 86400000).toISOString(),
+    notes: 'Submitted via TraceBase direct listing. Initial screening queue pending.',
+  },
+];
+
+const INITIAL_USER_TEST_SCORES: UserTestScore[] = [
+  {
+    id: 'score-001',
+    user_id: 'usr-00000000-0000-0000-0000-000000000001',
+    drill_id: 'testgorilla-5min',
+    title: 'TestGorilla 5-minute screening drill',
+    category: 'Rapid evaluation',
+    platform_target: 'Alignerr & Outlier',
+    score: 96,
+    passed: true,
+    accuracy: '5 of 5 correct',
+    completed_at: new Date(Date.now() - 2 * 86400000).toISOString(),
+  },
+  {
+    id: 'score-002',
+    user_id: 'usr-00000000-0000-0000-0000-000000000001',
+    drill_id: 'math-cot-slip',
+    title: 'Math & chain-of-thought slip detection',
+    category: 'Reasoning verification',
+    platform_target: 'DataAnnotation Tech',
+    score: 100,
+    passed: true,
+    accuracy: '6 of 6 correct',
+    completed_at: new Date(Date.now() - 4 * 86400000).toISOString(),
+  },
+  {
+    id: 'score-003',
+    user_id: 'usr-00000000-0000-0000-0000-000000000001',
+    drill_id: 'negative-constraints',
+    title: 'Instruction following & negative constraints',
+    category: 'Constraint rigor',
+    platform_target: 'Outlier AI',
+    score: 92,
+    passed: true,
+    accuracy: '11 of 12 correct',
+    completed_at: new Date(Date.now() - 6 * 86400000).toISOString(),
+  },
+  {
+    id: 'score-004',
+    user_id: 'usr-00000000-0000-0000-0000-000000000001',
+    drill_id: 'legal-citation',
+    title: 'Legal citation & statutory hallucination',
+    category: 'Fact-checking',
+    platform_target: 'Mercor & Alignerr',
+    score: 90,
+    passed: true,
+    accuracy: '9 of 10 correct',
+    completed_at: new Date(Date.now() - 8 * 86400000).toISOString(),
+  },
+  {
+    id: 'score-005',
+    user_id: 'usr-00000000-0000-0000-0000-000000000001',
+    drill_id: 'pairwise-justification',
+    title: 'Pairwise justification & non-sycophancy',
+    category: 'Critical alignment',
+    platform_target: 'Frontier AI teams',
+    score: 94,
+    passed: true,
+    accuracy: '8 of 8 correct',
+    completed_at: new Date(Date.now() - 11 * 86400000).toISOString(),
+  },
+  {
+    id: 'score-006',
+    user_id: 'usr-00000000-0000-0000-0000-000000000001',
+    drill_id: 'prompt-ambiguity',
+    title: 'Prompt ambiguity & clarification drill',
+    category: 'Core evaluation',
+    platform_target: 'General RLHF',
+    score: 88,
+    passed: true,
+    accuracy: '7 of 8 correct',
+    completed_at: new Date(Date.now() - 14 * 86400000).toISOString(),
+  },
+];
+
+const INITIAL_USER_CVS: UserCv[] = [
+  {
+    id: 'cv-001',
+    user_id: 'usr-00000000-0000-0000-0000-000000000001',
+    title: 'Generalist AI Model Evaluator CV [SAMPLE]',
+    target_role: 'Outlier & Alignerr Generalist Tier',
+    ats_score: 98,
+    density: 'compact',
+    filename: 'contributor-generalist-evaluator-cv.pdf',
+    created_at: new Date(Date.now() - 10 * 86400000).toISOString(),
+    last_updated_at: new Date(Date.now() - 2 * 86400000).toISOString(),
+    summary_snippet: 'One-page ATS format emphasizing prompt calibration, fact verification, and 96% TestGorilla screening score.',
+  },
+  {
+    id: 'cv-002',
+    user_id: 'usr-00000000-0000-0000-0000-000000000001',
+    title: 'STEM & Code Benchmark Specialist CV [SAMPLE]',
+    target_role: 'Code & Math Reasoning Evaluation',
+    ats_score: 96,
+    density: 'ultra-compact',
+    filename: 'contributor-stem-reasoning-cv.pdf',
+    created_at: new Date(Date.now() - 15 * 86400000).toISOString(),
+    last_updated_at: new Date(Date.now() - 5 * 86400000).toISOString(),
+    summary_snippet: 'Single-page technical resume featuring Python test suite debugging, unit test verification, and mathematical proof checking.',
+  },
+  {
+    id: 'cv-003',
+    user_id: 'usr-00000000-0000-0000-0000-000000000001',
+    title: 'Linguistic & African Dialect Localization CV [SAMPLE]',
+    target_role: 'Multilingual RLHF & Cultural Audit',
+    ats_score: 94,
+    density: 'standard',
+    filename: 'contributor-linguistics-localization-cv.pdf',
+    created_at: new Date(Date.now() - 20 * 86400000).toISOString(),
+    last_updated_at: new Date(Date.now() - 12 * 86400000).toISOString(),
+    summary_snippet: 'Linguistics CV covering Nigerian English, West African idioms, and cultural safety guidelines for generative AI.',
+  },
+];
+
+const INITIAL_USER_PAYOUTS: UserPayoutLog[] = [
+  {
+    id: 'pay-001',
+    user_id: 'usr-00000000-0000-0000-0000-000000000001',
+    platform_name: 'Alignerr (Deel)',
+    hours_logged: 18.5,
+    rate_usd: 40,
+    gross_usd: 740,
+    net_local_currency: '₦1,110,000 NGN',
+    period: 'Oct 2026 (Batch A)',
+    status: 'paid',
+    created_at: new Date(Date.now() - 3 * 86400000).toISOString(),
+  },
+  {
+    id: 'pay-002',
+    user_id: 'usr-00000000-0000-0000-0000-000000000001',
+    platform_name: 'Outlier AI (PayPal)',
+    hours_logged: 12.0,
+    rate_usd: 30,
+    gross_usd: 360,
+    net_local_currency: '₦540,000 NGN',
+    period: 'Oct 2026 (Batch B)',
+    status: 'processing',
+    created_at: new Date(Date.now() - 1 * 86400000).toISOString(),
+  },
+  {
+    id: 'pay-003',
+    user_id: 'usr-00000000-0000-0000-0000-000000000001',
+    platform_name: 'DataAnnotation Tech',
+    hours_logged: 8.0,
+    rate_usd: 40,
+    gross_usd: 320,
+    net_local_currency: '₦480,000 NGN',
+    period: 'Current week',
+    status: 'logged',
+    created_at: new Date(Date.now() - 0.5 * 86400000).toISOString(),
+  },
+];
+
 const INITIAL_EVALUATOR_LEADS: EvaluatorLead[] = [
   {
     id: 'eval-lead-1',
@@ -754,6 +1051,10 @@ class RepositoryStore {
   // Milestone 11 additions
   users: User[] = [...INITIAL_USERS];
   savedJobs: SavedJob[] = [...INITIAL_SAVED_JOBS];
+  applications: UserApplication[] = [...INITIAL_USER_APPLICATIONS];
+  testScores: UserTestScore[] = [...INITIAL_USER_TEST_SCORES];
+  userCvs: UserCv[] = [...INITIAL_USER_CVS];
+  userPayouts: UserPayoutLog[] = [...INITIAL_USER_PAYOUTS];
   magicLinks: MagicLinkToken[] = [];
   sessions: UserSession[] = [];
   communityReports: CommunityExperienceReport[] = [...INITIAL_COMMUNITY_REPORTS];
@@ -1004,14 +1305,25 @@ export const dbRepository = {
     // Full-text / search query filter:
     if (filters.query && filters.query.trim()) {
       const q = filters.query.toLowerCase().trim();
-      result = result.filter(
-        (j) =>
-          j.title.toLowerCase().includes(q) ||
-          j.summary.toLowerCase().includes(q) ||
-          j.work_type.toLowerCase().includes(q) ||
-          j.domains.some((d) => d.toLowerCase().includes(q)) ||
-          j.languages.some((l) => l.toLowerCase().includes(q))
-      );
+      const tokens = q.split(/\s+/).filter(Boolean);
+      const compactQuery = q.replace(/[^a-z0-9]/g, '');
+
+      result = result.filter((j) => {
+        const platform = globalStore.platforms.find((p) => p.id === j.platform_id);
+        const platformName = platform ? platform.name.toLowerCase() : '';
+        const fullText = `${j.title} ${platformName} ${j.work_type} ${j.summary} ${j.requirements || ''} ${(j.domains || []).join(' ')} ${(j.languages || []).join(' ')} ${j.pay_text || ''}`.toLowerCase();
+        const compactFullText = fullText.replace(/[^a-z0-9]/g, '');
+
+        if (compactQuery.length > 2 && compactFullText.includes(compactQuery)) {
+          return true;
+        }
+
+        return tokens.every((token) => {
+          if (fullText.includes(token)) return true;
+          const compactToken = token.replace(/[^a-z0-9]/g, '');
+          return compactToken.length > 2 && compactFullText.includes(compactToken);
+        });
+      });
     }
 
     // Sorting:
@@ -1086,7 +1398,10 @@ export const dbRepository = {
   },
 
   getJobBySlug(slug: string, options?: { includeSample?: boolean }): JobWithPlatform | undefined {
-    const job = globalStore.jobs.find((j) => j.slug === slug);
+    let job = globalStore.jobs.find((j) => j.slug === slug);
+    if (!job && (slug === 'outlier-ai-generalist-evaluator' || slug === 'sample-outlier-ai-generalist-evaluator')) {
+      job = globalStore.jobs.find((j) => j.slug === 'sample-outlier-rlhf-generalist');
+    }
     if (!job) return undefined;
     const showSample = options?.includeSample ?? shouldShowSampleData();
     if (!showSample && isSampleJob(job)) return undefined;
@@ -1816,10 +2131,14 @@ export const dbRepository = {
     email,
     country_code = null,
     work_types = [],
+    frequency = 'weekly',
+    categories = ['opportunities', 'newsletter', 'scam_alerts'],
   }: {
     email: string;
     country_code?: string | null;
     work_types?: string[];
+    frequency?: string;
+    categories?: string[];
   }): { subscription: AlertSubscription; token: string; isNew: boolean } {
     const normalizedEmail = email.trim().toLowerCase();
     const existing = globalStore.subscriptions.find(
@@ -1831,10 +2150,15 @@ export const dbRepository = {
 
     if (existing) {
       if (existing.status === 'active') {
+        if (frequency) existing.frequency = frequency;
+        if (categories) existing.categories = categories;
+        if (country_code) existing.country_code = country_code;
         return { subscription: existing, token: existing.token || token, isNew: false };
       }
       existing.token = token;
       existing.status = 'pending';
+      if (frequency) existing.frequency = frequency;
+      if (categories) existing.categories = categories;
       if (country_code) existing.country_code = country_code;
       if (work_types.length > 0) existing.work_types = work_types;
 
@@ -1856,7 +2180,8 @@ export const dbRepository = {
       user_id: null,
       country_code,
       work_types,
-      frequency: 'weekly',
+      frequency,
+      categories,
       token,
       status: 'pending',
       confirmed_at: null,
@@ -2216,9 +2541,13 @@ ${draft.rolesByCountry.map(c => `<h4>[${c.flag}] ${c.country}</h4><ul>${c.roles.
     );
     const subsDeleted = subsBefore - globalStore.subscriptions.length;
 
-    // 4. Terminate active sessions and magic links
+    // 4. Terminate active sessions and magic links, and clear user applications, test scores, CVs, and payouts
     globalStore.sessions = globalStore.sessions.filter((s) => s.userId !== userId);
     globalStore.magicLinks = globalStore.magicLinks.filter((m) => m.email !== userEmail);
+    globalStore.applications = globalStore.applications.filter((a) => a.user_id !== userId);
+    globalStore.testScores = globalStore.testScores.filter((t) => t.user_id !== userId);
+    globalStore.userCvs = globalStore.userCvs.filter((c) => c.user_id !== userId);
+    globalStore.userPayouts = globalStore.userPayouts.filter((p) => p.user_id !== userId);
 
     // 5. Append NDPA consent withdrawal log
     const emailHash = createHash('sha256').update(userEmail).digest('hex');
@@ -2291,7 +2620,8 @@ ${draft.rolesByCountry.map(c => `<h4>[${c.flag}] ${c.country}</h4><ul>${c.roles.
     email: string,
     country_code: string | null,
     work_types: string[],
-    frequency: string
+    frequency: string,
+    categories?: string[]
   ): AlertSubscription {
     const cleanEmail = email.toLowerCase().trim();
     let sub = globalStore.subscriptions.find(
@@ -2303,6 +2633,7 @@ ${draft.rolesByCountry.map(c => `<h4>[${c.flag}] ${c.country}</h4><ul>${c.roles.
       sub.country_code = country_code;
       sub.work_types = work_types;
       sub.frequency = frequency;
+      if (categories) sub.categories = categories;
       sub.status = 'active';
     } else {
       sub = {
@@ -2312,6 +2643,7 @@ ${draft.rolesByCountry.map(c => `<h4>[${c.flag}] ${c.country}</h4><ul>${c.roles.
         country_code: country_code,
         work_types: work_types,
         frequency: frequency,
+        categories: categories || ['opportunities', 'newsletter', 'scam_alerts'],
         status: 'active',
         confirmed_at: new Date().toISOString(),
         created_at: new Date().toISOString(),
@@ -2381,7 +2713,7 @@ ${draft.rolesByCountry.map(c => `<h4>[${c.flag}] ${c.country}</h4><ul>${c.roles.
     report.moderation_notes = moderation_notes || null;
 
     this.logAudit({
-      actor: 'jo@tracebase.ai',
+      actor: 'ebube@tracebase.ai',
       action: `report.community_experience_${status}`,
       entity: 'community_reports',
       entity_id: id,
@@ -2570,4 +2902,114 @@ ${draft.rolesByCountry.map(c => `<h4>[${c.flag}] ${c.country}</h4><ul>${c.roles.
       steps,
     };
   },
+
+  // User Applications Tracker
+  getUserApplications(userId: string): UserApplication[] {
+    const list = globalStore.applications.filter((a) => a.user_id === userId);
+    if (list.length === 0) {
+      const cloned = INITIAL_USER_APPLICATIONS.map((app) => ({
+        ...app,
+        id: `app-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+        user_id: userId,
+      }));
+      globalStore.applications.push(...cloned);
+      return cloned;
+    }
+    return [...list];
+  },
+
+  addUserApplication(data: Omit<UserApplication, 'id' | 'applied_at' | 'last_updated_at'>): UserApplication {
+    const app: UserApplication = {
+      ...data,
+      id: `app-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+      applied_at: new Date().toISOString(),
+      last_updated_at: new Date().toISOString(),
+    };
+    globalStore.applications.unshift(app);
+    return app;
+  },
+
+  updateUserApplicationStatus(applicationId: string, status: ApplicationStatus, notes?: string): boolean {
+    const app = globalStore.applications.find((a) => a.id === applicationId);
+    if (!app) return false;
+    app.status = status;
+    app.last_updated_at = new Date().toISOString();
+    if (notes !== undefined) {
+      app.notes = notes;
+    }
+    return true;
+  },
+
+  deleteUserApplication(applicationId: string): boolean {
+    const initialLen = globalStore.applications.length;
+    globalStore.applications = globalStore.applications.filter((a) => a.id !== applicationId);
+    return globalStore.applications.length < initialLen;
+  },
+
+  // User Test Scores & Drills
+  getUserTestScores(userId: string): UserTestScore[] {
+    const list = globalStore.testScores.filter((t) => t.user_id === userId);
+    if (list.length === 0) {
+      const cloned = INITIAL_USER_TEST_SCORES.map((score) => ({
+        ...score,
+        id: `score-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+        user_id: userId,
+      }));
+      globalStore.testScores.push(...cloned);
+      return cloned;
+    }
+    return [...list];
+  },
+
+  recordUserTestScore(data: Omit<UserTestScore, 'id' | 'completed_at'>): UserTestScore {
+    const scoreItem: UserTestScore = {
+      ...data,
+      id: `score-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+      completed_at: new Date().toISOString(),
+    };
+    globalStore.testScores.unshift(scoreItem);
+    return scoreItem;
+  },
+
+  // User CVs
+  getUserCvs(userId: string): UserCv[] {
+    const list = globalStore.userCvs.filter((c) => c.user_id === userId);
+    if (list.length === 0) {
+      const cloned = INITIAL_USER_CVS.map((cv) => ({
+        ...cv,
+        id: `cv-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+        user_id: userId,
+      }));
+      globalStore.userCvs.push(...cloned);
+      return cloned;
+    }
+    return [...list];
+  },
+
+  addUserCv(data: Omit<UserCv, 'id' | 'created_at' | 'last_updated_at'>): UserCv {
+    const cvItem: UserCv = {
+      ...data,
+      id: `cv-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+      created_at: new Date().toISOString(),
+      last_updated_at: new Date().toISOString(),
+    };
+    globalStore.userCvs.unshift(cvItem);
+    return cvItem;
+  },
+
+  // User Payout Logs
+  getUserPayouts(userId: string): UserPayoutLog[] {
+    const list = globalStore.userPayouts.filter((p) => p.user_id === userId);
+    if (list.length === 0) {
+      const cloned = INITIAL_USER_PAYOUTS.map((p) => ({
+        ...p,
+        id: `pay-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+        user_id: userId,
+      }));
+      globalStore.userPayouts.push(...cloned);
+      return cloned;
+    }
+    return [...list];
+  },
 };
+

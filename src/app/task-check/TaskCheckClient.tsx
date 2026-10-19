@@ -314,8 +314,10 @@ export function TaskCheckClient() {
         {/* Timer Display & Controls */}
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-1.5 text-xs text-secondary">
-            <span>Target:</span>
+            <label htmlFor="target-minutes-select">Target:</label>
             <select
+              id="target-minutes-select"
+              aria-label="Target task duration in minutes"
               value={targetMinutes}
               onChange={(e) => setTargetMinutes(parseInt(e.target.value))}
               className="bg-surface border border-rule rounded-lg px-2 py-1 text-xs text-primary font-mono focus:outline-none"
@@ -366,10 +368,12 @@ export function TaskCheckClient() {
           </div>
 
           <div className="space-y-2">
-            <label className="text-xs font-medium text-secondary block">
+            <label htmlFor="negative-constraints-input" className="text-xs font-medium text-secondary block">
               Negative constraints &amp; forbidden elements
             </label>
             <textarea
+              id="negative-constraints-input"
+              aria-label="Negative constraints and forbidden elements"
               value={constraintsText}
               onChange={(e) => setConstraintsText(e.target.value)}
               rows={3}
@@ -381,8 +385,10 @@ export function TaskCheckClient() {
           {/* Word Count Limit Settings */}
           <div className="grid grid-cols-2 gap-3 pt-1">
             <div className="space-y-1">
-              <label className="text-xs text-secondary font-medium block">Min words (optional)</label>
+              <label htmlFor="min-words-input" className="text-xs text-secondary font-medium block">Min words (optional)</label>
               <input
+                id="min-words-input"
+                aria-label="Minimum words"
                 type="number"
                 min={0}
                 value={minWords}
@@ -391,8 +397,10 @@ export function TaskCheckClient() {
               />
             </div>
             <div className="space-y-1">
-              <label className="text-xs text-secondary font-medium block">Max words</label>
+              <label htmlFor="max-words-input" className="text-xs text-secondary font-medium block">Max words</label>
               <input
+                id="max-words-input"
+                aria-label="Maximum words"
                 type="number"
                 min={0}
                 value={maxWords}
@@ -482,6 +490,8 @@ export function TaskCheckClient() {
             </div>
 
             <textarea
+              id="model-response-input"
+              aria-label="Model response or draft to check"
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               rows={8}

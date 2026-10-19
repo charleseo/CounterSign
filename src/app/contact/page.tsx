@@ -22,7 +22,7 @@ export default function ContactPage() {
           Get in Touch
         </h1>
         <p className="text-sm sm:text-base text-secondary leading-relaxed max-w-2xl">
-          TraceBase is managed by Jo (Ebube Okeke). We read every message directly and respond within two working days. Pick the dedicated inbox that matches your inquiry or use the form below.
+          TraceBase is managed by Ebubechukwu Okeke. We read every message directly and respond within two working days. Pick the dedicated inbox that matches your inquiry or use the form below.
         </p>
       </div>
 
@@ -53,10 +53,10 @@ export default function ContactPage() {
             RAG citation audits, hallucination analysis, and benchmark evaluation for AI startups.
           </p>
           <a
-            href={`mailto:jo@${getSiteHost()}`}
+            href={`mailto:ebube@${getSiteHost()}`}
             className="text-xs text-brand-ink underline hover:text-[#4A2AB0] block truncate"
           >
-            jo@{getSiteHost()}
+            ebube@{getSiteHost()}
           </a>
         </div>
 

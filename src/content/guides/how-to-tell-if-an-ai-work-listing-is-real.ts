@@ -7,10 +7,10 @@ export const guideOne: Guide = {
   readingTime: '6 min read',
   lastUpdated: '2026-10-14',
   lastCheckedDate: '12 Oct 2026',
-  checkedBy: 'Jo (Ebube Okeke)',
+  checkedBy: 'Ebubechukwu Okeke',
   published: true,
   author: {
-    name: 'Jo (Ebube Okeke)',
+    name: 'Ebubechukwu Okeke',
     title: 'Lead Evaluator, TraceBase',
   },
   topicTags: ['Verification', 'Scam Prevention', 'Job Hunting'],

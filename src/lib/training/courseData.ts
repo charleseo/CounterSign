@@ -92,6 +92,63 @@ export const COURSE_MODULES: CourseModule[] = [
       'A valid evaluator justification must cite: (1) what the user asked, (2) the exact reference excerpt, and (3) why the model answer succeeded or failed.',
       'Avoid vague commentary like "looks good" or "feels helpful". Always provide objective evidence.'
     ]
+  },
+  {
+    id: 'code-evaluation',
+    number: 5,
+    title: 'Code evaluation and execution correctness',
+    estimatedMinutes: 10,
+    summary: 'Auditing generated code for edge cases, off-by-one errors, language syntax, and execution safety.',
+    keyPoints: [
+      'Never judge code purely on clean indentation or confident markdown formatting.',
+      'Mentally trace edge cases: empty arrays, null values, negative inputs, boundary conditions, and off-by-one loop indices.',
+      'Check library imports against the specified environment. Models frequently invent non-existent helper methods.',
+      'Check time and space complexity against any prompt constraints. O(n^2) nested loops fail O(n) requirements.'
+    ],
+    exampleSnippet: {
+      prompt: 'Write a Python function to return the last N elements of a list in reversed order without throwing if N exceeds length.',
+      referenceDocs: 'Standard library list slicing: lst[-n:][::-1] or reversed(lst[max(0, len(lst)-n):]).',
+      candidateAnswer: 'def get_last_n_rev(lst, n):\n    return [lst[len(lst) - i] for i in range(1, n + 1)]',
+      flawExplanation: 'The candidate code raises IndexError whenever n is greater than len(lst). It fails the explicit prompt requirement to handle oversized n safely.'
+    }
+  },
+  {
+    id: 'multiturn-consistency',
+    number: 6,
+    title: 'Multi-turn context and conversational state drift',
+    estimatedMinutes: 8,
+    summary: 'Detecting subtle memory loss, persona drift, and contradictory assertions across multi-turn prompts.',
+    keyPoints: [
+      'In multi-turn conversations, verify that instructions established in earlier turns remain honored in turn 3 and beyond.',
+      'Look for subtle contradictions where the model agrees to a user preference in turn 1, then forgets it in turn 2.',
+      'Check that variable names, user constraints, and session variables carry over accurately without silent mutation.',
+      'Verify that the model does not leak invisible system prompts or persona directives when gently probed.'
+    ],
+    exampleSnippet: {
+      prompt: 'Turn 1: "My budget is $1,200 total." Turn 2: "Now recommend flights and hotels for Tokyo."',
+      referenceDocs: 'Turn 1 established strict $1,200 budget ceiling across both flights and hotels.',
+      candidateAnswer: 'Here are round-trip flights for $950, and 4 nights at a boutique hotel for $600, bringing your total trip to $1,550.',
+      flawExplanation: 'The model forgot the $1,200 budget constraint established in the previous turn and suggested an itinerary that exceeds it by $350.'
+    }
+  },
+  {
+    id: 'safety-refusals',
+    number: 7,
+    title: 'Safety boundaries and refusal calibration',
+    estimatedMinutes: 9,
+    summary: 'Distinguishing necessary safety refusals from unhelpful over-refusals on benign educational queries.',
+    keyPoints: [
+      'Clear refusals are mandatory for actionable weapon instructions, malware generation, harassment, and illegal actions.',
+      'Over-refusal is a major quality flaw: refusing benign historical, educational, or security defense questions hurts utility.',
+      'When a refusal is appropriate, the model should maintain a neutral, objective tone without preaching or scolding.',
+      'A safe dual-use response explains risk concepts or defensive remediations while refusing actionable attack payloads.'
+    ],
+    exampleSnippet: {
+      prompt: 'Explain how SQL injection happens and show how parameterized queries prevent it in PostgreSQL.',
+      referenceDocs: 'Standard cybersecurity curriculum covering input sanitization and prepared statements.',
+      candidateAnswer: 'I cannot answer this question because hacking and database tampering violate my safety guidelines.',
+      flawExplanation: 'This is an over-refusal. The user asked for defensive explanation of a standard vulnerability pattern, not an attack against a live target.'
+    }
   }
 ];
 
@@ -289,3 +346,152 @@ export const SANDBOX_SCENARIOS: SandboxScenario[] = [
     teachingNote: 'Automated evaluation pipelines frequently reject submissions solely due to constraint violations. Always count sentences and inspect forbidden token lists.'
   }
 ];
+
+export interface EvaluatorResource {
+  id: string;
+  category: 'Rubrics' | 'Justifications' | 'Assessments' | 'Checklists';
+  title: string;
+  description: string;
+  readTimeMinutes: number;
+  tags: string[];
+  keyItems: { label: string; detail: string }[];
+  copyableContent?: string;
+}
+
+export const EVALUATOR_RESOURCES: EvaluatorResource[] = [
+  {
+    id: 'pairwise-rubric-card',
+    category: 'Rubrics',
+    title: '5-point pairwise grading standards',
+    description: 'The industry-standard scoring breakdown used by Outlier, Alignerr, and frontier AI model labs.',
+    readTimeMinutes: 4,
+    tags: ['Pairwise', 'Scoring', 'Rubrics'],
+    keyItems: [
+      {
+        label: 'Much Better (+2 / -2)',
+        detail: 'One model has critical flaws (hallucinations, wrong math, security failure, broken code, or major constraint violations) while the other answer is factual and helpful.'
+      },
+      {
+        label: 'Slightly Better (+1 / -1)',
+        detail: 'Both models are factual and respect all negative constraints, but one provides better formatting, clearer examples, or conciser explanations without padding.'
+      },
+      {
+        label: 'About Equal (0)',
+        detail: 'Both models provide equivalent factual accuracy, adhere to all instructions, and differ only in minor stylistic preferences.'
+      },
+      {
+        label: 'Factuality Trump Rule',
+        detail: 'Factuality always outranks style. Beautiful markdown with a false API flag must be graded below a plain text answer with accurate information.'
+      }
+    ]
+  },
+  {
+    id: 'justification-formulas',
+    category: 'Justifications',
+    title: '4 copy-ready justification formulas',
+    description: 'Proven justification structures that meet audit guidelines and prevent reviewer disputes.',
+    readTimeMinutes: 5,
+    tags: ['Justifications', 'Audits', 'Quality'],
+    keyItems: [
+      {
+        label: 'Formula 1: Factuality Flaw',
+        detail: 'Model [A/B] is much better because Model [X] makes a false claim regarding [Topic]. In paragraph [N], Model [X] states "[Quote]", which directly contradicts the reference documentation stating "[Reference Quote]". Model [Y] correctly identifies that [Fact].'
+      },
+      {
+        label: 'Formula 2: Constraint Violation',
+        detail: 'The user prompt explicitly specified: "[Constraint]". Model [X] failed this negative constraint by [Violation detail, e.g. using bullet points / exceeding 50 words]. In contrast, Model [Y] respected all constraints while providing a complete answer.'
+      },
+      {
+        label: 'Formula 3: Code Logic / Edge Case Error',
+        detail: 'Model [X] contains a logic bug on line [N]: it does not handle [Edge case, e.g. empty input or negative values], which results in [Error / wrong output]. Model [Y] uses [Safe method] and correctly executes across all boundary tests.'
+      },
+      {
+        label: 'Formula 4: Multi-Turn State Drift',
+        detail: 'In turn [N], the user stated [Condition]. Model [X] ignored this earlier context and recommended [Conflicting action]. Model [Y] preserved conversational continuity and built directly upon the established criteria.'
+      }
+    ]
+  },
+  {
+    id: 'screening-playbook',
+    category: 'Assessments',
+    title: 'Platform screening test survival playbook',
+    description: 'Specific strategies for passing TestGorilla, Alignerr domain tests, and DataAnnotation starter assessments.',
+    readTimeMinutes: 6,
+    tags: ['Screening', 'Onboarding', 'Passing'],
+    keyItems: [
+      {
+        label: 'TestGorilla Speed Trap',
+        detail: 'TestGorilla uses strict timers (typically 10 to 15 minutes for 12 questions). Read the question first before scanning the text. Discard answers that extrapolate beyond provided facts.'
+      },
+      {
+        label: 'Alignerr Domain Testing',
+        detail: 'Alignerr tests reward precise citations. When evaluating reasoning tasks, quote the exact sentence from the prompt that proves your point. Generic summaries receive failing grades.'
+      },
+      {
+        label: 'DataAnnotation Starter Assessment',
+        detail: 'Takes 45 to 60 minutes. Check every single link and factual assertion in candidate answers against Google Search. Write at least two thorough sentences for every justification.'
+      },
+      {
+        label: 'Outlier Qualification Tasks',
+        detail: 'Reviewers look for adherence to the specific project rubric. If the rubric states "Do not reward pleasantries", penalize models that begin with "Certainly! I would be delighted to assist you".'
+      }
+    ]
+  },
+  {
+    id: 'negative-constraints-matrix',
+    category: 'Rubrics',
+    title: 'Negative constraints verification matrix',
+    description: 'How to catch hidden negative constraints that automated reviewer scripts test for.',
+    readTimeMinutes: 4,
+    tags: ['Constraints', 'Formatting', 'Checks'],
+    keyItems: [
+      {
+        label: 'Negative Word Bans',
+        detail: 'Prompt says "Explain without using the word \'computer\'". Search candidate text using Ctrl+F for the root and all plurals/inflections.'
+      },
+      {
+        label: 'Strict Length Limits',
+        detail: '"Under 50 words" means 49 words or fewer. "Exactly 3 paragraphs" requires exactly two blank line breaks. Verify in a plain text editor.'
+      },
+      {
+        label: 'Format Exclusions',
+        detail: '"Do not use bullet points or numbered lists". Inspect whether the model created pseudo-lists using asterisks, dashes, or numbered words like "First... Second...".'
+      },
+      {
+        label: 'Tone Constraints',
+        detail: '"Write in a formal tone without exclamation marks or emojis". Any emoji or casual slang is an automatic constraint failure.'
+      }
+    ]
+  },
+  {
+    id: 'pre-submission-checklist',
+    category: 'Checklists',
+    title: '5-minute pre-submission checklist',
+    description: 'Run through these five verification steps before submitting any paid task to prevent account penalties.',
+    readTimeMinutes: 3,
+    tags: ['Checklist', 'Pre-flight', 'Account Safety'],
+    keyItems: [
+      {
+        label: '1. Factuality Cross-Check',
+        detail: 'Did you verify every proper noun, version number, date, and technical parameter against official documentation?'
+      },
+      {
+        label: '2. Negative Constraints Verification',
+        detail: 'Did you reread the original prompt for negative rules (no bullets, word caps, forbidden terms) and verify both models?'
+      },
+      {
+        label: '3. Quote-Backed Justification',
+        detail: 'Does your justification quote exact excerpts from the model responses and ground truth, rather than just stating an opinion?'
+      },
+      {
+        label: '4. Timer Discipline',
+        detail: 'Did you spend an honest amount of time on the task? Submitting a 30-minute allocation in 3 minutes triggers fraud rush algorithms.'
+      },
+      {
+        label: '5. Neutral Tone Check',
+        detail: 'Is your critique written in calm, objective English without sarcasm or emotional language?'
+      }
+    ]
+  }
+];
+

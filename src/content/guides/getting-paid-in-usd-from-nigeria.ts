@@ -7,10 +7,10 @@ export const guideTwo: Guide = {
   readingTime: '8 min read',
   lastUpdated: '2026-10-14',
   lastCheckedDate: '12 Oct 2026',
-  checkedBy: 'Jo (Ebube Okeke)',
+  checkedBy: 'Ebubechukwu Okeke',
   published: true,
   author: {
-    name: 'Jo (Ebube Okeke)',
+    name: 'Ebubechukwu Okeke',
     title: 'Lead Evaluator, TraceBase',
   },
   topicTags: ['Nigeria', 'Banking', 'USD Payouts', 'Geegpay', 'Grey'],

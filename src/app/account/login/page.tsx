@@ -39,24 +39,24 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
     <div className="max-w-md mx-auto px-4 py-12 sm:py-16 space-y-8">
       {/* Brand Header */}
       <div className="text-center space-y-3">
-        <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded border border-rule bg-sheet text-xs text-secondary font-medium mx-auto">
-          <ShieldCheck className="w-3.5 h-3.5 text-brand-ink" />
-          <span>Passwordless Sovereign Auth</span>
+        <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-rule bg-sheet text-xs text-secondary font-medium mx-auto">
+          <ShieldCheck className="w-3.5 h-3.5 text-[#5A35C8]" />
+          <span>Contributor sign in</span>
         </div>
         <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-primary">
-          Sign In to TraceBase
+          Sign in to your account
         </h1>
         <p className="text-xs sm:text-sm text-secondary leading-relaxed">
-          Passwordless magic link sign-in. Save verified jobs, manage country alerts, and control your data.
+          Sign in with email and password or a magic link. Save verified jobs, manage alerts, and track applications.
         </p>
       </div>
 
       {/* Notifications */}
       {status === "account_deleted" && (
         <div className="p-4 rounded-xl bg-sheet border border-emerald-500/40 text-xs text-emerald-800 dark:text-emerald-300 space-y-1.5">
-          <p className="font-semibold text-emerald-700 dark:text-emerald-400">Account and Data Deleted</p>
+          <p className="font-semibold text-emerald-700 dark:text-emerald-400">Account and data deleted</p>
           <p className="text-secondary leading-relaxed">
-            In accordance with NDPA 2023, your profile, saved jobs, alert subscriptions, and consent records have been completely purged from our systems.
+            Under NDPA 2023, your profile, saved jobs, alert subscriptions, and consent records have been purged from our systems.
           </p>
         </div>
       )}
@@ -91,11 +91,11 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
       <p className="text-center text-[11px] text-secondary">
         By continuing, you agree to our{" "}
         <Link href="/terms" className="text-brand-ink underline hover:text-[#4A2AB0] transition-colors">
-          Terms of Service
+          terms of service
         </Link>{" "}
         and{" "}
         <Link href="/privacy" className="text-brand-ink underline hover:text-[#4A2AB0] transition-colors">
-          Privacy Policy
+          privacy policy
         </Link>
         . Data minimization enforced.
       </p>

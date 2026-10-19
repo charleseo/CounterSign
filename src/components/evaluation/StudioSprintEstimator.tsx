@@ -108,9 +108,9 @@ export function StudioSprintEstimator() {
           <Calculator size={13} />
           <span>Interactive Sprint Estimator</span>
         </div>
-        <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-primary">
+        <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-primary">
           Scope an Evaluation Sprint in 3 Steps
-        </h2>
+        </h1>
         <p className="text-xs sm:text-sm text-secondary max-w-2xl leading-relaxed">
           Estimate team capacity, review depth, and deliverables for your AI documentation bot or model deployment.
         </p>

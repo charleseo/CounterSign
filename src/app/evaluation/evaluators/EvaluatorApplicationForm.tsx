@@ -32,7 +32,7 @@ export function EvaluatorApplicationForm() {
           <span>Application Received</span>
         </div>
         <p className="text-xs sm:text-sm text-secondary leading-relaxed">
-          {result?.message} When a relevant domain audit or model evaluation sprint matches your profile, Jo will reach out directly with scope details and compensation terms.
+          {result?.message} When a relevant domain audit or model evaluation sprint matches your profile, Ebubechukwu Okeke will reach out directly with scope details and compensation terms.
         </p>
         {result?.referenceId && (
           <div className="p-3 rounded-lg border border-rule bg-surface text-xs text-secondary">
@@ -69,7 +69,7 @@ export function EvaluatorApplicationForm() {
             name="name"
             type="text"
             required
-            placeholder="Dr. Ebube Okeke"
+            placeholder="Dr. Ebubechukwu Okeke"
             disabled={status === "submitting"}
             className="w-full px-3 py-2 rounded-lg border border-rule bg-surface text-ink placeholder:text-muted text-xs sm:text-sm focus:outline-none focus:border-[#5A35C8]"
           />

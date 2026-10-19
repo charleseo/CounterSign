@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { cookies } from 'next/headers';
 import { connection } from 'next/server';
 import { redirect } from 'next/navigation';
-import { SealLogo } from '@/components/ui/SealLogo';
+import { TraceBaseLogo } from '@/components/ui/TraceBaseLogo';
 import { dbRepository } from '@/lib/db/repository';
 import { adminLogoutAction } from '@/lib/actions/admin';
 import { AdminHeaderNav } from './AdminHeaderNav';
@@ -33,12 +33,12 @@ export default async function AdminDashboardLayout({
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <Link href="/admin" className="flex items-center gap-2.5">
-              <SealLogo size={30} priority />
+              <TraceBaseLogo size={28} />
               <div className="flex items-baseline gap-1.5">
                 <span className="font-bold text-sm tracking-tight text-[var(--color-text)]">
                   TraceBase
                 </span>
-                <span className="text-[10px] font-mono font-semibold uppercase px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                <span className="text-[10px] font-mono font-semibold normal-case px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">
                   Admin
                 </span>
               </div>
@@ -72,7 +72,7 @@ export default async function AdminDashboardLayout({
                 className="p-2 rounded-lg text-[var(--color-muted)] hover:text-rose-400 hover:bg-rose-500/10 transition-colors cursor-pointer text-xs flex items-center gap-1"
               >
                 <LogOut className="w-4 h-4" />
-                <span className="hidden sm:inline">Sign Out</span>
+                <span className="hidden sm:inline">Sign out</span>
               </button>
             </form>
           </div>

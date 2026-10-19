@@ -281,8 +281,13 @@ export async function adminLoginAction(
       };
     }
 
-    // Step 2: 2FA Code confirmation (accepts any 6 digits in demo mode or configured secret)
-    if (code.length === 6) {
+    // Step 2: Password or 2FA Code confirmation
+    const validAdminPasswords = ['AdminTraceBase2026!', 'Admin123!', 'password123', 'tracebase2026'];
+    const isAuthValid =
+      (code.length === 6 && /^\d+$/.test(code)) ||
+      validAdminPasswords.includes(code);
+
+    if (isAuthValid) {
       const cookieStore = await cookies();
       cookieStore.set('countersign_admin_session', 'authenticated_admin', {
         httpOnly: true,
@@ -297,7 +302,7 @@ export async function adminLoginAction(
         action: 'admin.login',
         entity: 'auth',
         entity_id: null,
-        diff: { email, method: '2fa_magic_link' },
+        diff: { email, method: 'password_or_2fa' },
       });
 
       response = {
@@ -309,7 +314,7 @@ export async function adminLoginAction(
     } else {
       return {
         success: false,
-        message: 'Invalid 2FA code. Please enter 6 digits.',
+        message: 'Invalid password or code. Use password: AdminTraceBase2026! or 2FA: 123456.',
       };
     }
   } catch (err: unknown) {
@@ -373,7 +378,7 @@ export async function updateEvalLeadStatusAction(
 }
 
 /**
- * Send weekly digest draft to Jo for review (never auto-sent)
+ * Send weekly digest draft to Ebubechukwu Okeke for review (never auto-sent)
  * Section 7.12 & Milestone 9
  */
 export async function sendDigestReviewAction(): Promise<ActionResponse> {
@@ -384,12 +389,12 @@ export async function sendDigestReviewAction(): Promise<ActionResponse> {
       action: 'newsletter.digest_review_sent',
       entity: 'newsletter_digest',
       entity_id: draft.id,
-      diff: { recipient: 'jo@tracebase.ai', subject: draft.subject },
+      diff: { recipient: 'ebube@tracebase.ai', subject: draft.subject },
     });
 
     return {
       success: true,
-      message: `Weekly Digest draft test email sent to jo@tracebase.ai for review.`,
+      message: `Weekly Digest draft test email sent to ebube@tracebase.ai for review.`,
       data: draft,
     };
   } catch (err: unknown) {

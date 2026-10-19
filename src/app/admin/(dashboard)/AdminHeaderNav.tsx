@@ -61,7 +61,7 @@ export function AdminHeaderNav({ stats }: { stats: AdminStats }) {
           ? stats.evaluatorApplications
           : undefined,
     },
-    { href: '/admin/audit', label: 'Audit Log' },
+    { href: '/admin/audit', label: 'Audit log' },
   ];
 
   return (
@@ -99,7 +99,7 @@ export function AdminHeaderNav({ stats }: { stats: AdminStats }) {
         className="px-2.5 py-1.5 rounded-lg border border-[var(--color-border)] hover:border-[var(--color-accent)] bg-[var(--color-surface)] text-xs text-[var(--color-muted)] hover:text-[var(--color-text)] transition-colors flex items-center gap-1.5 disabled:opacity-50 cursor-pointer"
       >
         <RefreshCw className={`w-3.5 h-3.5 ${isPending ? 'animate-spin text-[var(--color-accent)]' : ''}`} />
-        <span className="hidden lg:inline">{isPending ? 'Sweeping...' : 'Run Sweeper'}</span>
+        <span className="hidden lg:inline">{isPending ? 'Sweeping...' : 'Run sweeper'}</span>
       </button>
 
       {/* Add Job button */}
@@ -108,7 +108,7 @@ export function AdminHeaderNav({ stats }: { stats: AdminStats }) {
         className="px-3 py-1.5 rounded-lg bg-[var(--color-accent)] text-[var(--color-accent-fg)] text-xs font-medium hover:opacity-90 transition-opacity flex items-center gap-1.5"
       >
         <PlusCircle className="w-3.5 h-3.5" />
-        <span className="hidden sm:inline">Add Verified Job</span>
+        <span className="hidden sm:inline">Add verified job</span>
         <span className="sm:hidden">Add</span>
       </Link>
 

@@ -26,7 +26,7 @@ export interface AuditCase {
 export const SAMPLE_AUDIT_METADATA = {
   rubricVersion: 'v1.0.0',
   auditDate: '2026-10-14',
-  leadEvaluator: 'Jo (Ebube) Okeke',
+  leadEvaluator: 'Ebubechukwu Okeke',
   title: 'Technical Documentation RAG & Citation Accuracy Benchmark',
   summary:
     'A 5-case illustrative evaluation benchmark demonstrating our rubric against authoritative developer documentation across PostgreSQL, Stripe, Next.js, AWS Bedrock, and Tailwind CSS. Demonstrates hallucination modes, negative-constraint failures, and citation drift.',

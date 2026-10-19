@@ -216,7 +216,7 @@ export default function NigeriaCountryHubPage() {
               </span>
             </div>
             <p className="text-xs text-secondary leading-relaxed">
-              Frontier medical and legal evaluation batches require proof of primary qualification. Having clean PDF scans of your degree certificate and credentials unlocks specialized high-tier sprints.
+              Frontier medical and legal evaluation batches require proof of primary qualification. Having clean PDF scans of your degree certificate and credentials qualifies you for specialized high-tier sprints.
             </p>
           </div>
         </div>

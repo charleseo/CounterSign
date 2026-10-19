@@ -5,7 +5,7 @@ import { BenchmarkClient } from './BenchmarkClient';
 export const metadata: Metadata = {
   title: 'AI Model Benchmark: Negative Constraints & Citation Truth | TraceBase',
   description:
-    'Independent human-audited benchmark evaluating Claude 3.5 Sonnet, GPT-4o, Gemini 2.0 Flash, DeepSeek-V3, and Llama 3.3 on strict negative constraint adherence, citation grounding, and code truth.',
+    'Independent human-audited benchmark evaluating Claude 3.5 Sonnet, OpenAI o1, Gemini 2.0 Flash, DeepSeek-R1, and GPT-4o on strict negative constraint adherence, citation grounding, and code truth.',
   alternates: {
     canonical: '/benchmark',
   },

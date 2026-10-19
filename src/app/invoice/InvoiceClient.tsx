@@ -114,8 +114,10 @@ export function InvoiceClient() {
 
             <div className="space-y-3 text-xs">
               <div>
-                <label className="text-secondary font-medium block mb-1">Your legal full name</label>
+                <label htmlFor="contractor-name" className="text-secondary font-medium block mb-1">Your legal full name</label>
                 <input
+                  id="contractor-name"
+                  aria-label="Your legal full name"
                   type="text"
                   value={contractorName}
                   onChange={(e) => setContractorName(e.target.value)}
@@ -124,8 +126,10 @@ export function InvoiceClient() {
               </div>
 
               <div>
-                <label className="text-secondary font-medium block mb-1">Your email</label>
+                <label htmlFor="contractor-email" className="text-secondary font-medium block mb-1">Your email</label>
                 <input
+                  id="contractor-email"
+                  aria-label="Your email"
                   type="email"
                   value={contractorEmail}
                   onChange={(e) => setContractorEmail(e.target.value)}
@@ -134,8 +138,10 @@ export function InvoiceClient() {
               </div>
 
               <div>
-                <label className="text-secondary font-medium block mb-1">Address and country</label>
+                <label htmlFor="contractor-address" className="text-secondary font-medium block mb-1">Address and country</label>
                 <input
+                  id="contractor-address"
+                  aria-label="Address and country"
                   type="text"
                   value={contractorAddress}
                   onChange={(e) => setContractorAddress(e.target.value)}
@@ -150,8 +156,10 @@ export function InvoiceClient() {
             <h2 className="text-sm font-bold text-ink">Client or platform details</h2>
             <div className="space-y-3 text-xs">
               <div>
-                <label className="text-secondary font-medium block mb-1">Client / Platform name</label>
+                <label htmlFor="client-name" className="text-secondary font-medium block mb-1">Client / Platform name</label>
                 <input
+                  id="client-name"
+                  aria-label="Client or platform name"
                   type="text"
                   value={clientName}
                   onChange={(e) => setClientName(e.target.value)}
@@ -160,8 +168,10 @@ export function InvoiceClient() {
               </div>
 
               <div>
-                <label className="text-secondary font-medium block mb-1">Client address</label>
+                <label htmlFor="client-address" className="text-secondary font-medium block mb-1">Client address</label>
                 <input
+                  id="client-address"
+                  aria-label="Client address"
                   type="text"
                   value={clientAddress}
                   onChange={(e) => setClientAddress(e.target.value)}
@@ -176,8 +186,10 @@ export function InvoiceClient() {
             <h2 className="text-sm font-bold text-ink">Invoice metadata</h2>
             <div className="grid grid-cols-2 gap-3 text-xs">
               <div>
-                <label className="text-secondary font-medium block mb-1">Invoice number</label>
+                <label htmlFor="invoice-number" className="text-secondary font-medium block mb-1">Invoice number</label>
                 <input
+                  id="invoice-number"
+                  aria-label="Invoice number"
                   type="text"
                   value={invoiceNumber}
                   onChange={(e) => setInvoiceNumber(e.target.value)}
@@ -186,8 +198,10 @@ export function InvoiceClient() {
               </div>
 
               <div>
-                <label className="text-secondary font-medium block mb-1">Currency</label>
+                <label htmlFor="currency-select" className="text-secondary font-medium block mb-1">Currency</label>
                 <select
+                  id="currency-select"
+                  aria-label="Currency"
                   value={currency}
                   onChange={(e) => setCurrency(e.target.value)}
                   className="w-full px-3 py-2 rounded-lg border border-rule bg-surface text-ink focus:outline-none focus:border-[#5A35C8]"
@@ -200,8 +214,10 @@ export function InvoiceClient() {
               </div>
 
               <div>
-                <label className="text-secondary font-medium block mb-1">Issue date</label>
+                <label htmlFor="invoice-date" className="text-secondary font-medium block mb-1">Issue date</label>
                 <input
+                  id="invoice-date"
+                  aria-label="Issue date"
                   type="date"
                   value={invoiceDate}
                   onChange={(e) => setInvoiceDate(e.target.value)}
@@ -210,8 +226,10 @@ export function InvoiceClient() {
               </div>
 
               <div>
-                <label className="text-secondary font-medium block mb-1">Due date</label>
+                <label htmlFor="due-date" className="text-secondary font-medium block mb-1">Due date</label>
                 <input
+                  id="due-date"
+                  aria-label="Due date"
                   type="date"
                   value={dueDate}
                   onChange={(e) => setDueDate(e.target.value)}
@@ -226,8 +244,10 @@ export function InvoiceClient() {
             <h2 className="text-sm font-bold text-ink">Payout bank information</h2>
             <div className="space-y-3 text-xs">
               <div>
-                <label className="text-secondary font-medium block mb-1">Bank name</label>
+                <label htmlFor="bank-name" className="text-secondary font-medium block mb-1">Bank name</label>
                 <input
+                  id="bank-name"
+                  aria-label="Bank name"
                   type="text"
                   value={bankName}
                   onChange={(e) => setBankName(e.target.value)}
@@ -236,8 +256,10 @@ export function InvoiceClient() {
               </div>
 
               <div>
-                <label className="text-secondary font-medium block mb-1">Account number / IBAN</label>
+                <label htmlFor="account-number" className="text-secondary font-medium block mb-1">Account number / IBAN</label>
                 <input
+                  id="account-number"
+                  aria-label="Account number or IBAN"
                   type="text"
                   value={accountNumber}
                   onChange={(e) => setAccountNumber(e.target.value)}
@@ -247,8 +269,10 @@ export function InvoiceClient() {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-secondary font-medium block mb-1">SWIFT / BIC code</label>
+                  <label htmlFor="swift-code" className="text-secondary font-medium block mb-1">SWIFT / BIC code</label>
                   <input
+                    id="swift-code"
+                    aria-label="SWIFT or BIC code"
                     type="text"
                     value={swiftCode}
                     onChange={(e) => setSwiftCode(e.target.value)}
@@ -256,8 +280,10 @@ export function InvoiceClient() {
                   />
                 </div>
                 <div>
-                  <label className="text-secondary font-medium block mb-1">Routing / Branch code</label>
+                  <label htmlFor="routing-info" className="text-secondary font-medium block mb-1">Routing / Branch code</label>
                   <input
+                    id="routing-info"
+                    aria-label="Routing or branch code"
                     type="text"
                     value={routingInfo}
                     onChange={(e) => setRoutingInfo(e.target.value)}
@@ -290,9 +316,9 @@ export function InvoiceClient() {
             {/* Invoice Top Header */}
             <div className="flex items-start justify-between border-b border-slate-200 pb-6">
               <div>
-                <h1 className="text-2xl font-black tracking-tight text-slate-950 uppercase">
+                <h2 className="text-2xl font-black tracking-tight text-slate-950 uppercase">
                   Invoice
-                </h1>
+                </h2>
                 <span className="text-xs font-mono text-slate-500 font-bold">{invoiceNumber}</span>
               </div>
 
@@ -344,6 +370,7 @@ export function InvoiceClient() {
                     <div className="w-3/5 font-medium text-slate-800">
                       <input
                         type="text"
+                        aria-label="Service description"
                         value={line.description}
                         onChange={(e) => handleUpdateLine(line.id, 'description', e.target.value)}
                         className="w-full bg-transparent border-none p-0 focus:outline-none focus:ring-1 focus:ring-[#5A35C8] rounded"
@@ -352,6 +379,7 @@ export function InvoiceClient() {
                     <div className="w-1/6 text-right font-mono">
                       <input
                         type="number"
+                        aria-label="Hours"
                         value={line.hours}
                         onChange={(e) => handleUpdateLine(line.id, 'hours', Number(e.target.value))}
                         className="w-16 text-right bg-transparent border-none p-0 focus:outline-none focus:ring-1 focus:ring-[#5A35C8] rounded"

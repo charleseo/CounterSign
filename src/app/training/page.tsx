@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
   FileCheck2,
@@ -15,15 +15,36 @@ import {
   HelpCircle,
   Sparkles,
   ShieldCheck,
+  Copy,
+  Check,
+  FolderOpen,
 } from 'lucide-react';
-import { COURSE_MODULES, ASSESSMENT_QUESTIONS } from '@/lib/training/courseData';
+import { COURSE_MODULES, ASSESSMENT_QUESTIONS, EVALUATOR_RESOURCES, EvaluatorResource } from '@/lib/training/courseData';
 import { generateCertificateId, saveCertificate, CertificateRecord } from '@/lib/training/certificates';
 import { EvaluationSandbox } from '@/components/training/EvaluationSandbox';
 import { AssessmentSimulator } from '@/components/training/AssessmentSimulator';
 
 export default function TrainingPage() {
-  const [activeTab, setActiveTab] = useState<'modules' | 'sandbox' | 'simulator' | 'assessment'>('modules');
+  const [activeTab, setActiveTab] = useState<'modules' | 'sandbox' | 'simulator' | 'assessment' | 'resources'>('modules');
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const tabParam = params.get('tab');
+      if (
+        tabParam === 'simulator' ||
+        tabParam === 'sandbox' ||
+        tabParam === 'assessment' ||
+        tabParam === 'resources' ||
+        tabParam === 'modules'
+      ) {
+        setActiveTab(tabParam as 'modules' | 'sandbox' | 'simulator' | 'assessment' | 'resources');
+      }
+    }
+  }, []);
   const [selectedModuleId, setSelectedModuleId] = useState<string>(COURSE_MODULES[0].id);
+  const [selectedResourceCategory, setSelectedResourceCategory] = useState<string>('All');
+  const [copiedFormulaId, setCopiedFormulaId] = useState<string | null>(null);
 
   // Assessment state
   const [answers, setAnswers] = useState<Record<string, string>>({});
@@ -126,12 +147,12 @@ export default function TrainingPage() {
           <div className="flex flex-wrap items-center gap-4 text-xs font-semibold text-secondary">
             <span className="inline-flex items-center gap-1.5">
               <BookOpen size={14} className="text-[var(--brand-ink)]" />
-              4 practical modules
+              7 practical modules
             </span>
             <span aria-hidden="true">&bull;</span>
             <span className="inline-flex items-center gap-1.5">
               <Clock size={14} className="text-[var(--brand-ink)]" />
-              Under 35 minutes
+              Under 60 minutes
             </span>
             <span aria-hidden="true">&bull;</span>
             <span className="inline-flex items-center gap-1.5">
@@ -191,6 +212,18 @@ export default function TrainingPage() {
             {isPassed && (
               <span className="w-2 h-2 rounded-full bg-teal-400" aria-label="Assessment passed" />
             )}
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab('resources')}
+            className={`pb-3 px-3 text-sm font-bold border-b-2 transition-colors cursor-pointer inline-flex items-center gap-1.5 whitespace-nowrap ${
+              activeTab === 'resources'
+                ? 'border-[var(--brand-ink)] text-ink'
+                : 'border-transparent text-secondary hover:text-ink'
+            }`}
+          >
+            <FolderOpen size={14} className="text-[var(--brand-ink)]" />
+            <span>5. Resource library & rubrics</span>
           </button>
         </div>
 
@@ -467,7 +500,7 @@ export default function TrainingPage() {
                           type="text"
                           value={recipientName}
                           onChange={(e) => setRecipientName(e.target.value)}
-                          placeholder="e.g. Ebube Okeke"
+                          placeholder="e.g. Ebubechukwu Okeke"
                           required
                           className="flex-1 px-3.5 py-2.5 rounded-lg border border-rule bg-surface text-ink text-xs focus:outline-none focus:ring-1 focus:ring-[var(--brand-ink)] min-h-[44px]"
                         />
@@ -528,6 +561,123 @@ export default function TrainingPage() {
         {/* TAB 3: MOCK SCREENING SIMULATOR */}
         {activeTab === 'simulator' && (
           <AssessmentSimulator />
+        )}
+
+        {/* TAB 5: RESOURCE LIBRARY & RUBRICS */}
+        {activeTab === 'resources' && (
+          <div className="space-y-8">
+            {/* Header & Category Filters */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div>
+                <h2 className="text-xl font-bold text-ink">
+                  Evaluator resource library & rubrics
+                </h2>
+                <p className="text-xs sm:text-sm text-secondary">
+                  Battle-tested rubrics, 5-point grading cheatcards, screening strategies, and copyable justification formulas.
+                </p>
+              </div>
+
+              {/* Category Filter Pills */}
+              <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 text-xs">
+                {['All', 'Rubrics', 'Justifications', 'Assessments', 'Checklists'].map((cat) => (
+                  <button
+                    key={cat}
+                    type="button"
+                    onClick={() => setSelectedResourceCategory(cat)}
+                    className={`px-3 py-1.5 rounded-lg border transition-colors whitespace-nowrap min-h-[36px] ${
+                      selectedResourceCategory === cat
+                        ? 'border-[#5A35C8] bg-[#5A35C8]/10 text-ink font-semibold'
+                        : 'border-rule bg-sheet text-secondary hover:text-ink'
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Resources Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {EVALUATOR_RESOURCES.filter(
+                (res) => selectedResourceCategory === 'All' || res.category === selectedResourceCategory
+              ).map((resource) => (
+                <div
+                  key={resource.id}
+                  className="rounded-2xl border border-rule bg-sheet p-5 sm:p-6 flex flex-col justify-between gap-5"
+                >
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="px-2.5 py-0.5 rounded-full border border-rule bg-surface text-[11px] font-medium text-secondary">
+                        {resource.category}
+                      </span>
+                      <span className="text-[11px] text-secondary tabular-nums">
+                        {resource.readTimeMinutes} min read
+                      </span>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <h3 className="text-base font-bold text-ink">{resource.title}</h3>
+                      <p className="text-xs text-secondary leading-relaxed">
+                        {resource.description}
+                      </p>
+                    </div>
+
+                    {/* Key Items Breakdown */}
+                    <div className="space-y-2 pt-2 border-t border-rule">
+                      {resource.keyItems.map((item, idx) => (
+                        <div
+                          key={idx}
+                          className="p-3 rounded-xl border border-rule bg-surface/50 text-xs space-y-1"
+                        >
+                          <div className="flex items-center justify-between gap-2">
+                            <span className="font-semibold text-ink">{item.label}</span>
+                            {resource.category === 'Justifications' && (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  navigator.clipboard.writeText(item.detail);
+                                  setCopiedFormulaId(`${resource.id}-${idx}`);
+                                  setTimeout(() => setCopiedFormulaId(null), 2000);
+                                }}
+                                className="inline-flex items-center gap-1 text-[10px] text-[#5A35C8] hover:underline"
+                              >
+                                {copiedFormulaId === `${resource.id}-${idx}` ? (
+                                  <>
+                                    <Check size={11} className="text-emerald-400" />
+                                    <span className="text-emerald-400 font-semibold">Copied</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Copy size={11} />
+                                    <span>Copy formula</span>
+                                  </>
+                                )}
+                              </button>
+                            )}
+                          </div>
+                          <p className="text-secondary leading-relaxed font-mono text-[11px]">
+                            {item.detail}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Tags */}
+                  <div className="pt-3 border-t border-rule flex flex-wrap items-center gap-1.5">
+                    {resource.tags.map((t) => (
+                      <span
+                        key={t}
+                        className="px-2 py-0.5 rounded border border-rule bg-surface text-[10px] text-secondary"
+                      >
+                        #{t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         )}
       </div>
     </div>

@@ -10,7 +10,7 @@ import { FAQPageJsonLd } from '@/components/seo/JsonLd';
 import { getSiteHost } from '@/lib/utils/siteUrl';
 
 export const metadata: Metadata = {
-  title: 'About TraceBase & Jo (Ebube Okeke) | Independent AI Work Hub',
+  title: 'About TraceBase & Ebubechukwu Okeke | Independent AI Work Hub',
   description:
     'Why TraceBase exists: human verification for remote AI evaluation work and precision RAG model audits. Read our independence pledge and editorial principles.',
   alternates: {
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'About TraceBase | Human-Verified AI Work Hub',
     description:
-      'Independent verification for remote AI training work and enterprise model evaluation. Founded by Jo (Ebube Okeke).',
+      'Independent verification for remote AI training work and enterprise model evaluation. Founded by Ebubechukwu Okeke.',
     url: '/about',
     type: 'website',
   },
@@ -113,7 +113,7 @@ export default function AboutPage() {
         <div className="flex flex-col sm:flex-row gap-5 items-start">
           {/* Founder Photo Slot */}
           <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-xl border-2 border-dashed border-border-default bg-surface flex flex-col items-center justify-center text-center p-2 shrink-0">
-            <span className="text-xs font-mono font-bold text-secondary">JO</span>
+            <span className="text-xs font-mono font-bold text-secondary">EO</span>
             <span className="text-[10px] text-tertiary mt-1 leading-tight font-mono">
               [Photo Placeholder]
             </span>
@@ -123,7 +123,7 @@ export default function AboutPage() {
           <div className="space-y-3 flex-1">
             <div>
               <h3 className="text-base sm:text-lg font-bold text-ink">
-                Jo (Ebube Okeke)
+                Ebubechukwu Okeke
               </h3>
               <p className="text-xs text-secondary font-mono">
                 Founder, TraceBase
@@ -132,7 +132,7 @@ export default function AboutPage() {
 
             <div className="p-3.5 rounded-lg border border-border-default bg-surface/50 text-xs sm:text-sm text-secondary leading-relaxed">
               <span className="text-[11px] font-mono text-[#5A35C8] font-semibold block mb-1">
-                [Founder Bio: Placeholder to be filled by Jo]
+                [Founder Bio: Placeholder to be filled by Ebubechukwu Okeke]
               </span>
               <p className="text-secondary italic">
                 Background, areas of evaluation focus, and editorial rationale for building human verification standards across remote AI contractor platforms and frontier model evaluation.

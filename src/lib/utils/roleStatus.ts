@@ -11,12 +11,13 @@ export interface RoleStatusResult {
 export function isSampleRole(job: {
   title?: string;
   platform?: { name?: string } | null;
+  platformName?: string;
   id?: string;
   is_sample?: boolean;
 }): boolean {
   if (job.is_sample) return true;
   const title = job.title || '';
-  const org = job.platform?.name || '';
+  const org = job.platform?.name || job.platformName || '';
   return (
     title.includes('[SAMPLE]') ||
     org.includes('[SAMPLE]') ||
@@ -46,52 +47,77 @@ export function getShortRecordId(id?: string): string {
 
 /**
  * Single source of truth for role status.
- * While a role is sample data, show "Sample entry" (grey) everywhere and never "Verified" or "Accepted".
+ * Preserves isSample flag for pill badges while computing accurate eligibility status for location.
  */
 export function getRoleStatus(
   job: {
     title?: string;
     platform?: { name?: string } | null;
+    platformName?: string;
     id?: string;
     status?: string;
+    isDue?: boolean;
+    isSample?: boolean;
     eligibility?: Array<{ country_code: string; status: string }>;
   },
-  countryCode: string = 'NG'
+  countryCode: string = 'WW'
 ): RoleStatusResult {
-  if (isSampleRole(job)) {
+  const isSample = job.isSample ?? isSampleRole(job);
+  const isWorldwide =
+    !countryCode ||
+    countryCode.toUpperCase() === 'WW' ||
+    countryCode.toUpperCase() === 'ALL' ||
+    countryCode.toUpperCase() === 'GLOBAL';
+
+  // Worldwide view
+  if (isWorldwide) {
+    if (job.status === 'needs_recheck' || job.status === 'due' || job.isDue) {
+      return {
+        label: 'Due for recheck',
+        tone: 'due',
+        isSample,
+        colorClass: 'text-[var(--status-recheck)]',
+        badgeClass:
+          'bg-[var(--status-recheck-bg)] text-[var(--status-recheck)] border border-[var(--status-recheck)]/30 px-2 py-0.5 rounded text-xs font-semibold',
+      };
+    }
     return {
-      label: 'Sample entry',
-      tone: 'sample',
-      isSample: true,
-      colorClass: 'text-secondary',
-      badgeClass:
-        'bg-subtle text-secondary border border-rule px-2 py-0.5 rounded text-xs font-semibold',
-    };
-  }
-
-  // If live verified data, inspect eligibility for the requested country
-  const elig = job.eligibility?.find(
-    (e) => e.country_code.toUpperCase() === countryCode.toUpperCase()
-  );
-
-  const status = elig ? elig.status : job.status;
-
-  if (status === 'accepted' || status === 'verified') {
-    return {
-      label: 'Accepted',
+      label: 'Remote worldwide',
       tone: 'accepted',
-      isSample: false,
+      isSample,
       colorClass: 'text-[var(--status-accepted)]',
       badgeClass:
         'bg-[var(--status-accepted-bg)] text-[var(--status-accepted)] border border-[var(--status-accepted)]/30 px-2 py-0.5 rounded text-xs font-semibold',
     };
   }
 
-  if (status === 'needs_recheck' || status === 'due') {
+  // Inspect eligibility for the requested country
+  const elig = job.eligibility?.find(
+    (e) => e.country_code.toUpperCase() === countryCode.toUpperCase()
+  );
+
+  const status = elig
+    ? elig.status
+    : job.eligibility && job.eligibility.length > 0
+    ? 'unconfirmed'
+    : job.status;
+
+  if (status === 'accepted' || status === 'verified') {
+    return {
+      label: 'Accepted',
+      tone: 'accepted',
+      isSample,
+      colorClass: 'text-[var(--status-accepted)]',
+      badgeClass:
+        'bg-[var(--status-accepted-bg)] text-[var(--status-accepted)] border border-[var(--status-accepted)]/30 px-2 py-0.5 rounded text-xs font-semibold',
+    };
+  }
+
+  if (status === 'needs_recheck' || status === 'due' || job.isDue) {
     return {
       label: 'Due for recheck',
       tone: 'due',
-      isSample: false,
+      isSample,
       colorClass: 'text-[var(--status-recheck)]',
       badgeClass:
         'bg-[var(--status-recheck-bg)] text-[var(--status-recheck)] border border-[var(--status-recheck)]/30 px-2 py-0.5 rounded text-xs font-semibold',
@@ -102,7 +128,7 @@ export function getRoleStatus(
     return {
       label: 'Not open',
       tone: 'not',
-      isSample: false,
+      isSample,
       colorClass: 'text-[var(--status-not-accepted)]',
       badgeClass:
         'bg-[var(--status-not-accepted-bg)] text-[var(--status-not-accepted)] border border-[var(--status-not-accepted)]/30 px-2 py-0.5 rounded text-xs font-semibold',
@@ -112,7 +138,7 @@ export function getRoleStatus(
   return {
     label: 'Unconfirmed',
     tone: 'unconfirmed',
-    isSample: false,
+    isSample,
     colorClass: 'text-[var(--status-unconfirmed)]',
     badgeClass:
       'bg-[var(--status-unconfirmed-bg)] text-[var(--status-unconfirmed)] border border-[var(--status-unconfirmed)]/30 px-2 py-0.5 rounded text-xs font-semibold',

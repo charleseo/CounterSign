@@ -110,16 +110,18 @@ export function W8benClient() {
       <div className="rounded-xl border border-rule bg-sheet p-5 space-y-3">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="space-y-1">
-            <span className="text-xs font-bold text-ink flex items-center gap-1.5">
+            <label htmlFor="w8ben-country-select" className="text-xs font-bold text-ink flex items-center gap-1.5 cursor-pointer">
               <Globe className="w-4 h-4 text-[#5A35C8]" />
               Select your country of residence:
-            </span>
+            </label>
             <p className="text-xs text-secondary">
               See the exact foreign tax ID document and treaty rules for your country.
             </p>
           </div>
 
           <select
+            id="w8ben-country-select"
+            aria-label="Select your country of residence"
             value={selectedCountry}
             onChange={(e) => setSelectedCountry(e.target.value)}
             className="px-3 py-2 rounded-xl border border-rule bg-surface text-xs text-ink font-medium focus:outline-none focus:border-[#5A35C8] min-h-[44px]"

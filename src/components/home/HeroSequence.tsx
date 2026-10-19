@@ -27,6 +27,7 @@ export function HeroSequence({
   const containerRef = useRef<HTMLDivElement>(null);
   const [hasEntered, setHasEntered] = useState(false);
   const [playKey, setPlayKey] = useState(0);
+  const [isReplaying, setIsReplaying] = useState(false);
   const selectedCountryCode = useSelectedCountry();
   const countryName = countryLabel(selectedCountryCode, "name");
   const fromCountryLabel = selectedCountryCode === "WW" ? "From your country" : `From ${countryName}`;
@@ -63,21 +64,30 @@ export function HeroSequence({
 
     observer.observe(el);
     return () => observer.disconnect();
-  }, [playKey]);
+  }, []);
 
-  const handleReplay = () => {
-    setHasEntered(false);
+  const handleReplay = (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    if (isReplaying) return;
+    setIsReplaying(true);
+    setHasEntered(true);
+    setPlayKey((k) => k + 1);
+
+    const isReducedMotion = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const duration = isReducedMotion ? 600 : 4000;
     setTimeout(() => {
-      setPlayKey((k) => k + 1);
-      setHasEntered(true);
-    }, 50);
+      setIsReplaying(false);
+    }, duration);
   };
 
   const anim = hasEntered;
 
   return (
-    <div ref={containerRef} className="w-full flex flex-col items-center lg:items-start" key={playKey}>
-      <div className="relative w-full max-w-[480px] pt-8 pr-4 sm:pr-8 pb-4">
+    <div ref={containerRef} className="w-full flex flex-col items-center lg:items-start">
+      <div key={playKey} className="relative w-full max-w-[480px] pt-8 pr-4 sm:pr-8 pb-4">
         {/* Source Page Paper (rotates in behind) */}
         <div
           className={`absolute top-0 right-[-4px] sm:right-[-8px] w-[74%] h-[78%] bg-sheet border border-rule rounded-md shadow-lg overflow-hidden pointer-events-none select-none z-[1] ${
@@ -227,7 +237,7 @@ export function HeroSequence({
                 {checkedDate.toUpperCase()}
               </text>
               <text x="100" y="146" textAnchor="middle" fontFamily="'Schibsted Grotesk', sans-serif" fontSize="12" fontWeight="700" fill="currentColor">
-                J.O.
+                E.O.
               </text>
             </g>
           </svg>
@@ -238,10 +248,17 @@ export function HeroSequence({
       <button
         type="button"
         onClick={handleReplay}
-        className="inline-flex items-center gap-2 min-h-[44px] px-2 py-1 text-sm font-semibold text-secondary hover:text-ink transition-colors cursor-pointer"
+        disabled={isReplaying}
+        aria-busy={isReplaying}
+        aria-label={isReplaying ? "Replaying check sequence" : "Watch a check again"}
+        className="group inline-flex items-center gap-2 min-h-[44px] px-3 py-1.5 mt-2 rounded-full text-sm font-semibold text-secondary hover:text-ink hover:bg-surface/80 active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed transition-all cursor-pointer"
       >
-        <RotateCcw size={15} />
-        <span>Watch a check again</span>
+        <RotateCcw
+          size={15}
+          className={isReplaying ? "animate-spin text-accent" : "transition-transform group-hover:-rotate-45"}
+          aria-hidden="true"
+        />
+        <span>{isReplaying ? "Replaying check..." : "Watch a check again"}</span>
       </button>
     </div>
   );
