@@ -8,7 +8,7 @@ export function ThemeAndTierScript() {
     (function() {
       try {
         var t = localStorage.getItem('countersign_theme');
-        document.documentElement.dataset.theme = (t === 'light') ? 'light' : 'dark';
+        document.documentElement.dataset.theme = (t === 'dark') ? 'dark' : 'light';
         
         var tier = localStorage.getItem('countersign_tier');
         if (tier === 'lite' || tier === 'full' || tier === 'basic') {
@@ -28,7 +28,7 @@ export function ThemeAndTierScript() {
           }
         }
       } catch (e) {
-        document.documentElement.dataset.theme = 'dark';
+        document.documentElement.dataset.theme = 'light';
         document.documentElement.dataset.tier = 'full';
       }
     })();

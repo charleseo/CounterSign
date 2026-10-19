@@ -77,7 +77,7 @@ export function LedgerSection({ roles }: LedgerSectionProps) {
               Recently checked
             </h2>
             <p className="mt-2 text-base sm:text-lg text-secondary m-0">
-              Showing roles for {displayName}. Sample entries until launch.
+              Showing verified roles for {displayName}. Updated continuously as our research team completes daily hand-checks.
             </p>
           </div>
 

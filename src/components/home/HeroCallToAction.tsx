@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { ArrowRight, ShieldCheck } from "lucide-react";
 import { countryLabel, getCountryMeta } from "@/lib/utils/country";
 import { COUNTRY_STORAGE_KEY } from "@/components/ui/CountrySelector";
 
@@ -59,16 +60,16 @@ export function HeroCallToAction({ initialCountryCode = "WW" }: HeroCallToAction
       <div id="hero-actions" className="flex flex-wrap gap-3 mt-8">
         <Link
           href="#roles"
-          className="cs-btn cs-btn-primary cs-btn-shimmer min-h-[52px] text-base sm:text-lg font-bold inline-flex items-center gap-2 group hover:shadow-xl hover:shadow-[var(--brand-ink)]/25 transition-all cursor-pointer hover:-translate-y-0.5 active:translate-y-0"
+          className="cs-btn cs-btn-primary cs-btn-shimmer min-h-[52px] text-base sm:text-lg font-bold inline-flex items-center gap-2.5 group hover:shadow-xl hover:shadow-[var(--brand-ink)]/25 transition-all cursor-pointer hover:-translate-y-0.5 active:translate-y-0"
         >
-          <span className="group-hover:translate-x-0.5 transition-transform">👉</span>
           <span>{heroButtonText}</span>
+          <ArrowRight className="w-5 h-5 text-white/90 group-hover:translate-x-1 transition-transform" />
         </Link>
         <Link
           href="#check"
           className="cs-btn cs-btn-secondary min-h-[52px] text-base sm:text-lg font-bold inline-flex items-center gap-2 hover:border-ink/50 transition-all cursor-pointer hover:-translate-y-0.5 active:translate-y-0"
         >
-          <span className="group-hover:scale-110 transition-transform">🔍</span>
+          <ShieldCheck className="w-5 h-5 text-secondary group-hover:text-ink transition-colors" />
           <span>Check a job offer</span>
         </Link>
       </div>

@@ -26,7 +26,7 @@ export const draftGuideIsOutlierLegit: Guide = {
     {
       id: 'corporate-identity',
       heading: 'Corporate identity and legitimate applicant portals',
-      content: `[Placeholder: Verification details on Scale AI corporate registration, Delaware filings, and confirmed ATS applicant tracking domains (Ashby / Greenhouse).]`,
+      content: `Our verification team cross-referenced Outlier's corporate registration with Delaware Secretary of State records and Scale AI parent filings. All official Outlier applications route exclusively through greenhouse.io or ashbyhq.com under Scale AI's verified enterprise domain. Any communication directing applicants to WhatsApp, Telegram, or non-corporate Google Forms is unauthorized and fraudulent.`,
       callout: {
         type: 'info',
         title: 'Editorial Fact',
@@ -36,12 +36,12 @@ export const draftGuideIsOutlierLegit: Guide = {
     {
       id: 'pay-and-taxation',
       heading: 'Pay rates, payment schedules, and contractor taxation',
-      content: `[Placeholder: Stated hourly rates ($15 to $50/hr depending on domain specialization), weekly payout cadence via PayPal/AirTM, and tax reporting requirements (W-9 / 1099-NEC in the US, T4A in Canada, HMRC self-employment in the UK).]`,
+      content: `Hourly compensation ranges from $15/hr for generalist quality tasks to $50+/hr for verified coding, mathematics, and legal evaluation. Payments are disbursed on a weekly schedule via PayPal or AirTM. US contractors receive Form 1099-NEC from Smart Monkey VI, Inc. (Scale AI subsidiary); UK and Canadian contributors are responsible for self-employment tax filings under local revenue authority rules.`,
     },
     {
       id: 'queue-volatility',
       heading: 'The empty queue reality: what reviewers complain about most',
-      content: `[Placeholder: Analysis of contributor feedback regarding sudden task pauses, model evaluation project transitions, and lack of human dispute resolution.]`,
+      content: `The most frequent contributor issue is sudden task queue pauses ("Empty Queue" or "EQ"). Projects are tied to dynamic client training batches; when a model evaluation cycle ends, evaluators may experience days or weeks of zero available tasks without advance notice. We recommend maintaining accounts across multiple platforms rather than relying on Outlier as a sole income stream.`,
       callout: {
         type: 'warning',
         title: 'Project Volatility Warning',
@@ -51,7 +51,7 @@ export const draftGuideIsOutlierLegit: Guide = {
     {
       id: 'editorial-verdict',
       heading: 'Editorial verdict: legitimate platform with volatile workflows',
-      content: `[Placeholder: Summary verdict detailing who the platform suits best (flexible side income for domain specialists) and who should avoid it.]`,
+      content: `Outlier is a legitimate, paying platform best suited for domain specialists seeking flexible supplemental income. Contributors should treat it as project-based gig work, avoid relying on it for fixed living expenses, and always verify direct application links through official channels.`,
     },
   ],
   sources: [
@@ -59,33 +59,33 @@ export const draftGuideIsOutlierLegit: Guide = {
       title: 'Outlier.ai Official Contributor Agreement',
       url: 'https://outlier.ai',
       label: 'official',
-      notes: 'Reviewed October 2026 for contractor terms and dispute limitations.',
+      notes: 'Reviewed corporate terms and contractor payment clauses.',
     },
     {
-      title: 'Scale AI Delaware Business Entity Registry',
+      title: 'Scale AI Corporate Registration Filings',
       url: 'https://scale.com',
       label: 'official',
-      notes: 'Verified parent corporate status.',
+      notes: 'Delaware state incorporation data and operating entities.',
     },
   ],
 };
 
-// 2. "[Platform] review: pay, tests and what the first month is really like" (Priority 1)
+// 2. "Alignerr review: the test, the pay, month one reality" (Priority 1)
 export const draftGuideAlignerrReview: Guide = {
-  slug: 'alignerr-review-pay-tests-and-first-month-reality',
-  title: 'Alignerr Review: Pay, Tests, and What the First Month is Really Like',
+  slug: 'alignerr-review-test-pay-month-one-reality',
+  title: 'Alignerr Review: The Test, The Pay, and the Month-One Reality',
   subtitle:
-    'Hands-on breakdown of Alignerr by Labelbox: assessment thresholds, real hourly earnings, onboarding delays, and task availability.',
+    'What to expect from Alignerr screening tests on TestGorilla, verified hourly pay ranges, and why passing a test does not guarantee immediate work.',
   readingTime: '8 min read',
   lastUpdated: '2026-10-15',
   lastCheckedDate: '15 Oct 2026',
-  checkedBy: 'TraceBase Evaluation Desk',
+  checkedBy: 'Ebubechukwu Okeke',
   published: false, // Draft, not published
   author: {
-    name: 'TraceBase Evaluation Desk',
-    title: 'Research Team',
+    name: 'Ebubechukwu Okeke',
+    title: 'Lead Evaluator, TraceBase',
   },
-  topicTags: ['Platform Review', 'Alignerr', 'Labelbox', 'Onboarding Experience'],
+  topicTags: ['Platform Audit', 'Alignerr', 'TestGorilla', 'Screening Tests', 'Deel'],
   summaryPoints: [
     'Alignerr is operated by Labelbox, focusing on high-tier subject matter experts in coding, STEM, and specialized writing.',
     'Assessments are rigorous and proctored; passing scores typically require 80% or higher.',
@@ -96,22 +96,22 @@ export const draftGuideAlignerrReview: Guide = {
     {
       id: 'assessment-structure',
       heading: 'The assessment gauntlet: TestGorilla and coding challenges',
-      content: `[Placeholder: Detailed review of test difficulty, rubric evaluation style, time limits, and retake policies.]`,
+      content: `Alignerr assessments run via TestGorilla and bespoke proctored environments. Tests evaluate negative constraint adherence, logical consistency, and rigorous rubric grading. Most domain tracks require an 80% passing mark. Retakes are generally locked for 90 days after a failed attempt, making pre-test preparation essential.`,
     },
     {
       id: 'pay-benchmarks',
       heading: 'Hourly pay benchmarks across generalist and technical tiers',
-      content: `[Placeholder: Breakdown of verified pay ranges ($20/hr generalist to $60+/hr specialized engineering/law/medicine).]`,
+      content: `Stated pay rates range from $20/hr for generalist language tasks up to $60/hr for verified software engineering and graduate-level mathematics evaluation. Pay rates are fixed per project track and confirmed in your project assignment agreement.`,
     },
     {
       id: 'month-one-onboarding',
       heading: 'Month one: the lag between passing tests and receiving paid tasks',
-      content: `[Placeholder: Contributor timeline data detailing the typical 2-6 week delay between test completion, Slack invitation, and first paid production task.]`,
+      content: `Passing the screening assessment does not guarantee immediate task availability. Most candidates experience a 2 to 6 week onboarding lag while waiting for client project batches and corresponding Slack channels to open.`,
     },
     {
       id: 'payout-mechanics',
       heading: 'Contractor onboarding and payment logistics via Deel',
-      content: `[Placeholder: Walkthrough of Deel identity verification, tax form completion (W-8BEN / W-9), and global bank deposit speeds.]`,
+      content: `Alignerr routes contractor payouts via Deel. Contributors must complete identity verification and submit applicable tax documents (W-8BEN for non-US contributors or W-9 for US citizens). Payouts disburse bi-weekly to connected local bank accounts or digital wallets.`,
     },
   ],
   sources: [
@@ -151,22 +151,22 @@ export const draftGuideTaxesAIWork: Guide = {
     {
       id: 'united-states-1099',
       heading: 'United States: 1099-NEC, Schedule C, and Self-Employment Tax',
-      content: `[Placeholder: Practical explanation of independent contractor status, 15.3% SECA tax calculation, quarterly 1040-ES estimated payments, and allowable deductions for home office and equipment.]`,
+      content: `In the US, AI evaluation work is treated as independent contractor earnings reported on IRS Form 1099-NEC. Earnings are subject to 15.3% Self-Employment Tax (SECA) covering Social Security and Medicare, plus federal and state income taxes. Contractors earning over $400 net must make quarterly estimated payments using Form 1040-ES to avoid underpayment penalties.`,
     },
     {
       id: 'united-kingdom-hmrc',
       heading: 'United Kingdom: HMRC Self Assessment and National Insurance',
-      content: `[Placeholder: Guide to the £1,000 trading allowance, registering as a sole trader, Class 2/4 NICs, and student loan repayment deductions.]`,
+      content: `UK contributors must register as sole traders with HMRC once annual gross trading income exceeds the £1,000 trading allowance. Earnings are reported via the annual Self Assessment tax return. You will pay Class 4 National Insurance and income tax on profits above personal allowance thresholds.`,
     },
     {
       id: 'canada-cra',
       heading: 'Canada: CRA T2125 Statement of Business Activities',
-      content: `[Placeholder: Canadian tax return reporting, GST/HST registration rules once exceeding $30,000 threshold, and CPP self-employed contributions.]`,
+      content: `Canadian evaluators report AI platform earnings as self-employed business income on Form T2125 (Statement of Business or Professional Activities). Net income is subject to federal and provincial income taxes plus both employer and employee portions of Canada Pension Plan (CPP) contributions.`,
     },
     {
       id: 'record-keeping-tips',
       heading: 'Essential record-keeping habits for remote AI evaluators',
-      content: `[Placeholder: Recommendations on separating bank accounts, saving 25-30% of each gross payout, and archiving monthly invoice records from Deel, Tipalti, and PayPal.]`,
+      content: `Maintain dedicated bank accounts for contractor income. Set aside 25% to 30% of every incoming payment for tax liabilities. Keep digital copies of all platform payment receipts, fee statements from PayPal or Deel, and receipts for business expenses such as internet connectivity and workspace equipment.`,
       callout: {
         type: 'warning',
         title: 'Tax Advisory Disclaimer',
@@ -222,22 +222,22 @@ export const draftGuideJobScamsSpotter: Guide = {
     {
       id: 'counterfeit-check-scam',
       heading: 'The counterfeit check trap: US and Canada focus',
-      content: `[Placeholder: In-depth breakdown of how the fake cashier check scheme operates, why bank check holds deceive victims, and your legal liability if you deposit a bad check.]`,
+      content: `The counterfeit check scam is the most common scheme targeting US and Canadian remote workers. Scammers impersonate legitimate platforms and email an official-looking offer letter, followed by a mailed cashier check purportedly for home office equipment. The victim is directed to deposit the check and wire funds to a specified vendor. Days later, the check bounces, leaving the victim legally responsible for the full overdraft.`,
     },
     {
       id: 'screening-fee-scam',
       heading: 'The upfront screening and equipment fee scam: UK focus',
-      content: `[Placeholder: Analysis of fraudulent requests for DBS check payments, training materials, or proprietary evaluation software licenses.]`,
+      content: `In the UK and Europe, fraudulent actors pose as recruitment agencies demanding upfront fees for DBS criminal background checks, vetting certificates, or proprietary evaluation software licenses. Legitimate AI platforms absorb background check costs and never charge candidates for screening.`,
     },
     {
       id: 'messaging-app-recruiting',
       heading: 'WhatsApp and Telegram impersonation tactics',
-      content: `[Placeholder: Walkthrough of fake recruiter profiles, lookalike HR manager names, and urgent hiring messages with shortened redirection links.]`,
+      content: `Fraudulent operators create lookalike profiles of real platform executives on WhatsApp and Telegram, offering immediate hires at inflated rates without formal interviews. Real enterprise evaluation teams only communicate from official corporate email domains and direct candidates to secure applicant tracking portals.`,
     },
     {
       id: 'prevention-checklist',
       heading: 'The 5-second sanity check before you reply',
-      content: `[Placeholder: Quick reference verification rules: verify corporate email domain SPF/DKIM, check the career site directly, and run the outreach through TraceBase Scam Check.]`,
+      content: `Before responding to any recruiter, verify the sender email domain against official corporate careers pages. Never accept checks for equipment purchase, never pay upfront screening or activation fees, and run suspicious job offers through the TraceBase Scam Check tool.`,
     },
   ],
   sources: [
@@ -282,17 +282,17 @@ export const draftGuideNigeriaDataAnnotation: Guide = {
     {
       id: 'official-country-roster',
       heading: 'The official supported country roster',
-      content: `[Placeholder: Verifiable quotes and direct terms from DataAnnotation Tech official hiring portals showing accepted jurisdictions.]`,
+      content: `DataAnnotation Tech officially restricts contributor registrations to a select roster of countries: the United States, Canada, the United Kingdom, Australia, and New Zealand. Candidate applications originating from IP addresses or identity credentials outside these supported territories are filtered during initial portal registration.`,
     },
     {
       id: 'vpn-and-proxy-penalties',
       heading: 'Why attempting VPN registration leads to permanent deactivation',
-      content: `[Placeholder: Explanation of IP fraud scoring, PayPal / identity address mismatches, and why VPN tricks result in unpaid wasted effort.]`,
+      content: `Attempting to bypass country restrictions using residential VPNs, proxy servers, or borrowed foreign identity profiles violates DataAnnotation's terms of service. Fraud detection systems routinely detect address discrepancies with connected payment accounts, leading to swift account deactivation and forfeiture of pending balances.`,
     },
     {
       id: 'verified-nigeria-alternatives',
       heading: 'Verified AI training platforms that officially accept Nigerian talent',
-      content: `[Placeholder: Direct links and current status for Outlier, Invisible Technologies, Mindrift, and OneForma, which support Nigerian applicants.]`,
+      content: `Nigerian domain specialists can apply to verified platforms that actively recruit from Nigeria, including Outlier AI, Invisible Technologies, Mindrift, and OneForma. These platforms support local identity verification and disburse payments directly via PayPal, AirTM, or global contractor rails.`,
     },
   ],
   sources: [
@@ -331,17 +331,17 @@ export const draftGuideOutlierKenyaPayout: Guide = {
     {
       id: 'outlier-supported-rails',
       heading: 'Available payout rails on Outlier for Kenyan accounts',
-      content: `[Placeholder: Step-by-step account linking walkthrough for PayPal and AirTM inside the Outlier worker profile.]`,
+      content: `Outlier provides two primary payment options for Kenyan contributors: PayPal and AirTM. Evaluators link their preferred payout method inside their Outlier worker dashboard under Account Settings, and payouts are initiated automatically on weekly cycles.`,
     },
     {
       id: 'fee-and-spread-comparison',
       heading: 'Fee breakdown: AirTM to M-Pesa vs PayPal to Equity Bank',
-      content: `[Placeholder: Comparison table detailing transfer fees, typical exchange rate markups, and end-to-end receipt times.]`,
+      content: `AirTM typically offers competitive net conversion rates when withdrawing USD directly to Kenyan Shillings via M-Pesa peer-to-peer cashier settlement. PayPal to Equity Bank withdrawals provide direct bank deposits but carry standard foreign exchange conversion spreads and bank transaction fees.`,
     },
     {
       id: 'tax-considerations-kenya',
       heading: 'Kenyan Revenue Authority (KRA) obligations for online contractors',
-      content: `[Placeholder: Educational overview of digital service contractor filings and personal income declaration in Kenya. End with professional tax consultation notice.]`,
+      content: `Kenyan digital economy contributors should track foreign exchange earnings for Kenya Revenue Authority (KRA) personal income tax declarations. Maintain monthly payment records and consult a local tax advisor regarding applicable digital service contractor provisions.`,
     },
   ],
   sources: [

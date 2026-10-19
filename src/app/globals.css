@@ -15,42 +15,6 @@
 }
 
 :root,
-[data-theme="dark"] {
-  --bg-canvas: #0F1420;
-  --bg-sheet: #171E2E;
-  --bg-elevated: #1F283C;
-  --bg-contrast: #FFFFFF;
-  
-  --text-ink: #F5F7FA;
-  --text-primary: #F5F7FA;
-  --text-secondary: #9BA4B5;
-  --text-muted: #CBD3E1;
-  --text-on-dark: #F5F7FA;
-
-  --border-rule: #232D42;
-  --border-subtle: #2C3852;
-  --border-strong: #F5F7FA;
-
-  --brand-ink: #8B6BFF;
-  --brand-ink-hover: #A185FF;
-  --brand-tint: rgba(139, 107, 255, 0.12);
-
-  --accent-cyan: #38bdf8;
-  --accent-violet: #8B6BFF;
-
-  --status-accepted: #3DD68C;
-  --status-accepted-bg: rgba(61, 214, 140, 0.12);
-  --status-recheck: #E5A83B;
-  --status-recheck-bg: rgba(229, 168, 59, 0.12);
-  --status-not-accepted: #FF6B6B;
-  --status-not-accepted-bg: rgba(255, 107, 107, 0.12);
-  --status-unconfirmed: #8298BA;
-  --status-unconfirmed-bg: rgba(130, 152, 186, 0.12);
-
-  --glass-head-bg: rgba(15, 20, 32, 0.82);
-  --glass-head-border: rgba(255, 255, 255, 0.08);
-}
-
 [data-theme="light"] {
   --bg-canvas: #F5F6F8;
   --bg-sheet: #FFFFFF;
@@ -86,6 +50,42 @@
   /* Glass in 4 allowed places only: sticky header, reading ruler, AI-teams card, phone bottom action bar */
   --glass-head-bg: rgba(245, 246, 248, 0.78);
   --glass-head-border: rgba(18, 24, 38, 0.08);
+}
+
+[data-theme="dark"] {
+  --bg-canvas: #0F1420;
+  --bg-sheet: #171E2E;
+  --bg-elevated: #1F283C;
+  --bg-contrast: #FFFFFF;
+  
+  --text-ink: #F5F7FA;
+  --text-primary: #F5F7FA;
+  --text-secondary: #9BA4B5;
+  --text-muted: #CBD3E1;
+  --text-on-dark: #F5F7FA;
+
+  --border-rule: #232D42;
+  --border-subtle: #2C3852;
+  --border-strong: #F5F7FA;
+
+  --brand-ink: #8B6BFF;
+  --brand-ink-hover: #A185FF;
+  --brand-tint: rgba(139, 107, 255, 0.12);
+
+  --accent-cyan: #38bdf8;
+  --accent-violet: #8B6BFF;
+
+  --status-accepted: #3DD68C;
+  --status-accepted-bg: rgba(61, 214, 140, 0.12);
+  --status-recheck: #E5A83B;
+  --status-recheck-bg: rgba(229, 168, 59, 0.12);
+  --status-not-accepted: #FF6B6B;
+  --status-not-accepted-bg: rgba(255, 107, 107, 0.12);
+  --status-unconfirmed: #8298BA;
+  --status-unconfirmed-bg: rgba(130, 152, 186, 0.12);
+
+  --glass-head-bg: rgba(15, 20, 32, 0.82);
+  --glass-head-border: rgba(255, 255, 255, 0.08);
 }
 
 @theme {

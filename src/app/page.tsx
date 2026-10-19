@@ -80,7 +80,7 @@ export default function Home() {
           <div className="flex-1 basis-[480px] min-w-0">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[var(--brand-ink)]/30 bg-[var(--brand-tint)] text-xs font-semibold text-[var(--brand-ink)] mb-4 shadow-xs cs-badge-shimmer cs-glow-breathe">
               <span className="w-2 h-2 rounded-full bg-emerald-400 cs-beacon-ring" />
-              <span>✨ Independent human-verified AI work hub &amp; studio</span>
+              <span>Independent human-verified AI work hub &amp; studio</span>
             </div>
             <h1 className="text-4xl sm:text-6xl lg:text-[68px] font-extrabold tracking-[-0.035em] leading-[1.04] m-0 text-ink max-w-[18ch]">
               Know who&apos;s hiring &amp; which AI jobs are real before you apply.
@@ -107,8 +107,8 @@ export default function Home() {
         <div className="max-w-[1240px] mx-auto px-4 sm:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
             <div className="group cs-card-interactive cs-stagger-1 flex items-start gap-3 p-3 rounded-2xl border border-transparent hover:border-rule hover:bg-sheet transition-all">
-              <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center shrink-0 text-lg shadow-xs group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-200">
-                <span>🔍</span>
+              <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center shrink-0 shadow-xs group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-200">
+                <CheckCircle2 className="w-5 h-5 text-emerald-500" />
               </div>
               <div className="space-y-0.5">
                 <span className="text-xs font-bold text-ink block group-hover:text-[var(--brand-ink)] transition-colors">100% human-verified</span>
@@ -119,8 +119,8 @@ export default function Home() {
             </div>
 
             <div className="group cs-card-interactive cs-stagger-2 flex items-start gap-3 p-3 rounded-2xl border border-transparent hover:border-rule hover:bg-sheet transition-all">
-              <div className="w-10 h-10 rounded-xl bg-[#5A35C8]/10 border border-[#5A35C8]/25 flex items-center justify-center shrink-0 text-lg shadow-xs group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-200">
-                <span>💰</span>
+              <div className="w-10 h-10 rounded-xl bg-[#5A35C8]/10 border border-[#5A35C8]/25 flex items-center justify-center shrink-0 shadow-xs group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-200">
+                <DollarSign className="w-5 h-5 text-[#5A35C8]" />
               </div>
               <div className="space-y-0.5">
                 <span className="text-xs font-bold text-ink block group-hover:text-[var(--brand-ink)] transition-colors">$18 to $50/hr direct pay</span>
@@ -131,8 +131,8 @@ export default function Home() {
             </div>
 
             <div className="group cs-card-interactive cs-stagger-3 flex items-start gap-3 p-3 rounded-2xl border border-transparent hover:border-rule hover:bg-sheet transition-all">
-              <div className="w-10 h-10 rounded-xl bg-teal-500/10 border border-teal-500/25 flex items-center justify-center shrink-0 text-lg shadow-xs group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-200">
-                <span>⚡</span>
+              <div className="w-10 h-10 rounded-xl bg-teal-500/10 border border-teal-500/25 flex items-center justify-center shrink-0 shadow-xs group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-200">
+                <Activity className="w-5 h-5 text-teal-500" />
               </div>
               <div className="space-y-0.5">
                 <span className="text-xs font-bold text-ink block group-hover:text-[var(--brand-ink)] transition-colors">Live queue radar</span>
@@ -143,8 +143,8 @@ export default function Home() {
             </div>
 
             <div className="group cs-card-interactive cs-stagger-4 flex items-start gap-3 p-3 rounded-2xl border border-transparent hover:border-rule hover:bg-sheet transition-all">
-              <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/25 flex items-center justify-center shrink-0 text-lg shadow-xs group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-200">
-                <span>🛡️</span>
+              <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/25 flex items-center justify-center shrink-0 shadow-xs group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-200">
+                <ShieldCheck className="w-5 h-5 text-amber-500" />
               </div>
               <div className="space-y-0.5">
                 <span className="text-xs font-bold text-ink block group-hover:text-[var(--brand-ink)] transition-colors">14-day check cycle</span>

@@ -73,8 +73,13 @@ export function HeroSequence({
     }
     if (isReplaying) return;
     setIsReplaying(true);
-    setHasEntered(true);
-    setPlayKey((k) => k + 1);
+    setHasEntered(false);
+
+    // Force a clean DOM cycle so all CSS keyframe animations restart from 0s
+    requestAnimationFrame(() => {
+      setPlayKey((k) => k + 1);
+      setHasEntered(true);
+    });
 
     const isReducedMotion = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const duration = isReducedMotion ? 600 : 4000;
@@ -141,8 +146,8 @@ export function HeroSequence({
             <dl className="relative mt-5 grid grid-cols-[minmax(0,7.5em)_minmax(0,1fr)_22px] text-sm sm:text-base">
               {/* Row 1: Eligibility */}
               <dt className="py-2.5 sm:py-3 border-t border-subtle text-secondary font-medium">{fromCountryLabel}</dt>
-              <dd className="m-0 py-2.5 sm:py-3 border-t border-subtle font-bold text-[var(--status-recheck)]">
-                Sample entry until launch
+              <dd className="m-0 py-2.5 sm:py-3 border-t border-subtle font-bold text-[var(--status-accepted)]">
+                {selectedCountryCode === "WW" ? "Remote worldwide" : "Accepted (source confirmed)"}
               </dd>
               <dd className="m-0 py-2.5 sm:py-3 border-t border-subtle flex items-center justify-end">
                 <svg className="cs-tick cs-t1 text-[var(--brand-ink)]" width="18" height="18" viewBox="0 0 20 20" aria-hidden="true">

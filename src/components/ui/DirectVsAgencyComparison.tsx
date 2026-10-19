@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { ShieldCheck, AlertTriangle, ArrowRight, DollarSign, UserCheck, Lock } from 'lucide-react';
+import { ShieldCheck, AlertTriangle, ArrowRight, DollarSign, UserCheck, Lock, TrendingUp, Calculator, CheckCircle2 } from 'lucide-react';
 
 interface DirectVsAgencyComparisonProps {
   rolePayRate?: string;
@@ -47,7 +47,7 @@ export function DirectVsAgencyComparison({
           <div className="flex items-center justify-between pb-2 border-b border-emerald-500/20">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="text-sm" aria-hidden="true">💎</span>
+              <CheckCircle2 size={16} className="text-emerald-500 shrink-0" aria-hidden="true" />
               <span className="text-sm font-bold text-ink">Direct via TraceBase</span>
             </div>
             <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-800 dark:text-emerald-300">
@@ -85,7 +85,7 @@ export function DirectVsAgencyComparison({
           <div className="flex items-center justify-between pb-2 border-b border-red-500/20">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-red-500" />
-              <span className="text-sm" aria-hidden="true">⚠️</span>
+              <AlertTriangle className="w-4 h-4 text-red-500 shrink-0" aria-hidden="true" />
               <span className="text-sm font-bold text-ink">Third-party agency middleman</span>
             </div>
             <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-red-500/20 text-red-700 dark:text-red-300">
@@ -123,8 +123,8 @@ export function DirectVsAgencyComparison({
       <div className="p-4 sm:p-5 rounded-xl border border-rule bg-surface space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
-            <span className="text-xs font-bold text-ink block flex items-center gap-1.5">
-              <span>🧮</span>
+            <span className="text-xs font-bold text-ink flex items-center gap-1.5">
+              <Calculator size={15} className="text-[#5A35C8] shrink-0" aria-hidden="true" />
               <span>Calculate your earnings difference</span>
             </span>
             <span className="text-[11px] text-secondary">
@@ -174,8 +174,9 @@ export function DirectVsAgencyComparison({
           </div>
 
           <div className="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/30">
-            <span className="text-[11px] text-emerald-800 dark:text-emerald-300 font-semibold block mb-1">
-              🎉 Extra in your pocket
+            <span className="text-[11px] text-emerald-800 dark:text-emerald-300 font-semibold flex items-center gap-1.5 mb-1">
+              <TrendingUp size={13} className="text-emerald-600 dark:text-emerald-400 shrink-0" />
+              <span>Direct contributor advantage</span>
             </span>
             <span className="text-base sm:text-lg font-extrabold text-ink tabular-nums">
               +${differenceMonthly.toLocaleString()}/mo

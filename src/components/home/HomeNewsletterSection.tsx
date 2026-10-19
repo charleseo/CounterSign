@@ -104,7 +104,7 @@ export function HomeNewsletterSection() {
             <div className="lg:col-span-7 space-y-6">
               <div className="space-y-3">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--brand-ink)]/30 bg-[var(--brand-tint)] text-xs font-semibold text-[var(--brand-ink)]">
-                  <Sparkles size={13} />
+                  <Mail size={13} />
                   <span>Free contributor intelligence</span>
                 </div>
 

@@ -10,7 +10,8 @@ import {
   ShieldCheck,
   ShieldAlert,
   ArrowRight,
-  Sparkles,
+  Wrench,
+  Award,
 } from 'lucide-react';
 
 interface ToolItem {
@@ -20,7 +21,6 @@ interface ToolItem {
   tagTone: 'brand' | 'emerald' | 'amber' | 'blue';
   description: string;
   href: string;
-  emoji: string;
   icon: React.ReactNode;
   actionText: string;
 }
@@ -34,7 +34,6 @@ const TOOLS: ToolItem[] = [
     description:
       'Audit your model evaluation answer before submitting. Live word count limits, negative constraint scanner, and anti-rushing pacing timer.',
     href: '/task-check',
-    emoji: '🎯',
     icon: <FileCheck className="w-5 h-5 text-[var(--brand-ink)]" />,
     actionText: 'Check a task draft',
   },
@@ -46,7 +45,6 @@ const TOOLS: ToolItem[] = [
     description:
       'Calculate exact take-home earnings across Deel, Geegpay, AirTM, and domiciliary accounts after processor fees and currency exchange spreads.',
     href: '/payout-calculator',
-    emoji: '🧮',
     icon: <DollarSign className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />,
     actionText: 'Calculate net pay',
   },
@@ -58,7 +56,6 @@ const TOOLS: ToolItem[] = [
     description:
       'Community crowdsourced task queue monitor for Outlier AI, Alignerr, and DataAnnotation. Check which platforms have active batches today.',
     href: '/platforms',
-    emoji: '⚡',
     icon: <Activity className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />,
     actionText: 'View queue status',
   },
@@ -70,7 +67,6 @@ const TOOLS: ToolItem[] = [
     description:
       'Create an ATS-friendly single-page resume built specifically for AI evaluation. Embed your verified TraceBase credential and export to PDF.',
     href: '/cv-builder',
-    emoji: '📄',
     icon: <FileText className="w-5 h-5 text-[var(--brand-ink)]" />,
     actionText: 'Build evaluator CV',
   },
@@ -82,7 +78,6 @@ const TOOLS: ToolItem[] = [
     description:
       'Practice realistic 5-minute timed screening tests for Alignerr (TestGorilla) and Outlier before risking your real onboarding application.',
     href: '/training',
-    emoji: '🛡️',
     icon: <ShieldCheck className="w-5 h-5 text-sky-500" />,
     actionText: 'Try mock test',
   },
@@ -94,7 +89,6 @@ const TOOLS: ToolItem[] = [
     description:
       'Compare verified hourly rates across Coding ($40-$65/hr), science and math, and General RLHF. Review penalty policies and payout frequencies.',
     href: '/platforms?tab=rates',
-    emoji: '💵',
     icon: <DollarSign className="w-5 h-5 text-emerald-500" />,
     actionText: 'Compare pay rates',
   },
@@ -106,7 +100,6 @@ const TOOLS: ToolItem[] = [
     description:
       'Generate evidence-backed appeal letters for sudden empty queues, false location alerts, or disputed reviewer ratings with one-click copy.',
     href: '/appeals',
-    emoji: '⚖️',
     icon: <ShieldAlert className="w-5 h-5 text-amber-500" />,
     actionText: 'Generate appeal letter',
   },
@@ -118,8 +111,7 @@ const TOOLS: ToolItem[] = [
     description:
       'Explore our human-audited evaluation leaderboard tracking Claude 3.5 Sonnet, OpenAI o1, and Gemini 2.0 on negative constraints and truth adherence.',
     href: '/benchmark',
-    emoji: '🔮',
-    icon: <Sparkles className="w-5 h-5 text-[var(--brand-ink)]" />,
+    icon: <Award className="w-5 h-5 text-[var(--brand-ink)]" />,
     actionText: 'View leaderboard',
   },
 ];
@@ -132,7 +124,7 @@ export function HomeToolsShowcase() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div className="space-y-3 max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-rule bg-sheet text-xs text-secondary font-medium">
-              <Sparkles size={13} className="text-[var(--brand-ink)]" />
+              <Wrench size={13} className="text-[var(--brand-ink)]" />
               <span>Independent contributor workbench</span>
             </div>
             <h2 id="tools-showcase-heading" className="text-3xl sm:text-5xl font-extrabold tracking-tight text-ink">
@@ -162,8 +154,8 @@ export function HomeToolsShowcase() {
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <div className="w-10 h-10 rounded-xl bg-surface border border-rule flex items-center justify-center text-lg group-hover:scale-115 group-hover:-rotate-6 transition-transform duration-200 shadow-xs">
-                    <span role="img" aria-label={tool.title}>{tool.emoji}</span>
+                  <div className="w-10 h-10 rounded-xl bg-surface border border-rule flex items-center justify-center group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-200 shadow-xs">
+                    {tool.icon}
                   </div>
                   <span
                     className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full border transition-colors group-hover:border-[var(--brand-ink)]/40 ${

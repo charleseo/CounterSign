@@ -55,15 +55,15 @@ export function setTier(tier: CapabilityTier): void {
 }
 
 /**
- * Determine theme mode. Dark theme is default.
+ * Determine theme mode. Light theme is default; dark mode is secondary.
  */
 export function chooseTheme(): ThemeMode {
-  if (typeof window === "undefined") return "dark";
+  if (typeof window === "undefined") return "light";
   const stored = localStorage.getItem(THEME_STORAGE_KEY);
   if (stored === "light" || stored === "dark") {
     return stored;
   }
-  return "dark"; // Dark is default per Master Plan
+  return "light"; // Light is default; dark mode is second option
 }
 
 /**

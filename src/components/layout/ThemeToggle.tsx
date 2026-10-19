@@ -21,7 +21,7 @@ function getThemeSnapshot(): ThemeMode {
 }
 
 function getServerThemeSnapshot(): ThemeMode {
-  return "dark";
+  return "light";
 }
 
 export function ThemeToggle({ className = "" }: ThemeToggleProps) {

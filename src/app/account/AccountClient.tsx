@@ -52,6 +52,10 @@ import {
   Mail,
   Send,
   Inbox,
+  Wrench,
+  Scale,
+  Search,
+  XCircle,
 } from "lucide-react";
 
 interface AccountClientProps {
@@ -256,8 +260,8 @@ export function AccountClient({
 
         <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-5">
           <div className="flex items-start gap-3.5 sm:gap-4">
-            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-[#5A35C8] to-[#3B1F8C] flex items-center justify-center text-xl sm:text-2xl shadow-md shrink-0 text-white">
-              <span>🛡️</span>
+            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-[#5A35C8] to-[#3B1F8C] flex items-center justify-center shadow-md shrink-0 text-white">
+              <ShieldCheck className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
             </div>
 
             <div className="space-y-1">
@@ -352,7 +356,7 @@ export function AccountClient({
         >
           <div className="flex items-center justify-between text-xs text-secondary">
             <span className="font-semibold group-hover:text-ink">Applied platforms</span>
-            <span className="text-base">💼</span>
+            <Briefcase className="w-4 h-4 text-[#5A35C8]" />
           </div>
           <div className="text-2xl sm:text-3xl font-extrabold font-mono text-ink tabular-nums">
             {applications.length}
@@ -379,7 +383,7 @@ export function AccountClient({
         >
           <div className="flex items-center justify-between text-xs text-secondary">
             <span className="font-semibold group-hover:text-ink">Test readiness</span>
-            <span className="text-base">🎯</span>
+            <Target className="w-4 h-4 text-emerald-500 shrink-0" />
           </div>
 
           <div className="flex items-center justify-between gap-2">
@@ -410,7 +414,7 @@ export function AccountClient({
                 />
               </svg>
               <div className="absolute inset-0 flex items-center justify-center text-[9px] font-bold text-emerald-800 dark:text-emerald-300">
-                ✓
+                <Check className="w-2.5 h-2.5" />
               </div>
             </div>
           </div>
@@ -432,7 +436,7 @@ export function AccountClient({
         >
           <div className="flex items-center justify-between text-xs text-secondary">
             <span className="font-semibold group-hover:text-ink">Tailored CVs</span>
-            <span className="text-base">📄</span>
+            <FileText className="w-4 h-4 text-sky-500" />
           </div>
           <div className="text-2xl sm:text-3xl font-extrabold font-mono text-ink tabular-nums">
             {userCvs.length}
@@ -455,7 +459,7 @@ export function AccountClient({
         >
           <div className="flex items-center justify-between text-xs text-secondary">
             <span className="font-semibold group-hover:text-ink">Logged pay</span>
-            <span className="text-base">💵</span>
+            <DollarSign className="w-4 h-4 text-amber-500" />
           </div>
           <div className="text-xl sm:text-2xl font-extrabold font-mono text-ink tabular-nums truncate">
             {currency === "USD"
@@ -472,7 +476,7 @@ export function AccountClient({
       <div className="p-4 sm:p-5 rounded-2xl bg-surface/60 border border-rule space-y-3">
         <div className="flex items-center justify-between">
           <span className="text-xs font-bold text-ink flex items-center gap-1.5">
-            <span>🛠️</span>
+            <Wrench className="w-3.5 h-3.5 text-[#5A35C8] shrink-0" />
             <span>Quick contributor tools</span>
           </span>
           <span className="text-[11px] text-secondary font-medium">Free and direct</span>
@@ -574,7 +578,7 @@ export function AccountClient({
               : "border-transparent text-secondary hover:text-ink"
           }`}
         >
-          <span>🧪</span>
+          <Award size={15} />
           <span>Practice drills</span>
         </button>
 
@@ -939,7 +943,7 @@ export function AccountClient({
             </div>
           ) : (
             <div className="p-10 rounded-2xl bg-sheet border border-rule text-center space-y-3">
-              <span className="text-3xl">💼</span>
+              <Briefcase className="w-8 h-8 text-secondary mx-auto" />
               <p className="text-sm font-semibold text-ink m-0">
                 No applications matching this filter
               </p>
@@ -1234,9 +1238,11 @@ export function AccountClient({
                     <div className="flex items-start justify-between gap-2">
                       <span className="font-medium">{opt.text}</span>
                       {isSelected && (
-                        <span className="text-sm shrink-0">
-                          {opt.isCorrect ? "✅" : "❌"}
-                        </span>
+                        opt.isCorrect ? (
+                          <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                        ) : (
+                          <XCircle className="w-4 h-4 text-red-500 shrink-0" />
+                        )
                       )}
                     </div>
                     {isSelected && drillSubmitted && (
@@ -1259,7 +1265,7 @@ export function AccountClient({
                 platform: "Alignerr & Outlier",
                 time: "3 to 5 mins",
                 badge: "High frequency",
-                emoji: "🧮",
+                icon: Award,
                 desc: "Spot intermediate arithmetic errors in multi-step word problems where the final answer looks confident but fails basic math.",
               },
               {
@@ -1268,7 +1274,7 @@ export function AccountClient({
                 platform: "DataAnnotation & Mercor",
                 time: "4 to 6 mins",
                 badge: "Critical flaw",
-                emoji: "⚖️",
+                icon: Scale,
                 desc: "Detect invented statutory section numbers, fictional court precedents, and hallucinated regulatory clauses.",
               },
               {
@@ -1277,7 +1283,7 @@ export function AccountClient({
                 platform: "Alignerr & Mercor",
                 time: "4 to 5 mins",
                 badge: "Scored strictly",
-                emoji: "📝",
+                icon: FileText,
                 desc: "Write objective, non-sycophantic critique explaining why Model B fails without flattering Model A.",
               },
               {
@@ -1286,7 +1292,7 @@ export function AccountClient({
                 platform: "Alignerr onboarding",
                 time: "5 mins",
                 badge: "Timed test",
-                emoji: "⏱️",
+                icon: Clock,
                 desc: "Rapid-fire instruction following and constraint tracking under a real 5-minute countdown clock.",
               },
               {
@@ -1295,7 +1301,7 @@ export function AccountClient({
                 platform: "Outlier & DataAnnotation",
                 time: "3 to 4 mins",
                 badge: "Common fail",
-                emoji: "🎯",
+                icon: Target,
                 desc: 'Catch subtle negative instruction violations like "do not mention dates" or "under 120 words".',
               },
               {
@@ -1304,7 +1310,7 @@ export function AccountClient({
                 platform: "General RLHF",
                 time: "3 to 5 mins",
                 badge: "Core skill",
-                emoji: "🔍",
+                icon: Search,
                 desc: "Evaluate when a model should clarify ambiguous requests vs. making unverified assumptions.",
               },
             ].map((drill) => (
@@ -1314,7 +1320,9 @@ export function AccountClient({
               >
                 <div className="space-y-2.5">
                   <div className="flex items-center justify-between gap-2">
-                    <span className="text-xl" aria-hidden="true">{drill.emoji}</span>
+                    <div className="p-2 rounded-lg bg-surface border border-rule text-[#5A35C8]">
+                      <drill.icon className="w-4 h-4" />
+                    </div>
                     <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-surface border border-rule text-secondary">
                       {drill.badge}
                     </span>
@@ -1551,21 +1559,21 @@ export function AccountClient({
                       title: "Weekly newsletter digest",
                       badge: "Recommended",
                       desc: "Curated summary sent every Monday morning featuring all verified roles, pay trends, and platform advisories.",
-                      emoji: "📬",
+                      icon: Mail,
                     },
                     {
                       id: "daily",
                       title: "Daily opportunity alerts",
                       badge: "High frequency",
                       desc: "Emailed within hours whenever a new human-verified role matches your location and skill domains.",
-                      emoji: "⚡",
+                      icon: Clock,
                     },
                     {
                       id: "instant",
                       title: "Instant breaking alerts",
                       badge: "Fastest",
                       desc: "Immediate notice as soon as any high-priority verified listing opens up for your country.",
-                      emoji: "🔔",
+                      icon: Bell,
                     },
                   ].map((f) => {
                     const isSelected = frequency === f.id;
@@ -1581,7 +1589,9 @@ export function AccountClient({
                         }`}
                       >
                         <div className="flex items-center justify-between gap-1.5">
-                          <span className="text-xl" aria-hidden="true">{f.emoji}</span>
+                          <div className="p-2 rounded-lg bg-sheet border border-rule text-[#5A35C8]">
+                            <f.icon className="w-4 h-4" />
+                          </div>
                           <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-sheet border border-rule text-secondary">
                             {f.badge}
                           </span>
@@ -1613,25 +1623,25 @@ export function AccountClient({
                       id: "opportunities",
                       label: "Verified AI job opportunities",
                       desc: "New evaluator listings filtered for your country with confirmed pay rates and direct portal links.",
-                      emoji: "💼",
+                      icon: <Briefcase className="w-4 h-4 text-[#5A35C8] shrink-0" />,
                     },
                     {
                       id: "newsletter",
                       label: "Weekly intelligence newsletter",
                       desc: "Pay index, currency benchmarks, and platform payout terms.",
-                      emoji: "📰",
+                      icon: <Mail className="w-4 h-4 text-emerald-500 shrink-0" />,
                     },
                     {
                       id: "scam_alerts",
                       label: "Scam warnings & platform advisories",
                       desc: "Urgent alerts when fraudulent recruiters appear or when platforms experience payout delays.",
-                      emoji: "🚨",
+                      icon: <AlertTriangle className="w-4 h-4 text-amber-500 shrink-0" />,
                     },
                     {
                       id: "drills",
                       label: "Screening test drills & CV guides",
                       desc: "Invitations to new TestGorilla practice drills, prompt constraint guides, and ATS CV formats.",
-                      emoji: "🧪",
+                      icon: <Award className="w-4 h-4 text-sky-500 shrink-0" />,
                     },
                   ].map((cat) => {
                     const isChecked = selectedCategories.includes(cat.id);
@@ -1660,7 +1670,7 @@ export function AccountClient({
                         />
                         <div className="space-y-1">
                           <span className="font-bold text-ink flex items-center gap-1.5">
-                            <span>{cat.emoji}</span>
+                            {cat.icon}
                             <span>{cat.label}</span>
                           </span>
                           <p className="text-[11px] text-secondary leading-relaxed m-0">

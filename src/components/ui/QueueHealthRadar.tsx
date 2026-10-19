@@ -18,7 +18,6 @@ export interface PlatformQueueStatus {
   id: string;
   name: string;
   slug: string;
-  emoji: string;
   status: 'active' | 'steady' | 'intermittent' | 'paused';
   statusLabel: string;
   lastReported: string;
@@ -32,7 +31,6 @@ const INITIAL_QUEUE_STATUSES: PlatformQueueStatus[] = [
     id: 'outlier',
     name: 'Outlier AI',
     slug: 'outlier',
-    emoji: '🟢',
     status: 'active',
     statusLabel: 'Active tasks',
     lastReported: '2h ago',
@@ -44,7 +42,6 @@ const INITIAL_QUEUE_STATUSES: PlatformQueueStatus[] = [
     id: 'dataannotation',
     name: 'DataAnnotation',
     slug: 'dataannotation-tech',
-    emoji: '🟢',
     status: 'steady',
     statusLabel: 'Steady flow',
     lastReported: '4h ago',
@@ -56,7 +53,6 @@ const INITIAL_QUEUE_STATUSES: PlatformQueueStatus[] = [
     id: 'populii',
     name: 'Populii AI',
     slug: 'populii',
-    emoji: '🟡',
     status: 'intermittent',
     statusLabel: 'Intermittent pauses',
     lastReported: '1h ago',
@@ -68,7 +64,6 @@ const INITIAL_QUEUE_STATUSES: PlatformQueueStatus[] = [
     id: 'alignerr',
     name: 'Alignerr',
     slug: 'alignerr',
-    emoji: '🔵',
     status: 'steady',
     statusLabel: 'Batched approvals',
     lastReported: '6h ago',
@@ -80,7 +75,6 @@ const INITIAL_QUEUE_STATUSES: PlatformQueueStatus[] = [
     id: 'mercor',
     name: 'Mercor',
     slug: 'mercor',
-    emoji: '🟣',
     status: 'active',
     statusLabel: 'Selective interviews',
     lastReported: '14h ago',
@@ -92,7 +86,6 @@ const INITIAL_QUEUE_STATUSES: PlatformQueueStatus[] = [
     id: 'invisible',
     name: 'Invisible Tech',
     slug: 'invisible-technologies',
-    emoji: '🟢',
     status: 'steady',
     statusLabel: 'Active operations',
     lastReported: '18h ago',
@@ -222,7 +215,6 @@ export function QueueHealthRadar() {
                     href={`/platforms/${item.slug}`}
                     className="font-bold text-sm text-ink hover:text-[#5A35C8] transition-colors inline-flex items-center gap-1.5 group"
                   >
-                    <span className="text-xs group-hover:scale-125 transition-transform" aria-hidden="true">{item.emoji}</span>
                     <span>{item.name}</span>
                   </Link>
 
