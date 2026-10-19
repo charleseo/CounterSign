@@ -38,7 +38,9 @@ export default function TrainingPage() {
         tabParam === 'resources' ||
         tabParam === 'modules'
       ) {
-        setActiveTab(tabParam as 'modules' | 'sandbox' | 'simulator' | 'assessment' | 'resources');
+        setTimeout(() => {
+          setActiveTab(tabParam as 'modules' | 'sandbox' | 'simulator' | 'assessment' | 'resources');
+        }, 0);
       }
     }
   }, []);

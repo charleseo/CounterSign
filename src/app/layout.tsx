@@ -42,7 +42,7 @@ export default function RootLayout({
           <AnalyticsTracker />
         </Suspense>
         <Header />
-        <main className="flex-1 flex flex-col">{children}</main>
+        <main className="flex-1 flex flex-col w-full min-w-0 overflow-x-clip">{children}</main>
         <Footer />
       </body>
     </html>

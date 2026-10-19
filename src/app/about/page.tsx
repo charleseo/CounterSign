@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import type { Metadata } from 'next';
 import {
   ShieldCheck,
@@ -111,31 +112,32 @@ export default function AboutPage() {
         </div>
 
         <div className="flex flex-col sm:flex-row gap-5 items-start">
-          {/* Founder Photo Slot */}
-          <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-xl border-2 border-dashed border-border-default bg-surface flex flex-col items-center justify-center text-center p-2 shrink-0">
-            <span className="text-xs font-mono font-bold text-secondary">EO</span>
-            <span className="text-[10px] text-tertiary mt-1 leading-tight font-mono">
-              [Photo Placeholder]
-            </span>
+          {/* Founder Photo */}
+          <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden border border-rule shadow-sm shrink-0 bg-surface">
+            <Image
+              src="/images/founder/ebube-okeke.jpg"
+              alt="Ebubechukwu Okeke, Founder of TraceBase"
+              fill
+              className="object-cover"
+              sizes="(max-width: 640px) 96px, 112px"
+              priority
+            />
           </div>
 
-          {/* Founder Profile & Bio Placeholder */}
+          {/* Founder Profile & Bio */}
           <div className="space-y-3 flex-1">
             <div>
               <h3 className="text-base sm:text-lg font-bold text-ink">
                 Ebubechukwu Okeke
               </h3>
               <p className="text-xs text-secondary font-mono">
-                Founder, TraceBase
+                Founder &amp; Principal Evaluator, TraceBase
               </p>
             </div>
 
             <div className="p-3.5 rounded-lg border border-border-default bg-surface/50 text-xs sm:text-sm text-secondary leading-relaxed">
-              <span className="text-[11px] font-mono text-[#5A35C8] font-semibold block mb-1">
-                [Founder Bio: Placeholder to be filled by Ebubechukwu Okeke]
-              </span>
-              <p className="text-secondary italic">
-                Background, areas of evaluation focus, and editorial rationale for building human verification standards across remote AI contractor platforms and frontier model evaluation.
+              <p className="m-0 text-readable">
+                Software engineer and AI evaluation specialist based in Lagos, Nigeria. Having navigated remote AI contracting and alignment work across frontier platforms, I founded TraceBase to establish strict human verification standards: eliminating intermediary agency cuts, exposing recruiter scams, and providing independent citation audits for production AI systems.
               </p>
             </div>
 
@@ -148,7 +150,7 @@ export default function AboutPage() {
                 className="inline-flex items-center gap-1.5 text-ink hover:text-[#5A35C8] transition-colors"
               >
                 <span className="w-2 h-2 rounded-full bg-[#0A66C2]" />
-                <span className="font-medium underline underline-offset-2">LinkedIn Profile [Placeholder]</span>
+                <span className="font-medium underline underline-offset-2">LinkedIn profile</span>
               </a>
 
               <a

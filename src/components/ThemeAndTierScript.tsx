@@ -8,7 +8,9 @@ export function ThemeAndTierScript() {
     (function() {
       try {
         var t = localStorage.getItem('countersign_theme');
-        document.documentElement.dataset.theme = (t === 'dark') ? 'dark' : 'light';
+        var isDark = t === 'dark';
+        document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
+        document.documentElement.classList.toggle('dark', isDark);
         
         var tier = localStorage.getItem('countersign_tier');
         if (tier === 'lite' || tier === 'full' || tier === 'basic') {

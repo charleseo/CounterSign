@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { CountrySelector } from "@/components/ui/CountrySelector";
 import { CommandPalette } from "@/components/ui/CommandPalette";
@@ -9,6 +10,7 @@ import { TraceBaseLogo } from "@/components/ui/TraceBaseLogo";
 import { ChevronDown, FileText, CheckSquare, ShieldAlert, Calculator, Award, BookOpen } from "lucide-react";
 
 export function Header() {
+  const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [toolsDropdownOpen, setToolsDropdownOpen] = useState(false);
   const toolsMenuRef = useRef<HTMLDivElement>(null);
@@ -24,6 +26,10 @@ export function Header() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  if (pathname?.startsWith("/admin")) {
+    return null;
+  }
+
   const toolItems = [
     { label: "CV builder", href: "/cv-builder", desc: "1-page ATS resume with verification ID", icon: FileText },
     { label: "Task pre-check", href: "/task-check", desc: "Catch word count and negative constraint traps", icon: CheckSquare },
@@ -35,6 +41,25 @@ export function Header() {
 
   return (
     <div className="cs-glass-head sticky top-0 z-50 w-full transition-colors">
+      {/* Tailscale-style Announcement Strip */}
+      <div className="w-full bg-[#111827] text-white border-b border-gray-800 text-[11px] sm:text-xs font-mono py-1.5 px-3 sm:px-6 select-none">
+        <div className="max-w-[1240px] mx-auto flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2 truncate">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+            <span className="text-gray-300 truncate">
+              Independent human verification network for AI work. 100% manual hand-checks on official career pages.
+            </span>
+          </div>
+          <Link
+            href="/methodology"
+            className="text-gray-200 hover:text-white shrink-0 font-medium inline-flex items-center gap-1 hover:underline"
+          >
+            <span>Our standards</span>
+            <span aria-hidden="true">&rarr;</span>
+          </Link>
+        </div>
+      </div>
+
       <header className="max-w-[1240px] mx-auto px-3 sm:px-8 py-2.5 sm:py-3.5 flex items-center justify-between gap-2 sm:gap-4">
         {/* Left: Brand Logo (≥44px tap target) */}
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
@@ -124,6 +149,14 @@ export function Header() {
         <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
           <CountrySelector compact={true} />
           <CommandPalette />
+
+          {/* Tailscale-style Primary Action CTA */}
+          <Link
+            href="/jobs"
+            className="hidden xl:inline-flex max-xl:!hidden cs-btn cs-btn-primary min-h-[36px] py-1.5 px-3 text-xs font-semibold rounded-lg shadow-2xs"
+          >
+            <span>Explore roles</span>
+          </Link>
 
           {/* Theme toggle visible on desktop */}
           <div className="hidden sm:inline-flex">

@@ -82,7 +82,7 @@ export function LedgerSection({ roles }: LedgerSectionProps) {
           </div>
 
           {/* Filter Chips with aria-pressed */}
-          <div role="group" aria-label="Filter verified roles" className="flex flex-wrap gap-2">
+          <div role="group" aria-label="Filter verified roles" className="flex items-center p-1 bg-elevated border border-rule rounded-xl gap-1">
             {filterOptions.map((opt) => {
               const isActive = filter === opt.id;
               return (
@@ -91,10 +91,10 @@ export function LedgerSection({ roles }: LedgerSectionProps) {
                   type="button"
                   aria-pressed={isActive}
                   onClick={() => setFilter(opt.id)}
-                  className={`cs-chip min-h-[44px] px-4 sm:px-5 text-sm sm:text-base font-semibold rounded-full border cursor-pointer select-none transition-colors ${
+                  className={`cs-chip min-h-[38px] px-4 text-xs sm:text-sm font-semibold rounded-lg cursor-pointer select-none transition-all ${
                     isActive
-                      ? "bg-ink text-white border-ink"
-                      : "bg-sheet text-ink border-rule hover:border-ink/50"
+                      ? "bg-sheet text-ink shadow-2xs border border-rule"
+                      : "text-secondary hover:text-ink hover:bg-sheet/50 border border-transparent"
                   }`}
                 >
                   {opt.label}
@@ -104,14 +104,14 @@ export function LedgerSection({ roles }: LedgerSectionProps) {
           </div>
         </div>
 
-        {/* Ledger Table */}
-        <div role="table" aria-label="Recently checked AI roles" className="mt-4 text-base sm:text-lg">
-          {/* Table Header: Hidden under 768px (md), Schibsted Grotesk sentence case on desktop */}
+        {/* Ledger Table in Bento Container */}
+        <div role="table" aria-label="Recently checked AI roles" className="mt-4 ts-card overflow-hidden text-base sm:text-lg">
+          {/* Table Header: Hidden under 768px (md) */}
           <div
             role="row"
-            className="hidden md:grid cs-row cs-head px-4 py-3 border-b-2 border-ink text-sm sm:text-base font-semibold text-secondary font-sans normal-case"
+            className="hidden md:grid cs-row cs-head px-5 py-3.5 bg-elevated/70 border-b border-rule font-mono text-xs font-semibold text-secondary tracking-wide"
           >
-            <span role="columnheader">Role</span>
+            <span role="columnheader">Role &amp; employer</span>
             <span role="columnheader">{countryCode === "WW" ? "Location" : `From ${displayName}`}</span>
             <span role="columnheader">Pay</span>
             <span role="columnheader">Checked</span>
@@ -129,7 +129,7 @@ export function LedgerSection({ roles }: LedgerSectionProps) {
                 key={role.id}
                 role="row"
                 href={`/jobs/${role.slug}`}
-                className="cs-row cs-row-link block px-4 py-4 sm:py-5 border-b border-subtle text-ink no-underline focus-visible:outline-offset-2"
+                className="cs-row cs-row-link block px-5 py-4 sm:py-4.5 border-b border-rule last:border-b-0 hover:bg-elevated/40 transition-colors text-ink no-underline focus-visible:outline-offset-2"
               >
                 {/* Mobile Stacked Record Row */}
                 <div className="sm:hidden space-y-2">
@@ -138,18 +138,22 @@ export function LedgerSection({ roles }: LedgerSectionProps) {
                       {cleanTitle}
                     </span>
                     {isSample && (
-                      <span className="shrink-0 whitespace-nowrap text-[10px] font-semibold text-secondary bg-subtle border border-rule px-1.5 py-0.5 rounded">
+                      <span className="shrink-0 whitespace-nowrap text-[10px] font-mono font-medium text-secondary bg-elevated border border-rule px-1.5 py-0.5 rounded">
                         Sample entry
                       </span>
                     )}
                   </div>
                   <div className="text-xs text-secondary">{cleanOrg}</div>
                   <div className="flex items-center justify-between text-xs text-secondary pt-1.5 border-t border-subtle/60">
-                    <span className={`font-semibold ${statusInfo.colorClass}`}>
-                      {statusInfo.label}
+                    <span className="flex items-center gap-1.5 font-semibold">
+                      <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${
+                        statusInfo.tone === "accepted" ? "bg-emerald-500" :
+                        statusInfo.tone === "due" ? "bg-amber-500" : "bg-gray-400"
+                      }`} />
+                      <span className={statusInfo.colorClass}>{statusInfo.label}</span>
                     </span>
-                    <span className="tabular-nums font-medium text-ink">{role.payText}</span>
-                    <span className={`tabular-nums ${role.isDue ? "font-bold text-[var(--status-recheck)]" : "text-secondary"}`}>
+                    <span className="tabular-nums font-mono font-medium text-ink">{role.payText}</span>
+                    <span className={`tabular-nums font-mono text-[11px] ${role.isDue ? "font-bold text-[var(--status-recheck)]" : "text-secondary"}`}>
                       {role.checkedText}
                     </span>
                   </div>
@@ -161,7 +165,7 @@ export function LedgerSection({ roles }: LedgerSectionProps) {
                     <span className="flex items-center gap-2 font-bold text-base sm:text-lg text-ink">
                       <span className="min-w-0">{cleanTitle}</span>
                       {isSample && (
-                        <span className="shrink-0 whitespace-nowrap text-[10px] font-semibold text-secondary bg-subtle border border-rule px-1.5 py-0.5 rounded">
+                        <span className="shrink-0 whitespace-nowrap text-[10px] font-mono font-medium text-secondary bg-elevated border border-rule px-1.5 py-0.5 rounded">
                           Sample entry
                         </span>
                       )}
@@ -171,16 +175,22 @@ export function LedgerSection({ roles }: LedgerSectionProps) {
                     </span>
                   </span>
 
-                  <span role="cell" className={`font-semibold text-sm sm:text-base ${statusInfo.colorClass}`}>
-                    {statusInfo.label}
+                  <span role="cell" className="flex items-center gap-2">
+                    <span className={`w-2 h-2 rounded-full shrink-0 ${
+                      statusInfo.tone === "accepted" ? "bg-emerald-500" :
+                      statusInfo.tone === "due" ? "bg-amber-500" : "bg-gray-400"
+                    }`} />
+                    <span className={`font-semibold text-sm sm:text-base ${statusInfo.colorClass}`}>
+                      {statusInfo.label}
+                    </span>
                   </span>
 
-                  <span role="cell" className="text-sm sm:text-base text-secondary tabular-nums">
+                  <span role="cell" className="text-sm sm:text-base text-secondary font-mono tabular-nums">
                     {role.payText}
                   </span>
 
                   <span role="cell" className="flex items-center justify-between gap-2 text-sm sm:text-base">
-                    <span className={`tabular-nums ${role.isDue ? "font-bold text-[var(--status-recheck)]" : "text-secondary"}`}>
+                    <span className={`tabular-nums font-mono text-xs sm:text-sm ${role.isDue ? "font-bold text-[var(--status-recheck)]" : "text-secondary"}`}>
                       {role.checkedText}
                     </span>
 

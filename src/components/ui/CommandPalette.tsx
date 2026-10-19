@@ -74,17 +74,17 @@ export interface CommandPaletteProps {
 
 export function CommandPalette({ className = '', triggerLabel }: CommandPaletteProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const mounted = React.useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [apiJobs, setApiJobs] = useState<SearchItem[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   // Listen for custom search open event (e.g. from hero search bar)
   useEffect(() => {

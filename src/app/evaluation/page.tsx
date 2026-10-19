@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import type { Metadata } from 'next';
 import {
   ShieldCheck,
@@ -386,6 +387,27 @@ export default function EvaluationStudioPage() {
         </div>
       </section>
 
+      {/* 4b. RAG & Citation Audit Pipeline Architecture Diagram */}
+      <section className="space-y-4" aria-label="Evaluation pipeline architecture">
+        <div className="w-full rounded-2xl overflow-hidden border border-rule bg-sheet shadow-sm">
+          <div className="px-4 py-3 bg-elevated/70 border-b border-rule flex items-center justify-between font-mono text-xs text-secondary">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-ink font-semibold">End-to-end RAG verification pipeline</span>
+            </div>
+            <span className="text-[11px] text-muted hidden sm:inline">Version-locked human audit standard</span>
+          </div>
+          <div className="p-3 sm:p-5 bg-canvas/40 flex justify-center">
+            <img
+              src="/images/evaluation/rag-citation-architecture.svg"
+              alt="End-to-end RAG verification pipeline architecture diagram"
+              className="w-full h-auto rounded-xl border border-rule max-w-[1100px]"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </section>
+
       {/* 5. Interactive Comparison Panel */}
       <section className="space-y-4">
         <InteractiveComparisonPanel />
@@ -469,13 +491,27 @@ export default function EvaluationStudioPage() {
         </div>
 
         <div className="p-6 rounded-2xl border border-rule bg-sheet space-y-3.5 flex flex-col justify-between">
-          <div className="space-y-2">
+          <div className="space-y-3">
             <div className="flex items-center gap-2 text-[#5A35C8] text-xs font-semibold">
               <ShieldCheck size={15} />
               <span>About the Evaluator</span>
             </div>
-            <h3 className="text-lg font-bold text-ink">Ebubechukwu Okeke, Principal</h3>
-            <p className="text-xs text-secondary leading-relaxed">
+            <div className="flex items-center gap-3.5">
+              <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl overflow-hidden border border-rule shadow-xs shrink-0 bg-surface">
+                <Image
+                  src="/images/founder/ebube-okeke.jpg"
+                  alt="Ebubechukwu Okeke, Principal Evaluator"
+                  fill
+                  className="object-cover"
+                  sizes="64px"
+                />
+              </div>
+              <div>
+                <h3 className="text-base sm:text-lg font-bold text-ink m-0">Ebubechukwu Okeke</h3>
+                <p className="text-xs text-secondary font-mono m-0 mt-0.5">Principal Evaluator &amp; Founder</p>
+              </div>
+            </div>
+            <p className="text-xs text-secondary leading-relaxed m-0">
               Experienced technical AI evaluator and software engineer. I operate as a solo specialist for preliminary scoping and calibration, bringing in vetted domain reviewers when batch volumes require dual-annotator consensus.
             </p>
           </div>

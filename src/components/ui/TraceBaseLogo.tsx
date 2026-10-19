@@ -108,8 +108,9 @@ export function TraceBaseLogo({
       {/* Wordmark and Optional Subtitle */}
       {showWordmark && (
         <div className="flex flex-col">
-          <span className="font-extrabold text-[19px] sm:text-[21px] tracking-[-0.03em] text-ink select-none leading-none">
-            Trace<span className="text-[var(--brand-ink)]">Base</span>
+          <span className="font-extrabold text-[19px] sm:text-[21px] tracking-[-0.03em] select-none leading-none">
+            <span className="text-[#5A35C8] dark:text-[#9D7BFF]">Trace</span>
+            <span className="text-[#009E6D] dark:text-[#00E5A3]">Base</span>
           </span>
           {subtitle && (
             <span className="text-[10px] font-semibold text-secondary tracking-normal mt-0.5 select-none">

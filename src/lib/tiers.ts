@@ -73,5 +73,6 @@ export function setTheme(theme: ThemeMode): void {
   if (typeof window === "undefined") return;
   localStorage.setItem(THEME_STORAGE_KEY, theme);
   document.documentElement.dataset.theme = theme;
+  document.documentElement.classList.toggle('dark', theme === 'dark');
   window.dispatchEvent(new CustomEvent("themechange", { detail: theme }));
 }

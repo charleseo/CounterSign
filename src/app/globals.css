@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* Explicit logo theme switching mapped to data-theme */
+html[data-theme="dark"] .logo-light { display: none !important; }
+html[data-theme="dark"] .logo-dark { display: block !important; }
+html:not([data-theme="dark"]) .logo-light { display: block !important; }
+html:not([data-theme="dark"]) .logo-dark { display: none !important; }
+
 /* ==========================================================================
    COUNTERSIGN REDESIGN DESIGN SYSTEM
    Default: Light Theme | Schibsted Grotesk | Tabular Numbers
@@ -16,76 +24,78 @@
 
 :root,
 [data-theme="light"] {
-  --bg-canvas: #F5F6F8;
+  --bg-canvas: #F9FAFB;
   --bg-sheet: #FFFFFF;
-  --bg-elevated: #F0F2F5;
-  --bg-contrast: #121826;
+  --bg-elevated: #F3F4F6;
+  --bg-contrast: #111827;
   
-  --text-ink: #121826;
-  --text-primary: #121826;
-  --text-secondary: #4B5363;
-  --text-muted: #3E4656;
-  --text-on-dark: #F5F7FA;
+  --text-ink: #111827;
+  --text-primary: #111827;
+  --text-secondary: #4B5563;
+  --text-muted: #6B7280;
+  --text-on-dark: #F9FAFB;
 
-  --border-rule: #D9DEE6;
-  --border-subtle: #E4E8EE;
-  --border-strong: #121826;
+  --border-rule: #E5E7EB;
+  --border-subtle: #F3F4F6;
+  --border-strong: #111827;
 
-  --brand-ink: #5A35C8;
-  --brand-ink-hover: #4726A3;
-  --brand-tint: rgba(90, 53, 200, 0.08);
+  --brand-ink: #111827;
+  --brand-accent: #4F46E5;
+  --brand-ink-hover: #1F2937;
+  --brand-tint: rgba(17, 24, 39, 0.05);
 
   --accent-cyan: #0284c7;
-  --accent-violet: #5A35C8;
+  --accent-violet: #4F46E5;
 
-  --status-accepted: #17663F;
-  --status-accepted-bg: #F4FBF6;
-  --status-recheck: #8A5300;
-  --status-recheck-bg: #FFFBF2;
-  --status-not-accepted: #A8322A;
-  --status-not-accepted-bg: #FFF6F5;
-  --status-unconfirmed: #44587A;
-  --status-unconfirmed-bg: #F3F6FA;
+  --status-accepted: #059669;
+  --status-accepted-bg: #ECFDF5;
+  --status-recheck: #D97706;
+  --status-recheck-bg: #FFFBEB;
+  --status-not-accepted: #DC2626;
+  --status-not-accepted-bg: #FEF2F2;
+  --status-unconfirmed: #4B5563;
+  --status-unconfirmed-bg: #F3F4F6;
 
   /* Glass in 4 allowed places only: sticky header, reading ruler, AI-teams card, phone bottom action bar */
-  --glass-head-bg: rgba(245, 246, 248, 0.78);
-  --glass-head-border: rgba(18, 24, 38, 0.08);
+  --glass-head-bg: rgba(249, 250, 251, 0.85);
+  --glass-head-border: rgba(229, 231, 235, 0.8);
 }
 
 [data-theme="dark"] {
-  --bg-canvas: #0F1420;
-  --bg-sheet: #171E2E;
-  --bg-elevated: #1F283C;
-  --bg-contrast: #FFFFFF;
+  --bg-canvas: #0B0F19;
+  --bg-sheet: #111827;
+  --bg-elevated: #1F2937;
+  --bg-contrast: #F9FAFB;
   
-  --text-ink: #F5F7FA;
-  --text-primary: #F5F7FA;
-  --text-secondary: #9BA4B5;
-  --text-muted: #CBD3E1;
-  --text-on-dark: #F5F7FA;
+  --text-ink: #F9FAFB;
+  --text-primary: #F9FAFB;
+  --text-secondary: #9CA3AF;
+  --text-muted: #6B7280;
+  --text-on-dark: #F9FAFB;
 
-  --border-rule: #232D42;
-  --border-subtle: #2C3852;
-  --border-strong: #F5F7FA;
+  --border-rule: #27272A;
+  --border-subtle: #1F2937;
+  --border-strong: #F9FAFB;
 
-  --brand-ink: #8B6BFF;
-  --brand-ink-hover: #A185FF;
-  --brand-tint: rgba(139, 107, 255, 0.12);
+  --brand-ink: #F9FAFB;
+  --brand-accent: #818CF8;
+  --brand-ink-hover: #E5E7EB;
+  --brand-tint: rgba(249, 250, 251, 0.08);
 
   --accent-cyan: #38bdf8;
-  --accent-violet: #8B6BFF;
+  --accent-violet: #818CF8;
 
-  --status-accepted: #3DD68C;
-  --status-accepted-bg: rgba(61, 214, 140, 0.12);
-  --status-recheck: #E5A83B;
-  --status-recheck-bg: rgba(229, 168, 59, 0.12);
-  --status-not-accepted: #FF6B6B;
-  --status-not-accepted-bg: rgba(255, 107, 107, 0.12);
-  --status-unconfirmed: #8298BA;
-  --status-unconfirmed-bg: rgba(130, 152, 186, 0.12);
+  --status-accepted: #10B981;
+  --status-accepted-bg: rgba(16, 185, 129, 0.12);
+  --status-recheck: #F59E0B;
+  --status-recheck-bg: rgba(245, 158, 11, 0.12);
+  --status-not-accepted: #EF4444;
+  --status-not-accepted-bg: rgba(239, 68, 68, 0.12);
+  --status-unconfirmed: #9CA3AF;
+  --status-unconfirmed-bg: rgba(156, 163, 175, 0.12);
 
-  --glass-head-bg: rgba(15, 20, 32, 0.82);
-  --glass-head-border: rgba(255, 255, 255, 0.08);
+  --glass-head-bg: rgba(11, 15, 25, 0.85);
+  --glass-head-border: rgba(39, 39, 42, 0.8);
 }
 
 @theme {
@@ -124,6 +134,7 @@
 
 .border-rule { border-color: var(--border-rule) !important; }
 .border-subtle { border-color: var(--border-subtle) !important; }
+.hidden { display: none !important; }
 
 html {
   font-family: 'Schibsted Grotesk', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -388,16 +399,16 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   justify-content: center;
   min-height: 44px;
-  padding: 0 24px;
-  border-radius: 6px;
-  font-weight: 700;
-  font-size: 16px;
+  padding: 0 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 15px;
   text-decoration: none;
   cursor: pointer;
-  transition: transform 0.12s ease, box-shadow 0.2s ease, background-color 0.15s ease;
+  transition: transform 0.1s ease, box-shadow 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
 }
 .cs-btn:hover {
-  box-shadow: 0 10px 24px -12px rgba(90, 53, 200, 0.6);
+  box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.12);
 }
 .cs-btn:active {
   transform: translateY(1px);
@@ -405,21 +416,81 @@ h1, h2, h3, h4, h5, h6 {
 
 .cs-btn-primary {
   background-color: var(--brand-ink);
-  color: #FFFFFF !important;
+  color: var(--bg-sheet) !important;
   border: 1px solid var(--brand-ink);
 }
 .cs-btn-primary:hover {
   background-color: var(--brand-ink-hover);
-  color: #FFFFFF !important;
+  color: var(--bg-sheet) !important;
 }
 
 .cs-btn-secondary {
-  background-color: transparent;
+  background-color: var(--bg-sheet);
   color: var(--text-ink);
-  border: 1.5px solid var(--border-strong);
+  border: 1px solid var(--border-rule);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
 }
 .cs-btn-secondary:hover {
   background-color: var(--bg-elevated);
+  border-color: #CBD5E1;
+}
+
+/* Tailscale-inspired Micro-dot grid background texture */
+.bg-dot-pattern {
+  background-image: radial-gradient(circle, rgba(15, 23, 42, 0.08) 1.2px, transparent 1.2px);
+  background-size: 24px 24px;
+}
+[data-theme="dark"] .bg-dot-pattern {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.07) 1.2px, transparent 1.2px);
+  background-size: 24px 24px;
+}
+
+/* Tailscale-inspired Bento Card with Inner Hairline Highlight */
+.ts-card {
+  background-color: var(--bg-sheet);
+  border: 1px solid var(--border-rule);
+  border-radius: 16px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+.ts-card:hover {
+  border-color: #94A3B8;
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+[data-theme="dark"] .ts-card {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+[data-theme="dark"] .ts-card:hover {
+  border-color: #4B5563;
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.09);
+}
+
+/* Tailscale-style Monospace Data Tag */
+.ts-mono-pill {
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border-rule);
+  background-color: var(--bg-elevated);
+  color: var(--text-secondary);
+}
+
+/* Tailscale Network Flow Animation (SVG & CSS only) */
+@keyframes ts-dash-flow {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+.ts-animated-wire {
+  stroke-dasharray: 4 4;
+  animation: ts-dash-flow 1.2s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ts-animated-wire {
+    animation: none !important;
+  }
 }
 
 /* ==========================================================================

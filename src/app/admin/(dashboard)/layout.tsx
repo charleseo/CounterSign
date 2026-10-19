@@ -35,8 +35,9 @@ export default async function AdminDashboardLayout({
             <Link href="/admin" className="flex items-center gap-2.5">
               <TraceBaseLogo size={28} />
               <div className="flex items-baseline gap-1.5">
-                <span className="font-bold text-sm tracking-tight text-[var(--color-text)]">
-                  TraceBase
+                <span className="font-bold text-sm tracking-tight select-none">
+                  <span className="text-[#5A35C8] dark:text-[#9D7BFF]">Trace</span>
+                  <span className="text-[#009E6D] dark:text-[#00E5A3]">Base</span>
                 </span>
                 <span className="text-[10px] font-mono font-semibold normal-case px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">
                   Admin

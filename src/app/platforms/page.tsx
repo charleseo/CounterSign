@@ -19,12 +19,24 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function PlatformsPage(props: { searchParams?: Promise<{ tab?: string }> }) {
-  const searchParams = props.searchParams ? await props.searchParams : undefined;
+import { Suspense } from 'react';
+
+async function PlatformsContent({ searchParamsPromise }: { searchParamsPromise?: Promise<{ tab?: string }> }) {
+  const searchParams = searchParamsPromise ? await searchParamsPromise : undefined;
   const initialTab = searchParams?.tab === 'rates' ? 'rates' : 'platforms';
   const platforms = dbRepository.getPlatforms();
   const allJobs = dbRepository.getJobs();
 
+  return (
+    <PlatformsCombinedExplorer
+      platforms={platforms}
+      allJobs={allJobs}
+      initialTab={initialTab}
+    />
+  );
+}
+
+export default function PlatformsPage(props: { searchParams?: Promise<{ tab?: string }> }) {
   return (
     <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-8">
       {/* Directory Header */}
@@ -50,11 +62,9 @@ export default async function PlatformsPage(props: { searchParams?: Promise<{ ta
       </section>
 
       {/* Unified Platforms and Rates Client */}
-      <PlatformsCombinedExplorer
-        platforms={platforms}
-        allJobs={allJobs}
-        initialTab={initialTab}
-      />
+      <Suspense fallback={<div className="h-64 flex items-center justify-center text-muted">Loading platforms...</div>}>
+        <PlatformsContent searchParamsPromise={props.searchParams} />
+      </Suspense>
     </div>
   );
 }

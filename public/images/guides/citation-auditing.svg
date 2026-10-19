@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="100%" height="100%">
+  <defs>
+    <!-- Dark slate gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+
+    <!-- Emerald beam gradient -->
+    <linearGradient id="beamGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0284C7" />
+      <stop offset="50%" stop-color="#10B981" />
+      <stop offset="100%" stop-color="#34D399" />
+    </linearGradient>
+
+    <!-- Card gradient -->
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1F2937" stop-opacity="0.85" />
+      <stop offset="100%" stop-color="#111827" stop-opacity="0.95" />
+    </linearGradient>
+
+    <!-- Glow Filter -->
+    <filter id="emeraldGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <!-- Subtle Dot Grid Pattern -->
+    <pattern id="dotPattern" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.2" fill="#374151" opacity="0.4" />
+    </pattern>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="1200" height="675" fill="url(#bgGrad)" />
+  <rect width="1200" height="675" fill="url(#dotPattern)" />
+
+  <!-- Accent Ambient Glow -->
+  <circle cx="600" cy="330" r="280" fill="#10B981" opacity="0.06" filter="url(#emeraldGlow)" />
+  <circle cx="240" cy="180" r="200" fill="#0284C7" opacity="0.05" filter="url(#emeraldGlow)" />
+
+  <!-- HEADER BRANDING -->
+  <g transform="translate(60, 50)">
+    <rect x="0" y="0" width="180" height="30" rx="15" fill="#1F2937" stroke="#374151" stroke-width="1" />
+    <circle cx="16" cy="15" r="4" fill="#10B981" />
+    <text x="28" y="19" font-family="'Schibsted Grotesk', system-ui, sans-serif" font-size="11" font-weight="600" fill="#9CA3AF" letter-spacing="0.5">CITATION AUDIT</text>
+  </g>
+
+  <!-- LEFT PANEL: MODEL ANSWER UNDER AUDIT -->
+  <g transform="translate(80, 110)">
+    <!-- Card Frame -->
+    <rect width="440" height="470" rx="16" fill="url(#cardGrad)" stroke="#374151" stroke-width="1.5" />
+    
+    <!-- Titlebar -->
+    <path d="M 0 16 C 0 7.16 7.16 0 16 0 L 424 0 C 432.84 0 440 7.16 440 16 L 440 46 L 0 46 Z" fill="#1A2234" />
+    <circle cx="24" cy="23" r="5" fill="#EF4444" opacity="0.8" />
+    <circle cx="40" cy="23" r="5" fill="#F59E0B" opacity="0.8" />
+    <circle cx="56" cy="23" r="5" fill="#10B981" opacity="0.8" />
+    <text x="76" y="27" font-family="ui-monospace, monospace" font-size="12" fill="#9CA3AF">model-response.json</text>
+    <rect x="330" y="14" width="90" height="20" rx="6" fill="#111827" stroke="#374151" stroke-width="1" />
+    <text x="375" y="27" font-family="ui-monospace, monospace" font-size="10" fill="#38BDF8" text-anchor="middle">GPT-4 Output</text>
+
+    <!-- Prompt Box -->
+    <rect x="24" y="66" width="392" height="64" rx="8" fill="#111827" stroke="#374151" stroke-width="1" />
+    <text x="38" y="88" font-family="ui-monospace, monospace" font-size="11" fill="#6B7280">&gt; Query:</text>
+    <text x="38" y="112" font-family="'Schibsted Grotesk', system-ui, sans-serif" font-size="13" font-weight="600" fill="#F3F4F6">Does Postgres support logical replication across major versions?</text>
+
+    <!-- Response Body -->
+    <text x="24" y="160" font-family="ui-monospace, monospace" font-size="11" fill="#9CA3AF">Response Candidate:</text>
+    <rect x="24" y="174" width="392" height="18" rx="4" fill="#374151" opacity="0.4" />
+    <rect x="24" y="200" width="320" height="18" rx="4" fill="#374151" opacity="0.4" />
+    
+    <!-- Highlighted Claim Under Audit -->
+    <rect x="24" y="228" width="392" height="64" rx="8" fill="#064E3B" fill-opacity="0.5" stroke="#10B981" stroke-width="1.5" />
+    <text x="38" y="254" font-family="'Schibsted Grotesk', system-ui, sans-serif" font-size="13" font-weight="700" fill="#34D399">"Yes. In PostgreSQL 10 and later, logical</text>
+    <text x="38" y="276" font-family="'Schibsted Grotesk', system-ui, sans-serif" font-size="13" font-weight="700" fill="#34D399">replication across major versions is supported." [1]</text>
+
+    <rect x="24" y="302" width="350" height="18" rx="4" fill="#374151" opacity="0.4" />
+    <rect x="24" y="328" width="280" height="18" rx="4" fill="#374151" opacity="0.4" />
+
+    <!-- Claim Inspector Tag -->
+    <g transform="translate(24, 380)">
+      <rect width="392" height="64" rx="8" fill="#111827" stroke="#374151" stroke-width="1" />
+      <text x="16" y="24" font-family="ui-monospace, monospace" font-size="11" fill="#9CA3AF">Claim #1 Verification Status:</text>
+      <circle cx="22" cy="44" r="5" fill="#10B981" />
+      <text x="36" y="48" font-family="'Schibsted Grotesk', system-ui, sans-serif" font-size="13" font-weight="700" fill="#10B981">Grounded in official docs (Citation [1])</text>
+    </g>
+  </g>
+
+  <!-- CONNECTING LASER BEAM CONDUIT -->
+  <g filter="url(#emeraldGlow)">
+    <!-- Main Laser Curve -->
+    <path d="M 520 370 C 600 370, 600 270, 680 270" fill="none" stroke="url(#beamGrad)" stroke-width="3.5" stroke-dasharray="8 6" />
+    <!-- Secondary Glow Line -->
+    <path d="M 520 370 C 600 370, 600 270, 680 270" fill="none" stroke="#10B981" stroke-width="1" opacity="0.8" />
+    <!-- Center Node Scanner -->
+    <circle cx="600" cy="320" r="28" fill="#111827" stroke="#10B981" stroke-width="2" />
+    <circle cx="600" cy="320" r="16" fill="#064E3B" />
+    <path d="M 593 320 L 598 325 L 608 314" fill="none" stroke="#34D399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+  <text x="600" y="364" font-family="ui-monospace, monospace" font-size="11" font-weight="700" fill="#34D399" text-anchor="middle">HUMAN VERIFIED</text>
+  <text x="600" y="380" font-family="ui-monospace, monospace" font-size="10" fill="#9CA3AF" text-anchor="middle">100% Citation Grounding</text>
+
+  <!-- RIGHT PANEL: AUTHORITATIVE GROUND TRUTH DOCS -->
+  <g transform="translate(680, 110)">
+    <!-- Card Frame -->
+    <rect width="440" height="470" rx="16" fill="url(#cardGrad)" stroke="#374151" stroke-width="1.5" />
+    
+    <!-- Titlebar -->
+    <path d="M 0 16 C 0 7.16 7.16 0 16 0 L 424 0 C 432.84 0 440 7.16 440 16 L 440 46 L 0 46 Z" fill="#1A2234" />
+    <circle cx="24" cy="23" r="5" fill="#374151" />
+    <circle cx="40" cy="23" r="5" fill="#374151" />
+    <circle cx="56" cy="23" r="5" fill="#374151" />
+    <text x="76" y="27" font-family="ui-monospace, monospace" font-size="12" fill="#9CA3AF">postgresql-16-docs.chunk_482</text>
+    <rect x="306" y="14" width="114" height="20" rx="6" fill="#064E3B" stroke="#10B981" stroke-width="1" />
+    <text x="363" y="27" font-family="ui-monospace, monospace" font-size="10" fill="#34D399" text-anchor="middle">Source of Truth</text>
+
+    <!-- Source URL & Scope -->
+    <rect x="24" y="66" width="392" height="48" rx="8" fill="#111827" stroke="#374151" stroke-width="1" />
+    <text x="38" y="86" font-family="ui-monospace, monospace" font-size="10" fill="#6B7280">URL: postgresql.org/docs/16/logical-replication.html</text>
+    <text x="38" y="102" font-family="'Schibsted Grotesk', system-ui, sans-serif" font-size="11" font-weight="600" fill="#9CA3AF">Section 31.1: Architecture &amp; Cross-Version Compatibility</text>
+
+    <!-- Highlighted Source Document Passage -->
+    <rect x="24" y="128" width="392" height="130" rx="8" fill="#064E3B" fill-opacity="0.3" stroke="#10B981" stroke-width="1.5" />
+    <text x="38" y="154" font-family="ui-monospace, monospace" font-size="10" fill="#34D399" font-weight="700">[CITATION TARGET 1]</text>
+    <text x="38" y="176" font-family="'Schibsted Grotesk', system-ui, sans-serif" font-size="12.5" font-weight="500" fill="#E5E7EB" line-height="1.5">"Logical replication allows data changes to be</text>
+    <text x="38" y="196" font-family="'Schibsted Grotesk', system-ui, sans-serif" font-size="12.5" font-weight="700" fill="#34D399">replicated across different major versions</text>
+    <text x="38" y="216" font-family="'Schibsted Grotesk', system-ui, sans-serif" font-size="12.5" font-weight="500" fill="#E5E7EB">of PostgreSQL. This can be used for zero-downtime</text>
+    <text x="38" y="236" font-family="'Schibsted Grotesk', system-ui, sans-serif" font-size="12.5" font-weight="500" fill="#E5E7EB">major upgrades from PostgreSQL 10 onwards."</text>
+
+    <!-- Additional Doc Context (Subdued) -->
+    <rect x="24" y="272" width="392" height="18" rx="4" fill="#374151" opacity="0.3" />
+    <rect x="24" y="298" width="340" height="18" rx="4" fill="#374151" opacity="0.3" />
+    <rect x="24" y="324" width="300" height="18" rx="4" fill="#374151" opacity="0.3" />
+
+    <!-- Auditor Verdict Card -->
+    <g transform="translate(24, 360)">
+      <rect width="392" height="84" rx="8" fill="#111827" stroke="#10B981" stroke-width="1" />
+      <text x="16" y="24" font-family="ui-monospace, monospace" font-size="11" fill="#9CA3AF">Audit Verdict by Ebubechukwu Okeke:</text>
+      <text x="16" y="46" font-family="'Schibsted Grotesk', system-ui, sans-serif" font-size="13" font-weight="700" fill="#F9FAFB">PASSED (Exact Grounded Match)</text>
+      <text x="16" y="68" font-family="'Schibsted Grotesk', system-ui, sans-serif" font-size="11" fill="#9CA3AF">Zero hallucination. Citation accurately reflects official PG 16 docs.</text>
+    </g>
+  </g>
+</svg>

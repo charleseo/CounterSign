@@ -65,7 +65,7 @@ export default function ComparePlatformsPage() {
   }));
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-14 space-y-10 w-full min-w-0">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-14 space-y-10 w-full max-w-full min-w-0 overflow-x-clip">
       {/* Header */}
       <div className="space-y-4">
         <div className="flex items-center gap-2 text-xs text-secondary">

@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import type { Metadata } from 'next';
 import {
   ArrowLeft,
@@ -27,6 +28,12 @@ export async function generateStaticParams() {
   const guides = getAllGuides(true);
   return guides.map((g) => ({ slug: g.slug }));
 }
+
+const GUIDE_IMAGES: Record<string, string> = {
+  'how-to-tell-if-an-ai-work-listing-is-real': '/images/guides/listing-verification.jpg',
+  'getting-paid-in-usd-from-nigeria': '/images/guides/nigeria-payouts.jpg',
+  'checking-claims-against-sources-simple-method': '/images/guides/citation-auditing.svg',
+};
 
 interface GuidePageProps {
   params: Promise<{ slug: string }>;
@@ -160,6 +167,20 @@ export default async function GuideDetailPage({ params }: GuidePageProps) {
           ))}
         </div>
       </header>
+
+      {/* Guide Hero Cover Artwork */}
+      {GUIDE_IMAGES[slug] && (
+        <div className="relative w-full aspect-[16/9] rounded-2xl overflow-hidden border border-rule shadow-md bg-surface">
+          <Image
+            src={GUIDE_IMAGES[slug]}
+            alt={guide.title}
+            fill
+            className="object-cover"
+            priority
+            sizes="(max-width: 896px) 100vw, 896px"
+          />
+        </div>
+      )}
 
       {/* Main Reading Column */}
       <div className="max-w-[680px] mx-auto space-y-10">

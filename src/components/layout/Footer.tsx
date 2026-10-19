@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { TraceBaseLogo } from "@/components/ui/TraceBaseLogo";
 import { COUNTRY_STORAGE_KEY } from "@/components/ui/CountrySelector";
 
@@ -25,6 +26,7 @@ function getTierSnapshot(): boolean {
 }
 
 export function Footer() {
+  const pathname = usePathname();
   const dataSaver = React.useSyncExternalStore(subscribeTier, getTierSnapshot, () => false);
   const [countryCode, setCountryCode] = useState("WW");
 
@@ -52,6 +54,10 @@ export function Footer() {
     };
   }, []);
 
+  if (pathname?.startsWith("/admin")) {
+    return null;
+  }
+
   const toggleDataSaver = () => {
     const nextTier = dataSaver ? "full" : "lite";
     try {
@@ -71,7 +77,10 @@ export function Footer() {
           <div className="space-y-2 max-w-xl">
             <Link href="/" className="inline-flex items-center gap-2 group focus:outline-none">
               <TraceBaseLogo size={24} />
-              <span className="font-bold text-lg text-ink tracking-tight">TraceBase</span>
+              <span className="font-bold text-lg tracking-tight select-none">
+                <span className="text-[#5A35C8] dark:text-[#9D7BFF]">Trace</span>
+                <span className="text-[#009E6D] dark:text-[#00E5A3]">Base</span>
+              </span>
             </Link>
             <p className="text-xs sm:text-sm text-secondary leading-relaxed m-0">
               Independent AI contributor directory, practical tools, and model evaluation studio. Human verified and direct.

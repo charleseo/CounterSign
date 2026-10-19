@@ -50,33 +50,61 @@ export function HeroCallToAction({ initialCountryCode = "WW" }: HeroCallToAction
       : `We open every listing on the employer's own page, write down who can apply from ${articleName}, and sign it with the date we checked. If we could not confirm something, we say so.`;
 
   const trustLine = `We never charge you, never ask for your ${meta.idNumberName || "ID or bank login"}, and never message you first.`;
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyCommand = () => {
+    if (navigator?.clipboard) {
+      navigator.clipboard.writeText("tracebase check outlier.ai/careers");
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
 
   return (
     <div>
-      <p className="mt-6 text-lg sm:text-xl text-muted leading-relaxed max-w-[32em] m-0">
+      <p className="mt-5 text-base sm:text-lg text-secondary leading-relaxed max-w-[34em] m-0">
         {heroSubtext}
       </p>
 
-      <div id="hero-actions" className="flex flex-wrap gap-3 mt-8">
+      {/* Primary & Secondary Action Buttons */}
+      <div id="hero-actions" className="flex flex-wrap items-center gap-3 mt-7">
         <Link
           href="#roles"
-          className="cs-btn cs-btn-primary cs-btn-shimmer min-h-[52px] text-base sm:text-lg font-bold inline-flex items-center gap-2.5 group hover:shadow-xl hover:shadow-[var(--brand-ink)]/25 transition-all cursor-pointer hover:-translate-y-0.5 active:translate-y-0"
+          className="cs-btn cs-btn-primary min-h-[46px] sm:min-h-[48px] px-6 py-2.5 text-sm sm:text-base font-semibold inline-flex items-center gap-2 group cursor-pointer"
         >
           <span>{heroButtonText}</span>
-          <ArrowRight className="w-5 h-5 text-white/90 group-hover:translate-x-1 transition-transform" />
+          <ArrowRight className="w-4 h-4 text-white dark:text-gray-900 group-hover:translate-x-1 transition-transform" />
         </Link>
         <Link
           href="#check"
-          className="cs-btn cs-btn-secondary min-h-[52px] text-base sm:text-lg font-bold inline-flex items-center gap-2 hover:border-ink/50 transition-all cursor-pointer hover:-translate-y-0.5 active:translate-y-0"
+          className="cs-btn cs-btn-secondary min-h-[46px] sm:min-h-[48px] px-5 py-2.5 text-sm sm:text-base font-semibold inline-flex items-center gap-2 group cursor-pointer"
         >
-          <ShieldCheck className="w-5 h-5 text-secondary group-hover:text-ink transition-colors" />
+          <ShieldCheck className="w-4 h-4 text-secondary group-hover:text-ink transition-colors" />
           <span>Check a job offer</span>
         </Link>
       </div>
 
-      <p className="mt-5 text-sm sm:text-base text-secondary m-0">
-        {trustLine}
-      </p>
+      {/* Tailscale-style Verification Command Bar */}
+      <div className="mt-5 max-w-[38em] p-2 sm:p-2.5 rounded-xl bg-sheet border border-rule shadow-2xs flex items-center justify-between gap-2 font-mono text-xs">
+        <div className="flex items-center gap-2 truncate">
+          <span className="text-muted select-none">$</span>
+          <span className="text-ink font-semibold truncate">tracebase check outlier.ai/careers</span>
+        </div>
+        <button
+          type="button"
+          onClick={handleCopyCommand}
+          className="px-2.5 py-1 rounded-md bg-elevated hover:bg-subtle text-secondary hover:text-ink text-[11px] font-mono font-medium border border-rule transition-colors shrink-0 cursor-pointer"
+          aria-label="Copy verification command"
+        >
+          {copied ? "Copied" : "Copy"}
+        </button>
+      </div>
+
+      {/* Trust Guarantee Strip */}
+      <div className="mt-3.5 flex items-start sm:items-center gap-2.5 text-xs text-secondary bg-surface/80 border border-rule px-3.5 py-2 rounded-lg max-w-[38em]">
+        <ShieldCheck className="w-4 h-4 text-emerald-800 dark:text-emerald-400 shrink-0 mt-0.5 sm:mt-0" />
+        <span className="leading-snug">{trustLine}</span>
+      </div>
     </div>
   );
 }

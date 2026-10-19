@@ -15,7 +15,9 @@ import { DirectVsAgencyComparison } from '@/components/ui/DirectVsAgencyComparis
 import { WhatsAppAlertBanner } from '@/components/home/WhatsAppAlertBanner';
 import { HomeNewsletterSection } from '@/components/home/HomeNewsletterSection';
 import { AiWorkLandscapeRadar } from '@/components/home/AiWorkLandscapeRadar';
-import { CheckCircle2, DollarSign, Activity, ShieldCheck } from 'lucide-react';
+import { HomeBentoGrid } from '@/components/home/HomeBentoGrid';
+import { TailscaleLogoGrid } from '@/components/home/TailscaleLogoGrid';
+import { CheckCircle2 } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'TraceBase | Human-Verified AI Work Hub & Model Evaluation Studio',
@@ -69,31 +71,31 @@ export default function Home() {
   const newestJob = allVerified[0];
   const checkDateStr = newestJob?.last_checked_at
     ? new Date(newestJob.last_checked_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
-    : '14 Oct 2026';
+    : '18 Oct 2026';
 
   return (
     <div className="w-full flex-1 flex flex-col">
-      {/* 1. Hero Section */}
-      <section className="relative overflow-hidden w-full">
-        <div className="relative max-w-[1240px] mx-auto px-4 sm:px-8 py-14 sm:py-24 lg:py-28 flex flex-wrap gap-12 lg:gap-16 items-center">
+      {/* 1. Hero Section with Tailscale Micro-dot Texture */}
+      <section className="relative overflow-hidden w-full bg-dot-pattern">
+        <div className="relative max-w-[1240px] mx-auto px-4 sm:px-8 py-12 sm:py-20 lg:py-24 flex flex-wrap gap-12 lg:gap-16 items-center">
           {/* Left Column: Heading + Sentence + 2 Action Buttons */}
           <div className="flex-1 basis-[480px] min-w-0">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[var(--brand-ink)]/30 bg-[var(--brand-tint)] text-xs font-semibold text-[var(--brand-ink)] mb-4 shadow-xs cs-badge-shimmer cs-glow-breathe">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 cs-beacon-ring" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-rule bg-sheet text-xs font-mono font-medium text-ink mb-4 shadow-xs">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               <span>Independent human-verified AI work hub &amp; studio</span>
             </div>
-            <h1 className="text-4xl sm:text-6xl lg:text-[68px] font-extrabold tracking-[-0.035em] leading-[1.04] m-0 text-ink max-w-[18ch]">
+            <h1 className="text-4xl sm:text-6xl lg:text-[64px] font-extrabold tracking-[-0.035em] leading-[1.05] m-0 text-ink max-w-[18ch]">
               Know who&apos;s hiring &amp; which AI jobs are real before you apply.
             </h1>
             <HeroCallToAction />
           </div>
 
-          {/* Right Column: Hero Sequence Paper Record */}
+          {/* Right Column: Hero Sequence Tailscale Console */}
           <div className="flex-1 basis-[440px] min-w-0 flex justify-center lg:justify-end">
             <HeroSequence
               roleTitle={newestJob?.title || 'Search quality rater [SAMPLE]'}
               orgName={newestJob?.platform.name || 'Northwind Labs [SAMPLE]'}
-              sourceDomain={newestJob?.official_url?.replace(/^https?:\/\//, '').split('/')[0] || 'employer.example/careers'}
+              sourceDomain={newestJob?.official_url?.replace(/^https?:\/\//, '').split('/')[0] || 'outlier.ai/careers'}
               checkedDate={checkDateStr}
               eligibleCountries="Ghana, India, Kenya, Nigeria, South Africa"
               isSample={true}
@@ -102,91 +104,68 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 2. Verification Standards & Reality Metrics Bar */}
-      <section aria-label="Verification standards" className="w-full border-y border-rule bg-surface/60 py-6">
-        <div className="max-w-[1240px] mx-auto px-4 sm:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-            <div className="group cs-card-interactive cs-stagger-1 flex items-start gap-3 p-3 rounded-2xl border border-transparent hover:border-rule hover:bg-sheet transition-all">
-              <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center shrink-0 shadow-xs group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-200">
-                <CheckCircle2 className="w-5 h-5 text-emerald-500" />
-              </div>
-              <div className="space-y-0.5">
-                <span className="text-xs font-bold text-ink block group-hover:text-[var(--brand-ink)] transition-colors">100% human-verified</span>
-                <p className="text-[11px] text-secondary leading-snug m-0">
-                  Every role checked by hand on official career pages. Zero scraper noise.
-                </p>
-              </div>
-            </div>
-
-            <div className="group cs-card-interactive cs-stagger-2 flex items-start gap-3 p-3 rounded-2xl border border-transparent hover:border-rule hover:bg-sheet transition-all">
-              <div className="w-10 h-10 rounded-xl bg-[#5A35C8]/10 border border-[#5A35C8]/25 flex items-center justify-center shrink-0 shadow-xs group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-200">
-                <DollarSign className="w-5 h-5 text-[#5A35C8]" />
-              </div>
-              <div className="space-y-0.5">
-                <span className="text-xs font-bold text-ink block group-hover:text-[var(--brand-ink)] transition-colors">$18 to $50/hr direct pay</span>
-                <p className="text-[11px] text-secondary leading-snug m-0">
-                  Direct client rates. Bypass agency cuts taking 50% to 70% of earnings.
-                </p>
-              </div>
-            </div>
-
-            <div className="group cs-card-interactive cs-stagger-3 flex items-start gap-3 p-3 rounded-2xl border border-transparent hover:border-rule hover:bg-sheet transition-all">
-              <div className="w-10 h-10 rounded-xl bg-teal-500/10 border border-teal-500/25 flex items-center justify-center shrink-0 shadow-xs group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-200">
-                <Activity className="w-5 h-5 text-teal-500" />
-              </div>
-              <div className="space-y-0.5">
-                <span className="text-xs font-bold text-ink block group-hover:text-[var(--brand-ink)] transition-colors">Live queue radar</span>
-                <p className="text-[11px] text-secondary leading-snug m-0">
-                  Real-time task volume and review speed tracked across 6 platforms.
-                </p>
-              </div>
-            </div>
-
-            <div className="group cs-card-interactive cs-stagger-4 flex items-start gap-3 p-3 rounded-2xl border border-transparent hover:border-rule hover:bg-sheet transition-all">
-              <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/25 flex items-center justify-center shrink-0 shadow-xs group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-200">
-                <ShieldCheck className="w-5 h-5 text-amber-500" />
-              </div>
-              <div className="space-y-0.5">
-                <span className="text-xs font-bold text-ink block group-hover:text-[var(--brand-ink)] transition-colors">14-day check cycle</span>
-                <p className="text-[11px] text-secondary leading-snug m-0">
-                  Stale roles flagged at 14 days and removed after 30 days. No ghost jobs.
-                </p>
-              </div>
-            </div>
+      {/* 2. Tailscale Trust & Verification Strip */}
+      <div className="w-full border-b border-rule bg-surface/70 py-3.5 px-4 sm:px-8 select-none">
+        <div className="max-w-[1240px] mx-auto flex flex-wrap items-center justify-between gap-y-2 gap-x-6 text-xs font-mono text-secondary">
+          <div className="flex items-center gap-1.5">
+            <CheckCircle2 size={13} className="text-emerald-800 dark:text-emerald-400 shrink-0" />
+            <span>100% official career pages</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <CheckCircle2 size={13} className="text-emerald-800 dark:text-emerald-400 shrink-0" />
+            <span>14-day mandatory recheck cycle</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <CheckCircle2 size={13} className="text-emerald-800 dark:text-emerald-400 shrink-0" />
+            <span>0% intermediary agency haircut</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <CheckCircle2 size={13} className="text-emerald-800 dark:text-emerald-400 shrink-0" />
+            <span>Direct client pay: $18 to $110/hr</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <CheckCircle2 size={13} className="text-emerald-800 dark:text-emerald-400 shrink-0" />
+            <span>Scam recruiter detection</span>
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* 3. Interactive 3-Question Scam Check */}
+      {/* 2b. Tailscale-Style Ecosystem & Platform Directory Grid */}
+      <TailscaleLogoGrid />
+
+      {/* 3. Verification Standards Bento Grid (Tailscale 4-Pillar Architecture) */}
+      <HomeBentoGrid />
+
+      {/* 4. Recently Checked Ledger Section (The Central Product Experience) */}
+      <LedgerSection roles={ledgerRoles.slice(0, 5)} totalCount={totalVerifiedCount} />
+
+      {/* 5. Interactive 3-Question Scam Check */}
       <ScamCheckTeaser />
 
-      {/* 4. Live Platform Queue Health Radar */}
+      {/* 6. Live Platform Queue Health Radar */}
       <section aria-labelledby="queue-radar-heading" className="w-full py-10 sm:py-16">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-8">
           <QueueHealthRadar />
         </div>
       </section>
 
-      {/* 5. Recently Checked Ledger Section (5 rows on Home + See all roles) */}
-      <LedgerSection roles={ledgerRoles.slice(0, 5)} totalCount={totalVerifiedCount} />
-
-      {/* 6. Direct vs. Agency Earnings Breakdown & Calculator */}
+      {/* 7. Direct vs. Agency Earnings Breakdown & Calculator */}
       <section aria-labelledby="earnings-breakdown-heading" className="w-full py-10 sm:py-16 border-t border-rule bg-surface/30">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-8">
           <DirectVsAgencyComparison />
         </div>
       </section>
 
-      {/* 7. The 2026 AI Work Landscape Radar & Friction Haircut Analysis */}
+      {/* 8. The 2026 AI Work Landscape Radar & Friction Haircut Analysis */}
       <AiWorkLandscapeRadar />
 
-      {/* 8. Contributor Workbench Showcase */}
+      {/* 9. Contributor Workbench Showcase */}
       <HomeToolsShowcase />
 
-      {/* 9. Dedicated Free Newsletter & Daily Opportunities Capture */}
+      {/* 10. Dedicated Free Newsletter & Daily Opportunities Capture */}
       <HomeNewsletterSection />
 
-      {/* 10. How a Role Gets Signed (Compact on phone) */}
+      {/* 11. How a Role Gets Signed (Compact on phone) */}
       <section id="how" aria-labelledby="how-h" className="w-full">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-8 py-12 sm:py-24">
           <h2 id="how-h" className="text-3xl sm:text-5xl font-extrabold tracking-tight m-0 text-ink">
@@ -229,17 +208,17 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 9. Verified Role Drops on WhatsApp and Telegram */}
+      {/* 12. Verified Role Drops on WhatsApp and Telegram */}
       <section aria-label="Verified channel alerts" className="w-full py-10 sm:py-14 border-t border-rule bg-canvas">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-8">
           <WhatsAppAlertBanner />
         </div>
       </section>
 
-      {/* 10. For AI Teams Section (The Single Dark Band) */}
+      {/* 13. For AI Teams Section (The Single Dark Band) */}
       <AiTeamsSection />
 
-      {/* 11. Phone Sticky Action Bar (Mobile Only) */}
+      {/* 14. Phone Sticky Action Bar (Mobile Only) */}
       <PhoneActionBar />
     </div>
   );

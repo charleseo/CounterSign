@@ -35,21 +35,18 @@ export function PlatformsCombinedExplorer({ platforms, allJobs, initialTab = 'pl
   const router = useRouter();
 
   const currentTabParam = searchParams.get('tab');
-  const [activeTab, setActiveTab] = useState<'platforms' | 'rates'>(() => {
+  const [selectedTab, setSelectedTab] = useState<'platforms' | 'rates'>(() => {
     if (currentTabParam === 'rates') return 'rates';
     return initialTab;
   });
 
-  useEffect(() => {
-    if (currentTabParam === 'rates') {
-      setActiveTab('rates');
-    } else if (currentTabParam === 'platforms') {
-      setActiveTab('platforms');
-    }
-  }, [currentTabParam]);
+  const activeTab: 'platforms' | 'rates' =
+    currentTabParam === 'rates' || currentTabParam === 'platforms'
+      ? currentTabParam
+      : selectedTab;
 
   const handleTabChange = (tab: 'platforms' | 'rates') => {
-    setActiveTab(tab);
+    setSelectedTab(tab);
     const url = new URL(window.location.href);
     url.searchParams.set('tab', tab);
     router.replace(url.pathname + url.search, { scroll: false });

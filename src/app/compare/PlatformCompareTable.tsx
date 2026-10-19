@@ -87,8 +87,9 @@ export function PlatformCompareTable({
       </div>
 
       {/* Side-by-Side Comparison Matrix */}
-      <div className="w-full max-w-full overflow-x-auto border border-rule rounded-2xl bg-sheet">
-        <table className="w-full min-w-[700px] text-left text-xs border-collapse">
+      <div className="w-full max-w-full min-w-0 overflow-hidden border border-rule rounded-2xl bg-sheet shadow-sm">
+        <div className="w-full max-w-full overflow-x-auto">
+          <table className="w-full min-w-[700px] text-left text-xs border-collapse">
           <thead>
             <tr className="border-b border-rule bg-surface/80">
               <th className="p-4 sm:p-5 font-semibold text-ink w-40 sm:w-56 sticky left-0 backdrop-blur-md bg-surface/90 z-10 border-r border-rule">
@@ -353,6 +354,7 @@ export function PlatformCompareTable({
             </tr>
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   );

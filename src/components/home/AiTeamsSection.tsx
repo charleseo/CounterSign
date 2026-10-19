@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 export function AiTeamsSection() {
   return (
@@ -48,7 +49,25 @@ export function AiTeamsSection() {
           <p className="mt-5 text-lg sm:text-xl leading-relaxed text-[#C6CCD8] max-w-[32em] m-0">
             Send us 100 real questions. For each answer we quote the page it should have used and say whether it holds up. You get every finding with its source, ready to fix. Turnaround in 48 hours, led by Ebubechukwu Okeke.
           </p>
-          <div className="flex flex-wrap gap-3 mt-8">
+
+          {/* Lead Evaluator Badge */}
+          <div className="mt-6 flex items-center gap-3.5 p-3 rounded-xl bg-white/5 border border-white/10 max-w-[32em]">
+            <div className="relative w-11 h-11 rounded-xl overflow-hidden border border-white/20 shrink-0">
+              <Image
+                src="/images/founder/ebube-okeke.jpg"
+                alt="Ebubechukwu Okeke, Principal Evaluator"
+                fill
+                className="object-cover"
+                sizes="44px"
+              />
+            </div>
+            <div className="text-xs">
+              <div className="text-white font-semibold">Led directly by Ebubechukwu Okeke</div>
+              <div className="text-[#AEB6C5]">Principal Evaluator &amp; Founder • 48-hour pilot turnaround</div>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap gap-3 mt-7">
             <Link
               href="/evaluation/scope"
               style={{ color: '#121826' }}

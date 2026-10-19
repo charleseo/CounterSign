@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Metadata } from "next";
 import { dbRepository } from "@/lib/db/repository";
 import { JobCard } from "@/components/ui/JobCard";
@@ -97,6 +98,17 @@ export default function NigeriaCountryHubPage() {
         <p className="text-sm text-secondary leading-relaxed">
           Getting paid in US Dollars from global platforms (Deel, Outlier, Alignerr, Mercor) requires the right banking rails. Here is the verified breakdown of methods that work legitimately without risk of account suspension.
         </p>
+
+        {/* Global USD to Nigeria Banking Architecture Graphic */}
+        <div className="relative w-full aspect-[16/9] rounded-2xl overflow-hidden border border-rule shadow-md bg-surface">
+          <Image
+            src="/images/guides/nigeria-payouts.jpg"
+            alt="Global USD to Nigerian banking rails architecture diagram"
+            fill
+            className="object-cover"
+            sizes="(max-width: 1024px) 100vw, 1024px"
+          />
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Virtual USD Accounts */}

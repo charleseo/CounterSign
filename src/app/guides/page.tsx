@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import type { Metadata } from 'next';
 import { BookOpen, Clock, ArrowRight, ShieldCheck, Tag } from 'lucide-react';
 import { getAllGuides } from '@/content/guides';
@@ -17,6 +18,12 @@ export const metadata: Metadata = {
     url: '/guides',
     type: 'website',
   },
+};
+
+const GUIDE_IMAGES: Record<string, string> = {
+  'how-to-tell-if-an-ai-work-listing-is-real': '/images/guides/listing-verification.jpg',
+  'getting-paid-in-usd-from-nigeria': '/images/guides/nigeria-payouts.jpg',
+  'checking-claims-against-sources-simple-method': '/images/guides/citation-auditing.svg',
 };
 
 export default function GuidesIndexPage() {
@@ -40,13 +47,31 @@ export default function GuidesIndexPage() {
 
       {/* Guides Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {guides.map((guide) => (
-          <article
-            key={guide.slug}
-            className="rounded-xl border border-rule bg-sheet p-5 sm:p-6 flex flex-col justify-between gap-5 group"
-          >
-            <div className="space-y-3">
-              {/* Meta & Reading Time */}
+        {guides.map((guide) => {
+          const coverImage = GUIDE_IMAGES[guide.slug];
+          return (
+            <article
+              key={guide.slug}
+              className="rounded-xl border border-rule bg-sheet p-5 sm:p-6 flex flex-col justify-between gap-5 group"
+            >
+              <div className="space-y-3">
+                {/* Cover Image */}
+                {coverImage && (
+                  <Link
+                    href={`/guides/${guide.slug}`}
+                    className="block relative w-full aspect-[16/9] rounded-lg overflow-hidden border border-rule mb-3.5 bg-surface group-hover:border-ink/30 transition-colors"
+                  >
+                    <Image
+                      src={coverImage}
+                      alt={guide.title}
+                      fill
+                      className="object-cover group-hover:scale-[1.02] transition-transform duration-200"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                  </Link>
+                )}
+
+                {/* Meta & Reading Time */}
               <div className="flex items-center justify-between text-xs text-secondary">
                 <div className="flex items-center gap-1.5">
                   <Clock size={12} className="text-[#5A35C8]" />
@@ -101,7 +126,8 @@ export default function GuidesIndexPage() {
               </Link>
             </div>
           </article>
-        ))}
+        );
+      })}
       </div>
 
       {/* Trust Notice */}
